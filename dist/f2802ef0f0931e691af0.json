@@ -1,0 +1,75 @@
+{
+	"frames": {
+		"0": {
+			"frame": {
+				"x": 1,
+				"y": 1,
+				"w": 317,
+				"h": 803
+			},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 315,
+				"h": 801
+			},
+			"sourceSize": {
+				"w": 315,
+				"h": 804
+			},
+			"duration": 400
+		},
+		"1": {
+			"frame": {
+				"x": 1,
+				"y": 805,
+				"w": 315,
+				"h": 806
+			},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 313,
+				"h": 804
+			},
+			"sourceSize": {
+				"w": 315,
+				"h": 804
+			},
+			"duration": 400
+		}
+	},
+	"meta": {
+		"app": "https://www.aseprite.org/",
+		"version": "1.3-beta7-x64",
+		"image": "character_pup_hold.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 318,
+			"h": 1611
+		},
+		"scale": "1",
+		"frameTags": [
+			{
+				"name": "character_hold_pup_idle",
+				"from": 0,
+				"to": 1,
+				"direction": "forward",
+				"color": "#000000ff"
+			}
+		],
+		"layers": [
+			{
+				"name": "Layer",
+				"opacity": 255,
+				"blendMode": "normal"
+			}
+		],
+		"slices": [
+		]
+	}
+}
