@@ -1,4 +1,12 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Sophia SnuffelSpel</title><script defer="defer" src="bundle.min.js"></script><style>/* Box sizing rules */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title><%= htmlWebpackPlugin.options.title %></title>
+	<%= htmlWebpackPlugin.tags.headTags %>
+	<style>
+
+		/* Box sizing rules */
 		*,
 		*::before,
 		*::after {
@@ -72,4 +80,11 @@
 				transition-duration: 0.01ms !important;
 				scroll-behavior: auto !important;
 			}
-		}</style></head><body><div class="container" id="sophia-snuffel-game"></div></body></html>
+		}
+	</style>
+</head>
+<body>
+<div class="container" id="<%= htmlWebpackPlugin.options.target %>"></div>
+<%= htmlWebpackPlugin.tags.bodyTags %>
+</body>
+</html>
