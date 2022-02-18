@@ -1,0 +1,35 @@
+{ "frames": {
+   "Scene4_dog 0.aseprite": {
+    "frame": { "x": 1, "y": 110, "w": 140, "h": 84 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 3, "y": 13, "w": 138, "h": 82 },
+    "sourceSize": { "w": 142, "h": 106 },
+    "duration": 100
+   },
+   "Scene4_dog 1.aseprite": {
+    "frame": { "x": 1, "y": 1, "w": 142, "h": 108 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 140, "h": 106 },
+    "sourceSize": { "w": 142, "h": 106 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "Scene4_dog.png",
+  "format": "RGBA8888",
+  "size": { "w": 143, "h": 194 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Tag", "from": 0, "to": 1, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

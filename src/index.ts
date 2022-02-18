@@ -4,12 +4,13 @@ import WorldScene from "./scenes/WorldScene";
 import Scene2 from "./scenes/Scene2";
 import Scene1 from "./scenes/Scene1";
 import Scene3 from "./scenes/Scene3";
+import Scene4 from "./scenes/Scene4";
 
 // import MoveToTest from "../test/MoveToTest";
 
 function launchGame() {
 	// Append game scenes here
-	config.scene = [StartScene, WorldScene, Scene1, Scene2, Scene3];
+	config.scene = [StartScene, WorldScene, Scene1, Scene2, Scene3,Scene4];
 
 	const snuffelGame = new Game(config);
 }
