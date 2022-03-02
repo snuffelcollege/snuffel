@@ -79,8 +79,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private characterRun!: string;
 
-	private backgroundImage!: string;
-
 	private exitSceneKey!: string;
 
 	private characterWalk!: string;
@@ -99,8 +97,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private characterWalkAnims!: Phaser.Animations.Animation[];
 
-	private shepherdAnims!: Phaser.Animations.Animation[];
-
 	constructor(cfg: SettingsConfig = config) {
 		super(cfg);
 	}
@@ -114,7 +110,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.stickImage = "stickImage";
 		this.spriteSheetPlayerCharacter = "spriteSheetPlayerCharacter";
 		this.characterRun = "spriteSheetPlayerCharacterRun";
-		this.backgroundImage = "backgroundImage";
 		this.characterWalk = "characterWalk";
 		this.characterIdle = "characterIdle";
 
@@ -135,7 +130,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	// A key has to be unique for the entire project, not just this scene.
 	public preload(): void {
-		this.load.image(this.backgroundImage, BackgroundImage);
+		this.load.image("background5", BackgroundImage);
 		this.load.image(this.shepherdImage, shepherdImage);
 		this.load.image(this.stickImage, stickImage);
 		this.load.image(this.imageCorrectAnswer, CorrectAnswerImage);
@@ -172,7 +167,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		const centerX = this.scale.displaySize.width * 0.5;
 		const centerY = this.scale.displaySize.height * 0.5;
 
-		const img = this.add.image(centerX, centerY, this.backgroundImage);
+		const img = this.add.image(centerX, centerY, "background5");
 
 		this.components.addComponent(img, MakeFullscreen);
 
