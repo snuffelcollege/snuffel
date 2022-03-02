@@ -101,7 +101,20 @@
                  "width":0,
                  "x":5138,
                  "y":4376
-                }],
+                },
+                {
+                     "height":0,
+                     "id":13,
+                     "name":"Fence",
+                     "point":true,
+                     "rotation":0,
+                     "type":"Objective",
+                     "visible":true,
+                     "width":0,
+                     "x":4500,
+                     "y":3800
+                    }],
+                
          "opacity":1,
          "type":"objectgroup",
          "visible":true,

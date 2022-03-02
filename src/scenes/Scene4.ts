@@ -87,8 +87,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	private imageCorrectAnswer!: string;
 
-	private backgroundImage!: string;
-
 	private exitSceneKey!: string;
 
 	private characterKnock1!: string;
@@ -108,13 +106,13 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.imageIncorrectAnswer1 = "scene1IncorrectAnswer1";
 		this.imageIncorrectAnswer2 = "scene1IncorrectAnswer2";
 		this.imageCorrectAnswer = "scene1CorrectAnswer";
-		this.backgroundImage = "backgroundImage";
 		this.characterWalk = "characterWalk";
 		this.characterIdle = "characterIdle";
 		this.characterKnock1 = "characterKnock1";
 		this.characterKnock2 = "characterKnock2";
 		this.characterArm1 = "characterArm1";
 		this.characterArm2 = "characterArm2";
+		this.dogAnimation = "doganimation";
 
 		if (!WorldSceneConfig.key) {
 			throw Error("Exit scene key is undefined");
@@ -133,7 +131,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	// A key has to be unique for the entire project, not just this scene.
 	public preload(): void {
-		this.load.image(this.backgroundImage, BackgroundImage);
+		this.load.image("background4", BackgroundImage);
 		this.load.image(this.car, Car);
 		this.load.image(this.imageCorrectAnswer, CorrectAnswerImage);
 		this.load.image(this.imageIncorrectAnswer1, IncorrectAnswerImage);
@@ -153,18 +151,18 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			CharacterIdleData
 		);
 
-		// this.load.aseprite(
-		// 	this.dogAnimation,
-		// 	DogSheet,
-		// 	DogJson
-		// );
+		this.load.aseprite(
+			this.dogAnimation,
+			DogSheet,
+			DogJson
+		);
 	}
 
 	public create(): void {
 		const centerX = this.scale.displaySize.width * 0.5;
 		const centerY = this.scale.displaySize.height * 0.5;
 
-		const img = this.add.image(centerX, centerY, this.backgroundImage);
+		const img = this.add.image(centerX, centerY, "background4");
 		const car = this.add.image(500, 700, this.car,);
 		car.setScale(0.9)
 		this.components.addComponent(img, MakeFullscreen);

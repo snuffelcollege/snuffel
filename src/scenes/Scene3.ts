@@ -73,8 +73,6 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 
 	private components!: ComponentService;
 
-	private backgroundImage!: string;
-
 	private motherDogSleep!: string;
 
 	private motherDog!: string;
@@ -117,8 +115,6 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 
 		this.exitSceneKey = WorldSceneConfig.key;
 
-		this.backgroundImage = "scene3backgroundImage";
-
 		this.motherDog = "scene3motherDog";
 
 		this.characterWalk = "scene3characterWalk";
@@ -141,7 +137,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 
 	// A key has to be unique for the entire project, not just this scene.
 	public preload(): void {
-		this.load.image(this.backgroundImage, BackgroundImage);
+		this.load.image("background3", BackgroundImage);
 
 		this.load.aseprite(this.motherDog, MotherDogTexture, MotherDogConfig);
 		this.load.aseprite(
@@ -196,7 +192,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 	}
 
 	public create(): void {
-		const background = this.add.image(0, 0, this.backgroundImage);
+		const background = this.add.image(0, 0, "background3");
 		this.components.addComponent(background, MakeFullscreen);
 
 		// define entities
@@ -242,7 +238,6 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 		motherDogAnimator.loop(1);
 
 		characterMover.movingDone = () => {
-			console.log("moving done");
 
 			// todo: idle animation without pup
 			characterAnimator.loop(1);
