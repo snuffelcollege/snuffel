@@ -11,6 +11,7 @@ import CharacterIdleData from "@assets/spritesheets/player/scenario/idle/charact
 import shepherdSheet from "@assets/spritesheets/scenario5_dog/scenario5_dog.png";
 import shepherdData from "@assets/spritesheets/scenario5_dog/scenario5_dog.json";
 import shepherdImage from "@assets/images/scenario_5/scenario5_dog1.png";
+import stickImage from "@assets/images/scenario_5/scenario5_stick.png";
 import { GameObjects, Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
@@ -66,8 +67,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private characterEntity!: Sprite;
 
-	private huskyEntity!: Sprite;
-
 	private husky!: string;
 
 	private imageIncorrectAnswer1!: string;
@@ -75,8 +74,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 	private imageIncorrectAnswer2!: string;
 
 	private imageCorrectAnswer!: string;
-
-	// private imageIceCreamCone!: string;
 
 	private spriteSheetPlayerCharacter!: string;
 
@@ -90,15 +87,13 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private characterIdle!: string;
 
-	// private moveIcecreamConeAway!: boolean;
-
 	private shepherdImage!: string
 
 	private shepherdSheet!: string
 
 	private shepherdEntity!: Sprite
 
-	// private icecreamCone!: GameObjects.Image;
+	private stickImage!: string
 
 	private dogWalkAnims!: Phaser.Animations.Animation[];
 
@@ -116,6 +111,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.imageCorrectAnswer = "scene1CorrectAnswer";
 		this.shepherdImage = "shepherdImage";
 		this.shepherdSheet = "shepherdSheet";
+		this.stickImage = "stickImage";
 		this.spriteSheetPlayerCharacter = "spriteSheetPlayerCharacter";
 		this.characterRun = "spriteSheetPlayerCharacterRun";
 		this.backgroundImage = "backgroundImage";
@@ -133,8 +129,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.characterWalkAnims = [];
 		this.dogWalkAnims = [];
 
-		// this.moveIcecreamConeAway = false;
-
 		// The moment the scene renders, a fade from black is started using this function.
 		addFadeIn(this);
 	}
@@ -143,6 +137,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 	public preload(): void {
 		this.load.image(this.backgroundImage, BackgroundImage);
 		this.load.image(this.shepherdImage, shepherdImage);
+		this.load.image(this.stickImage, stickImage);
 		this.load.image(this.imageCorrectAnswer, CorrectAnswerImage);
 		this.load.image(this.imageIncorrectAnswer1, IncorrectAnswerImage);
 		this.load.image(this.imageIncorrectAnswer2, IncorrectAnswerImage2);
@@ -166,13 +161,11 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			CharacterIdleSheet,
 			CharacterIdleData
 		);
-		// this.load.spritesheet(
-		// 	this.shepherdSheet,
-		// 	shepherdSheet,
-		// 	shepherdData
-		// );
-
-		// this.load.aseprite(this.husky, HuskySheet, HuskyJson);
+		this.load.aseprite(
+			this.shepherdSheet,
+			shepherdSheet,
+			shepherdData
+		);
 	}
 
 	public create(): void {
@@ -190,15 +183,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		);
 
 		this.createSituation();
-	}
-
-	public update(time: number, delta: number): void {
-		super.update(time, delta);
-
-		// if (this.moveIcecreamConeAway)
-		// 	this.icecreamCone
-		// 		.setRotation(this.icecreamCone.rotation - 0.05)
-		// 		.setPosition(this.icecreamCone.x - 1, this.icecreamCone.y + 2);
 	}
 
 	private createSituation(): void {
@@ -225,42 +209,14 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			.play(this.spriteSheetPlayerCharacter)
 			.setScale(1.5);
 		
-		// this.shepherdEntity = this.add.sprite(
-		// 	1000,
-		// 	400,
-		// 	this.shepherdSheet
-		// );
+		this.shepherdEntity = this.add.sprite(
+			1000,
+			350,
+			this.shepherdSheet
+		);
 
-		this.add.image(1000, 350, this.shepherdImage);
+		this.add.image(1100, 900, this.stickImage)
 
-
-		// this.huskyEntity = this.add.sprite(
-		// 	0,
-		// 	this.characterEntity.y + 40,
-		// 	this.husky
-		// );
-		// this.huskyEntity
-		// 	.setScale(0.6)
-		// 	// .setVelocityX(150)
-		// 	.play({ key: this.dogWalkAnims[0].key, repeat: -1 });
-
-		// const moveTo = this.components.addComponent(this.huskyEntity, MoveTo);
-
-		// moveTo.setTarget({
-		// 	x: this.characterEntity.x - 300,
-		// 	y: this.huskyEntity.y,
-		// });
-
-		// moveTo.velocity = 200;
-
-		// moveTo.movingDone = () => {
-		// 	this.huskyEntity.play({
-		// 		key: this.dogWalkAnims[1].key,
-		// 		repeat: -1,
-		// 	});
-
-		// 	this.createChoice();
-		// };
 		this.createChoice();
 	}
 
@@ -296,40 +252,43 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 				this.createResult3();
 			});
-
-		// this.icecreamCone = this.add
-		// 	.image(1105, 710, this.imageIceCreamCone)
-		// 	.setScale(0.65, 0.55)
-		// 	.setDepth(100);
 	}
 
 	private createResult1(): void {
 		this.anims.create({
-			key: this.characterIdle,
+			key: this.shepherdSheet,
 			frameRate: 2,
-			frames: this.anims.generateFrameNumbers(this.characterIdle, {
+			frames: this.anims.generateFrameNumbers(this.shepherdSheet, {
 				start: 0,
 				end: 1,
 			}),
 			repeat: -1,
 		});
 
-		this.characterEntity.setScale(0.74).play(this.characterIdle);
-
-		this.huskyEntity.setFlipX(true).play({ key: "husky_walk", repeat: -1 });
-
-		const moveTo = this.components.addComponent(this.huskyEntity, MoveTo);
-
-		moveTo.setTarget({
-			x: this.huskyEntity.x - 1000,
-			y: this.huskyEntity.y,
+		this.anims.create({
+			key: this.characterRun,
+			frameRate: 8,
+			frames: this.anims.generateFrameNumbers(this.characterRun, {
+				start: 0,
+				end: 7,
+			}),
+			repeat: -1,
 		});
 
-		moveTo.velocity = 100;
+		this.shepherdEntity.setScale(1).play(this.shepherdSheet);
 
-		this.cameras.main.flash(2000, 0, 200, 0);
+		this.characterEntity.play(this.characterRun);
 
-		// this.moveIcecreamConeAway = true;
+		const moveTo = this.components.addComponent(this.characterEntity, MoveTo);
+
+		moveTo.setTarget({
+			x: this.characterEntity.x + 1000,
+			y: this.characterEntity.y,
+		});
+
+		moveTo.velocity = 250;
+
+		this.cameras.main.flash(2000, 200, 0, 0);
 
 		setTimeout(() => {
 			this.moveScene();
@@ -337,19 +296,18 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 	}
 
 	private createResult2(): void {
-		this.huskyEntity.play({ key: "husky_walk", repeat: -1 });
 
-		const moveToHusky = this.components.addComponent(
-			this.huskyEntity,
-			MoveTo
-		);
-
-		moveToHusky.setTarget({
-			x: this.huskyEntity.x + 1000,
-			y: this.huskyEntity.y,
+		this.anims.create({
+			key: this.shepherdSheet,
+			frameRate: 2,
+			frames: this.anims.generateFrameNumbers(this.shepherdSheet, {
+				start: 0,
+				end: 1,
+			}),
+			repeat: -1,
 		});
 
-		moveToHusky.velocity = 280;
+		this.shepherdEntity.setScale(1).play(this.shepherdSheet);
 
 		this.anims.create({
 			key: this.characterRun,
@@ -377,28 +335,12 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 		this.cameras.main.flash(2000, 200, 0, 0);
 
-		// this.moveIcecreamConeAway = true;
-
 		setTimeout(() => {
 			this.moveScene();
 		}, 5000);
 	}
 
 	private createResult3(): void {
-		this.huskyEntity.play({ key: "husky_walk", repeat: -1 });
-
-		const moveToHusky = this.components.addComponent(
-			this.huskyEntity,
-			MoveTo
-		);
-
-		moveToHusky.setTarget({
-			x: this.huskyEntity.x + 1000,
-			y: this.huskyEntity.y,
-		});
-
-		moveToHusky.velocity = 200;
-
 		this.characterEntity
 			.play({ key: this.characterWalkAnims[0].key, repeat: -1 })
 			.setScale(0.7);
@@ -415,9 +357,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 		moveToCharacter.velocity = 200;
 
-		this.cameras.main.flash(2000, 200, 0, 0);
-
-		// this.moveIcecreamConeAway = true;
+		this.cameras.main.flash(2000, 0, 200, 0);
 
 		setTimeout(() => {
 			this.moveScene();
