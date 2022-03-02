@@ -3,14 +3,16 @@ import Car from "@assets/images/scenario_4/Scene4_car.png";
 import CorrectAnswerImage from "@assets/images/scenario_1/scenario_option_1.png";
 import IncorrectAnswerImage from "@assets/images/scenario_1/scenario_option_2.png";
 import IncorrectAnswerImage2 from "@assets/images/scenario_1/scenario_option_3.png";
-import PlayerCharacterSheet from "@assets/spritesheets/player/scenario/icecreamidle/icecream_idle.png";
-import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/character_run_.png";
 import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/character_walk.png";
 import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/character_walk.json";
 import CharacterIdleSheet from "@assets/spritesheets/player/scenario/idle/character_idle.png";
 import CharacterIdleData from "@assets/spritesheets/player/scenario/idle/character_idle.json";
-import DogJson from "@assets/spritesheets/Scene4_Dog/Scene4_Dog.json";
-import DogSheet from "@assets/spritesheets/Scene4_Dog/Scene4_Dog.png";
+import CharacterKnock1 from "@assets/images/Scenario_4/Scenario4_BoyKnock1.png";
+import CharacterKnock2 from "@assets/images/Scenario_4/Scenario4_BoyKnock2.png";
+import CharacterArm1 from "@assets/images/Scenario_4/Scenario4_BoyArm1.png";
+import CharacterArm2 from "@assets/images/Scenario_4/Scenario4_BoyArm2.png";
+import DogSheet from "@assets/spritesheets/Scenario4_Dog/Scene4_dog.png";
+import DogJson from "@assets/spritesheets/Scenario4_Dog/Scene4_dog.json";
 import { GameObjects, Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
@@ -63,11 +65,19 @@ export const CharacterRunData = {
 export default class Scene1 extends Scene implements SceneLifecycle {
 	private components!: ComponentService;
 
-	private characterEntity!: Sprite;
+	private characterEntity!: Sprite; //embodiement of character, uses walk and idle animations
+
+	private characterWalkAnims!: Phaser.Animations.Animation[]; // push character walk
+
+	private characterWalk!: string; //this.load.asperite (walking)
+
+	private characterIdle!: string;//this load asperite (idle)
 
 	private DogEntity!: Sprite;
 
-	private dog!: string;
+	private dogAnims!: Phaser.Animations.Animation[]; // push dog animation
+	
+	private dogAnimation!: string;//this.load.asperite (dog)
 
 	private car!: string;
 
@@ -77,40 +87,34 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	private imageCorrectAnswer!: string;
 
-	private spriteSheetPlayerCharacter!: string;
-
-	private spriteSheetDog!: string;
-
-	private characterRun!: string;
-
 	private backgroundImage!: string;
 
 	private exitSceneKey!: string;
 
-	private characterWalk!: string;
+	private characterKnock1!: string;
 
-	private characterIdle!: string;
+	private characterKnock2!: string;
 
-	private dogWalkAnims!: Phaser.Animations.Animation[];
+	private characterArm1!: string;
 
-	private characterWalkAnims!: Phaser.Animations.Animation[];
+	private characterArm2!: string;
 
 	constructor(cfg: SettingsConfig = config) {
 		super(cfg);
 	}
 
 	public init(): void {
-		this.dog = "dog";
 		this.car = "car"
 		this.imageIncorrectAnswer1 = "scene1IncorrectAnswer1";
 		this.imageIncorrectAnswer2 = "scene1IncorrectAnswer2";
 		this.imageCorrectAnswer = "scene1CorrectAnswer";
-		this.spriteSheetPlayerCharacter = "spriteSheetPlayerCharacter";
-		this.spriteSheetDog = "spriteSheetDog"
-		this.characterRun = "spriteSheetPlayerCharacterRun";
 		this.backgroundImage = "backgroundImage";
 		this.characterWalk = "characterWalk";
 		this.characterIdle = "characterIdle";
+		this.characterKnock1 = "characterKnock1";
+		this.characterKnock2 = "characterKnock2";
+		this.characterArm1 = "characterArm1";
+		this.characterArm2 = "characterArm2";
 
 		if (!WorldSceneConfig.key) {
 			throw Error("Exit scene key is undefined");
@@ -121,7 +125,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.components = new ComponentService();
 
 		this.characterWalkAnims = [];
-		this.dogWalkAnims = [];
+		this.dogAnims = [];
 
 		// The moment the scene renders, a fade from black is started using this function.
 		addFadeIn(this);
@@ -134,16 +138,10 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.image(this.imageCorrectAnswer, CorrectAnswerImage);
 		this.load.image(this.imageIncorrectAnswer1, IncorrectAnswerImage);
 		this.load.image(this.imageIncorrectAnswer2, IncorrectAnswerImage2);
-		this.load.spritesheet(
-			this.spriteSheetPlayerCharacter,
-			PlayerCharacterSheet,
-			CharacterRunData
-		);
-		this.load.spritesheet(
-			this.characterRun,
-			CharacterRunSheet,
-			CharacterRunData
-		);
+		this.load.image(this.characterKnock1, CharacterKnock1);
+		this.load.image(this.characterKnock2, CharacterKnock2);
+		this.load.image(this.characterArm1, CharacterArm1);
+		this.load.image(this.characterArm2, CharacterArm2);
 		this.load.aseprite(
 			this.characterWalk,
 			CharacterWalkSheet,
@@ -155,7 +153,11 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			CharacterIdleData
 		);
 
-		this.load.aseprite(this.dog, DogSheet, DogJson);
+		// this.load.aseprite(
+		// 	this.dogAnimation,
+		// 	DogSheet,
+		// 	DogJson
+		// );
 	}
 
 	public create(): void {
@@ -167,11 +169,12 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		car.setScale(0.9)
 		this.components.addComponent(img, MakeFullscreen);
 
-		// todo; make into a component
-		this.dogWalkAnims.push(...this.anims.createFromAseprite(this.dog));
 		this.characterWalkAnims.push(
 			...this.anims.createFromAseprite(this.characterWalk)
 		);
+		// this.dogAnims.push(
+		// 	...this.anims.createFromAseprite(this.dogAnimation)
+		// );
 
 		this.createSituation();
 	}
@@ -181,24 +184,11 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	}
 
 	private createSituation(): void {
-		// Add child.
 		this.anims.create({
 			key: this.characterIdle,
 			frameRate: 2,
 			frames: this.anims.generateFrameNumbers(
 				this.characterIdle,
-				{
-					start: 0,
-					end: 1,
-				}
-			),
-			repeat: -1,
-		});
-		this.anims.create({
-			key: this.dogWalkAnims[0].key,
-			frameRate: 2,
-			frames: this.anims.generateFrameNumbers(
-				this.spriteSheetPlayerCharacter,
 				{
 					start: 0,
 					end: 1,
@@ -216,13 +206,31 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			.play(this.characterIdle)
 			.setScale(.8);
 
-		this.DogEntity = this.add.sprite(750,490,
-			this.dog
-		);
-		this.DogEntity
-			.setScale(0.7)
-			// .setVelocityX(150)
-			//.play({ key: this.dogWalkAnims[0].key, repeat: -1 });
+
+		//end \
+
+
+		// this.anims.create({
+		// 	key: this.dogAnimation,
+		// 	frameRate: 2,
+		// 	frames: this.anims.generateFrameNumbers(
+		// 		this.dogAnimation,
+		// 		{
+		// 			start: 0,
+		// 			end: 1,
+		// 		}
+		// 	),
+		// 	repeat: -1,
+		// });
+
+		// this.DogEntity = this.add.sprite(
+		// 	300,
+		// 	700,
+		// 	this.dogAnimation
+		// );
+		// this.DogEntity
+		// 	.play(this.dogAnimation)
+		// 	.setScale(.8);
 
 		this.createChoice();
 		
@@ -262,70 +270,87 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			});
 	}
 
+	//knock on car window (wrong)
 	private createResult1(): void {
-		this.anims.create({
-			key: this.characterIdle,
-			frameRate: 2,
-			frames: this.anims.generateFrameNumbers(this.characterIdle, {
-				start: 0,
-				end: 1,
-			}),
-			repeat: -1,
-		});
+		//removes character idle
+		this.characterEntity.destroy();
+		
+		//adds knock image
+		const knock = this.add.image(900, 700, this.characterKnock1,);
+		knock.setScale(0.9)
+		setTimeout(() => {
+			knock.destroy();
+			const knock2 = this.add.image(900, 700, this.characterKnock2,);
+			knock2.setScale(0.9)
+		}, 1000);
 
-		this.characterEntity.setScale(0.74).play(this.characterIdle);
+		
 
+		//red flash
 		this.cameras.main.flash(2000, 200, 0, 0);
 
+		//fade to black and back to overworld after 5 seconds
 		setTimeout(() => {
 			this.moveScene();
 		}, 5000);
 	}
 
+	//put arm trough car window (wrong)
 	private createResult2(): void {
-		this.anims.create({
-			key: this.characterIdle,
-			frameRate: 2,
-			frames: this.anims.generateFrameNumbers(this.characterIdle, {
-				start: 0,
-				end: 1,
-			}),
-			repeat: -1,
-		});
+		//removes idle character
+		this.characterEntity.destroy();
 
-		this.characterEntity.setScale(0.74).play(this.characterIdle);
+		//adds arm image
+		const knock = this.add.image(900, 680, this.characterArm1,);
+		knock.setScale(0.9)
+		setTimeout(() => {
+			knock.destroy();
+			const knock2 = this.add.image(900, 680, this.characterArm2,);
+			knock2.setScale(0.9);
+		}, 1000);
 
+		//red flash
 		this.cameras.main.flash(2000, 200, 0, 0);
 
+		//fade to black and back to overworld after 5 seconds
 		setTimeout(() => {
 			this.moveScene();
 		}, 5000);
 	}
 
+	//walk away (correct answer)
 	private createResult3(): void {
+
+		//sets character in walk animation
 		this.characterEntity
 			.play({ key: this.characterWalkAnims[0].key, repeat: -1 })
 			.setScale(0.8);
 
+		//moveto component
 		const moveToCharacter = this.components.addComponent(
 			this.characterEntity,
 			MoveTo
 		);
 
+		//sets target location for moveto command
 		moveToCharacter.setTarget({
 			x: this.characterEntity.x + 1000,
 			y: this.characterEntity.y,
 		});
 
+		//sets velocity of moveto command
 		moveToCharacter.velocity = 200;
 
+		//green flash
 		this.cameras.main.flash(2000, 0, 200, 0);
 
+		//fade to black and back to overworld after 5 seconds
 		setTimeout(() => {
 			this.moveScene();
 		}, 5000);
 	}
 
+	//fade to black and back to overworld
 	private moveScene() {
 		fadeToBlack(this, () => {
 			this.scene.stop(this.scene.key).wake(this.exitSceneKey);
