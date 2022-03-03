@@ -197,12 +197,12 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 		this.characterEntity = this.add.sprite(
 			1100,
-			700,
+			720,
 			this.spriteSheetPlayerCharacter
 		);
 		this.characterEntity
 			.play(this.spriteSheetPlayerCharacter)
-			.setScale(1.5);
+			.setScale(1.8);
 		
 		this.shepherdEntity = this.add.sprite(
 			1000,
