@@ -11,8 +11,8 @@ import CharacterKnock1 from "@assets/images/Scenario_4/Scenario4_BoyKnock1.png";
 import CharacterKnock2 from "@assets/images/Scenario_4/Scenario4_BoyKnock2.png";
 import CharacterArm1 from "@assets/images/Scenario_4/Scenario4_BoyArm1.png";
 import CharacterArm2 from "@assets/images/Scenario_4/Scenario4_BoyArm2.png";
-import DogSheet from "@assets/spritesheets/Scenario4_Dog/Scene4_dog.png";
-import DogJson from "@assets/spritesheets/Scenario4_Dog/Scene4_dog.json";
+import DogImage from "@assets/spritesheets/Scenario4_Dog/Scene4_dog.png";
+import DogData from "@assets/spritesheets/Scenario4_Dog/Scene4_dog.json";
 import { GameObjects, Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
@@ -153,8 +153,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 		this.load.aseprite(
 			this.dogAnimation,
-			DogSheet,
-			DogJson
+			DogImage,
+			DogData
 		);
 	}
 
@@ -208,27 +208,22 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		//end \
 
 
-		// this.anims.create({
-		// 	key: this.dogAnimation,
-		// 	frameRate: 2,
-		// 	frames: this.anims.generateFrameNumbers(
-		// 		this.dogAnimation,
-		// 		{
-		// 			start: 0,
-		// 			end: 1,
-		// 		}
-		// 	),
-		// 	repeat: -1,
-		// });
+		this.anims.create({
+			key: this.dogAnimation,
+			frameRate: 1,
+			frames: this.anims.generateFrameNumbers(
+				this.dogAnimation,
+				{
+					start: 0,
+					end: 1,
+				}
+			),
+			//repeat: -1,
+		});
 
-		// this.DogEntity = this.add.sprite(
-		// 	300,
-		// 	700,
-		// 	this.dogAnimation
-		// );
-		// this.DogEntity
-		// 	.play(this.dogAnimation)
-		// 	.setScale(.8);
+		this.DogEntity = this.add.sprite(780,487,this.dogAnimation);
+
+		this.DogEntity.play(this.dogAnimation).setScale(.8);
 
 		this.createChoice();
 		
