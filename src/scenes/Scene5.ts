@@ -56,6 +56,11 @@ export const textStyle: Phaser.Types.GameObjects.Text.TextStyle = {
 	},
 };
 
+export const CharacterRunData = {
+	frameHeight: 256,
+	frameWidth: 256,
+};
+
 export default class Scene5 extends Scene implements SceneLifecycle {
 	private components!: ComponentService;
 
@@ -144,6 +149,16 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			this.shepherdSheet,
 			shepherdSheet,
 			shepherdData
+		);
+		this.load.spritesheet(
+			this.spriteSheetPlayerCharacter,
+			PlayerCharacterSheet,
+			CharacterRunData
+		);
+		this.load.spritesheet(
+			this.characterRun,
+			CharacterRunSheet,
+			CharacterRunData
 		);
 	}
 
