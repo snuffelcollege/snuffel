@@ -82,7 +82,7 @@ export default class StartScene extends Scene {
 		const img = this.add.image(centerX, centerY, "background");
 		this.components.addComponent(img, MakeFullscreen);
 
-		this.add.image(centerX, centerY-200, "title");
+		this.add.image(centerX, centerY-150, "title");
 
 		this.add.image(this.scale.width - 256, this.scale.height - 128, "logo");
 
@@ -93,7 +93,7 @@ export default class StartScene extends Scene {
 			.setScale(0.5);
 
 		const startButton = this.add
-			.image(centerX, centerY+100, this.startButton, 1)
+			.image(centerX, centerY+150, this.startButton, 1)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
 				fadeToBlack(this, () => {
@@ -101,12 +101,12 @@ export default class StartScene extends Scene {
 				});
 			})
 			.on("pointerover", () => {
-				startButton.displayHeight = startButton.displayHeight*1.2;
-				startButton.displayWidth = startButton.displayWidth*1.2;
+				startButton.displayHeight = startButton.displayHeight*1.1;
+				startButton.displayWidth = startButton.displayWidth*1.1;
 			})
 			.on("pointerout", () => {
-				startButton.displayHeight = startButton.displayHeight/1.2;
-				startButton.displayWidth = startButton.displayWidth/1.2;
+				startButton.displayHeight = startButton.displayHeight/1.1;
+				startButton.displayWidth = startButton.displayWidth/1.1;
 			});
 	}
 }
