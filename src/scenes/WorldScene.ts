@@ -578,7 +578,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 		//this.depthSorter.addSortable(carScene, DepthLayers.PLAYER);
 
-		carScene.setBodySize(1400,650)//width and height of collision box
+		carScene.setBodySize(1350,650)//width and height of collision box
 			.setImmovable(true)//speaks for itself
 			.setDepth(DepthLayers.PLAYER)//sets layer of depth
 			.setInteractive({ useHandCursor: true })

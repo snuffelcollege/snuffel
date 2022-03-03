@@ -56,12 +56,6 @@ export const textStyle: Phaser.Types.GameObjects.Text.TextStyle = {
 	},
 };
 
-// Frame size for a character who is running.
-export const CharacterRunData = {
-	frameHeight: 256,
-	frameWidth: 256,
-};
-
 export default class Scene1 extends Scene implements SceneLifecycle {
 	private components!: ComponentService;
 
@@ -69,15 +63,15 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	private characterWalkAnims!: Phaser.Animations.Animation[]; // push character walk
 
-	private characterWalk!: string; //this.load.asperite (walking)
+	private characterWalk!: string; //aseprite of character walking
 
-	private characterIdle!: string;//this load asperite (idle)
+	private characterIdle!: string;//aseprite of character idling
 
-	private DogEntity!: Sprite;
+	private DogEntity!: Sprite; //entity that uses dog animation
 	
-	private dogAnimation!: string;//this.load.asperite (dog)
+	private dogAnimation!: string;//aseprite of regular dog in car window
 
-	private car!: string;
+	private car!: string; //png of car
 
 	private imageIncorrectAnswer1!: string;
 
@@ -100,6 +94,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	}
 
 	public init(): void {
+
+		//initializes variables, the string value isn't really bound to anything
 		this.car = "car"
 		this.imageIncorrectAnswer1 = "scene1IncorrectAnswer1";
 		this.imageIncorrectAnswer2 = "scene1IncorrectAnswer2";
@@ -128,6 +124,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	// A key has to be unique for the entire project, not just this scene.
 	public preload(): void {
+		//assigns background to 'background4' string
 		this.load.image("background4", BackgroundImage);
 		this.load.image(this.car, Car);
 		this.load.image(this.imageCorrectAnswer, CorrectAnswerImage);
@@ -157,7 +154,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	public create(): void {
 		const centerX = this.scale.displaySize.width * 0.5;
 		const centerY = this.scale.displaySize.height * 0.5;
-
+		
+		//loads background from 'background4' string. this isn't stored in a local variable because of a bug where the wrong background was loaded in certain scenes.
 		const img = this.add.image(centerX, centerY, "background4");
 		const car = this.add.image(500, 700, this.car,);
 		car.setScale(0.9)

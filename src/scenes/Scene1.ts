@@ -3,7 +3,8 @@ import CorrectAnswerImage from "@assets/images/scenario_1/scenario_option_1.png"
 import IncorrectAnswerImage from "@assets/images/scenario_1/scenario_option_2.png";
 import IncorrectAnswerImage2 from "@assets/images/scenario_1/scenario_option_3.png";
 import PlayerCharacterSheet from "@assets/spritesheets/player/scenario/icecreamidle/icecream_idle.png";
-import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/character_run_.png";
+import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/character_run.png";
+import CharacterRunData from "@assets/spritesheets/player/scenario/run/character_run.json";
 import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/character_walk.png";
 import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/character_walk.json";
 import CharacterIdleSheet from "@assets/spritesheets/player/scenario/idle/character_idle.png";
@@ -54,13 +55,11 @@ export const textStyle: Phaser.Types.GameObjects.Text.TextStyle = {
 		color: "#000",
 	},
 };
-
 // Frame size for a character who is running.
-export const CharacterRunData = {
+export const IceCreamIdleData = {
 	frameHeight: 256,
 	frameWidth: 256,
 };
-
 export default class Scene1 extends Scene implements SceneLifecycle {
 	private components!: ComponentService;
 
@@ -138,9 +137,9 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.spritesheet(
 			this.spriteSheetPlayerCharacter,
 			PlayerCharacterSheet,
-			CharacterRunData
+			IceCreamIdleData
 		);
-		this.load.spritesheet(
+		this.load.aseprite(
 			this.characterRun,
 			CharacterRunSheet,
 			CharacterRunData
@@ -199,12 +198,13 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			),
 			repeat: -1,
 		});
-
+		
 		this.characterEntity = this.add.sprite(
 			1100,
 			700,
 			this.spriteSheetPlayerCharacter
 		);
+		
 		this.characterEntity
 			.play(this.spriteSheetPlayerCharacter)
 			.setScale(1.5);
@@ -216,7 +216,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		);
 		this.huskyEntity
 			.setScale(0.6)
-			// .setVelocityX(150)
 			.play({ key: this.dogWalkAnims[0].key, repeat: -1 });
 
 		const moveTo = this.components.addComponent(this.huskyEntity, MoveTo);
@@ -295,7 +294,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		const moveTo = this.components.addComponent(this.huskyEntity, MoveTo);
 
 		moveTo.setTarget({
-			x: this.huskyEntity.x - 1000,
+			x: this.huskyEntity.x - 1200,
 			y: this.huskyEntity.y,
 		});
 
@@ -319,7 +318,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		);
 
 		moveToHusky.setTarget({
-			x: this.huskyEntity.x + 1000,
+			x: this.huskyEntity.x + 1300,
 			y: this.huskyEntity.y,
 		});
 
@@ -334,7 +333,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			}),
 			repeat: -1,
 		});
-
+		this.characterEntity.setScale(0.7);
 		this.characterEntity.play(this.characterRun);
 
 		const moveToCharacter = this.components.addComponent(
@@ -367,7 +366,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		);
 
 		moveToHusky.setTarget({
-			x: this.huskyEntity.x + 1000,
+			x: this.huskyEntity.x + 1200,
 			y: this.huskyEntity.y,
 		});
 

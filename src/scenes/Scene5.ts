@@ -56,12 +56,6 @@ export const textStyle: Phaser.Types.GameObjects.Text.TextStyle = {
 	},
 };
 
-// Frame size for a character who is running.
-export const CharacterRunData = {
-	frameHeight: 256,
-	frameWidth: 256,
-};
-
 export default class Scene5 extends Scene implements SceneLifecycle {
 	private components!: ComponentService;
 
@@ -136,16 +130,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.load.image(this.imageCorrectAnswer, CorrectAnswerImage);
 		this.load.image(this.imageIncorrectAnswer1, IncorrectAnswerImage);
 		this.load.image(this.imageIncorrectAnswer2, IncorrectAnswerImage2);
-		this.load.spritesheet(
-			this.spriteSheetPlayerCharacter,
-			PlayerCharacterSheet,
-			CharacterRunData
-		);
-		this.load.spritesheet(
-			this.characterRun,
-			CharacterRunSheet,
-			CharacterRunData
-		);
 		this.load.aseprite(
 			this.characterWalk,
 			CharacterWalkSheet,
