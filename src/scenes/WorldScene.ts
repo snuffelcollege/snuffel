@@ -6,6 +6,8 @@ import huskyImage from "@assets/spritesheets/husky/husky.png";
 import huskyJson from "@assets/spritesheets/husky/husky.json";
 import huskyWaitImage from "@assets/images/world/husky_wait.png";
 import Car from "@assets/images/scenario_4/Scene4_car.png";
+import DogInCarSheet from "@assets/spritesheets/Scenario4_Dog/Scene4_dog.png";
+import DogInCarData from "@assets/spritesheets/Scenario4_Dog/Scene4_dog.json";
 import { Scene } from "phaser";
 import PlayerEntity from "../GameObjects/Entities/PlayerEntity";
 import DepthSorter from "../Services/DepthSorter";
@@ -40,6 +42,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 	private poiCloud!: string;
 
+	private dogInCar!: string;
+
 	private husky!: string;
 
 	private car!: string;
@@ -62,6 +66,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.tilemapKey = "main_scene";
 
 		this.poiCloud = "poi_cloud";
+		this.dogInCar = "dogInCar";
 		this.husky = "husky";
 		this.car = "car";
 
@@ -78,6 +83,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	public preload(): void {
 		// Point of Interest Idle Animations
 		this.load.aseprite(this.poiCloud, poiCloudSheet, poiCloudData);
+		this.load.aseprite(this.dogInCar,DogInCarSheet,DogInCarData);
 
 		// Player Idle & Move Animations
 		this.load.aseprite(
@@ -560,52 +566,43 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		y: number,
 		target_scene: string
 	): void {
-		const poiCloudAnimTags = this.anims.createFromAseprite("poi_cloud");
+		const dogWindowAnimTags = this.anims.createFromAseprite("dogInCar");
 
 		const carScene = new MovableEntity(scene, x, y, this.car).setScale(0.5);
 
-		const dogTalkBubble = this.add.sprite(
-			carScene.x + 64,
-			carScene.y - 84,
-			this.poiCloud
+		const dogWindow = this.add.sprite(
+			carScene.x + 150,
+			carScene.y - 120,
+			this.dogInCar
 		);
 
-		this.depthSorter.addSortable(carScene, DepthLayers.PLAYER);
+		//this.depthSorter.addSortable(carScene, DepthLayers.PLAYER);
 
-		carScene.setBodySize(5,5)//height of collision box
-			.setOffset(0, (carScene.height * 4) / 5)
+		carScene.setBodySize(1400,650)//width and height of collision box
 			.setImmovable(true)//speaks for itself
 			.setDepth(DepthLayers.PLAYER)//sets layer of depth
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
-				if (dogTalkBubble.visible) {
+				if (dogWindow.visible) {
 					this.switchScene(target_scene);
 				}
 			});
 
-		dogTalkBubble
+		dogWindow
 			.setDepth(DepthLayers.OVERLAY)
-			.play({ key: poiCloudAnimTags[0].key, repeat: -1 }, true)
+			.play({ key: dogWindowAnimTags[0].key, frameRate: 1, repeat: -1}, true)
 			.setVisible(false)
 			.setInteractive({ useHandCursor: true })
-			.on("pointerdown", () => this.switchScene(target_scene));
+			.on("pointerdown", () => this.switchScene(target_scene))
+			.setScale(0.5)
 
 		collidables.push(carScene);
 
 		// this.physics.add.collider(player, dog);
 
-		const radius = this.add.zone(
-			carScene.x,
-			carScene.y,
-			carScene.displayWidth,
-			carScene.displayHeight
-		);
+		const radius = this.add.zone(x,	y, 1000,600);
 
 		this.physics.world.enable(radius); // enable the zone's physics body
-
-		(radius.body as Phaser.Physics.Arcade.Body)
-			.setOffset(-radius.displayWidth * 0.5, -radius.displayHeight * 0.5)
-			.setCircle(carScene.displayWidth);
 
 		// scene.physics.add.overlap(player, radius);
 
@@ -617,8 +614,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		);
 
 		dispatcher.setDispatchCallback((isOverlapping) => {
-			if (dogTalkBubble.visible !== isOverlapping) {
-				dogTalkBubble.setVisible(isOverlapping);
+			if (dogWindow.visible !== isOverlapping) {
+				dogWindow.setVisible(isOverlapping);
 			}
 
 			if (isOverlapping && this.sceneSwitchKey.isDown) {

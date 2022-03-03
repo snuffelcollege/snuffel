@@ -74,8 +74,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	private characterIdle!: string;//this load asperite (idle)
 
 	private DogEntity!: Sprite;
-
-	private dogAnims!: Phaser.Animations.Animation[]; // push dog animation
 	
 	private dogAnimation!: string;//this.load.asperite (dog)
 
@@ -123,7 +121,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.components = new ComponentService();
 
 		this.characterWalkAnims = [];
-		this.dogAnims = [];
 
 		// The moment the scene renders, a fade from black is started using this function.
 		addFadeIn(this);
@@ -150,7 +147,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			CharacterIdleSheet,
 			CharacterIdleData
 		);
-
 		this.load.aseprite(
 			this.dogAnimation,
 			DogImage,
@@ -170,10 +166,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.characterWalkAnims.push(
 			...this.anims.createFromAseprite(this.characterWalk)
 		);
-		// this.dogAnims.push(
-		// 	...this.anims.createFromAseprite(this.dogAnimation)
-		// );
-
 		this.createSituation();
 	}
 
@@ -182,6 +174,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	}
 
 	private createSituation(): void {
+
+		//main character idling
 		this.anims.create({
 			key: this.characterIdle,
 			frameRate: 2,
@@ -194,20 +188,10 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			),
 			repeat: -1,
 		});
+		this.characterEntity = this.add.sprite(1100,700,this.characterIdle);
+		this.characterEntity.play(this.characterIdle).setScale(.8);
 
-		this.characterEntity = this.add.sprite(
-			1100,
-			700,
-			this.characterIdle
-		);
-		this.characterEntity
-			.play(this.characterIdle)
-			.setScale(.8);
-
-
-		//end \
-
-
+		//dog animation
 		this.anims.create({
 			key: this.dogAnimation,
 			frameRate: 1,
@@ -218,15 +202,11 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 					end: 1,
 				}
 			),
-			//repeat: -1,
 		});
-
 		this.DogEntity = this.add.sprite(780,487,this.dogAnimation);
-
 		this.DogEntity.play(this.dogAnimation).setScale(.8);
 
-		this.createChoice();
-		
+		this.createChoice();		
 	}
 
 	private createChoice(): void {
@@ -265,9 +245,9 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	//knock on car window (wrong)
 	private createResult1(): void {
-		//removes character idle
-		this.characterEntity.destroy();
-		
+		//hides entity from scene
+		this.characterEntity.setVisible(false);
+
 		//adds knock image
 		const knock = this.add.image(900, 700, this.characterKnock1,);
 		knock.setScale(0.9)
@@ -276,7 +256,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			const knock2 = this.add.image(900, 700, this.characterKnock2,);
 			knock2.setScale(0.9)
 		}, 1000);
-
+		
 		
 
 		//red flash
@@ -285,14 +265,12 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		//fade to black and back to overworld after 5 seconds
 		setTimeout(() => {
 			this.moveScene();
-		}, 5000);
+		}, 10000);
 	}
 
 	//put arm trough car window (wrong)
 	private createResult2(): void {
-		//removes idle character
-		this.characterEntity.destroy();
-
+		
 		//adds arm image
 		const knock = this.add.image(900, 680, this.characterArm1,);
 		knock.setScale(0.9)
@@ -320,10 +298,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			.setScale(0.8);
 
 		//moveto component
-		const moveToCharacter = this.components.addComponent(
-			this.characterEntity,
-			MoveTo
-		);
+		const moveToCharacter = this.components.addComponent(this.characterEntity,MoveTo);
 
 		//sets target location for moveto command
 		moveToCharacter.setTarget({
