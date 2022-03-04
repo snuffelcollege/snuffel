@@ -107,10 +107,10 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.shepherdImage = "shepherdImage";
 		this.shepherdSheet = "shepherdSheet";
 		this.stickImage = "stickImage";
-		this.spriteSheetPlayerCharacter = "spriteSheetPlayerCharacter";
-		this.characterRun = "spriteSheetPlayerCharacterRun";
-		this.characterWalk = "characterWalk";
-		this.characterIdle = "characterIdle";
+		this.spriteSheetPlayerCharacter = "spriteSheetPlayerCharacter5";
+		this.characterRun = "spriteSheetPlayerCharacterRun5";
+		this.characterWalk = "characterWalk5";
+		this.characterIdle = "characterIdle5";
 
 		if (!WorldSceneConfig.key) {
 			throw Error("Exit scene key is undefined");

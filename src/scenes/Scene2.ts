@@ -86,8 +86,8 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 	}
 
 	public init(): void {
-		this.characterWalk = "characterWalk";
-		this.characterRun = "spriteSheetPlayerCharacterRun";
+		this.characterWalk = "characterWalk2";
+		this.characterRun = "spriteSheetPlayerCharacterRun2";
 		this.huskyIdleLamppost = "huskyIdleLamppost";
 		this.huskyJumpLamppost = "huskyJumpLamppost";
 		this.adultNPC = "scene3AdultNPC";
@@ -251,22 +251,22 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		const button3 = this.add.image(1300, 870, this.imageCorrectAnswer);
 
 		button1.setInteractive().on("pointerdown", () => {
+			button1.disableInteractive();
+			button2.disableInteractive();
+			button3.disableInteractive();
 			this.createResult1();
-			button1.destroy();
-			button2.destroy();
-			button3.destroy();
 		});
 		button2.setInteractive().on("pointerdown", () => {
+			button1.disableInteractive();
+			button2.disableInteractive();
+			button3.disableInteractive();
 			this.createResult2();
-			button1.destroy();
-			button2.destroy();
-			button3.destroy();
 		});
 		button3.setInteractive().on("pointerdown", () => {
+			button1.disableInteractive();
+			button2.disableInteractive();
+			button3.disableInteractive();
 			this.createResult3();
-			button1.destroy();
-			button2.destroy();
-			button3.destroy();
 		});
 	}
 

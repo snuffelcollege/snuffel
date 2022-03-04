@@ -105,10 +105,10 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.imageIncorrectAnswer2 = "scene1IncorrectAnswer2";
 		this.imageCorrectAnswer = "scene1CorrectAnswer";
 		this.imageIceCreamCone = "imageIceCreamCone";
-		this.spriteSheetPlayerCharacter = "spriteSheetPlayerCharacter";
+		this.spriteSheetPlayerCharacter = "spriteSheetPlayerCharacter1";
 		this.characterRun = "spriteSheetPlayerCharacterRun1";
-		this.characterWalk = "characterWalk";
-		this.characterIdle = "characterIdle";
+		this.characterWalk = "characterWalk1";
+		this.characterIdle = "characterIdle1";
 
 		if (!WorldSceneConfig.key) {
 			throw Error("Exit scene key is undefined");
@@ -248,7 +248,10 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				button1.disableInteractive();
 				button2.disableInteractive();
 				button3.disableInteractive();
-
+				this.icecreamCone = this.add
+				.image(1105, 710, this.imageIceCreamCone)
+				.setScale(0.65, 0.55)
+				.setDepth(100);
 				this.createResult1();
 			});
 		button2
@@ -257,7 +260,10 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				button1.disableInteractive();
 				button2.disableInteractive();
 				button3.disableInteractive();
-
+				this.icecreamCone = this.add
+				.image(1105, 710, this.imageIceCreamCone)
+				.setScale(0.65, 0.55)
+				.setDepth(100);
 				this.createResult2();
 			});
 		button3
@@ -266,14 +272,14 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				button1.disableInteractive();
 				button2.disableInteractive();
 				button3.disableInteractive();
-
+				this.icecreamCone = this.add
+				.image(1105, 710, this.imageIceCreamCone)
+				.setScale(0.65, 0.55)
+				.setDepth(100);
 				this.createResult3();
 			});
 
-		this.icecreamCone = this.add
-			.image(1105, 710, this.imageIceCreamCone)
-			.setScale(0.65, 0.55)
-			.setDepth(100);
+		
 	}
 
 	private createResult1(): void {
