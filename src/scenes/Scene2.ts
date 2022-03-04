@@ -251,22 +251,22 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		const button3 = this.add.image(1300, 870, this.imageCorrectAnswer);
 
 		button1.setInteractive().on("pointerdown", () => {
+			button1.disableInteractive();
+			button2.disableInteractive();
+			button3.disableInteractive();
 			this.createResult1();
-			button1.destroy();
-			button2.destroy();
-			button3.destroy();
 		});
 		button2.setInteractive().on("pointerdown", () => {
+			button1.disableInteractive();
+			button2.disableInteractive();
+			button3.disableInteractive();
 			this.createResult2();
-			button1.destroy();
-			button2.destroy();
-			button3.destroy();
 		});
 		button3.setInteractive().on("pointerdown", () => {
+			button1.disableInteractive();
+			button2.disableInteractive();
+			button3.disableInteractive();
 			this.createResult3();
-			button1.destroy();
-			button2.destroy();
-			button3.destroy();
 		});
 	}
 
