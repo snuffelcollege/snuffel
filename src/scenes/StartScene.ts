@@ -11,6 +11,7 @@ import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
 import { WorldSceneConfig } from "./WorldScene";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import PhaserText = Phaser.GameObjects.Text;
+// import BackgroundSong from "@assets/background_song.mp3";
 
 export const config: SettingsConfig = {
 	active: false,
@@ -48,8 +49,6 @@ export default class StartScene extends Scene {
 
 	private husky!: string;
 
-	private title!: string;
-
 	private startButton!: string;
 
 	constructor(cfg: SettingsConfig = config) {
@@ -59,7 +58,6 @@ export default class StartScene extends Scene {
 	public init(): void {
 		this.startButton = "start_button";
 		this.husky = "husky";
-		this.title = "title";
 
 		this.components = new ComponentService();
 
@@ -73,6 +71,7 @@ export default class StartScene extends Scene {
 		this.load.image("background", Background);
 		this.load.image("logo", Logo);
 		this.load.image("title", Title);
+		// this.load.audio("song", BackgroundSong);
 	}
 
 	public create(): void {
@@ -108,5 +107,10 @@ export default class StartScene extends Scene {
 				startButton.displayHeight = startButton.displayHeight/1.1;
 				startButton.displayWidth = startButton.displayWidth/1.1;
 			});
+
+			// var song = this.sound.add("song");
+			// song.play({
+			// 	loop: true
+			// });
 	}
 }

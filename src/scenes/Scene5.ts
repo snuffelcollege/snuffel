@@ -313,7 +313,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			repeat: -1,
 		});
 
-		this.characterEntity.play(this.characterRun);
+		this.characterEntity.setScale(1.5).play(this.characterRun);
 
 		const moveToCharacter = this.components.addComponent(
 			this.characterEntity,

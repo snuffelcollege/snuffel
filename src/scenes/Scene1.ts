@@ -106,7 +106,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.imageCorrectAnswer = "scene1CorrectAnswer";
 		this.imageIceCreamCone = "imageIceCreamCone";
 		this.spriteSheetPlayerCharacter = "spriteSheetPlayerCharacter";
-		this.characterRun = "spriteSheetPlayerCharacterRun";
+		this.characterRun = "spriteSheetPlayerCharacterRun1";
 		this.characterWalk = "characterWalk";
 		this.characterIdle = "characterIdle";
 
