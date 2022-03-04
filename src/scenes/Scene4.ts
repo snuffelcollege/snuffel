@@ -100,8 +100,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.imageIncorrectAnswer1 = "scene1IncorrectAnswer1";
 		this.imageIncorrectAnswer2 = "scene1IncorrectAnswer2";
 		this.imageCorrectAnswer = "scene1CorrectAnswer";
-		this.characterWalk = "characterWalk";
-		this.characterIdle = "characterIdle";
+		this.characterWalk = "characterWalk4";
+		this.characterIdle = "characterIdle4";
 		this.characterKnock1 = "characterKnock1";
 		this.characterKnock2 = "characterKnock2";
 		this.characterArm1 = "characterArm1";

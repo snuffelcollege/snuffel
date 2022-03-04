@@ -86,8 +86,8 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 	}
 
 	public init(): void {
-		this.characterWalk = "characterWalk";
-		this.characterRun = "spriteSheetPlayerCharacterRun";
+		this.characterWalk = "characterWalk2";
+		this.characterRun = "spriteSheetPlayerCharacterRun2";
 		this.huskyIdleLamppost = "huskyIdleLamppost";
 		this.huskyJumpLamppost = "huskyJumpLamppost";
 		this.adultNPC = "scene3AdultNPC";
