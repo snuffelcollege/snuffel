@@ -21,7 +21,7 @@ import { WorldSceneConfig } from "./WorldScene";
 import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
-import FixedHeightAnimator from "../Components/FixedHeightAnimator";
+import song from "@assets/bruh.mp3";
 
 // Config for the scene defining gravity and debug settings.
 export const config: SettingsConfig = {
@@ -160,6 +160,8 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			CharacterRunSheet,
 			CharacterRunData
 		);
+
+		this.load.audio("song5", song);
 	}
 
 	public create(): void {
@@ -192,6 +194,12 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 				}
 			),
 			repeat: -1,
+		});
+
+		this.game.sound.pauseAll();
+		var song = this.sound.add("song5");
+		song.play({
+			loop: true
 		});
 
 		this.characterEntity = this.add.sprite(
@@ -362,5 +370,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		fadeToBlack(this, () => {
 			this.scene.stop(this.scene.key).wake(this.exitSceneKey);
 		});
+		this.game.sound.removeByKey("song5");
+		this.game.sound.resumeAll();
 	}
 }
