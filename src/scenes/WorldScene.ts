@@ -213,7 +213,17 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 								obj.x as number,
 								obj.y as number,
 								"scene-5"
-							);}
+							);
+						} else if (obj.name === "Cuddle") {
+							this.createFenceScene(
+								this,
+								collidables,
+								overlappables,
+								obj.x as number,
+								obj.y as number,
+								"scene-6"
+							);
+						}
 					} else if (obj.ellipse) {
 						const props = obj.properties as any[];
 
