@@ -113,8 +113,19 @@
                      "width":0,
                      "x":4500,
                      "y":3800
+                    },
+                    {
+                     "height":0,
+                     "id":13,
+                     "name":"Cuddle",
+                     "point":true,
+                     "rotation":0,
+                     "type":"Objective",
+                     "visible":true,
+                     "width":0,
+                     "x":4500,
+                     "y":4000
                     }],
-                
          "opacity":1,
          "type":"objectgroup",
          "visible":true,

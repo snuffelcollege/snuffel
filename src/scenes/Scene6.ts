@@ -1,4 +1,8 @@
-import BackgroundImage from "@assets/images/scenario_5/Scenario5_BG.png";
+import BackgroundImage from "@assets/images/scenario_6/BG.png";
+import dog from "@assets/spritesheets/scenario6/dog.png";
+import dogData from "@assets/spritesheets/scenario6/dog.json";
+import dogAndBoy from "@assets/spritesheets/scenario6/boy+dog.png";
+import dogAndBoyData from "@assets/spritesheets/scenario6/boy+dog.json";
 import CorrectAnswerImage from "@assets/images/scenario_1/scenario_option_1.png";
 import IncorrectAnswerImage from "@assets/images/scenario_1/scenario_option_2.png";
 import IncorrectAnswerImage2 from "@assets/images/scenario_1/scenario_option_3.png";
@@ -8,11 +12,7 @@ import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/charac
 import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/character_walk.json";
 import CharacterIdleSheet from "@assets/spritesheets/player/scenario/idle/character_idle.png";
 import CharacterIdleData from "@assets/spritesheets/player/scenario/idle/character_idle.json";
-import shepherdSheet from "@assets/spritesheets/scenario5_dog/scenario5_dog.png";
-import shepherdData from "@assets/spritesheets/scenario5_dog/scenario5_dog.json";
-import shepherdImage from "@assets/images/scenario_5/scenario5_dog1.png";
-import stickImage from "@assets/images/scenario_5/scenario5_stick.png";
-import { GameObjects, Scene } from "phaser";
+import { GameObjects, Scene, Time } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
 import ComponentService from "../Services/ComponentService";
@@ -26,7 +26,7 @@ import sceneSong from "@assets/bruh.mp3";
 // Config for the scene defining gravity and debug settings.
 export const config: SettingsConfig = {
 	active: false,
-	key: "scene-5",
+	key: "scene-6",
 	physics: {
 		default: "arcade",
 		arcade: {
@@ -66,7 +66,9 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private characterEntity!: Sprite;
 
-	private husky!: string;
+	private dogEntity!: Sprite;
+
+	private dogAndBoyEntity!: Sprite;
 
 	private imageIncorrectAnswer1!: string;
 
@@ -84,15 +86,11 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private characterIdle!: string;
 
-	private shepherdImage!: string
+	private dog!: string;
 
-	private shepherdSheet!: string
+	private dogAndBoy!: string
 
-	private shepherdEntity!: Sprite
-
-	private stickImage!: string
-
-	private dogWalkAnims!: Phaser.Animations.Animation[];
+	// private dogWalkAnims!: Phaser.Animations.Animation[];
 
 	private characterWalkAnims!: Phaser.Animations.Animation[];
 
@@ -104,13 +102,12 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.imageIncorrectAnswer1 = "scene1IncorrectAnswer1";
 		this.imageIncorrectAnswer2 = "scene1IncorrectAnswer2";
 		this.imageCorrectAnswer = "scene1CorrectAnswer";
-		this.shepherdImage = "shepherdImage";
-		this.shepherdSheet = "shepherdSheet";
-		this.stickImage = "stickImage";
-		this.spriteSheetPlayerCharacter = "spriteSheetPlayerCharacter5";
-		this.characterRun = "spriteSheetPlayerCharacterRun5";
-		this.characterWalk = "characterWalk5";
-		this.characterIdle = "characterIdle5";
+		this.spriteSheetPlayerCharacter = "spriteSheetPlayerCharacter6";
+		this.characterRun = "spriteSheetPlayerCharacterRun6";
+		this.characterWalk = "characterWalk6";
+		this.characterIdle = "characterIdle6";
+		this.dog = "dog6";
+		this.dogAndBoy = "dogAndBoy6";
 
 		if (!WorldSceneConfig.key) {
 			throw Error("Exit scene key is undefined");
@@ -121,7 +118,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.components = new ComponentService();
 
 		this.characterWalkAnims = [];
-		this.dogWalkAnims = [];
+		// this.dogWalkAnims = [];
 
 		// The moment the scene renders, a fade from black is started using this function.
 		addFadeIn(this);
@@ -129,9 +126,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	// A key has to be unique for the entire project, not just this scene.
 	public preload(): void {
-		this.load.image("background5", BackgroundImage);
-		this.load.image(this.shepherdImage, shepherdImage);
-		this.load.image(this.stickImage, stickImage);
+		this.load.image("background6", BackgroundImage);
 		this.load.image(this.imageCorrectAnswer, CorrectAnswerImage);
 		this.load.image(this.imageIncorrectAnswer1, IncorrectAnswerImage);
 		this.load.image(this.imageIncorrectAnswer2, IncorrectAnswerImage2);
@@ -145,11 +140,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			CharacterIdleSheet,
 			CharacterIdleData
 		);
-		this.load.aseprite(
-			this.shepherdSheet,
-			shepherdSheet,
-			shepherdData
-		);
 		this.load.spritesheet(
 			this.spriteSheetPlayerCharacter,
 			PlayerCharacterSheet,
@@ -160,6 +150,16 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			CharacterRunSheet,
 			CharacterRunData
 		);
+		this.load.aseprite(
+			this.dog,
+			dog,
+			dogData
+		);
+		this.load.aseprite(
+			this.dogAndBoy,
+			dogAndBoy,
+			dogAndBoyData
+		)
 
 		this.load.audio("sceneSong", sceneSong);
 	}
@@ -168,12 +168,10 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		const centerX = this.scale.displaySize.width * 0.5;
 		const centerY = this.scale.displaySize.height * 0.5;
 
-		const img = this.add.image(centerX, centerY, "background5");
+		const img = this.add.image(centerX, centerY, "background6");
 
 		this.components.addComponent(img, MakeFullscreen);
 
-		// todo; make into a component
-		this.dogWalkAnims.push(...this.anims.createFromAseprite(this.husky));
 		this.characterWalkAnims.push(
 			...this.anims.createFromAseprite(this.characterWalk)
 		);
@@ -203,23 +201,74 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		});
 
 		this.characterEntity = this.add.sprite(
-			1100,
+			100,
 			720,
 			this.spriteSheetPlayerCharacter
 		);
 		this.characterEntity
-			.play(this.spriteSheetPlayerCharacter)
-			.setScale(1.8);
-		
-		this.shepherdEntity = this.add.sprite(
-			1000,
-			350,
-			this.shepherdSheet
+			.play({ key: this.characterWalkAnims[0].key, repeat: -1 })
+			.setScale(1);
+
+		const moveToCharacter = this.components.addComponent(
+			this.characterEntity,
+			MoveTo
 		);
 
-		this.add.image(1100, 900, this.stickImage)
+		moveToCharacter.setTarget({
+			x: this.characterEntity.x + 680,
+			y: this.characterEntity.y,
+		});
 
-		this.createChoice();
+		moveToCharacter.velocity = 200;
+
+
+		this.anims.create({
+			key: this.dog,
+			frameRate: 2,
+			frames: this.anims.generateFrameNumbers(
+				this.dog,
+				{
+					start: 0,
+					end: 2,
+				}
+			),
+			repeat: -1,
+		});
+		this.dogEntity = this.add.sprite(
+			1100,
+			720,
+			this.dog
+		);
+		this.dogEntity
+			.play(this.dog)
+			.setScale(1);		
+
+
+		setTimeout(() => {
+			this.characterEntity.destroy();
+			this.dogEntity.destroy();
+			this.anims.create({
+				key: this.dogAndBoy,
+				frameRate: 2,
+				frames: this.anims.generateFrameNumbers(
+					this.dogAndBoy,
+					{
+						start: 0,
+						end: 2,
+					}
+				),
+				repeat: -1,
+			});
+			this.dogAndBoyEntity = this.add.sprite(
+				1100,
+				720,
+				this.dogAndBoy
+			);
+			this.dogAndBoyEntity
+				.play(this.dogAndBoy);
+
+			this.createChoice();
+		}, 4000);		
 	}
 
 	private createChoice(): void {
@@ -258,9 +307,9 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private createResult1(): void {
 		this.anims.create({
-			key: this.shepherdSheet,
+			key: this.dog,
 			frameRate: 2,
-			frames: this.anims.generateFrameNumbers(this.shepherdSheet, {
+			frames: this.anims.generateFrameNumbers(this.dog, {
 				start: 0,
 				end: 1,
 			}),
@@ -277,7 +326,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			repeat: -1,
 		});
 
-		this.shepherdEntity.setScale(1).play(this.shepherdSheet);
+		// this.shepherdEntity.setScale(1).play(this.shepherdSheet);
 
 		this.characterEntity.play(this.characterRun);
 
@@ -300,16 +349,16 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 	private createResult2(): void {
 
 		this.anims.create({
-			key: this.shepherdSheet,
+			key: this.dog,
 			frameRate: 2,
-			frames: this.anims.generateFrameNumbers(this.shepherdSheet, {
+			frames: this.anims.generateFrameNumbers(this.dog, {
 				start: 0,
 				end: 1,
 			}),
 			repeat: -1,
 		});
 
-		this.shepherdEntity.setScale(1).play(this.shepherdSheet);
+		// this.shepherdEntity.setScale(1).play(this.shepherdSheet);
 
 		this.anims.create({
 			key: this.characterRun,
