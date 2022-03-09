@@ -5,14 +5,16 @@ import IncorrectAnswerImage from "@assets/images/scenario_1/scenario_option_2.pn
 import IncorrectAnswerImage2 from "@assets/images/scenario_1/scenario_option_3.png";
 import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/character_walk.png";
 import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/character_walk.json";
+import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/character_run.png";
+import CharacterRunData from "@assets/spritesheets/player/scenario/run/character_run.json";
 import CharacterIdleSheet from "@assets/spritesheets/player/scenario/idle/character_idle.png";
 import CharacterIdleData from "@assets/spritesheets/player/scenario/idle/character_idle.json";
-import CharacterKnock1 from "@assets/images/Scenario_4/Scenario4_BoyKnock1.png";
-import CharacterKnock2 from "@assets/images/Scenario_4/Scenario4_BoyKnock2.png";
-import CharacterArm1 from "@assets/images/Scenario_4/Scenario4_BoyArm1.png";
-import CharacterArm2 from "@assets/images/Scenario_4/Scenario4_BoyArm2.png";
-import DogImage from "@assets/spritesheets/Scenario4_Dog/Scene4_dog.png";
-import DogData from "@assets/spritesheets/Scenario4_Dog/Scene4_dog.json";
+import CharacterKnockSheet from "@assets/spritesheets/scenario_4/Scene4_knock.png";
+import CharacterKnockData from "@assets/spritesheets/scenario_4/Scene4_knock.json";
+import CharacterArmSheet from "@assets/spritesheets/scenario_4/Scene4_arm.png";
+import CharacterArmData from "@assets/spritesheets/scenario_4/Scene4_arm.json";
+import DogImage from "@assets/spritesheets/scenario_4/Scene4_dog.png";
+import DogData from "@assets/spritesheets/scenario_4/Scene4_dog.json";
 import { GameObjects, Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
@@ -65,8 +67,20 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	private characterWalk!: string; //aseprite of character walking
 
+	private characterRunAnims!: Phaser.Animations.Animation[]; // push character walk
+
+	private characterRun!: string; //aseprite of character walking
+
 	private characterIdle!: string;//aseprite of character idling
 
+	private characterArm!: string;
+
+	private characterArmAnims!: Phaser.Animations.Animation[]; 
+
+	private characterKnock!: string;
+
+	private characterKnockAnims!: Phaser.Animations.Animation[]; // push character walk
+	
 	private DogEntity!: Sprite; //entity that uses dog animation
 	
 	private dogAnimation!: string;//aseprite of regular dog in car window
@@ -81,14 +95,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	private exitSceneKey!: string;
 
-	private characterKnock1!: string;
-
-	private characterKnock2!: string;
-
-	private characterArm1!: string;
-
-	private characterArm2!: string;
-
 	constructor(cfg: SettingsConfig = config) {
 		super(cfg);
 	}
@@ -102,11 +108,10 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.imageCorrectAnswer = "scene1CorrectAnswer";
 		this.characterWalk = "characterWalk4";
 		this.characterIdle = "characterIdle4";
-		this.characterKnock1 = "characterKnock1";
-		this.characterKnock2 = "characterKnock2";
-		this.characterArm1 = "characterArm1";
-		this.characterArm2 = "characterArm2";
-		this.dogAnimation = "doganimation";
+		this.characterRun = "characterRun4"
+		this.characterKnock = "characterKnock4";
+		this.characterArm = "characterArm4";
+		this.dogAnimation = "doganimation4";
 
 		if (!WorldSceneConfig.key) {
 			throw Error("Exit scene key is undefined");
@@ -117,7 +122,9 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.components = new ComponentService();
 
 		this.characterWalkAnims = [];
-
+		this.characterRunAnims = [];
+		this.characterKnockAnims = [];
+		this.characterArmAnims = [];
 		// The moment the scene renders, a fade from black is started using this function.
 		addFadeIn(this);
 	}
@@ -130,20 +137,32 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.image(this.imageCorrectAnswer, CorrectAnswerImage);
 		this.load.image(this.imageIncorrectAnswer1, IncorrectAnswerImage);
 		this.load.image(this.imageIncorrectAnswer2, IncorrectAnswerImage2);
-		this.load.image(this.characterKnock1, CharacterKnock1);
-		this.load.image(this.characterKnock2, CharacterKnock2);
-		this.load.image(this.characterArm1, CharacterArm1);
-		this.load.image(this.characterArm2, CharacterArm2);
+	
 		this.load.aseprite(
 			this.characterWalk,
 			CharacterWalkSheet,
 			CharacterWalkData
 		);
 		this.load.aseprite(
+			this.characterRun,
+			CharacterRunSheet,
+			CharacterRunData
+		);
+		this.load.aseprite(
 			this.characterIdle,
 			CharacterIdleSheet,
 			CharacterIdleData
 		);
+		this.load.aseprite(
+			this.characterArm,
+			CharacterArmSheet,
+			CharacterArmData
+		)
+		this.load.aseprite(
+			this.characterKnock,
+			CharacterKnockSheet,
+			CharacterKnockData
+		)
 		this.load.aseprite(
 			this.dogAnimation,
 			DogImage,
@@ -164,6 +183,16 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.characterWalkAnims.push(
 			...this.anims.createFromAseprite(this.characterWalk)
 		);
+		this.characterRunAnims.push(
+			...this.anims.createFromAseprite(this.characterRun)
+		);
+		this.characterKnockAnims.push(
+			...this.anims.createFromAseprite(this.characterKnock)
+		);
+		this.characterArmAnims.push(
+			...this.anims.createFromAseprite(this.characterArm)
+		);
+		
 		this.createSituation();
 	}
 
@@ -243,19 +272,48 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	//knock on car window (wrong)
 	private createResult1(): void {
-		//hides entity from scene
-		this.characterEntity.setVisible(false);
+	
+		//sets character in walk animation (towards car)
+		this.characterEntity		
+			.toggleFlipX()//	
+			.play({ key: this.characterWalkAnims[0].key, repeat: -1 })
+			.setScale(0.8);
 
-		//adds knock image
-		const knock = this.add.image(900, 700, this.characterKnock1,);
-		knock.setScale(0.9)
-		setTimeout(() => {
-			knock.destroy();
-			const knock2 = this.add.image(900, 700, this.characterKnock2,);
-			knock2.setScale(0.9)
-		}, 1000);
-		
-		
+		//moveto component
+		const moveToCar = this.components.addComponent(this.characterEntity,MoveTo);
+
+		//sets target location for moveto command
+		moveToCar.setTarget({
+			x: this.characterEntity.x - 200,
+			y: this.characterEntity.y,
+		});
+
+		//sets velocity of moveto command
+		moveToCar.velocity = 100;
+
+		moveToCar.movingDone = () => {
+			//knocking after moving is done
+			this.characterEntity
+			.toggleFlipX()
+			.play({ key: this.characterKnockAnims[0].key, repeat: -1,frameRate:1 })
+			.setScale(0.8);
+
+			setTimeout(() => {
+
+				//TODO dog bite animation 
+
+				this.characterEntity
+				.play({ key: this.characterRunAnims[0].key, repeat: -1,frameRate:3 })
+				.setScale(0.8);
+				const moveToExit = this.components.addComponent(this.characterEntity,MoveTo);
+				//sets target location for moveto command
+				moveToExit.setTarget({
+					x: this.characterEntity.x + 1500,
+					y: this.characterEntity.y
+				});
+				moveToExit.velocity = 300;
+			},2000)
+		}
 
 		//red flash
 		this.cameras.main.flash(2000, 200, 0, 0);
@@ -263,21 +321,53 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		//fade to black and back to overworld after 5 seconds
 		setTimeout(() => {
 			this.moveScene();
-		}, 10000);
+		}, 6000);
 	}
 
 	//put arm trough car window (wrong)
 	private createResult2(): void {
-		
-		//adds arm image
-		const knock = this.add.image(900, 680, this.characterArm1,);
-		knock.setScale(0.9)
-		setTimeout(() => {
-			knock.destroy();
-			const knock2 = this.add.image(900, 680, this.characterArm2,);
-			knock2.setScale(0.9);
-		}, 1000);
 
+		//sets character in walk animation (towards car)
+		this.characterEntity		
+			.toggleFlipX()//	
+			.play({ key: this.characterWalkAnims[0].key, repeat: -1 })
+			.setScale(0.8);
+
+		//moveto component
+		const moveToCar = this.components.addComponent(this.characterEntity,MoveTo);
+
+		//sets target location for moveto command
+		moveToCar.setTarget({
+			x: this.characterEntity.x - 180,
+			y: this.characterEntity.y - 15,
+		});
+
+		//sets velocity of moveto command
+		moveToCar.velocity = 100;
+
+		moveToCar.movingDone = () => {
+			//put arm trough window (once) after moving is done 
+			this.characterEntity
+			.toggleFlipX()
+			.play({ key: this.characterArmAnims[0].key,frameRate:1 })
+			.setScale(0.8);
+
+			setTimeout(() => {
+
+				//TODO dog bite animation 
+
+				this.characterEntity
+				.play({ key: this.characterRunAnims[0].key, repeat: -1,frameRate:3 })
+				.setScale(0.8);
+				const moveToExit = this.components.addComponent(this.characterEntity,MoveTo);
+				//sets target location for moveto command
+				moveToExit.setTarget({
+					x: this.characterEntity.x + 1500,
+					y: this.characterEntity.y
+				});
+				moveToExit.velocity = 300;
+			},2000)
+		}
 		//red flash
 		this.cameras.main.flash(2000, 200, 0, 0);
 
