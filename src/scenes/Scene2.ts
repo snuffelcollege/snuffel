@@ -1,4 +1,4 @@
-import Background from "@assets/images/scenario_2/background.png";
+import Background from "@assets/images/scenario_2/BG.png";
 import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/character_run.png";
 import CharacterRunData from "@assets/spritesheets/player/scenario/run/character_run.json";
 import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/character_walk.png";
