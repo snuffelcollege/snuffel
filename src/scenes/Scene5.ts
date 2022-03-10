@@ -21,7 +21,7 @@ import { WorldSceneConfig } from "./WorldScene";
 import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
-import song from "@assets/bruh.mp3";
+import song from "@assets/audio/bruh.mp3";
 
 // Config for the scene defining gravity and debug settings.
 export const config: SettingsConfig = {
