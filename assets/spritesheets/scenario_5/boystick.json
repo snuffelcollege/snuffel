@@ -1,0 +1,51 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 1, "y": 1, "w": 563, "h": 502 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 561, "h": 500 },
+    "sourceSize": { "w": 561, "h": 500 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 565, "y": 1, "w": 563, "h": 502 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 561, "h": 500 },
+    "sourceSize": { "w": 561, "h": 500 },
+    "duration": 100
+   },
+   "2": {
+    "frame": { "x": 1, "y": 504, "w": 563, "h": 502 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 561, "h": 500 },
+    "sourceSize": { "w": 561, "h": 500 },
+    "duration": 100
+   },
+   "3": {
+    "frame": { "x": 565, "y": 504, "w": 563, "h": 502 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 561, "h": 500 },
+    "sourceSize": { "w": 561, "h": 500 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "boystick1-sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 1129, "h": 1007 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Tag", "from": 0, "to": 3, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
