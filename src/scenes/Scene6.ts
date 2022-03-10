@@ -1,8 +1,8 @@
 import BackgroundImage from "@assets/images/scenario_6/BG.png";
-import dog from "@assets/spritesheets/scenario6/dog.png";
-import dogData from "@assets/spritesheets/scenario6/dog.json";
-import dogAndBoy from "@assets/spritesheets/scenario6/boy+dog.png";
-import dogAndBoyData from "@assets/spritesheets/scenario6/boy+dog.json";
+import dog from "@assets/spritesheets/scenario_6/dog.png";
+import dogData from "@assets/spritesheets/scenario_6/dog.json";
+import dogAndBoy from "@assets/spritesheets/scenario_6/boy+dog.png";
+import dogAndBoyData from "@assets/spritesheets/scenario_6/boy+dog.json";
 import CorrectAnswerImage from "@assets/images/scenario_1/scenario_option_1.png";
 import IncorrectAnswerImage from "@assets/images/scenario_1/scenario_option_2.png";
 import IncorrectAnswerImage2 from "@assets/images/scenario_1/scenario_option_3.png";
@@ -21,7 +21,7 @@ import { WorldSceneConfig } from "./WorldScene";
 import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
-import sceneSong from "@assets/bruh.mp3";
+import sceneSong from "@assets/audio/bruh.mp3";
 
 // Config for the scene defining gravity and debug settings.
 export const config: SettingsConfig = {

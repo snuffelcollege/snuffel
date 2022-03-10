@@ -1,4 +1,4 @@
-import BackgroundImage from "@assets/images/scenario_5/Scenario5_BG.png";
+import BackgroundImage from "@assets/images/scenario_5/BG.png";
 import CorrectAnswerImage from "@assets/images/scenario_1/scenario_option_1.png";
 import IncorrectAnswerImage from "@assets/images/scenario_1/scenario_option_2.png";
 import IncorrectAnswerImage2 from "@assets/images/scenario_1/scenario_option_3.png";
@@ -8,10 +8,10 @@ import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/charac
 import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/character_walk.json";
 import CharacterIdleSheet from "@assets/spritesheets/player/scenario/idle/character_idle.png";
 import CharacterIdleData from "@assets/spritesheets/player/scenario/idle/character_idle.json";
-import shepherdSheet from "@assets/spritesheets/scenario5_dog/scenario5_dog.png";
-import shepherdData from "@assets/spritesheets/scenario5_dog/scenario5_dog.json";
-import shepherdImage from "@assets/images/scenario_5/scenario5_dog1.png";
-import stickImage from "@assets/images/scenario_5/scenario5_stick.png";
+import shepherdSheet from "@assets/spritesheets/scenario_5/dog.png";
+import shepherdData from "@assets/spritesheets/scenario_5/dog.json";
+import shepherdImage from "@assets/images/scenario_5/dog1.png";
+import stickImage from "@assets/images/scenario_5/stick.png";
 import { GameObjects, Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
@@ -21,7 +21,7 @@ import { WorldSceneConfig } from "./WorldScene";
 import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
-import sceneSong from "@assets/bruh.mp3";
+import sceneSong from "@assets/audio/bruh.mp3";
 
 // Config for the scene defining gravity and debug settings.
 export const config: SettingsConfig = {
