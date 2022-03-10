@@ -1,5 +1,5 @@
-import BackgroundImage from "@assets/images/scenario_4/Scene4_BG.png";
-import Car from "@assets/images/scenario_4/Scene4_car.png";
+import BackgroundImage from "@assets/images/scenario_4/BG.png";
+import Car from "@assets/images/scenario_4/car.png";
 import CorrectAnswerImage from "@assets/images/scenario_1/scenario_option_1.png";
 import IncorrectAnswerImage from "@assets/images/scenario_1/scenario_option_2.png";
 import IncorrectAnswerImage2 from "@assets/images/scenario_1/scenario_option_3.png";
@@ -9,12 +9,14 @@ import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/characte
 import CharacterRunData from "@assets/spritesheets/player/scenario/run/character_run.json";
 import CharacterIdleSheet from "@assets/spritesheets/player/scenario/idle/character_idle.png";
 import CharacterIdleData from "@assets/spritesheets/player/scenario/idle/character_idle.json";
-import CharacterKnockSheet from "@assets/spritesheets/scenario_4/Scene4_knock.png";
-import CharacterKnockData from "@assets/spritesheets/scenario_4/Scene4_knock.json";
-import CharacterArmSheet from "@assets/spritesheets/scenario_4/Scene4_arm.png";
-import CharacterArmData from "@assets/spritesheets/scenario_4/Scene4_arm.json";
-import DogImage from "@assets/spritesheets/scenario_4/Scene4_dog.png";
-import DogData from "@assets/spritesheets/scenario_4/Scene4_dog.json";
+import CharacterKnockSheet from "@assets/spritesheets/scenario_4/boy_knock.png";
+import CharacterKnockData from "@assets/spritesheets/scenario_4/boy_knock.json";
+import CharacterArmSheet from "@assets/spritesheets/scenario_4/boy_arm.png";
+import CharacterArmData from "@assets/spritesheets/scenario_4/boy_arm.json";
+import DogNeutralImage from "@assets/spritesheets/scenario_4/dog_neutral.png";
+import DogNeutralData from "@assets/spritesheets/scenario_4/dog_neutral.json";
+import DogBiteImage from "@assets/spritesheets/scenario_4/dog_bite.png";
+import DogBiteData from "@assets/spritesheets/scenario_4/dog_bite.json";
 import { GameObjects, Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
@@ -83,7 +85,9 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	
 	private DogEntity!: Sprite; //entity that uses dog animation
 	
-	private dogAnimation!: string;//aseprite of regular dog in car window
+	private dogIdleAnimation!: string;//aseprite of regular dog in car window
+
+	private dogBiteAnimation!: string;
 
 	private car!: string; //png of car
 
@@ -111,7 +115,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.characterRun = "characterRun4"
 		this.characterKnock = "characterKnock4";
 		this.characterArm = "characterArm4";
-		this.dogAnimation = "doganimation4";
+		this.dogIdleAnimation = "dogidleanimation4";
+		this.dogBiteAnimation = "dogbiteanimation4"
 
 		if (!WorldSceneConfig.key) {
 			throw Error("Exit scene key is undefined");
@@ -164,9 +169,14 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			CharacterKnockData
 		)
 		this.load.aseprite(
-			this.dogAnimation,
-			DogImage,
-			DogData
+			this.dogIdleAnimation,
+			DogNeutralImage,
+			DogNeutralData
+		);
+		this.load.aseprite(
+			this.dogBiteAnimation,
+			DogBiteImage,
+			DogBiteData
 		);
 	}
 
@@ -220,18 +230,18 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 		//dog animation
 		this.anims.create({
-			key: this.dogAnimation,
+			key: this.dogIdleAnimation,
 			frameRate: 1,
 			frames: this.anims.generateFrameNumbers(
-				this.dogAnimation,
+				this.dogIdleAnimation,
 				{
 					start: 0,
 					end: 1,
 				}
 			),
 		});
-		this.DogEntity = this.add.sprite(780,487,this.dogAnimation);
-		this.DogEntity.play(this.dogAnimation).setScale(.8);
+		this.DogEntity = this.add.sprite(780,487,this.dogIdleAnimation);
+		this.DogEntity.play(this.dogIdleAnimation).setScale(.8);
 
 		this.createChoice();		
 	}
@@ -299,9 +309,21 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			.setScale(0.8);
 
 			setTimeout(() => {
-
-				//TODO dog bite animation 
-
+				//dog animation
+				this.anims.create({
+					key: this.dogBiteAnimation,
+					frameRate: 1,
+					frames: this.anims.generateFrameNumbers(
+						this.dogBiteAnimation,
+						{
+							start: 0,
+							end: 1,
+						}
+					),
+				});
+				this.DogEntity.setFrame(this.dogBiteAnimation);//overwrites old frame
+				this.DogEntity.play(this.dogBiteAnimation).setScale(.8);
+				//run animation
 				this.characterEntity
 				.play({ key: this.characterRunAnims[0].key, repeat: -1,frameRate:3 })
 				.setScale(0.8);
@@ -339,7 +361,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		//sets target location for moveto command
 		moveToCar.setTarget({
 			x: this.characterEntity.x - 180,
-			y: this.characterEntity.y - 15,
+			y: this.characterEntity.y - 30,
 		});
 
 		//sets velocity of moveto command
@@ -353,9 +375,21 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			.setScale(0.8);
 
 			setTimeout(() => {
-
-				//TODO dog bite animation 
-
+				//dog animation
+				this.anims.create({
+					key: this.dogBiteAnimation,
+					frameRate: 1,
+					frames: this.anims.generateFrameNumbers(
+						this.dogBiteAnimation,
+						{
+							start: 0,
+							end: 1,
+						}
+					),
+				});
+				this.DogEntity.setFrame(this.dogBiteAnimation);//overwrites old frame
+				this.DogEntity.play(this.dogBiteAnimation).setScale(.8);
+				//run animation
 				this.characterEntity
 				.play({ key: this.characterRunAnims[0].key, repeat: -1,frameRate:3 })
 				.setScale(0.8);
@@ -374,7 +408,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		//fade to black and back to overworld after 5 seconds
 		setTimeout(() => {
 			this.moveScene();
-		}, 5000);
+		}, 6000);
 	}
 
 	//walk away (correct answer)

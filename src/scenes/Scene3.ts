@@ -1,4 +1,4 @@
-import BackgroundImage from "@assets/images/scenario_3/background.png";
+import BackgroundImage from "@assets/images/scenario_3/BG.png";
 import { Scene } from "phaser";
 
 import CharacterPupHoldTexture from "@assets/spritesheets/scenario_3/character_pup_hold.png";
