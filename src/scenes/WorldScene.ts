@@ -6,8 +6,8 @@ import huskyImage from "@assets/spritesheets/husky/husky.png";
 import huskyJson from "@assets/spritesheets/husky/husky.json";
 import huskyWaitImage from "@assets/images/world/husky_wait.png";
 import Car from "@assets/images/scenario_4/Scene4_car.png";
-import DogInCarSheet from "@assets/spritesheets/Scenario4_Dog/Scene4_dog.png";
-import DogInCarData from "@assets/spritesheets/Scenario4_Dog/Scene4_dog.json";
+import DogInCarSheet from "@assets/spritesheets/scenario_4/Scene4_dog.png";
+import DogInCarData from "@assets/spritesheets/scenario_4/Scene4_dog.json";
 import { Scene } from "phaser";
 import PlayerEntity from "../GameObjects/Entities/PlayerEntity";
 import DepthSorter from "../Services/DepthSorter";
@@ -213,7 +213,17 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 								obj.x as number,
 								obj.y as number,
 								"scene-5"
-							);}
+							);
+						} else if (obj.name === "Cuddle") {
+							this.createFenceScene(
+								this,
+								collidables,
+								overlappables,
+								obj.x as number,
+								obj.y as number,
+								"scene-6"
+							);
+						}
 					} else if (obj.ellipse) {
 						const props = obj.properties as any[];
 
