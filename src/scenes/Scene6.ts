@@ -1,8 +1,8 @@
 import BackgroundImage from "@assets/images/scenario_6/BG.png";
-import dog from "@assets/spritesheets/scenario_6/dog.png";
-import dogData from "@assets/spritesheets/scenario_6/dog.json";
-import dogAndBoy from "@assets/spritesheets/scenario_6/boy+dog.png";
-import dogAndBoyData from "@assets/spritesheets/scenario_6/boy+dog.json";
+import Dog from "@assets/spritesheets/scenario_6/dog.png";
+import DogData from "@assets/spritesheets/scenario_6/dog.json";
+import DogAndBoy from "@assets/spritesheets/scenario_6/boy+dog.png";
+import DogAndBoyData from "@assets/spritesheets/scenario_6/boy+dog.json";
 import CorrectAnswerImage from "@assets/images/scenario_1/scenario_option_1.png";
 import IncorrectAnswerImage from "@assets/images/scenario_1/scenario_option_2.png";
 import IncorrectAnswerImage2 from "@assets/images/scenario_1/scenario_option_3.png";
@@ -21,7 +21,7 @@ import { WorldSceneConfig } from "./WorldScene";
 import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
-import sceneSong from "@assets/audio/bruh.mp3";
+import SceneSong from "@assets/audio/bruh.mp3";
 
 // Config for the scene defining gravity and debug settings.
 export const config: SettingsConfig = {
@@ -152,16 +152,16 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		);
 		this.load.aseprite(
 			this.dog,
-			dog,
-			dogData
+			Dog,
+			DogData
 		);
 		this.load.aseprite(
 			this.dogAndBoy,
-			dogAndBoy,
-			dogAndBoyData
+			DogAndBoy,
+			DogAndBoyData
 		)
 
-		this.load.audio("sceneSong", sceneSong);
+		this.load.audio("sceneSong", SceneSong);
 	}
 
 	public create(): void {
@@ -245,6 +245,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 
 		setTimeout(() => {
+			this.cameras.main.flash(2000, 0, 0, 0);
 			this.characterEntity.destroy();
 			this.dogEntity.destroy();
 			this.anims.create({
@@ -268,7 +269,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 				.play(this.dogAndBoy);
 
 			this.createChoice();
-		}, 4000);		
+		}, 3500);		
 	}
 
 	private createChoice(): void {

@@ -13,6 +13,7 @@ import Scene6 from "./scenes/Scene6";
 function launchGame() {
 	// Append game scenes here
 	config.scene = [StartScene, WorldScene, Scene1, Scene2, Scene3,Scene4,Scene5,Scene6];
+	
 
 	const snuffelGame = new Game(config);
 }

@@ -127,7 +127,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		const BACKGROUND = tilemap.createLayer("BACKGROUND", tileset);
 
 		// add collision to the layers which have collision specified inside tiled
-		DECOR.setCollisionByProperty({ collision: true });
+		DECOR.setCollisionByProperty({ collision: true });1
 		BACKGROUND.setCollisionByProperty({ collision: true });
 
 		const collidables: GameObject[] = [];
