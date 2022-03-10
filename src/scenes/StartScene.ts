@@ -11,8 +11,8 @@ import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
 import { WorldSceneConfig } from "./WorldScene";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import PhaserText = Phaser.GameObjects.Text;
-import BackgroundSongMP3 from "@assets/background_song.mp3";
-import BackgroundSongOGG from "@assets/background_song.ogg";
+import BackgroundSongMP3 from "@assets/audio/background_song.mp3";
+import BackgroundSongOGG from "@assets/audio/background_song.ogg";
 
 export const config: SettingsConfig = {
 	active: false,
@@ -98,6 +98,11 @@ export default class StartScene extends Scene {
 			.on("pointerdown", () => {
 				fadeToBlack(this, () => {
 					this.scene.start(WorldSceneConfig.key);
+					var song = this.sound.add("backgroundSong");
+						song.play({
+							loop: true,
+							volume: 0.3
+						});
 				});
 			})
 			.on("pointerover", () => {
@@ -107,12 +112,6 @@ export default class StartScene extends Scene {
 			.on("pointerout", () => {
 				startButton.displayHeight = startButton.displayHeight/1.1;
 				startButton.displayWidth = startButton.displayWidth/1.1;
-			});
-
-			var song = this.sound.add("backgroundSong");
-			song.play({
-				loop: true,
-				volume: 0.3
 			});
 	}
 }
