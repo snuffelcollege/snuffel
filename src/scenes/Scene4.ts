@@ -1,5 +1,5 @@
-import BackgroundImage from "@assets/images/scenario_4/Scene4_BG.png";
-import Car from "@assets/images/scenario_4/Scene4_car.png";
+import BackgroundImage from "@assets/images/scenario_4/BG.png";
+import Car from "@assets/images/scenario_4/car.png";
 import CorrectAnswerImage from "@assets/images/scenario_1/scenario_option_1.png";
 import IncorrectAnswerImage from "@assets/images/scenario_1/scenario_option_2.png";
 import IncorrectAnswerImage2 from "@assets/images/scenario_1/scenario_option_3.png";
@@ -9,12 +9,12 @@ import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/characte
 import CharacterRunData from "@assets/spritesheets/player/scenario/run/character_run.json";
 import CharacterIdleSheet from "@assets/spritesheets/player/scenario/idle/character_idle.png";
 import CharacterIdleData from "@assets/spritesheets/player/scenario/idle/character_idle.json";
-import CharacterKnockSheet from "@assets/spritesheets/scenario_4/Scene4_knock.png";
-import CharacterKnockData from "@assets/spritesheets/scenario_4/Scene4_knock.json";
-import CharacterArmSheet from "@assets/spritesheets/scenario_4/Scene4_arm.png";
-import CharacterArmData from "@assets/spritesheets/scenario_4/Scene4_arm.json";
-import DogImage from "@assets/spritesheets/scenario_4/Scene4_dog.png";
-import DogData from "@assets/spritesheets/scenario_4/Scene4_dog.json";
+import CharacterKnockSheet from "@assets/spritesheets/scenario_4/boy_knock.png";
+import CharacterKnockData from "@assets/spritesheets/scenario_4/boy_knock.json";
+import CharacterArmSheet from "@assets/spritesheets/scenario_4/boy_arm.png";
+import CharacterArmData from "@assets/spritesheets/scenario_4/boy_arm.json";
+import DogImage from "@assets/spritesheets/scenario_4/dog_neutral.png";
+import DogData from "@assets/spritesheets/scenario_4/dog_neutral.json";
 import { GameObjects, Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
@@ -339,7 +339,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		//sets target location for moveto command
 		moveToCar.setTarget({
 			x: this.characterEntity.x - 180,
-			y: this.characterEntity.y - 15,
+			y: this.characterEntity.y - 30,
 		});
 
 		//sets velocity of moveto command
@@ -374,7 +374,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		//fade to black and back to overworld after 5 seconds
 		setTimeout(() => {
 			this.moveScene();
-		}, 5000);
+		}, 6000);
 	}
 
 	//walk away (correct answer)

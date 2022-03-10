@@ -5,9 +5,9 @@ import poiCloudData from "@assets/spritesheets/pointOfInterest/cloud/poi_cloud.j
 import huskyImage from "@assets/spritesheets/husky/husky.png";
 import huskyJson from "@assets/spritesheets/husky/husky.json";
 import huskyWaitImage from "@assets/images/world/husky_wait.png";
-import Car from "@assets/images/scenario_4/Scene4_car.png";
-import DogInCarSheet from "@assets/spritesheets/scenario_4/Scene4_dog.png";
-import DogInCarData from "@assets/spritesheets/scenario_4/Scene4_dog.json";
+import Car from "@assets/images/scenario_4/car.png";
+import DogInCarSheet from "@assets/spritesheets/scenario_4/dog_neutral.png";
+import DogInCarData from "@assets/spritesheets/scenario_4/dog_neutral.json";
 import { Scene } from "phaser";
 import PlayerEntity from "../GameObjects/Entities/PlayerEntity";
 import DepthSorter from "../Services/DepthSorter";
