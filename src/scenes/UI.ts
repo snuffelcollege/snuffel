@@ -10,9 +10,12 @@ export default class UI extends Scene implements SceneLifecycle {
 
 	private unmuted!: string;
 
+    private mutestate!: boolean;
+
     public init(): void {
 		this.muted = "muted";
 		this.unmuted = "unmuted";
+        this.mutestate = false;
     }
 
     constructor ()
@@ -28,10 +31,22 @@ export default class UI extends Scene implements SceneLifecycle {
     create ()
     {
         const togglesound = this.add
-			.image(200,200, this.unmuted)
+			.image(1800,100, this.unmuted)
+            .setScale(0.6)            
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
-				console.log("test")
+                switch(this.mutestate){
+                    case false:
+                        togglesound.setTexture(this.muted);
+                        this.mutestate = true;
+                        this.game.sound.mute = true;
+                        break;
+                    case true:
+                        togglesound.setTexture(this.unmuted);
+                        this.mutestate = false;
+                        this.game.sound.mute = false;
+                        break;
+                }
 			})
     }
 }
