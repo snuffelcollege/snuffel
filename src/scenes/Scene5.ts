@@ -10,6 +10,8 @@ import CharacterIdleSheet from "@assets/spritesheets/player/scenario/idle/charac
 import CharacterIdleData from "@assets/spritesheets/player/scenario/idle/character_idle.json";
 import shepherdSheet from "@assets/spritesheets/scenario_5/dog.png";
 import shepherdData from "@assets/spritesheets/scenario_5/dog.json";
+import PokingSheet from "@assets/spritesheets/scenario_5/boystick.png";
+import PokingData from "@assets/spritesheets/scenario_5/boystick.json";
 import shepherdImage from "@assets/images/scenario_5/dog1.png";
 import stickImage from "@assets/images/scenario_5/stick.png";
 import { GameObjects, Scene } from "phaser";
@@ -84,13 +86,17 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private characterIdle!: string;
 
-	private shepherdImage!: string
+	private shepherdImage!: string;
 
-	private shepherdSheet!: string
+	private shepherdSheet!: string;
 
-	private shepherdEntity!: Sprite
+	private shepherdEntity!: Sprite;
 
-	private stickImage!: string
+	private stickImage!: string;
+
+	private stickEntity!: Sprite;
+
+	private pokingSheet!: string;
 
 	private dogWalkAnims!: Phaser.Animations.Animation[];
 
@@ -107,6 +113,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.shepherdImage = "shepherdImage";
 		this.shepherdSheet = "shepherdSheet";
 		this.stickImage = "stickImage";
+		this.pokingSheet = "pokingSheet";
 		this.spriteSheetPlayerCharacter = "spriteSheetPlayerCharacter5";
 		this.characterRun = "spriteSheetPlayerCharacterRun5";
 		this.characterWalk = "characterWalk5";
@@ -159,6 +166,11 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			this.characterRun,
 			CharacterRunSheet,
 			CharacterRunData
+		);
+		this.load.aseprite(
+			this.pokingSheet,
+			PokingSheet,
+			PokingData
 		);
 
 		this.load.audio("sceneSong", sceneSong);
@@ -217,7 +229,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			this.shepherdSheet
 		);
 
-		this.add.image(1100, 900, this.stickImage)
+		this.stickEntity = this.add.sprite(1100, 900, this.stickImage)
 
 		this.createChoice();
 	}
@@ -268,33 +280,49 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		});
 
 		this.anims.create({
-			key: this.characterRun,
+			key: this.pokingSheet,
 			frameRate: 8,
-			frames: this.anims.generateFrameNumbers(this.characterRun, {
+			frames: this.anims.generateFrameNumbers(this.pokingSheet, {
 				start: 0,
 				end: 7,
 			}),
 			repeat: -1,
 		});
 
-		this.shepherdEntity.setScale(1).play(this.shepherdSheet);
+		this.shepherdEntity.play(this.shepherdSheet);
 
-		this.characterEntity.play(this.characterRun);
-
-		const moveTo = this.components.addComponent(this.characterEntity, MoveTo);
-
-		moveTo.setTarget({
-			x: this.characterEntity.x + 1000,
-			y: this.characterEntity.y,
-		});
-
-		moveTo.velocity = 250;
-
-		this.cameras.main.flash(2000, 200, 0, 0);
+		this.stickEntity.destroy();
+		this.characterEntity.play(this.pokingSheet).setScale(1);
 
 		setTimeout(() => {
-			this.moveScene();
-		}, 5000);
+			this.characterEntity.stop();
+			this.anims.create({
+				key: this.characterRun,
+				frameRate: 8,
+				frames: this.anims.generateFrameNumbers(this.characterRun, {
+					start: 0,
+					end: 7,
+				}),
+				repeat: -1,
+			});
+			this.characterEntity.play(this.characterRun).setScale(2);
+
+			const moveTo = this.components.addComponent(this.characterEntity, MoveTo);
+
+			moveTo.setTarget({
+				x: this.characterEntity.x + 1000,
+				y: this.characterEntity.y,
+			});
+
+			moveTo.velocity = 250;
+
+			setTimeout(() => {
+				this.cameras.main.flash(2000, 200, 0, 0);
+					this.moveScene();
+			}, 3000);
+		}, 3000);
+
+		
 	}
 
 	private createResult2(): void {
