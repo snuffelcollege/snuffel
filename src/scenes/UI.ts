@@ -67,21 +67,21 @@ export default class UI extends Scene implements SceneLifecycle {
             .setScale(0.4)
             .setInteractive({useHandCursor: true})
             .on("pointerdown",() => {
-                //do something
+                //show controls
             });
         const badge = this.add
             .image(1850,270,this.badge_icon)
             .setScale(0.4)
             .setInteractive({useHandCursor: true})
             .on("pointerdown",() => {
-                //do something
+                //open and close badge case
             });
         const map = this.add
             .image(1850,370,this.map_icon)
             .setScale(0.4)
             .setInteractive({useHandCursor: true})
             .on("pointerdown",() => {
-                //do something
+                //show area map
            });
 
 
