@@ -1,18 +1,18 @@
 { "frames": {
    "0": {
-    "frame": { "x": 1, "y": 1, "w": 797, "h": 602 },
+    "frame": { "x": 682, "y": 1, "w": 678, "h": 481 },
     "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 795, "h": 600 },
-    "sourceSize": { "w": 795, "h": 600 },
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 14, "w": 676, "h": 479 },
+    "sourceSize": { "w": 679, "h": 493 },
     "duration": 100
    },
    "1": {
-    "frame": { "x": 799, "y": 1, "w": 797, "h": 602 },
+    "frame": { "x": 1, "y": 1, "w": 680, "h": 480 },
     "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 795, "h": 600 },
-    "sourceSize": { "w": 795, "h": 600 },
+    "trimmed": true,
+    "spriteSourceSize": { "x": 1, "y": 14, "w": 678, "h": 478 },
+    "sourceSize": { "w": 679, "h": 493 },
     "duration": 100
    }
  },
@@ -21,7 +21,7 @@
   "version": "1.2.21-dev",
   "image": "boy+dogheadtilt1-sheet.png",
   "format": "RGBA8888",
-  "size": { "w": 1597, "h": 604 },
+  "size": { "w": 1360, "h": 482 },
   "scale": "1",
   "frameTags": [
    { "name": "Tag", "from": 0, "to": 1, "direction": "forward" }

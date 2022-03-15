@@ -196,7 +196,16 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 								"scene-2",
 								"husky_wait"
 							);
-						} else if (obj.name === "DogCarParkinglot") {
+						}else if (obj.name == "DogPupInHouse"){
+							this.createDogPupInHouseScene(
+								this,
+								collidables,
+								overlappables,
+								obj.x as number,
+								obj.y as number,
+								"scene-3"
+							)
+						}else if (obj.name === "DogCarParkinglot") {
 							this.createDogCarParkinglot(
 								this,
 								collidables,
@@ -382,6 +391,67 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			.setCircle(dog.displayWidth);
 
 		// scene.physics.add.overlap(player, radius);
+
+		overlappables.push(radius);
+
+		const dispatcher = this.components.addComponent(
+			radius,
+			OverlayDispatcher
+		);
+
+		dispatcher.setDispatchCallback((isOverlapping) => {
+			if (dogTalkBubble.visible !== isOverlapping) {
+				dogTalkBubble.setVisible(isOverlapping);
+			}
+
+			if (isOverlapping && this.sceneSwitchKey.isDown) {
+				this.switchScene(target_scene);
+			}
+		});
+	}
+
+	private createDogPupInHouseScene(
+		scene: Scene,
+		collidables: GameObject[],
+		overlappables: GameObject[],
+		x: number,
+		y: number,
+		target_scene: string
+	): void {
+		const poiCloudAnimTags = this.anims.createFromAseprite("poi_cloud");
+
+		const dog = new MovableEntity(scene, x, y, this.husky).setVisible(false)
+		const dogTalkBubble = this.add.sprite(x,y,this.poiCloud);
+
+		dog.setBodySize(100,200)
+			.setImmovable(true)
+			.setDepth(DepthLayers.PLAYER)
+			.setInteractive({ useHandCursor: true })
+			.on("pointerdown", () => {
+				if (dogTalkBubble.visible) {
+					this.switchScene(target_scene);
+				}
+			});
+
+		dogTalkBubble
+			.setDepth(DepthLayers.OVERLAY)
+			.play({ key: poiCloudAnimTags[0].key, repeat: -1 }, true)
+			.setVisible(false)
+			.setInteractive({ useHandCursor: true })
+			.on("pointerdown", () => this.switchScene(target_scene));
+
+		collidables.push(dog);
+
+		const radius = this.add.zone(
+			x,
+			y,
+			450,
+			150
+		);
+
+		this.physics.world.enable(radius); // enable the zone's physics body
+		(radius.body as Phaser.Physics.Arcade.Body)
+			.setOffset(0,160)
 
 		overlappables.push(radius);
 
