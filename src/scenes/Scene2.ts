@@ -3,9 +3,9 @@ import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/characte
 import CharacterRunData from "@assets/spritesheets/player/scenario/run/character_run.json";
 import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/character_walk.png";
 import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/character_walk.json";
-import CorrectAnswerImage from "@assets/images/scenario_3/scenario_3_option_3.png";
-import IncorrectAnswerImage from "@assets/images/scenario_2/scenario_2_option_1.png";
-import IncorrectAnswerImage2 from "@assets/images/scenario_2/scenario_2_option_2.png";
+import IncorrectAnswerImage from "@assets/images/scenario_2/option_1.png";
+import IncorrectAnswerImage2 from "@assets/images/scenario_2/option_2.png";
+import CorrectAnswerImage from "@assets/images/scenario_2/option_3.png";
 import HuskyIdleLamppostData from "@assets/spritesheets/husky/husky_idle_lamppost.json";
 import HuskyIdleLamppostSheet from "@assets/spritesheets/husky/husky_idle_lamppost.png";
 import HuskyJumpLamppostData from "@assets/spritesheets/husky/husky_jump_lamppost.json";
@@ -246,9 +246,9 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 	}
 
 	private createChoice(): void {
-		const button1 = this.add.image(500, 915, this.imageIncorrectAnswer1);
-		const button2 = this.add.image(900, 900, this.imageIncorrectAnswer2);
-		const button3 = this.add.image(1300, 870, this.imageCorrectAnswer);
+		const button1 = this.add.image(400, 925, this.imageIncorrectAnswer1);
+		const button2 = this.add.image(900, 925, this.imageIncorrectAnswer2);
+		const button3 = this.add.image(1400, 925, this.imageCorrectAnswer);
 
 		button1.setInteractive().on("pointerdown", () => {
 			button1.disableInteractive();
