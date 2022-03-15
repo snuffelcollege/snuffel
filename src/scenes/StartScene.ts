@@ -93,6 +93,7 @@ export default class StartScene extends Scene {
 
 		const startButton = this.add
 			.image(centerX, centerY+150, this.startButton, 1)
+			.setScale(0.5)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
 				fadeToBlack(this, () => {
