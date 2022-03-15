@@ -9,7 +9,8 @@ import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/charac
 import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/character_walk.json";
 import CharacterIdleSheet from "@assets/spritesheets/player/scenario/idle/character_idle.png";
 import CharacterIdleData from "@assets/spritesheets/player/scenario/idle/character_idle.json";
-import IceCreamConeImage from "@assets/images/icecream_cone.png";
+import IceCreamConeImage from "@assets/images/scenario_1/icecream_cone.png";
+import FallenIceCreamConeImage from "@assets/images/scenario_1/Fallenicecream.png";
 import HuskyJson from "@assets/spritesheets/husky/husky.json";
 import HuskySheet from "@assets/spritesheets/husky/husky.png";
 import { GameObjects, Scene } from "phaser";
@@ -77,6 +78,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	private imageIceCreamCone!: string;
 
+	private fallenIceCreamConeImage!: string;
+
 	private spriteSheetPlayerCharacter!: string;
 
 	private characterRun!: string;
@@ -105,6 +108,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.imageIncorrectAnswer2 = "scene1IncorrectAnswer2";
 		this.imageCorrectAnswer = "scene1CorrectAnswer";
 		this.imageIceCreamCone = "imageIceCreamCone";
+		this.fallenIceCreamConeImage = "fallenIceCreamCone"
 		this.spriteSheetPlayerCharacter = "spriteSheetPlayerCharacter1";
 		this.characterRun = "spriteSheetPlayerCharacterRun1";
 		this.characterWalk = "characterWalk1";
@@ -134,6 +138,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.image(this.imageIncorrectAnswer1, IncorrectAnswerImage);
 		this.load.image(this.imageIncorrectAnswer2, IncorrectAnswerImage2);
 		this.load.image(this.imageIceCreamCone, IceCreamConeImage);
+		this.load.image(this.fallenIceCreamConeImage, FallenIceCreamConeImage);
 		this.load.spritesheet(
 			this.spriteSheetPlayerCharacter,
 			PlayerCharacterSheet,
@@ -178,10 +183,16 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	public update(time: number, delta: number): void {
 		super.update(time, delta);
 
-		if (this.moveIcecreamConeAway)
+		if (this.moveIcecreamConeAway){	
 			this.icecreamCone
-				.setRotation(this.icecreamCone.rotation - 0.05)
-				.setPosition(this.icecreamCone.x - 1, this.icecreamCone.y + 2);
+				.setRotation(this.icecreamCone.rotation - 0.075)
+				.setPosition(this.icecreamCone.x - 0.8, this.icecreamCone.y + 4);
+			setTimeout(() => {
+				this.moveIcecreamConeAway = false;
+				this.icecreamCone.destroy();
+				this.add.image(1100, 900, this.fallenIceCreamConeImage).setScale(0.8);
+			}, 750);
+		}
 	}
 
 	private createSituation(): void {
