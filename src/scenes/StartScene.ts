@@ -11,8 +11,7 @@ import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
 import { WorldSceneConfig } from "./WorldScene";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import PhaserText = Phaser.GameObjects.Text;
-import BackgroundSongMP3 from "@assets/audio/background_song.mp3";
-import BackgroundSongOGG from "@assets/audio/background_song.ogg";
+import BackgroundSongMP3 from "@assets/audio/overworld.mp3";
 
 export const config: SettingsConfig = {
 	active: false,
@@ -72,7 +71,7 @@ export default class StartScene extends Scene {
 		this.load.image("background", Background);
 		this.load.image("logo", Logo);
 		this.load.image("title", Title);
-		this.load.audio("backgroundSong", [BackgroundSongMP3, BackgroundSongOGG]);
+		this.load.audio("backgroundSong", BackgroundSongMP3);
 	}
 
 	public create(): void {
