@@ -56,39 +56,28 @@
                  "y":3970.45454545455
                 }, 
                 {
-                     "height":0,
-                     "id":2,
-                     "name":"DogCarParkinglot",
-                     "point":true,
-                     "rotation":0,
-                     "type":"Objective",
-                     "visible":true,
-                     "width":0,
-                     "x":3534.87878787879,
-                     "y":4270.45454545455
-                    }, 
-                {
-                 "ellipse":true,
-                 "height":356,
-                 "id":11,
-                 "name":"Scene 3 Enter",
-                 "properties":[
-                        {
-                         "name":"collision_type",
-                         "type":"string",
-                         "value":"overlap"
-                        }, 
-                        {
-                         "name":"target_scene",
-                         "type":"string",
-                         "value":"scene-3"
-                        }],
+                 "height":0,
+                 "id":2,
+                 "name":"DogCarParkinglot",
+                 "point":true,
                  "rotation":0,
                  "type":"Objective",
                  "visible":true,
-                 "width":356,
-                 "x":5900,
-                 "y":3724
+                 "width":0,
+                 "x":3534.87878787879,
+                 "y":4270.45454545455
+                }, 
+                {
+                 "height":356,
+                 "id":11,
+                 "name":"DogPupInHouse",
+                 "point":true,
+                 "rotation":0,
+                 "type":"Objective",
+                 "visible":true,
+                 "width":0,
+                 "x":6075,
+                 "y":3860
                 }, 
                 {
                  "height":0,
@@ -103,29 +92,29 @@
                  "y":4376
                 },
                 {
-                     "height":0,
-                     "id":13,
-                     "name":"Fence",
-                     "point":true,
-                     "rotation":0,
-                     "type":"Objective",
-                     "visible":true,
-                     "width":0,
-                     "x":4500,
-                     "y":3800
-                    },
-                    {
-                     "height":0,
-                     "id":13,
-                     "name":"Cuddle",
-                     "point":true,
-                     "rotation":0,
-                     "type":"Objective",
-                     "visible":true,
-                     "width":0,
-                     "x":4500,
-                     "y":4000
-                    }],
+                 "height":0,
+                 "id":13,
+                 "name":"Fence",
+                 "point":true,
+                 "rotation":0,
+                 "type":"Objective",
+                 "visible":true,
+                 "width":0,
+                 "x":4500,
+                 "y":3800
+                },
+                {
+                 "height":0,
+                 "id":13,
+                 "name":"Cuddle",
+                 "point":true,
+                 "rotation":0,
+                 "type":"Objective",
+                 "visible":true,
+                 "width":0,
+                 "x":4500,
+                 "y":4000
+                }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
