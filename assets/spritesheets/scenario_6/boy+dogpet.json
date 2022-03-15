@@ -1,18 +1,18 @@
 { "frames": {
    "0": {
-    "frame": { "x": 1, "y": 1, "w": 807, "h": 662 },
+    "frame": { "x": 1, "y": 1, "w": 797, "h": 642 },
     "rotated": false,
     "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 805, "h": 660 },
-    "sourceSize": { "w": 805, "h": 660 },
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 795, "h": 640 },
+    "sourceSize": { "w": 795, "h": 640 },
     "duration": 100
    },
    "1": {
-    "frame": { "x": 809, "y": 1, "w": 807, "h": 662 },
+    "frame": { "x": 799, "y": 1, "w": 797, "h": 642 },
     "rotated": false,
     "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 805, "h": 660 },
-    "sourceSize": { "w": 805, "h": 660 },
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 795, "h": 640 },
+    "sourceSize": { "w": 795, "h": 640 },
     "duration": 100
    }
  },
@@ -21,7 +21,7 @@
   "version": "1.2.21-dev",
   "image": "boy+dogpet1-sheet.png",
   "format": "RGBA8888",
-  "size": { "w": 1617, "h": 664 },
+  "size": { "w": 1597, "h": 644 },
   "scale": "1",
   "frameTags": [
    { "name": "Tag", "from": 0, "to": 1, "direction": "forward" }
