@@ -6,6 +6,7 @@ import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/charact
 import IncorrectAnswerImage from "@assets/images/scenario_2/option_1.png";
 import IncorrectAnswerImage2 from "@assets/images/scenario_2/option_2.png";
 import CorrectAnswerImage from "@assets/images/scenario_2/option_3.png";
+import Shrubbery from  "@assets/images/scenario_2/shrubbery.png";
 import HuskyIdleLamppostData from "@assets/spritesheets/husky/husky_idle_lamppost.json";
 import HuskyIdleLamppostSheet from "@assets/spritesheets/husky/husky_idle_lamppost.png";
 import HuskyJumpLamppostData from "@assets/spritesheets/husky/husky_jump_lamppost.json";
@@ -73,6 +74,8 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 
 	private imageIncorrectAnswer2!: string;
 
+	private shrubbery!: string; 
+
 	private characterWalkAnims!: Phaser.Animations.Animation[];
 
 	private characterRunAnims!: Phaser.Animations.Animation[];
@@ -94,6 +97,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		this.imageIncorrectAnswer1 = "scene-2-incorrect-answer-1";
 		this.imageIncorrectAnswer2 = "scene-2-incorrect-answer-2";
 		this.imageCorrectAnswer = "scene-2-correct-answer";
+		this.shrubbery = "shrubbery2"
 
 		this.characterWalkAnims = [];
 		this.characterRunAnims = [];
@@ -118,6 +122,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 	public preload(): void {
 		this.load.image("background2", Background);
 		this.load.image("ball", Ball);
+		this.load.image(this.shrubbery, Shrubbery);
 		this.load.image(this.imageCorrectAnswer, CorrectAnswerImage);
 		this.load.image(this.imageIncorrectAnswer1, IncorrectAnswerImage);
 		this.load.image(this.imageIncorrectAnswer2, IncorrectAnswerImage2);
@@ -154,7 +159,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		const centerY = this.scale.displaySize.height * 0.5;
 
 		const img = this.add.image(centerX, centerY, "background2");
-
+		this.add.image(300, 885, this.shrubbery).setDepth(3).setScale(1.2);
 		this.components.addComponent(img, MakeFullscreen);
 
 		this.characterWalkAnims = this.anims.createFromAseprite(
@@ -248,9 +253,9 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 	}
 
 	private createChoice(): void {
-		const button1 = this.add.image(400, 925, this.imageIncorrectAnswer1).setDepth(3);
-		const button2 = this.add.image(900, 925, this.imageIncorrectAnswer2).setDepth(3);
-		const button3 = this.add.image(1400, 925, this.imageCorrectAnswer).setDepth(3);
+		const button1 = this.add.image(400, 925, this.imageIncorrectAnswer1).setDepth(4);
+		const button2 = this.add.image(900, 925, this.imageIncorrectAnswer2).setDepth(4);
+		const button3 = this.add.image(1400, 925, this.imageCorrectAnswer).setDepth(4);
 
 		button1.setInteractive().on("pointerdown", () => {
 			button1.disableInteractive();
