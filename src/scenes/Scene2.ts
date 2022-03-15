@@ -195,7 +195,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		this.huskyEntity.play({ key: this.huskyIdleAnims[0].key, repeat: -1 });
 
 		// Create character
-		this.characterEntity = this.add.sprite(2100, 600, this.characterWalk);
+		this.characterEntity = this.add.sprite(2100, 600, this.characterWalk).setDepth(2);
 
 		// Play characters animation
 		this.characterEntity.setFlipX(true).play({
@@ -224,6 +224,8 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 
 		this.ballEntity = this.add.sprite(800, 750, "ball");
 
+		this.ballEntity.setDepth(1)
+
 		this.ballMoving = BallMovement.Right;
 
 		const moveToBall = this.components.addComponent(
@@ -246,9 +248,9 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 	}
 
 	private createChoice(): void {
-		const button1 = this.add.image(400, 925, this.imageIncorrectAnswer1);
-		const button2 = this.add.image(900, 925, this.imageIncorrectAnswer2);
-		const button3 = this.add.image(1400, 925, this.imageCorrectAnswer);
+		const button1 = this.add.image(400, 925, this.imageIncorrectAnswer1).setDepth(3);
+		const button2 = this.add.image(900, 925, this.imageIncorrectAnswer2).setDepth(3);
+		const button3 = this.add.image(1400, 925, this.imageCorrectAnswer).setDepth(3);
 
 		button1.setInteractive().on("pointerdown", () => {
 			button1.disableInteractive();
@@ -362,37 +364,44 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 	}
 
 	private createResult3() {
-		this.characterEntity.toggleFlipX();
-
-		const adultNpc = this.add
-			.sprite(this.scale.width, 100, this.adultNPC)
-			.setOrigin(0, 0)
-			.toggleFlipX();
-
-		const adultAnimator = this.components.addComponent(
-			adultNpc,
-			FixedHeightAnimator
-		);
-
-		const adultMover = this.components.addComponent(adultNpc, MoveTo);
-
-		adultAnimator.addAnimations(
-			...this.anims.createFromAseprite(this.adultNPC)
-		);
-		adultAnimator.desiredHeight = this.characterEntity.height + 200;
-		adultAnimator.loop(1);
-
-		adultMover.setTarget({
-			x: this.characterEntity.x + 240,
-			y: adultNpc.y,
+		this.characterEntity.play({
+			key: this.characterWalkAnims[0].key,
+			repeat: -1,
 		});
 
-		adultMover.movingDone = () => {
-			adultAnimator.loop(0);
+		const moveTo = this.components.addComponent(
+			this.characterEntity,
+			MoveTo
+		);
 
-			waitFor(this, () => this.moveScene(), 1000);
-		};
+		moveTo.setTarget({
+			x: this.characterEntity.x - 300,
+			y: this.characterEntity.y + 250,
+		});
 
+		moveTo.velocity = 150;
+
+		moveTo.movingDone = () => {
+			this.characterEntity.play({
+				key: this.characterWalkAnims[0].key,
+				repeat: -1,
+			});
+	
+			const moveTo = this.components.addComponent(
+				this.characterEntity,
+				MoveTo
+			);
+	
+			moveTo.setTarget({
+				x: this.characterEntity.x - 1000,
+				y: this.characterEntity.y,
+			});
+	
+			moveTo.velocity = 150;
+			moveTo.movingDone = () => {
+				this.moveScene();
+			}
+		}
 		this.cameras.main.flash(2000, 0, 200, 0);
 	}
 
