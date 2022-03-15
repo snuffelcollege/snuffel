@@ -3,10 +3,13 @@ import Dog from "@assets/spritesheets/scenario_6/dog.png";
 import DogData from "@assets/spritesheets/scenario_6/dog.json";
 import DogAndBoy from "@assets/spritesheets/scenario_6/boy+dog.png";
 import DogAndBoyData from "@assets/spritesheets/scenario_6/boy+dog.json";
+import ContinueHug from "@assets/spritesheets/scenario_6/boy+dogheadtilt.png";
+import ContinueHugData from "@assets/spritesheets/scenario_6/boy+dogheadtilt.json";
+import PetDog from "@assets/spritesheets/scenario_6/boy+dogpet.png";
+import PetDogData from "@assets/spritesheets/scenario_6/boy+dogpet.json";
 import CorrectAnswerImage from "@assets/images/scenario_1/scenario_option_1.png";
 import IncorrectAnswerImage from "@assets/images/scenario_1/scenario_option_2.png";
 import IncorrectAnswerImage2 from "@assets/images/scenario_1/scenario_option_3.png";
-import PlayerCharacterSheet from "@assets/spritesheets/player/scenario/icecreamidle/icecream_idle.png";
 import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/character_run_.png";
 import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/character_walk.png";
 import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/character_walk.json";
@@ -76,8 +79,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private imageCorrectAnswer!: string;
 
-	private spriteSheetPlayerCharacter!: string;
-
 	private characterRun!: string;
 
 	private exitSceneKey!: string;
@@ -90,7 +91,9 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private dogAndBoy!: string
 
-	// private dogWalkAnims!: Phaser.Animations.Animation[];
+	private continueHug!: string
+
+	private petDog!: string
 
 	private characterWalkAnims!: Phaser.Animations.Animation[];
 
@@ -102,12 +105,14 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.imageIncorrectAnswer1 = "scene1IncorrectAnswer1";
 		this.imageIncorrectAnswer2 = "scene1IncorrectAnswer2";
 		this.imageCorrectAnswer = "scene1CorrectAnswer";
-		this.spriteSheetPlayerCharacter = "spriteSheetPlayerCharacter6";
 		this.characterRun = "spriteSheetPlayerCharacterRun6";
 		this.characterWalk = "characterWalk6";
 		this.characterIdle = "characterIdle6";
 		this.dog = "dog6";
 		this.dogAndBoy = "dogAndBoy6";
+		this.continueHug = "continueHug6";
+		this.petDog = "petDog6";
+		
 
 		if (!WorldSceneConfig.key) {
 			throw Error("Exit scene key is undefined");
@@ -118,7 +123,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.components = new ComponentService();
 
 		this.characterWalkAnims = [];
-		// this.dogWalkAnims = [];
 
 		// The moment the scene renders, a fade from black is started using this function.
 		addFadeIn(this);
@@ -141,11 +145,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			CharacterIdleData
 		);
 		this.load.spritesheet(
-			this.spriteSheetPlayerCharacter,
-			PlayerCharacterSheet,
-			CharacterRunData
-		);
-		this.load.spritesheet(
 			this.characterRun,
 			CharacterRunSheet,
 			CharacterRunData
@@ -159,7 +158,17 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			this.dogAndBoy,
 			DogAndBoy,
 			DogAndBoyData
-		)
+		);
+		this.load.aseprite(
+			this.continueHug,
+			ContinueHug,
+			ContinueHugData
+		);
+		this.load.aseprite(
+			this.petDog,
+			PetDog,
+			PetDogData
+		);
 
 		this.load.audio("sceneSong", SceneSong);
 	}
@@ -188,10 +197,10 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		
 		// Add child.
 		this.anims.create({
-			key: this.spriteSheetPlayerCharacter,
+			key: this.characterIdle,
 			frameRate: 2,
 			frames: this.anims.generateFrameNumbers(
-				this.spriteSheetPlayerCharacter,
+				this.characterIdle,
 				{
 					start: 0,
 					end: 1,
@@ -203,7 +212,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.characterEntity = this.add.sprite(
 			100,
 			720,
-			this.spriteSheetPlayerCharacter
+			this.characterIdle
 		);
 		this.characterEntity
 			.play({ key: this.characterWalkAnims[0].key, repeat: -1 })
@@ -246,8 +255,8 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 		setTimeout(() => {
 			this.cameras.main.flash(2000, 0, 0, 0);
-			this.characterEntity.destroy();
-			this.dogEntity.destroy();
+			this.characterEntity.setVisible(false);
+			this.dogEntity.setVisible(false);
 			this.anims.create({
 				key: this.dogAndBoy,
 				frameRate: 2,
@@ -307,10 +316,11 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 	}
 
 	private createResult1(): void {
+		this.dogAndBoyEntity.destroy();
 		this.anims.create({
-			key: this.dog,
+			key: this.characterWalk,
 			frameRate: 2,
-			frames: this.anims.generateFrameNumbers(this.dog, {
+			frames: this.anims.generateFrameNumbers(this.characterWalk, {
 				start: 0,
 				end: 1,
 			}),
@@ -318,29 +328,27 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		});
 
 		this.anims.create({
-			key: this.characterRun,
+			key: this.dog,
 			frameRate: 8,
-			frames: this.anims.generateFrameNumbers(this.characterRun, {
+			frames: this.anims.generateFrameNumbers(this.dog, {
 				start: 0,
 				end: 7,
 			}),
 			repeat: -1,
 		});
 
-		// this.shepherdEntity.setScale(1).play(this.shepherdSheet);
-
-		this.characterEntity.play(this.characterRun);
+		this.cameras.main.flash(2000, 0, 200, 0);
+		this.characterEntity.setVisible(true).play(this.characterWalk).toggleFlipX();
+		this.dogEntity.setVisible(true).play(this.dog);
 
 		const moveTo = this.components.addComponent(this.characterEntity, MoveTo);
 
 		moveTo.setTarget({
-			x: this.characterEntity.x + 1000,
+			x: this.characterEntity.x - 1000,
 			y: this.characterEntity.y,
 		});
 
 		moveTo.velocity = 250;
-
-		this.cameras.main.flash(2000, 200, 0, 0);
 
 		setTimeout(() => {
 			this.moveScene();
@@ -348,42 +356,17 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 	}
 
 	private createResult2(): void {
-
 		this.anims.create({
-			key: this.dog,
+			key: this.continueHug,
 			frameRate: 2,
-			frames: this.anims.generateFrameNumbers(this.dog, {
+			frames: this.anims.generateFrameNumbers(this.continueHug, {
 				start: 0,
 				end: 1,
 			}),
 			repeat: -1,
 		});
 
-		// this.shepherdEntity.setScale(1).play(this.shepherdSheet);
-
-		this.anims.create({
-			key: this.characterRun,
-			frameRate: 8,
-			frames: this.anims.generateFrameNumbers(this.characterRun, {
-				start: 0,
-				end: 7,
-			}),
-			repeat: -1,
-		});
-
-		this.characterEntity.setScale(1.5).play(this.characterRun);
-
-		const moveToCharacter = this.components.addComponent(
-			this.characterEntity,
-			MoveTo
-		);
-
-		moveToCharacter.setTarget({
-			x: this.characterEntity.x + 1000,
-			y: this.characterEntity.y,
-		});
-
-		moveToCharacter.velocity = 250;
+		this.dogAndBoyEntity.setScale(1).play(this.continueHug);
 
 		this.cameras.main.flash(2000, 200, 0, 0);
 
@@ -393,23 +376,18 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 	}
 
 	private createResult3(): void {
-		this.characterEntity
-			.play({ key: this.characterWalkAnims[0].key, repeat: -1 })
-			.setScale(0.7);
-
-		const moveToCharacter = this.components.addComponent(
-			this.characterEntity,
-			MoveTo
-		);
-
-		moveToCharacter.setTarget({
-			x: this.characterEntity.x + 1000,
-			y: this.characterEntity.y,
+		this.anims.create({
+			key: this.petDog,
+			frameRate: 2,
+			frames: this.anims.generateFrameNumbers(this.petDog, {
+				start: 0,
+				end: 1,
+			}),
+			repeat: -1,
 		});
 
-		moveToCharacter.velocity = 200;
-
-		this.cameras.main.flash(2000, 0, 200, 0);
+		this.dogAndBoyEntity.play(this.petDog);
+		this.cameras.main.flash(2000, 200, 0, 0);
 
 		setTimeout(() => {
 			this.moveScene();
