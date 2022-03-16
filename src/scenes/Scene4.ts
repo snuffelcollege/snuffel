@@ -1,8 +1,8 @@
 import BackgroundImage from "@assets/images/scenario_4/BG.png";
 import Car from "@assets/images/scenario_4/car.png";
-import CorrectAnswerImage from "@assets/images/scenario_1/scenario_option_1.png";
-import IncorrectAnswerImage from "@assets/images/scenario_1/scenario_option_2.png";
-import IncorrectAnswerImage2 from "@assets/images/scenario_1/scenario_option_3.png";
+import CorrectAnswerImage from "@assets/images/scenario_4/option_1.png";
+import IncorrectAnswerImage from "@assets/images/scenario_4/option_2.png";
+import IncorrectAnswerImage2 from "@assets/images/scenario_4/option_3.png";
 import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/character_walk.png";
 import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/character_walk.json";
 import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/character_run.png";
@@ -107,9 +107,9 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 		//initializes variables, the string value isn't really bound to anything
 		this.car = "car"
-		this.imageIncorrectAnswer1 = "scene1IncorrectAnswer1";
-		this.imageIncorrectAnswer2 = "scene1IncorrectAnswer2";
-		this.imageCorrectAnswer = "scene1CorrectAnswer";
+		this.imageIncorrectAnswer1 = "scene1IncorrectAnswer14";
+		this.imageIncorrectAnswer2 = "scene1IncorrectAnswer24";
+		this.imageCorrectAnswer = "scene1CorrectAnswer4";
 		this.characterWalk = "characterWalk4";
 		this.characterIdle = "characterIdle4";
 		this.characterRun = "characterRun4"
@@ -247,9 +247,9 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	}
 
 	private createChoice(): void {
-		const button1 = this.add.image(500, 900, this.imageCorrectAnswer);
-		const button2 = this.add.image(900, 900, this.imageIncorrectAnswer1);
-		const button3 = this.add.image(1300, 900, this.imageIncorrectAnswer2);
+		const button1 = this.add.image(500, 940, this.imageCorrectAnswer);
+		const button2 = this.add.image(1000, 940, this.imageIncorrectAnswer1);
+		const button3 = this.add.image(1500, 940, this.imageIncorrectAnswer2);
 
 		button1
 			.setInteractive({ useHandCursor: true, pixelPerfect: true })

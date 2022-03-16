@@ -7,9 +7,9 @@ import ContinueHug from "@assets/spritesheets/scenario_6/boy+dogheadtilt.png";
 import ContinueHugData from "@assets/spritesheets/scenario_6/boy+dogheadtilt.json";
 import PetDog from "@assets/spritesheets/scenario_6/boy+dogpet.png";
 import PetDogData from "@assets/spritesheets/scenario_6/boy+dogpet.json";
-import CorrectAnswerImage from "@assets/images/scenario_1/scenario_option_1.png";
-import IncorrectAnswerImage from "@assets/images/scenario_1/scenario_option_2.png";
-import IncorrectAnswerImage2 from "@assets/images/scenario_1/scenario_option_3.png";
+import CorrectAnswerImage from "@assets/images/scenario_1/option_1.png";
+import IncorrectAnswerImage from "@assets/images/scenario_1/option_1.png";
+import IncorrectAnswerImage2 from "@assets/images/scenario_1/option_1.png";
 import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/character_run_.png";
 import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/character_walk.png";
 import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/character_walk.json";
@@ -102,9 +102,9 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 	}
 
 	public init(): void {
-		this.imageIncorrectAnswer1 = "scene1IncorrectAnswer1";
-		this.imageIncorrectAnswer2 = "scene1IncorrectAnswer2";
-		this.imageCorrectAnswer = "scene1CorrectAnswer";
+		this.imageIncorrectAnswer1 = "scene1IncorrectAnswer16";
+		this.imageIncorrectAnswer2 = "scene1IncorrectAnswer26";
+		this.imageCorrectAnswer = "scene1CorrectAnswer6";
 		this.characterRun = "spriteSheetPlayerCharacterRun6";
 		this.characterWalk = "characterWalk6";
 		this.characterIdle = "characterIdle6";
@@ -282,9 +282,9 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 	}
 
 	private createChoice(): void {
-		const button1 = this.add.image(500, 900, this.imageCorrectAnswer);
-		const button2 = this.add.image(900, 900, this.imageIncorrectAnswer1);
-		const button3 = this.add.image(1300, 900, this.imageIncorrectAnswer2);
+		const button1 = this.add.image(500, 940, this.imageCorrectAnswer);
+		const button2 = this.add.image(1000, 940, this.imageIncorrectAnswer1);
+		const button3 = this.add.image(1500, 940, this.imageIncorrectAnswer2);
 
 		button1
 			.setInteractive({ useHandCursor: true, pixelPerfect: true })

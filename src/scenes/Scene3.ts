@@ -7,31 +7,23 @@ import CharacterIdleTexture from "@assets/spritesheets/player/scenario/idle/char
 import CharacterIdleConfig from "@assets/spritesheets/player/scenario/idle/character_idle.json";
 import MotherDogTexture from "@assets/spritesheets/scenario_3/mother_dog.png";
 import MotherDogConfig from "@assets/spritesheets/scenario_3/mother_dog.json";
-
 import CharacterWalkTexture from "@assets/spritesheets/player/scenario/walk/character_walk.png";
 import CharacterWalkConfig from "@assets/spritesheets/player/scenario/walk/character_walk.json";
-
 import CharacterRunTexture from "@assets/spritesheets/player/scenario/run/character_run.png";
 import CharacterRunConfig from "@assets/spritesheets/player/scenario/run/character_run.json";
-
 import CharacterPupHoldFearTexture from "@assets/spritesheets/scenario_3/character_pup_hold_fear.png";
 import CharacterPupHoldFearConfig from "@assets/spritesheets/scenario_3/character_pup_hold_fear.json";
-
 import PointOfInterestCloudTexture from "@assets/spritesheets/pointOfInterest/cloud/poi_cloud.png";
 import PointOfInterestCloudConfig from "@assets/spritesheets/pointOfInterest/cloud/poi_cloud.json";
-
 import AdultNPCTexture from "@assets/spritesheets/scenario_3/npc_1.png";
 import AdultNPCConfig from "@assets/spritesheets/scenario_3/npc_1.json";
-
 import ApprovalChatTexture from "@assets/spritesheets/scenario_3/approval_chat_icon.png";
 import ApprovalChatConfig from "@assets/spritesheets/scenario_3/approval_chat_icon.json";
-
 import QuestionChatTexture from "@assets/spritesheets/scenario_3/question_chat_icon.png";
 import QuestionChatConfig from "@assets/spritesheets/scenario_3/question_chat_icon.json";
-
-import Option1Texture from "@assets/images/scenario_3/scenario_3_option_1.png";
-import Option2Texture from "@assets/images/scenario_3/scenario_3_option_2.png";
-import Option3Texture from "@assets/images/scenario_3/scenario_3_option_3.png";
+import Option1Texture from "@assets/images/scenario_3/option_1.png";
+import Option2Texture from "@assets/images/scenario_3/option_2.png";
+import Option3Texture from "@assets/images/scenario_3/option_3.png";
 
 import { WorldSceneConfig } from "./WorldScene";
 
@@ -128,9 +120,9 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 		this.approvalChatIcon = "scene3ApprovalIcon";
 		this.questionChatIcon = "scene3QuestionIcon";
 
-		this.option1Img = "scene3Option1";
-		this.option2Img = "scene3Option2";
-		this.option3Img = "scene3Option3";
+		this.option1Img = "scene3Option13";
+		this.option2Img = "scene3Option23";
+		this.option3Img = "scene3Option33";
 
 		addFadeIn(this);
 	}
@@ -245,9 +237,9 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 
 			// ... present stages
 			const options = [
-				createOption(this, this.option1Img, 317, 1050).setOrigin(0, 1),
-				createOption(this, this.option2Img, 772, 1050).setOrigin(0, 1),
-				createOption(this, this.option3Img, 1228, 1050).setOrigin(0, 1),
+				createOption(this, this.option1Img, 250, 1100).setOrigin(0, 1),
+				createOption(this, this.option2Img, 800, 1100).setOrigin(0, 1),
+				createOption(this, this.option3Img, 1350, 1100).setOrigin(0, 1),
 			];
 
 			options[0].on(

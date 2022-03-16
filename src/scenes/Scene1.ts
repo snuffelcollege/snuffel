@@ -1,7 +1,7 @@
 import BackgroundImage from "@assets/background.png";
-import CorrectAnswerImage from "@assets/images/scenario_1/scenario_option_1.png";
-import IncorrectAnswerImage from "@assets/images/scenario_1/scenario_option_2.png";
-import IncorrectAnswerImage2 from "@assets/images/scenario_1/scenario_option_3.png";
+import CorrectAnswerImage from "@assets/images/scenario_1/option_1.png";
+import IncorrectAnswerImage from "@assets/images/scenario_1/option_2.png";
+import IncorrectAnswerImage2 from "@assets/images/scenario_1/option_3.png";
 import PlayerCharacterSheet from "@assets/spritesheets/player/scenario/icecreamidle/icecream_idle.png";
 import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/character_run.png";
 import CharacterRunData from "@assets/spritesheets/player/scenario/run/character_run.json";
@@ -104,9 +104,9 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	public init(): void {
 		this.husky = "husky";
-		this.imageIncorrectAnswer1 = "scene1IncorrectAnswer1";
-		this.imageIncorrectAnswer2 = "scene1IncorrectAnswer2";
-		this.imageCorrectAnswer = "scene1CorrectAnswer";
+		this.imageIncorrectAnswer1 = "scene1IncorrectAnswer11";
+		this.imageIncorrectAnswer2 = "scene1IncorrectAnswer21";
+		this.imageCorrectAnswer = "scene1CorrectAnswer1";
 		this.imageIceCreamCone = "imageIceCreamCone";
 		this.fallenIceCreamConeImage = "fallenIceCreamCone"
 		this.spriteSheetPlayerCharacter = "spriteSheetPlayerCharacter1";
@@ -249,9 +249,9 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	}
 
 	private createChoice(): void {
-		const button1 = this.add.image(500, 900, this.imageCorrectAnswer);
-		const button2 = this.add.image(900, 900, this.imageIncorrectAnswer1);
-		const button3 = this.add.image(1300, 900, this.imageIncorrectAnswer2);
+		const button1 = this.add.image(500, 950, this.imageCorrectAnswer);
+		const button2 = this.add.image(1000, 950, this.imageIncorrectAnswer1);
+		const button3 = this.add.image(1500, 950, this.imageIncorrectAnswer2);
 
 		button1
 			.setInteractive({ useHandCursor: true, pixelPerfect: true })

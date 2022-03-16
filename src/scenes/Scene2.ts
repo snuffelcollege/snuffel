@@ -94,9 +94,9 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		this.huskyIdleLamppost = "huskyIdleLamppost";
 		this.huskyJumpLamppost = "huskyJumpLamppost";
 		this.adultNPC = "scene3AdultNPC";
-		this.imageIncorrectAnswer1 = "scene-2-incorrect-answer-1";
-		this.imageIncorrectAnswer2 = "scene-2-incorrect-answer-2";
-		this.imageCorrectAnswer = "scene-2-correct-answer";
+		this.imageIncorrectAnswer1 = "scene-2-incorrect-answer-12";
+		this.imageIncorrectAnswer2 = "scene-2-incorrect-answer-22";
+		this.imageCorrectAnswer = "scene-2-correct-answer2";
 		this.shrubbery = "shrubbery2"
 
 		this.characterWalkAnims = [];
@@ -253,9 +253,9 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 	}
 
 	private createChoice(): void {
-		const button1 = this.add.image(400, 925, this.imageIncorrectAnswer1).setDepth(4);
-		const button2 = this.add.image(900, 925, this.imageIncorrectAnswer2).setDepth(4);
-		const button3 = this.add.image(1400, 925, this.imageCorrectAnswer).setDepth(4);
+		const button1 = this.add.image(500, 940, this.imageIncorrectAnswer1).setDepth(4);
+		const button2 = this.add.image(1000, 940, this.imageIncorrectAnswer2).setDepth(4);
+		const button3 = this.add.image(1500, 940, this.imageCorrectAnswer).setDepth(4);
 
 		button1.setInteractive().on("pointerdown", () => {
 			button1.disableInteractive();
