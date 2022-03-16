@@ -81,7 +81,7 @@ export default class StartScene extends Scene {
 		const img = this.add.image(centerX, centerY, "background");
 		this.components.addComponent(img, MakeFullscreen);
 
-		this.add.image(centerX, centerY-150, "title");
+		this.add.image(centerX, centerY-150, "title").setScale(0.5);
 
 		this.add.image(this.scale.width - 256, this.scale.height - 128, "logo");
 
