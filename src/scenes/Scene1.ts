@@ -186,12 +186,12 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		if (this.moveIcecreamConeAway){	
 			this.icecreamCone
 				.setRotation(this.icecreamCone.rotation - 0.075)
-				.setPosition(this.icecreamCone.x - 0.8, this.icecreamCone.y + 4);
+				.setPosition(this.icecreamCone.x - 0.8, this.icecreamCone.y + 3);
 			setTimeout(() => {
 				this.moveIcecreamConeAway = false;
 				this.icecreamCone.destroy();
-				this.add.image(1100, 900, this.fallenIceCreamConeImage).setScale(0.8);
-			}, 750);
+				this.add.image(1100, 870, this.fallenIceCreamConeImage).setScale(0.8);
+			}, 400);
 		}
 	}
 
