@@ -1,10 +1,18 @@
 import MapIcon from "@assets/images/world/map_icon.png"
 import BadgeIcon from "@assets/images/world/badge_icon.png"
 import ControlsIcon from "@assets/images/world/controls_icon.png"
+import ControlUp from "@assets/images/tutorial/up.png"
+import ControlDown from "@assets/images/tutorial/down.png"
+import ControlLeft from "@assets/images/tutorial/left.png"
+import ControlRight from "@assets/images/tutorial/right.png"
+import ControlSpacebar from "@assets/images/tutorial/spacebar.png"
+import ControlClick from "@assets/images/tutorial/mouse_click.png"
+import ControlRegular from "@assets/images/tutorial/mouse_regular.png"
 import UnmutedSoundIcon from "@assets/images/world/unmuted.png";
 import MutedSoundIcon from "@assets/images/world/muted.png";
 import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
+import Sprite = Phaser.GameObjects.Sprite;
 
 export default class UI extends Scene implements SceneLifecycle {
 
@@ -14,19 +22,43 @@ export default class UI extends Scene implements SceneLifecycle {
 
     private controls_icon!: string;
 
+    private controlUp!: string;
+    private controlDown!: string;
+    private controlLeft!: string;
+    private controlRight!: string;
+    private controlSpacebar!: string;
+    private controlClick!: string;
+    private controlRegular!: string;
+    private controlUpEntity!: Sprite;
+    private controlDownEntity!: Sprite;
+    private controlLeftEntity!: Sprite;
+    private controlRightEntity!: Sprite;
+    private controlSpacebarEntity!: Sprite;
+    private controlClickEntity!: Sprite;
+    private controlRegularEntity!: Sprite;
+
 	private muted!: string;
 
 	private unmuted!: string;
 
-    private mutestate!: boolean;
+    private muteState!: boolean;
+    private controlState!: boolean;
 
     public init(): void {
         this.map_icon = "map";
         this.badge_icon = "badge";
         this.controls_icon = "controls";
+        this.controlUp = "up";
+        this.controlDown = "down";
+        this.controlLeft = "left";
+        this.controlRight = "right";
+        this.controlSpacebar = "spacebar";
+        this.controlClick = "click";
+        this.controlRegular = "regular";
 		this.muted = "muted";
 		this.unmuted = "unmuted";
-        this.mutestate = false;
+        this.muteState = false;
+        this.controlState = false;
     }
 
     constructor ()
@@ -38,6 +70,13 @@ export default class UI extends Scene implements SceneLifecycle {
         this.load.image(this.map_icon, MapIcon);
         this.load.image(this.badge_icon,BadgeIcon);
         this.load.image(this.controls_icon, ControlsIcon);
+        this.load.image(this.controlUp, ControlUp);
+        this.load.image(this.controlDown, ControlDown);
+        this.load.image(this.controlLeft, ControlLeft);
+        this.load.image(this.controlRight, ControlRight);
+        this.load.image(this.controlSpacebar, ControlSpacebar);
+        this.load.image(this.controlClick, ControlClick);
+        this.load.image(this.controlRegular, ControlRegular);
 		this.load.image(this.muted, MutedSoundIcon);
 		this.load.image(this.unmuted,UnmutedSoundIcon);
     }
@@ -49,26 +88,49 @@ export default class UI extends Scene implements SceneLifecycle {
             .setScale(0.4)            
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
-                switch(this.mutestate){
+                switch(this.muteState){
                     case false:
                         togglesound.setTexture(this.muted);
-                        this.mutestate = true;
+                        this.muteState = true;
                         this.game.sound.mute = true;
                         break;
                     case true:
                         togglesound.setTexture(this.unmuted);
-                        this.mutestate = false;
+                        this.muteState = false;
                         this.game.sound.mute = false;
                         break;
                 }
 			});
+        
         const controls = this.add
             .image(1850,170,this.controls_icon)
             .setScale(0.4)
             .setInteractive({useHandCursor: true})
             .on("pointerdown",() => {
-                //show controls
+                switch(this.controlState){
+                   case false:
+                        this.controlUpEntity = this.add.sprite(400, 800, this.controlSpacebar).setScale(0.5).setVisible(true);
+                        this.controlDownEntity = this.add.sprite(900, 700, this.controlUp).setScale(0.5).setVisible(true);
+                        this.controlLeftEntity = this.add.sprite(900, 900, this.controlDown).setScale(0.5).setVisible(true);
+                        this.controlRightEntity = this.add.sprite(800, 800, this.controlLeft).setScale(0.5).setVisible(true);
+                        this.controlSpacebarEntity = this.add.sprite(1000, 800, this.controlRight).setScale(0.5).setVisible(true);
+                        this.controlRegularEntity = this.add.sprite(1200, 800, this.controlRegular).setScale(0.5).setVisible(true);
+                        this.controlClickEntity = this.add.sprite(1400, 800, this.controlClick).setScale(0.5).setVisible(true);
+                        this.controlState = true;
+                        break;
+                    case true:
+                        this.controlUpEntity.setVisible(false);
+                        this.controlDownEntity = this.add.sprite(900, 700, this.controlUp).setScale(0.5).setVisible(true);
+                        this.controlLeftEntity = this.add.sprite(900, 900, this.controlDown).setScale(0.5).setVisible(true);
+                        this.controlRightEntity = this.add.sprite(800, 800, this.controlLeft).setScale(0.5).setVisible(true);
+                        this.controlSpacebarEntity = this.add.sprite(1000, 800, this.controlRight).setScale(0.5).setVisible(true);
+                        this.controlRegularEntity = this.add.sprite(1200, 800, this.controlRegular).setScale(0.5).setVisible(true);
+                        this.controlClickEntity = this.add.sprite(1400, 800, this.controlClick).setScale(0.5).setVisible(true);
+                        this.controlState = false;
+                        break;       
+                }
             });
+        
         const badge = this.add
             .image(1850,270,this.badge_icon)
             .setScale(0.4)
