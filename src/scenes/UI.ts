@@ -102,6 +102,14 @@ export default class UI extends Scene implements SceneLifecycle {
                 }
 			});
         
+        this.controlSpacebarEntity = this.add.sprite(400, 600, this.controlSpacebar).setScale(0.5).setVisible(false);
+        this.controlUpEntity = this.add.sprite(950, 450, this.controlUp).setScale(0.5).setVisible(false);
+        this.controlDownEntity = this.add.sprite(950, 750, this.controlDown).setScale(0.5).setVisible(false);
+        this.controlLeftEntity = this.add.sprite(800, 600, this.controlLeft).setScale(0.5).setVisible(false);
+        this.controlRightEntity = this.add.sprite(1100, 600, this.controlRight).setScale(0.5).setVisible(false);
+        this.controlRegularEntity = this.add.sprite(1350, 600, this.controlRegular).setScale(0.5).setVisible(false);
+        this.controlClickEntity = this.add.sprite(1600, 600, this.controlClick).setScale(0.5).setVisible(false);
+        
         const controls = this.add
             .image(1850,170,this.controls_icon)
             .setScale(0.4)
@@ -109,27 +117,28 @@ export default class UI extends Scene implements SceneLifecycle {
             .on("pointerdown",() => {
                 switch(this.controlState){
                    case false:
-                        this.controlUpEntity = this.add.sprite(400, 800, this.controlSpacebar).setScale(0.5).setVisible(true);
-                        this.controlDownEntity = this.add.sprite(900, 700, this.controlUp).setScale(0.5).setVisible(true);
-                        this.controlLeftEntity = this.add.sprite(900, 900, this.controlDown).setScale(0.5).setVisible(true);
-                        this.controlRightEntity = this.add.sprite(800, 800, this.controlLeft).setScale(0.5).setVisible(true);
-                        this.controlSpacebarEntity = this.add.sprite(1000, 800, this.controlRight).setScale(0.5).setVisible(true);
-                        this.controlRegularEntity = this.add.sprite(1200, 800, this.controlRegular).setScale(0.5).setVisible(true);
-                        this.controlClickEntity = this.add.sprite(1400, 800, this.controlClick).setScale(0.5).setVisible(true);
+                        this.controlUpEntity.setVisible(true);
+                        this.controlDownEntity.setVisible(true);
+                        this.controlLeftEntity.setVisible(true);
+                        this.controlRightEntity.setVisible(true);
+                        this.controlSpacebarEntity.setVisible(true);
+                        this.controlRegularEntity.setVisible(true);
+                        this.controlClickEntity.setVisible(true);
                         this.controlState = true;
                         break;
                     case true:
                         this.controlUpEntity.setVisible(false);
-                        this.controlDownEntity = this.add.sprite(900, 700, this.controlUp).setScale(0.5).setVisible(true);
-                        this.controlLeftEntity = this.add.sprite(900, 900, this.controlDown).setScale(0.5).setVisible(true);
-                        this.controlRightEntity = this.add.sprite(800, 800, this.controlLeft).setScale(0.5).setVisible(true);
-                        this.controlSpacebarEntity = this.add.sprite(1000, 800, this.controlRight).setScale(0.5).setVisible(true);
-                        this.controlRegularEntity = this.add.sprite(1200, 800, this.controlRegular).setScale(0.5).setVisible(true);
-                        this.controlClickEntity = this.add.sprite(1400, 800, this.controlClick).setScale(0.5).setVisible(true);
+                        this.controlDownEntity.setVisible(false);
+                        this.controlLeftEntity.setVisible(false);
+                        this.controlRightEntity.setVisible(false);
+                        this.controlSpacebarEntity.setVisible(false);
+                        this.controlRegularEntity.setVisible(false);
+                        this.controlClickEntity.setVisible(false);
                         this.controlState = false;
                         break;       
                 }
             });
+        
         
         const badge = this.add
             .image(1850,270,this.badge_icon)

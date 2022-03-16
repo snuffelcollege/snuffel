@@ -230,7 +230,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			this.shepherdSheet
 		);
 
-		this.stickEntity = this.add.sprite(1100, 940, this.stickImage)
+		this.stickEntity = this.add.sprite(1125, 1025, this.stickImage)
 
 		this.createChoice();
 	}
