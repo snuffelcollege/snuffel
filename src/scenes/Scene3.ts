@@ -197,9 +197,9 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 			.setOrigin(0, 0);
 
 		const character = this.add
-			.sprite(this.scale.width, 213, this.characterWalk)
+			.sprite(this.scale.width, 330, this.characterWalk)
 			.setOrigin(0, 0)
-			.toggleFlipX();
+			.toggleFlipX()
 
 		// define components
 		const characterMover = this.components.addComponent(character, MoveTo);
@@ -215,7 +215,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 
 		// adjust parameters
 		characterMover.velocity = 170;
-		characterAnimator.desiredHeight = 744;
+		characterAnimator.desiredHeight = 600;
 		motherDogAnimator.desiredHeight = 470;
 
 		characterAnimator.addAnimations(
