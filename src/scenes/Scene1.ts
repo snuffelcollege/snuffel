@@ -1,7 +1,8 @@
 import BackgroundImage from "@assets/background.png";
 import CorrectAnswerImage from "@assets/images/scenario_1/option_1.png";
 import IncorrectAnswerImage from "@assets/images/scenario_1/option_2.png";
-import IncorrectAnswerImage2 from "@assets/images/scenario_1/option_3.png";
+import IncorrectAnswerImage2 from "@assets/images/scenario_1/option_3_sign.png";
+import OptionStick from "@assets/images/option_stick.png"
 import PlayerCharacterSheet from "@assets/spritesheets/player/scenario/icecreamidle/icecream_idle.png";
 import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/character_run.png";
 import CharacterRunData from "@assets/spritesheets/player/scenario/run/character_run.json";
@@ -76,6 +77,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	private imageCorrectAnswer!: string;
 
+	private optionStick!: string;
+
 	private imageIceCreamCone!: string;
 
 	private fallenIceCreamConeImage!: string;
@@ -107,6 +110,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.imageIncorrectAnswer1 = "scene1IncorrectAnswer11";
 		this.imageIncorrectAnswer2 = "scene1IncorrectAnswer21";
 		this.imageCorrectAnswer = "scene1CorrectAnswer1";
+		this.optionStick = "stick1"
 		this.imageIceCreamCone = "imageIceCreamCone";
 		this.fallenIceCreamConeImage = "fallenIceCreamCone"
 		this.spriteSheetPlayerCharacter = "spriteSheetPlayerCharacter1";
@@ -139,6 +143,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.image(this.imageIncorrectAnswer2, IncorrectAnswerImage2);
 		this.load.image(this.imageIceCreamCone, IceCreamConeImage);
 		this.load.image(this.fallenIceCreamConeImage, FallenIceCreamConeImage);
+		this.load.image(this.optionStick, OptionStick)
 		this.load.spritesheet(
 			this.spriteSheetPlayerCharacter,
 			PlayerCharacterSheet,
@@ -249,7 +254,18 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	}
 
 	private createChoice(): void {
-		const button1 = this.add.image(500, 1250, this.imageCorrectAnswer);
+		//create stick 1 and sign 1, add movecomponents
+		const stick1 = this.add.image(500,1280, this.optionStick);
+		const stick1move = this.components.addComponent(
+			stick1,
+			MoveTo
+		);
+		stick1move.setTarget({
+			x: stick1.x,
+			y: stick1.y - 300,
+		});		
+		stick1move.velocity = 280;
+		const button1 = this.add.image(500, 1200, this.imageCorrectAnswer);
 		button1.on("pointerover", () => {
 			button1.angle = 5;			
 		});
@@ -265,8 +281,19 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			y: button1.y - 300,
 		});		
 		button1move.velocity = 280;
-
-		const button2 = this.add.image(1000, 1250, this.imageIncorrectAnswer1);
+		const stick2 = this.add.image(1000,1280, this.optionStick);
+		const stick2move = this.components.addComponent(
+			stick2,
+			MoveTo
+		);
+		
+		//create stick 2 and sign 2, add movecomponents
+		stick2move.setTarget({
+			x: stick2.x,
+			y: stick2.y - 300,
+		});		
+		stick2move.velocity = 280;
+		const button2 = this.add.image(1000, 1200, this.imageIncorrectAnswer1);
 		button2.on("pointerover", () => {
 			button2.angle = 5;			
 		});
@@ -282,8 +309,19 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			y: button2.y - 300,
 		});		
 		button2move.velocity = 280;
-
-		const button3 = this.add.image(1500, 1250, this.imageIncorrectAnswer2);
+		
+		//create stick 3 and sign 3, add movecomponents
+		const stick3 = this.add.image(1500,1280, this.optionStick);
+		const stick3move = this.components.addComponent(
+			stick3,
+			MoveTo
+		);
+		stick3move.setTarget({
+			x: stick3.x,
+			y: stick3.y - 300,
+		});		
+		stick3move.velocity = 280;
+		const button3 = this.add.image(1500, 1200, this.imageIncorrectAnswer2);
 		button3.on("pointerover", () => {
 			button3.angle = 5;			
 		});
@@ -303,17 +341,28 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		button1
 			.setInteractive({ useHandCursor: true, pixelPerfect: true })
 			.on("pointerdown", () => {
+				//disables sign 1, moves signs and sticks of option 2 and 3 offscreen
 				button1.disableInteractive()				
 				button2move.setTarget({
 					x: button2.x,
 					y: button2.y + 300,
 				});		
 				button2move.velocity = 280;
+				stick2move.setTarget({
+					x: stick2.x,
+					y: stick2.y + 300,
+				});		
+				stick2move.velocity = 280;
 				button3move.setTarget({
 					x: button3.x,
 					y: button3.y + 300,
 				});		
 				button3move.velocity = 280;
+				stick3move.setTarget({
+					x: stick3.x,
+					y: stick3.y + 300,
+				});		
+				stick3move.velocity = 280;
 				this.icecreamCone = this.add
 				.image(1105, 710, this.imageIceCreamCone)
 				.setScale(0.65, 0.55)
@@ -323,6 +372,12 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		button2
 			.setInteractive({ useHandCursor: true, pixelPerfect: true })
 			.on("pointerdown", () => {
+				//disables sign 2, moves signs and sticks of option 1 and 3 offscreen
+				stick1move.setTarget({
+					x: stick1.x,
+					y: stick1.y + 300,
+				});		
+				stick1move.velocity = 280;
 				button1move.setTarget({
 					x: button1.x,
 					y: button1.y + 300,
@@ -334,6 +389,11 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 					y: button3.y + 300,
 				});		
 				button3move.velocity = 280;
+				stick3move.setTarget({
+					x: stick3.x,
+					y: stick3.y + 300,
+				});		
+				stick3move.velocity = 280;
 				this.icecreamCone = this.add
 				.image(1105, 710, this.imageIceCreamCone)
 				.setScale(0.65, 0.55)
@@ -342,12 +402,23 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			});
 		button3
 			.setInteractive({ useHandCursor: true, pixelPerfect: true })
+			//disables sign 3, moves signs and sticks of option 1 and 2 offscreen
 			.on("pointerdown", () => {
+				stick1move.setTarget({
+					x: stick1.x,
+					y: stick1.y + 300,
+				});		
+				stick1move.velocity = 280;
 				button1move.setTarget({
 					x: button1.x,
 					y: button1.y + 300,
 				});		
 				button1move.velocity = 280;
+				stick2move.setTarget({
+					x: stick2.x,
+					y: stick2.y + 300,
+				});		
+				stick2move.velocity = 280;
 				button2move.setTarget({
 					x: button2.x,
 					y: button2.y + 300,
