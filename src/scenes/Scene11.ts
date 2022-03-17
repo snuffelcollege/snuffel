@@ -243,7 +243,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 				this.dog,
 				{
 					start: 0,
-					end: 2,
+					end: 1,
 				}
 			),
 			repeat: -1,
@@ -269,7 +269,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 					this.dogAndBoy,
 					{
 						start: 0,
-						end: 2,
+						end: 1,
 					}
 				),
 				repeat: -1,
@@ -471,7 +471,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			frameRate: 8,
 			frames: this.anims.generateFrameNumbers(this.dog, {
 				start: 0,
-				end: 7,
+				end: 1,
 			}),
 			repeat: -1,
 		});
