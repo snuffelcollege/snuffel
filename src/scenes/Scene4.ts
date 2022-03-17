@@ -278,7 +278,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 			y: button1.y - 300,
 		});		
 		button1move.velocity = 280;
-		const stick2 = this.add.image(1000,1280, this.optionStick);
+		const stick2 = this.add.image(1000,1280, this.optionStick).setDepth(3);
 		const stick2move = this.components.addComponent(
 			stick2,
 			MoveTo
@@ -290,7 +290,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 			y: stick2.y - 300,
 		});		
 		stick2move.velocity = 280;
-		const button2 = this.add.image(1000, 1200, this.option2);
+		const button2 = this.add.image(1000, 1200, this.option2).setDepth(3);
 		button2.on("pointerover", () => {
 			button2.angle = 5;			
 		});
@@ -460,7 +460,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 			};
 		};
 
-		this.cameras.main.flash(2000, 200, 0, 0);
+		//this.cameras.main.flash(2000, 200, 0, 0);
 	}
 
 	private createResult2() {
@@ -502,7 +502,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 				this.moveScene();
 			}
 		}
-		this.cameras.main.flash(2000, 0, 200, 0);
+		//this.cameras.main.flash(2000, 0, 200, 0);
 	}
 
 	private createResult3() {
@@ -548,7 +548,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 			this.moveScene();
 		};
 
-		this.cameras.main.flash(2000, 200, 0, 0);
+		//this.cameras.main.flash(2000, 200, 0, 0);
 	}
 
 	

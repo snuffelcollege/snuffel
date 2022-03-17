@@ -476,7 +476,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		}
 
 		//red flash
-		this.cameras.main.flash(2000, 200, 0, 0);
+		//this.cameras.main.flash(2000, 200, 0, 0);
 
 		//fade to black and back to overworld after 5 seconds
 		setTimeout(() => {
@@ -541,7 +541,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			},2000)
 		}
 		//red flash
-		this.cameras.main.flash(2000, 200, 0, 0);
+		//this.cameras.main.flash(2000, 200, 0, 0);
 
 		//fade to black and back to overworld after 5 seconds
 		setTimeout(() => {
@@ -570,7 +570,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		moveToCharacter.velocity = 200;
 
 		//green flash
-		this.cameras.main.flash(2000, 0, 200, 0);
+		//this.cameras.main.flash(2000, 0, 200, 0);
 
 		//fade to black and back to overworld after 5 seconds
 		setTimeout(() => {

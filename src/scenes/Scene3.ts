@@ -271,9 +271,9 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 			stick3move.velocity = 280;
 			// ... present stages
 			const options = [
-				createOption(this, this.option1Img, 250, 1300).setOrigin(0, 1),
-				createOption(this, this.option2Img, 800, 1300).setOrigin(0, 1),
-				createOption(this, this.option3Img, 1350, 1300).setOrigin(0, 1),
+				createOption(this, this.option1Img, 420, 1200).setOrigin(0.5),
+				createOption(this, this.option2Img, 970, 1200).setOrigin(0.5),
+				createOption(this, this.option3Img, 1510, 1200).setOrigin(0.5),
 			];
 			const button1move = this.components.addComponent(
 				options[0],
@@ -304,19 +304,19 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 			button3move.velocity = 280;
 
 			options[0].on("pointerover", () => {
-				options[0].angle = 2;			
+				options[0].angle = 5;			
 			});
 			options[0].on('pointerout',() => {
 				options[0].angle = 0;
 			})
 			options[1].on("pointerover", () => {
-				options[1].angle = 2;			
+				options[1].angle = 5;			
 			});
 			options[1].on('pointerout',() => {
 				options[1].angle = 0;
 			})
 			options[2].on("pointerover", () => {
-				options[2].angle = 2;			
+				options[2].angle = 5;			
 			});
 			options[2].on('pointerout',() => {
 				options[2].angle = 0;

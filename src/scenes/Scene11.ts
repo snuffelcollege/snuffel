@@ -476,7 +476,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			repeat: -1,
 		});
 
-		this.cameras.main.flash(2000, 0, 200, 0);
+		//this.cameras.main.flash(2000, 0, 200, 0);
 		this.characterEntity.setVisible(true).play(this.characterWalk).toggleFlipX();
 		this.dogEntity.setVisible(true).play(this.dog);
 
@@ -507,7 +507,8 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 		this.dogAndBoyEntity.setScale(1).play(this.continueHug);
 
-		this.cameras.main.flash(2000, 200, 0, 0);
+		
+		//this.cameras.main.flash(2000, 200, 0, 0);
 
 		setTimeout(() => {
 			this.moveScene();
@@ -526,7 +527,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		});
 
 		this.dogAndBoyEntity.play(this.petDog);
-		this.cameras.main.flash(2000, 200, 0, 0);
+		//this.cameras.main.flash(2000, 200, 0, 0);
 
 		setTimeout(() => {
 			this.moveScene();

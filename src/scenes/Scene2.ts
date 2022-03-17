@@ -444,7 +444,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 				repeat: -1,
 			});
 
-			this.cameras.main.flash(2000, 200, 0, 0);
+			//this.cameras.main.flash(2000, 200, 0, 0);
 			this.shepherdEntity.play(this.shepherdSheet);
 			this.characterEntity.play(this.characterRun).setScale(2);
 
@@ -490,7 +490,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 		moveToCharacter.velocity = 250;
 
-		this.cameras.main.flash(2000, 0, 200, 0);
+		//this.cameras.main.flash(2000, 0, 200, 0);
 
 		setTimeout(() => {
 			this.moveScene();
@@ -522,7 +522,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 		this.shepherdEntity.play(this.shepherdSheet).setScale(1);
 
-		this.cameras.main.flash(2000, 200, 0, 0);
+		//this.cameras.main.flash(2000, 200, 0, 0);
 
 		setTimeout(() => {
 			this.moveScene();
