@@ -92,7 +92,7 @@ export default class StartScene extends Scene {
 			.setScale(0.5);
 
 		const startButton = this.add
-			.image(centerX, centerY+150, this.startButton, 1)
+			.image(centerX, centerY+150, this.startButton)
 			.setScale(0.5)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
