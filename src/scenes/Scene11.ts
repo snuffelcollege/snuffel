@@ -7,9 +7,10 @@ import ContinueHug from "@assets/spritesheets/scenario_11/boy+dogheadtilt.png";
 import ContinueHugData from "@assets/spritesheets/scenario_11/boy+dogheadtilt.json";
 import PetDog from "@assets/spritesheets/scenario_11/boy+dogpet.png";
 import PetDogData from "@assets/spritesheets/scenario_11/boy+dogpet.json";
-import CorrectAnswerImage from "@assets/images/scenario_11/option_1.png";
-import IncorrectAnswerImage from "@assets/images/scenario_11/option_2.png";
-import IncorrectAnswerImage2 from "@assets/images/scenario_11/option_3.png";
+import Option1 from "@assets/images/scenario_11/option_1.png";
+import Option2 from "@assets/images/scenario_11/option_2.png";
+import Option3 from "@assets/images/scenario_11/option_3.png";
+import OptionStick from "@assets/images/world/option_stick.png";
 import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/character_run_.png";
 import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/character_walk.png";
 import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/character_walk.json";
@@ -73,11 +74,13 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private dogAndBoyEntity!: Sprite;
 
-	private imageIncorrectAnswer1!: string;
+	private option1!: string;
 
-	private imageIncorrectAnswer2!: string;
+	private option2!: string;
 
-	private imageCorrectAnswer!: string;
+	private option3!: string;
+
+	private optionStick!: string;
 
 	private characterRun!: string;
 
@@ -102,16 +105,17 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 	}
 
 	public init(): void {
-		this.imageIncorrectAnswer1 = "scene1IncorrectAnswer16";
-		this.imageIncorrectAnswer2 = "scene1IncorrectAnswer26";
-		this.imageCorrectAnswer = "scene1CorrectAnswer6";
-		this.characterRun = "spriteSheetPlayerCharacterRun6";
-		this.characterWalk = "characterWalk6";
-		this.characterIdle = "characterIdle6";
-		this.dog = "dog6";
-		this.dogAndBoy = "dogAndBoy6";
-		this.continueHug = "continueHug6";
-		this.petDog = "petDog6";
+		this.option1 = "option111";
+		this.option2 = "option211";
+		this.option3 = "option311";
+		this.optionStick = "stick11"
+		this.characterRun = "spriteSheetPlayerCharacterRun11";
+		this.characterWalk = "characterWalk11";
+		this.characterIdle = "characterIdle11";
+		this.dog = "dog11";
+		this.dogAndBoy = "dogAndBoy11";
+		this.continueHug = "continueHug11";
+		this.petDog = "petDog11";
 		
 
 		if (!WorldSceneConfig.key) {
@@ -130,10 +134,11 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	// A key has to be unique for the entire project, not just this scene.
 	public preload(): void {
-		this.load.image("background6", BackgroundImage);
-		this.load.image(this.imageCorrectAnswer, CorrectAnswerImage);
-		this.load.image(this.imageIncorrectAnswer1, IncorrectAnswerImage);
-		this.load.image(this.imageIncorrectAnswer2, IncorrectAnswerImage2);
+		this.load.image("background11", BackgroundImage);
+		this.load.image(this.option1, Option1);
+		this.load.image(this.option2, Option2);
+		this.load.image(this.option3, Option3);
+		this.load.image(this.optionStick, OptionStick)
 		this.load.aseprite(
 			this.characterWalk,
 			CharacterWalkSheet,
@@ -177,7 +182,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		const centerX = this.scale.displaySize.width * 0.5;
 		const centerY = this.scale.displaySize.height * 0.5;
 
-		const img = this.add.image(centerX, centerY, "background6");
+		const img = this.add.image(centerX, centerY, "background11");
 
 		this.components.addComponent(img, MakeFullscreen);
 
@@ -282,37 +287,171 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 	}
 
 	private createChoice(): void {
-		const button1 = this.add.image(500, 940, this.imageCorrectAnswer);
-		const button2 = this.add.image(1000, 940, this.imageIncorrectAnswer1);
-		const button3 = this.add.image(1500, 940, this.imageIncorrectAnswer2);
+		//create stick 1 and sign 1, add movecomponents
+		const stick1 = this.add.image(500,1280, this.optionStick);
+		const stick1move = this.components.addComponent(
+			stick1,
+			MoveTo
+		);
+		stick1move.setTarget({
+			x: stick1.x,
+			y: stick1.y - 300,
+		});		
+		stick1move.velocity = 280;
+		const button1 = this.add.image(500, 1200, this.option1);
+		button1.on("pointerover", () => {
+			button1.angle = 5;			
+		});
+		button1.on('pointerout',() => {
+			button1.angle = 0;
+		})
+		const button1move = this.components.addComponent(
+			button1,
+			MoveTo
+		);
+		button1move.setTarget({
+			x: button1.x,
+			y: button1.y - 300,
+		});		
+		button1move.velocity = 280;
+		const stick2 = this.add.image(1000,1280, this.optionStick);
+		const stick2move = this.components.addComponent(
+			stick2,
+			MoveTo
+		);
+		
+		//create stick 2 and sign 2, add movecomponents
+		stick2move.setTarget({
+			x: stick2.x,
+			y: stick2.y - 300,
+		});		
+		stick2move.velocity = 280;
+		const button2 = this.add.image(1000, 1200, this.option2);
+		button2.on("pointerover", () => {
+			button2.angle = 5;			
+		});
+		button2.on('pointerout',() => {
+			button2.angle = 0;
+		})
+		const button2move = this.components.addComponent(
+			button2,
+			MoveTo
+		);
+		button2move.setTarget({
+			x: button2.x,
+			y: button2.y - 300,
+		});		
+		button2move.velocity = 280;
+		
+		//create stick 3 and sign 3, add movecomponents
+		const stick3 = this.add.image(1500,1280, this.optionStick);
+		const stick3move = this.components.addComponent(
+			stick3,
+			MoveTo
+		);
+		stick3move.setTarget({
+			x: stick3.x,
+			y: stick3.y - 300,
+		});		
+		stick3move.velocity = 280;
+		const button3 = this.add.image(1500, 1200, this.option3);
+		button3.on("pointerover", () => {
+			button3.angle = 5;			
+		});
+		button3.on('pointerout',() => {
+			button3.angle = 0;
+		})
+		const button3move = this.components.addComponent(
+			button3,
+			MoveTo
+		);
+		button3move.setTarget({
+			x: button3.x,
+			y: button3.y - 300,
+		});		
+		button3move.velocity = 280;
 
 		button1
 			.setInteractive({ useHandCursor: true, pixelPerfect: true })
 			.on("pointerdown", () => {
-				button1.disableInteractive();
-				button2.disableInteractive();
-				button3.disableInteractive();
-
+				//disables sign 1, moves signs and sticks of option 2 and 3 offscreen
+				button1.disableInteractive()				
+				button2move.setTarget({
+					x: button2.x,
+					y: button2.y + 300,
+				});		
+				button2move.velocity = 280;
+				stick2move.setTarget({
+					x: stick2.x,
+					y: stick2.y + 300,
+				});		
+				stick2move.velocity = 280;
+				button3move.setTarget({
+					x: button3.x,
+					y: button3.y + 300,
+				});		
+				button3move.velocity = 280;
+				stick3move.setTarget({
+					x: stick3.x,
+					y: stick3.y + 300,
+				});		
+				stick3move.velocity = 280;
 				this.createResult1();
 			});
 		button2
 			.setInteractive({ useHandCursor: true, pixelPerfect: true })
 			.on("pointerdown", () => {
-				button1.disableInteractive();
-				button2.disableInteractive();
-				button3.disableInteractive();
-
+				//disables sign 2, moves signs and sticks of option 1 and 3 offscreen
+				stick1move.setTarget({
+					x: stick1.x,
+					y: stick1.y + 300,
+				});		
+				stick1move.velocity = 280;
+				button1move.setTarget({
+					x: button1.x,
+					y: button1.y + 300,
+				});		
+				button1move.velocity = 280;
+				button2.disableInteractive()				
+				button3move.setTarget({
+					x: button3.x,
+					y: button3.y + 300,
+				});		
+				button3move.velocity = 280;
+				stick3move.setTarget({
+					x: stick3.x,
+					y: stick3.y + 300,
+				});		
+				stick3move.velocity = 280;
 				this.createResult2();
 			});
 		button3
 			.setInteractive({ useHandCursor: true, pixelPerfect: true })
+			//disables sign 3, moves signs and sticks of option 1 and 2 offscreen
 			.on("pointerdown", () => {
-				button1.disableInteractive();
-				button2.disableInteractive();
+				stick1move.setTarget({
+					x: stick1.x,
+					y: stick1.y + 300,
+				});		
+				stick1move.velocity = 280;
+				button1move.setTarget({
+					x: button1.x,
+					y: button1.y + 300,
+				});		
+				button1move.velocity = 280;
+				stick2move.setTarget({
+					x: stick2.x,
+					y: stick2.y + 300,
+				});		
+				stick2move.velocity = 280;
+				button2move.setTarget({
+					x: button2.x,
+					y: button2.y + 300,
+				});		
+				button2move.velocity = 280;
 				button3.disableInteractive();
-
 				this.createResult3();
-			});
+			});	
 	}
 
 	private createResult1(): void {

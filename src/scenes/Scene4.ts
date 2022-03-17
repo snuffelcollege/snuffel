@@ -3,9 +3,10 @@ import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/characte
 import CharacterRunData from "@assets/spritesheets/player/scenario/run/character_run.json";
 import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/character_walk.png";
 import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/character_walk.json";
-import IncorrectAnswerImage from "@assets/images/scenario_4/option_1.png";
-import IncorrectAnswerImage2 from "@assets/images/scenario_4/option_2.png";
-import CorrectAnswerImage from "@assets/images/scenario_4/option_3.png";
+import Option1 from "@assets/images/scenario_4/option_1.png";
+import Option2 from "@assets/images/scenario_4/option_2.png";
+import Option3 from "@assets/images/scenario_4/option_3.png";
+import OptionStick from "@assets/images/world/option_stick.png"
 import Shrubbery from  "@assets/images/scenario_4/shrubbery.png";
 import HuskyIdleLamppostData from "@assets/spritesheets/husky/husky_idle_lamppost.json";
 import HuskyIdleLamppostSheet from "@assets/spritesheets/husky/husky_idle_lamppost.png";
@@ -48,6 +49,8 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 
 	private characterEntity!: Sprite;
 
+	private optionStick!: string;
+
 	private characterWalk!: string;
 
 	private characterRun!: string;
@@ -64,11 +67,11 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 
 	private exitSceneKey!: string;
 
-	private imageCorrectAnswer!: string;
+	private option1!: string;
 
-	private imageIncorrectAnswer1!: string;
+	private option2!: string;
 
-	private imageIncorrectAnswer2!: string;
+	private option3!: string;
 
 	private shrubbery!: string; 
 
@@ -85,14 +88,15 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 	}
 
 	public init(): void {
-		this.characterWalk = "characterWalk2";
-		this.characterRun = "spriteSheetPlayerCharacterRun2";
+		this.characterWalk = "characterWalk4";
+		this.characterRun = "spriteSheetPlayerCharacterRun4";
 		this.huskyIdleLamppost = "huskyIdleLamppost";
 		this.huskyJumpLamppost = "huskyJumpLamppost";
-		this.imageIncorrectAnswer1 = "scene-2-incorrect-answer-12";
-		this.imageIncorrectAnswer2 = "scene-2-incorrect-answer-22";
-		this.imageCorrectAnswer = "scene-2-correct-answer2";
-		this.shrubbery = "shrubbery2"
+		this.option1 = "option14";
+		this.option2 = "option24";
+		this.option3 = "option34";
+		this.optionStick = "stick4";
+		this.shrubbery = "shrubbery"
 
 		this.characterWalkAnims = [];
 		this.characterRunAnims = [];
@@ -115,12 +119,13 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 
 	// A key has to be unique for the entire project, not just this scene.
 	public preload(): void {
-		this.load.image("background2", Background);
+		this.load.image("background4", Background);
 		this.load.image("ball", Ball);
 		this.load.image(this.shrubbery, Shrubbery);
-		this.load.image(this.imageCorrectAnswer, CorrectAnswerImage);
-		this.load.image(this.imageIncorrectAnswer1, IncorrectAnswerImage);
-		this.load.image(this.imageIncorrectAnswer2, IncorrectAnswerImage2);
+		this.load.image(this.option1, Option1);
+		this.load.image(this.option2, Option2);
+		this.load.image(this.option3, Option3);
+		this.load.image(this.optionStick, OptionStick);	
 
 		this.load.aseprite(
 			this.characterRun,
@@ -151,7 +156,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		const centerX = this.scale.displaySize.width * 0.5;
 		const centerY = this.scale.displaySize.height * 0.5;
 
-		const img = this.add.image(centerX, centerY, "background2");
+		const img = this.add.image(centerX, centerY, "background4");
 		this.add.image(300, 885, this.shrubbery).setDepth(3).setScale(1.2);
 		this.components.addComponent(img, MakeFullscreen);
 
@@ -246,28 +251,171 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 	}
 
 	private createChoice(): void {
-		const button1 = this.add.image(500, 940, this.imageIncorrectAnswer1).setDepth(4);
-		const button2 = this.add.image(1000, 940, this.imageIncorrectAnswer2).setDepth(4);
-		const button3 = this.add.image(1500, 940, this.imageCorrectAnswer).setDepth(4);
+		//create stick 1 and sign 1, add movecomponents
+		const stick1 = this.add.image(500,1280, this.optionStick).setDepth(3);
+		const stick1move = this.components.addComponent(
+			stick1,
+			MoveTo
+		);
+		stick1move.setTarget({
+			x: stick1.x,
+			y: stick1.y - 300,
+		});		
+		stick1move.velocity = 280;
+		const button1 = this.add.image(500, 1200, this.option1).setDepth(3);
+		button1.on("pointerover", () => {
+			button1.angle = 5;			
+		});
+		button1.on('pointerout',() => {
+			button1.angle = 0;
+		})
+		const button1move = this.components.addComponent(
+			button1,
+			MoveTo
+		);
+		button1move.setTarget({
+			x: button1.x,
+			y: button1.y - 300,
+		});		
+		button1move.velocity = 280;
+		const stick2 = this.add.image(1000,1280, this.optionStick);
+		const stick2move = this.components.addComponent(
+			stick2,
+			MoveTo
+		);
+		
+		//create stick 2 and sign 2, add movecomponents
+		stick2move.setTarget({
+			x: stick2.x,
+			y: stick2.y - 300,
+		});		
+		stick2move.velocity = 280;
+		const button2 = this.add.image(1000, 1200, this.option2);
+		button2.on("pointerover", () => {
+			button2.angle = 5;			
+		});
+		button2.on('pointerout',() => {
+			button2.angle = 0;
+		})
+		const button2move = this.components.addComponent(
+			button2,
+			MoveTo
+		);
+		button2move.setTarget({
+			x: button2.x,
+			y: button2.y - 300,
+		});		
+		button2move.velocity = 280;
+		
+		//create stick 3 and sign 3, add movecomponents
+		const stick3 = this.add.image(1500,1280, this.optionStick);
+		const stick3move = this.components.addComponent(
+			stick3,
+			MoveTo
+		);
+		stick3move.setTarget({
+			x: stick3.x,
+			y: stick3.y - 300,
+		});		
+		stick3move.velocity = 280;
+		const button3 = this.add.image(1500, 1200, this.option3);
+		button3.on("pointerover", () => {
+			button3.angle = 5;			
+		});
+		button3.on('pointerout',() => {
+			button3.angle = 0;
+		})
+		const button3move = this.components.addComponent(
+			button3,
+			MoveTo
+		);
+		button3move.setTarget({
+			x: button3.x,
+			y: button3.y - 300,
+		});		
+		button3move.velocity = 280;
 
-		button1.setInteractive().on("pointerdown", () => {
-			button1.disableInteractive();
-			button2.disableInteractive();
-			button3.disableInteractive();
-			this.createResult1();
-		});
-		button2.setInteractive().on("pointerdown", () => {
-			button1.disableInteractive();
-			button2.disableInteractive();
-			button3.disableInteractive();
-			this.createResult2();
-		});
-		button3.setInteractive().on("pointerdown", () => {
-			button1.disableInteractive();
-			button2.disableInteractive();
-			button3.disableInteractive();
-			this.createResult3();
-		});
+		button1
+			.setInteractive({ useHandCursor: true, pixelPerfect: true })
+			.on("pointerdown", () => {
+				//disables sign 1, moves signs and sticks of option 2 and 3 offscreen
+				button1.disableInteractive()				
+				button2move.setTarget({
+					x: button2.x,
+					y: button2.y + 300,
+				});		
+				button2move.velocity = 280;
+				stick2move.setTarget({
+					x: stick2.x,
+					y: stick2.y + 300,
+				});		
+				stick2move.velocity = 280;
+				button3move.setTarget({
+					x: button3.x,
+					y: button3.y + 300,
+				});		
+				button3move.velocity = 280;
+				stick3move.setTarget({
+					x: stick3.x,
+					y: stick3.y + 300,
+				});		
+				stick3move.velocity = 280;
+				this.createResult1();
+			});
+		button2
+			.setInteractive({ useHandCursor: true, pixelPerfect: true })
+			.on("pointerdown", () => {
+				//disables sign 2, moves signs and sticks of option 1 and 3 offscreen
+				stick1move.setTarget({
+					x: stick1.x,
+					y: stick1.y + 300,
+				});		
+				stick1move.velocity = 280;
+				button1move.setTarget({
+					x: button1.x,
+					y: button1.y + 300,
+				});		
+				button1move.velocity = 280;
+				button2.disableInteractive()				
+				button3move.setTarget({
+					x: button3.x,
+					y: button3.y + 300,
+				});		
+				button3move.velocity = 280;
+				stick3move.setTarget({
+					x: stick3.x,
+					y: stick3.y + 300,
+				});		
+				stick3move.velocity = 280;
+				this.createResult2();
+			});
+		button3
+			.setInteractive({ useHandCursor: true, pixelPerfect: true })
+			//disables sign 3, moves signs and sticks of option 1 and 2 offscreen
+			.on("pointerdown", () => {
+				stick1move.setTarget({
+					x: stick1.x,
+					y: stick1.y + 300,
+				});		
+				stick1move.velocity = 280;
+				button1move.setTarget({
+					x: button1.x,
+					y: button1.y + 300,
+				});		
+				button1move.velocity = 280;
+				stick2move.setTarget({
+					x: stick2.x,
+					y: stick2.y + 300,
+				});		
+				stick2move.velocity = 280;
+				button2move.setTarget({
+					x: button2.x,
+					y: button2.y + 300,
+				});		
+				button2move.velocity = 280;
+				button3.disableInteractive();
+				this.createResult3();
+			});
 	}
 
 	private createResult1() {
@@ -316,6 +464,48 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 	}
 
 	private createResult2() {
+		this.characterEntity.play({
+			key: this.characterWalkAnims[0].key,
+			repeat: -1,
+		});
+
+		const moveTo = this.components.addComponent(
+			this.characterEntity,
+			MoveTo
+		);
+
+		moveTo.setTarget({
+			x: this.characterEntity.x - 300,
+			y: this.characterEntity.y + 250,
+		});
+
+		moveTo.velocity = 150;
+
+		moveTo.movingDone = () => {
+			this.characterEntity.play({
+				key: this.characterWalkAnims[0].key,
+				repeat: -1,
+			});
+	
+			const moveTo = this.components.addComponent(
+				this.characterEntity,
+				MoveTo
+			);
+	
+			moveTo.setTarget({
+				x: this.characterEntity.x - 1000,
+				y: this.characterEntity.y,
+			});
+	
+			moveTo.velocity = 150;
+			moveTo.movingDone = () => {
+				this.moveScene();
+			}
+		}
+		this.cameras.main.flash(2000, 0, 200, 0);
+	}
+
+	private createResult3() {
 		this.huskyEntity.play({ key: this.huskyJumpAnims[0].key, repeat: -1 });
 
 		const moveToBall = this.components.addComponent(
@@ -361,47 +551,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		this.cameras.main.flash(2000, 200, 0, 0);
 	}
 
-	private createResult3() {
-		this.characterEntity.play({
-			key: this.characterWalkAnims[0].key,
-			repeat: -1,
-		});
-
-		const moveTo = this.components.addComponent(
-			this.characterEntity,
-			MoveTo
-		);
-
-		moveTo.setTarget({
-			x: this.characterEntity.x - 300,
-			y: this.characterEntity.y + 250,
-		});
-
-		moveTo.velocity = 150;
-
-		moveTo.movingDone = () => {
-			this.characterEntity.play({
-				key: this.characterWalkAnims[0].key,
-				repeat: -1,
-			});
 	
-			const moveTo = this.components.addComponent(
-				this.characterEntity,
-				MoveTo
-			);
-	
-			moveTo.setTarget({
-				x: this.characterEntity.x - 1000,
-				y: this.characterEntity.y,
-			});
-	
-			moveTo.velocity = 150;
-			moveTo.movingDone = () => {
-				this.moveScene();
-			}
-		}
-		this.cameras.main.flash(2000, 0, 200, 0);
-	}
 
 	private moveScene() {
 		fadeToBlack(this, () => {
