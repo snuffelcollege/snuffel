@@ -1,8 +1,8 @@
-import BackgroundImage from "@assets/background.png";
-import CorrectAnswerImage from "@assets/images/scenario_1/option_1.png";
-import IncorrectAnswerImage from "@assets/images/scenario_1/option_2.png";
-import IncorrectAnswerImage2 from "@assets/images/scenario_1/option_3.png";
-import OptionStick from "@assets/images/option_stick.png"
+import BackgroundImage from "@assets/images/scenario_8/BG.png";
+import CorrectAnswerImage from "@assets/images/scenario_8/option_1.png";
+import IncorrectAnswerImage from "@assets/images/scenario_8/option_2.png";
+import IncorrectAnswerImage2 from "@assets/images/scenario_8/option_3.png";
+import OptionStick from "@assets/images/world/option_stick.png"
 import PlayerCharacterSheet from "@assets/spritesheets/player/scenario/icecreamidle/icecream_idle.png";
 import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/character_run.png";
 import CharacterRunData from "@assets/spritesheets/player/scenario/run/character_run.json";
@@ -10,8 +10,8 @@ import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/charac
 import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/character_walk.json";
 import CharacterIdleSheet from "@assets/spritesheets/player/scenario/idle/character_idle.png";
 import CharacterIdleData from "@assets/spritesheets/player/scenario/idle/character_idle.json";
-import IceCreamConeImage from "@assets/images/scenario_1/icecream_cone.png";
-import FallenIceCreamConeImage from "@assets/images/scenario_1/Fallenicecream.png";
+import IceCreamConeImage from "@assets/images/scenario_8/icecream_cone.png";
+import FallenIceCreamConeImage from "@assets/images/scenario_8/Fallenicecream.png";
 import HuskyJson from "@assets/spritesheets/husky/husky.json";
 import HuskySheet from "@assets/spritesheets/husky/husky.png";
 import { GameObjects, Scene } from "phaser";
@@ -28,7 +28,7 @@ import FixedHeightAnimator from "../Components/FixedHeightAnimator";
 // Config for the scene defining gravity and debug settings.
 export const config: SettingsConfig = {
 	active: false,
-	key: "scene-1",
+	key: "scene-8",
 	physics: {
 		default: "arcade",
 		arcade: {

@@ -1,5 +1,5 @@
-import Background from "@assets/background.png";
-import Logo from "@assets/snuffelcollege-logo.png";
+import Background from "@assets/images/world/background.png";
+import Logo from "@assets/images/world/snuffelcollege-logo.png";
 import Title from "@assets/images/world/title.png";
 import StartButton from "@assets/images/world/Start_button.png";
 import HuskyImage from "@assets/spritesheets/husky/husky.png";

@@ -1,33 +1,29 @@
-import BackgroundImage from "@assets/images/scenario_4/BG.png";
-import Car from "@assets/images/scenario_4/car.png";
-import CorrectAnswerImage from "@assets/images/scenario_4/option_1.png";
-import IncorrectAnswerImage from "@assets/images/scenario_4/option_2.png";
-import IncorrectAnswerImage2 from "@assets/images/scenario_4/option_3.png";
-import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/character_walk.png";
-import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/character_walk.json";
+import Background from "@assets/images/scenario_4/BG.png";
 import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/character_run.png";
 import CharacterRunData from "@assets/spritesheets/player/scenario/run/character_run.json";
-import CharacterIdleSheet from "@assets/spritesheets/player/scenario/idle/character_idle.png";
-import CharacterIdleData from "@assets/spritesheets/player/scenario/idle/character_idle.json";
-import CharacterKnockSheet from "@assets/spritesheets/scenario_4/boy_knock.png";
-import CharacterKnockData from "@assets/spritesheets/scenario_4/boy_knock.json";
-import CharacterArmSheet from "@assets/spritesheets/scenario_4/boy_arm.png";
-import CharacterArmData from "@assets/spritesheets/scenario_4/boy_arm.json";
-import DogNeutralImage from "@assets/spritesheets/scenario_4/dog_neutral.png";
-import DogNeutralData from "@assets/spritesheets/scenario_4/dog_neutral.json";
-import DogBiteImage from "@assets/spritesheets/scenario_4/dog_bite.png";
-import DogBiteData from "@assets/spritesheets/scenario_4/dog_bite.json";
-import { GameObjects, Scene } from "phaser";
+import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/character_walk.png";
+import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/character_walk.json";
+import IncorrectAnswerImage from "@assets/images/scenario_4/option_1.png";
+import IncorrectAnswerImage2 from "@assets/images/scenario_4/option_2.png";
+import CorrectAnswerImage from "@assets/images/scenario_4/option_3.png";
+import Shrubbery from  "@assets/images/scenario_4/shrubbery.png";
+import HuskyIdleLamppostData from "@assets/spritesheets/husky/husky_idle_lamppost.json";
+import HuskyIdleLamppostSheet from "@assets/spritesheets/husky/husky_idle_lamppost.png";
+import HuskyJumpLamppostData from "@assets/spritesheets/husky/husky_jump_lamppost.json";
+import HuskyJumpLamppostSheet from "@assets/spritesheets/husky/husky_jump_lamppost.png";
+import Ball from "@assets/images/scenario_4/ball.png";
+import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
-import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
 import ComponentService from "../Services/ComponentService";
 import MakeFullscreen from "../Components/MakeFullscreen";
 import { WorldSceneConfig } from "./WorldScene";
+import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
 import MoveTo from "../Components/MoveTo";
+import FixedHeightAnimator from "../Components/FixedHeightAnimator";
+import { waitFor } from "../Utilities/Scene/SceneUtil";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
 
-// Config for the scene defining gravity and debug settings.
 export const config: SettingsConfig = {
 	active: false,
 	key: "scene-4",
@@ -40,83 +36,70 @@ export const config: SettingsConfig = {
 	},
 };
 
-// Config for the text style.
-export const textStyle: Phaser.Types.GameObjects.Text.TextStyle = {
-	color: "#ffe500",
-	fontFamily: "Trebuchet MS",
-	fontSize: "48px",
-	padding: {
-		x: 15,
-		y: 15,
-	},
-	align: "center",
-	stroke: "#ffe500",
-	strokeThickness: 2,
-	shadow: {
-		offsetY: 1,
-		offsetX: 1,
-		stroke: true,
-		color: "#000",
-	},
-};
+// Define the different movements for the ball. It is either stationary (not moving), moving to the left or moving to the right.
+enum BallMovement {
+	Stationary,
+	Left,
+	Right,
+}
 
-export default class Scene1 extends Scene implements SceneLifecycle {
+export default class Scene2 extends Scene implements SceneLifecycle {
 	private components!: ComponentService;
 
-	private characterEntity!: Sprite; //embodiement of character, uses walk and idle animations
+	private characterEntity!: Sprite;
 
-	private characterWalkAnims!: Phaser.Animations.Animation[]; // push character walk
+	private characterWalk!: string;
 
-	private characterWalk!: string; //aseprite of character walking
+	private characterRun!: string;
 
-	private characterRunAnims!: Phaser.Animations.Animation[]; // push character walk
+	private huskyEntity!: Sprite;
 
-	private characterRun!: string; //aseprite of character walking
+	private huskyIdleLamppost!: string;
 
-	private characterIdle!: string;//aseprite of character idling
+	private huskyJumpLamppost!: string;
 
-	private characterArm!: string;
+	private ballEntity!: Sprite;
 
-	private characterArmAnims!: Phaser.Animations.Animation[]; 
+	private ballMoving!: BallMovement;
 
-	private characterKnock!: string;
+	private exitSceneKey!: string;
 
-	private characterKnockAnims!: Phaser.Animations.Animation[]; // push character walk
-	
-	private DogEntity!: Sprite; //entity that uses dog animation
-	
-	private dogIdleAnimation!: string;//aseprite of regular dog in car window
-
-	private dogBiteAnimation!: string;
-
-	private car!: string; //png of car
+	private imageCorrectAnswer!: string;
 
 	private imageIncorrectAnswer1!: string;
 
 	private imageIncorrectAnswer2!: string;
 
-	private imageCorrectAnswer!: string;
+	private shrubbery!: string; 
 
-	private exitSceneKey!: string;
+	private characterWalkAnims!: Phaser.Animations.Animation[];
+
+	private characterRunAnims!: Phaser.Animations.Animation[];
+
+	private huskyJumpAnims!: Phaser.Animations.Animation[];
+
+	private huskyIdleAnims!: Phaser.Animations.Animation[];
 
 	constructor(cfg: SettingsConfig = config) {
 		super(cfg);
 	}
 
 	public init(): void {
+		this.characterWalk = "characterWalk2";
+		this.characterRun = "spriteSheetPlayerCharacterRun2";
+		this.huskyIdleLamppost = "huskyIdleLamppost";
+		this.huskyJumpLamppost = "huskyJumpLamppost";
+		this.imageIncorrectAnswer1 = "scene-2-incorrect-answer-12";
+		this.imageIncorrectAnswer2 = "scene-2-incorrect-answer-22";
+		this.imageCorrectAnswer = "scene-2-correct-answer2";
+		this.shrubbery = "shrubbery2"
 
-		//initializes variables, the string value isn't really bound to anything
-		this.car = "car"
-		this.imageIncorrectAnswer1 = "scene1IncorrectAnswer14";
-		this.imageIncorrectAnswer2 = "scene1IncorrectAnswer24";
-		this.imageCorrectAnswer = "scene1CorrectAnswer4";
-		this.characterWalk = "characterWalk4";
-		this.characterIdle = "characterIdle4";
-		this.characterRun = "characterRun4"
-		this.characterKnock = "characterKnock4";
-		this.characterArm = "characterArm4";
-		this.dogIdleAnimation = "dogidleanimation4";
-		this.dogBiteAnimation = "dogbiteanimation4"
+		this.characterWalkAnims = [];
+		this.characterRunAnims = [];
+		this.huskyJumpAnims = [];
+		this.huskyIdleAnims = [];
+
+		this.ballMoving = BallMovement.Stationary;
 
 		if (!WorldSceneConfig.key) {
 			throw Error("Exit scene key is undefined");
@@ -126,321 +109,300 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 		this.components = new ComponentService();
 
-		this.characterWalkAnims = [];
-		this.characterRunAnims = [];
-		this.characterKnockAnims = [];
-		this.characterArmAnims = [];
 		// The moment the scene renders, a fade from black is started using this function.
 		addFadeIn(this);
 	}
 
 	// A key has to be unique for the entire project, not just this scene.
 	public preload(): void {
-		//assigns background to 'background4' string
-		this.load.image("background4", BackgroundImage);
-		this.load.image(this.car, Car);
+		this.load.image("background2", Background);
+		this.load.image("ball", Ball);
+		this.load.image(this.shrubbery, Shrubbery);
 		this.load.image(this.imageCorrectAnswer, CorrectAnswerImage);
 		this.load.image(this.imageIncorrectAnswer1, IncorrectAnswerImage);
 		this.load.image(this.imageIncorrectAnswer2, IncorrectAnswerImage2);
-	
-		this.load.aseprite(
-			this.characterWalk,
-			CharacterWalkSheet,
-			CharacterWalkData
-		);
+
 		this.load.aseprite(
 			this.characterRun,
 			CharacterRunSheet,
 			CharacterRunData
 		);
+
 		this.load.aseprite(
-			this.characterIdle,
-			CharacterIdleSheet,
-			CharacterIdleData
+			this.characterWalk,
+			CharacterWalkSheet,
+			CharacterWalkData
 		);
+
 		this.load.aseprite(
-			this.characterArm,
-			CharacterArmSheet,
-			CharacterArmData
-		)
-		this.load.aseprite(
-			this.characterKnock,
-			CharacterKnockSheet,
-			CharacterKnockData
-		)
-		this.load.aseprite(
-			this.dogIdleAnimation,
-			DogNeutralImage,
-			DogNeutralData
+			this.huskyIdleLamppost,
+			HuskyIdleLamppostSheet,
+			HuskyIdleLamppostData
 		);
+
 		this.load.aseprite(
-			this.dogBiteAnimation,
-			DogBiteImage,
-			DogBiteData
+			this.huskyJumpLamppost,
+			HuskyJumpLamppostSheet,
+			HuskyJumpLamppostData
 		);
 	}
 
 	public create(): void {
 		const centerX = this.scale.displaySize.width * 0.5;
 		const centerY = this.scale.displaySize.height * 0.5;
-		
-		//loads background from 'background4' string. this isn't stored in a local variable because of a bug where the wrong background was loaded in certain scenes.
-		const img = this.add.image(centerX, centerY, "background4");
-		const car = this.add.image(500, 700, this.car,);
-		car.setScale(0.9)
+
+		const img = this.add.image(centerX, centerY, "background2");
+		this.add.image(300, 885, this.shrubbery).setDepth(3).setScale(1.2);
 		this.components.addComponent(img, MakeFullscreen);
 
-		this.characterWalkAnims.push(
-			...this.anims.createFromAseprite(this.characterWalk)
+		this.characterWalkAnims = this.anims.createFromAseprite(
+			this.characterWalk
 		);
-		this.characterRunAnims.push(
-			...this.anims.createFromAseprite(this.characterRun)
+		this.characterRunAnims = this.anims.createFromAseprite(
+			this.characterRun
 		);
-		this.characterKnockAnims.push(
-			...this.anims.createFromAseprite(this.characterKnock)
+		this.huskyJumpAnims = this.anims.createFromAseprite(
+			this.huskyJumpLamppost
 		);
-		this.characterArmAnims.push(
-			...this.anims.createFromAseprite(this.characterArm)
+		this.huskyIdleAnims = this.anims.createFromAseprite(
+			this.huskyIdleLamppost
 		);
-		
+
 		this.createSituation();
 	}
 
 	public update(time: number, delta: number): void {
 		super.update(time, delta);
+
+		// Make sure the ball is rolling to the right side. Rotation is in PI, so the given margin is small.
+		if (this.ballMoving === BallMovement.Right)
+			this.ballEntity.setRotation(this.ballEntity.rotation + 0.1);
+		else if (this.ballMoving === BallMovement.Left)
+			this.ballEntity.setRotation(this.ballEntity.rotation - 0.15);
 	}
 
-	private createSituation(): void {
+	// Creates the opening of the scene.
+	private createSituation() {
+		let characterDone = false;
+		let ballDone = false;
 
-		//main character idling
-		this.anims.create({
-			key: this.characterIdle,
-			frameRate: 2,
-			frames: this.anims.generateFrameNumbers(
-				this.characterIdle,
-				{
-					start: 0,
-					end: 1,
-				}
-			),
+		// Create dog
+		this.huskyEntity = this.add.sprite(500, 400, this.huskyIdleLamppost);
+
+		// Play dog's animation
+		this.huskyEntity.play({ key: this.huskyIdleAnims[0].key, repeat: -1 });
+
+		// Create character
+		this.characterEntity = this.add.sprite(2100, 600, this.characterWalk).setDepth(2);
+
+		// Play characters animation
+		this.characterEntity.setFlipX(true).play({
+			key: this.characterWalkAnims[0].key,
 			repeat: -1,
 		});
-		this.characterEntity = this.add.sprite(1100,700,this.characterIdle);
-		this.characterEntity.play(this.characterIdle).setScale(.8);
 
-		//dog animation
-		this.anims.create({
-			key: this.dogIdleAnimation,
-			frameRate: 1,
-			frames: this.anims.generateFrameNumbers(
-				this.dogIdleAnimation,
-				{
-					start: 0,
-					end: 1,
-				}
-			),
+		// Create movement for character
+		const moveToCharacter = this.components.addComponent(
+			this.characterEntity,
+			MoveTo
+		);
+
+		moveToCharacter.setTarget({
+			x: 1150,
+			y: 500,
 		});
-		this.DogEntity = this.add.sprite(780,487,this.dogIdleAnimation);
-		this.DogEntity.play(this.dogIdleAnimation).setScale(.8);
 
-		this.createChoice();		
+		moveToCharacter.velocity = 150;
+
+		moveToCharacter.movingDone = () => {
+			this.characterEntity.stop();
+			characterDone = true;
+			if (characterDone && ballDone) this.createChoice();
+		};
+
+		this.ballEntity = this.add.sprite(800, 750, "ball");
+
+		this.ballEntity.setDepth(1)
+
+		this.ballMoving = BallMovement.Right;
+
+		const moveToBall = this.components.addComponent(
+			this.ballEntity,
+			MoveTo
+		);
+
+		moveToBall.setTarget({
+			x: 1075,
+			y: 750,
+		});
+
+		moveToBall.velocity = 100;
+
+		moveToBall.movingDone = () => {
+			ballDone = true;
+			this.ballMoving = BallMovement.Stationary;
+			if (characterDone && ballDone) this.createChoice();
+		};
 	}
 
 	private createChoice(): void {
-		const button1 = this.add.image(500, 940, this.imageCorrectAnswer);
-		const button2 = this.add.image(1000, 940, this.imageIncorrectAnswer1);
-		const button3 = this.add.image(1500, 940, this.imageIncorrectAnswer2);
+		const button1 = this.add.image(500, 940, this.imageIncorrectAnswer1).setDepth(4);
+		const button2 = this.add.image(1000, 940, this.imageIncorrectAnswer2).setDepth(4);
+		const button3 = this.add.image(1500, 940, this.imageCorrectAnswer).setDepth(4);
 
-		button1
-			.setInteractive({ useHandCursor: true, pixelPerfect: true })
-			.on("pointerdown", () => {
-				button1.disableInteractive();
-				button2.disableInteractive();
-				button3.disableInteractive();
-
-				this.createResult1();
-			});
-		button2
-			.setInteractive({ useHandCursor: true, pixelPerfect: true })
-			.on("pointerdown", () => {
-				button1.disableInteractive();
-				button2.disableInteractive();
-				button3.disableInteractive();
-
-				this.createResult2();
-			});
-		button3
-			.setInteractive({ useHandCursor: true, pixelPerfect: true })
-			.on("pointerdown", () => {
-				button1.disableInteractive();
-				button2.disableInteractive();
-				button3.disableInteractive();
-
-				this.createResult3();
-			});
+		button1.setInteractive().on("pointerdown", () => {
+			button1.disableInteractive();
+			button2.disableInteractive();
+			button3.disableInteractive();
+			this.createResult1();
+		});
+		button2.setInteractive().on("pointerdown", () => {
+			button1.disableInteractive();
+			button2.disableInteractive();
+			button3.disableInteractive();
+			this.createResult2();
+		});
+		button3.setInteractive().on("pointerdown", () => {
+			button1.disableInteractive();
+			button2.disableInteractive();
+			button3.disableInteractive();
+			this.createResult3();
+		});
 	}
 
-	//knock on car window (wrong)
-	private createResult1(): void {
+	private createResult1() {
+		this.characterEntity.play({
+			key: this.characterWalkAnims[0].key,
+			repeat: -1,
+		});
+
+		const moveTo = this.components.addComponent(
+			this.characterEntity,
+			MoveTo
+		);
+
+		moveTo.setTarget({
+			x: this.characterEntity.x - 300,
+			y: this.characterEntity.y,
+		});
+
+		moveTo.velocity = 150;
+
+		moveTo.movingDone = () => {
+			this.huskyEntity.play({
+				key: this.huskyJumpAnims[0].key,
+				repeat: -1,
+			});
+
+			this.characterEntity.toggleFlipX().play({
+				key: this.characterRunAnims[0].key,
+				repeat: -1,
+			});
+
+			moveTo.setTarget({
+				x: this.characterEntity.x + 700,
+				y: this.characterEntity.y + 50,
+			});
+
+			moveTo.velocity = 300;
+
+			moveTo.movingDone = () => {
+				this.characterEntity.stop();
+				this.moveScene();
+			};
+		};
+
+		this.cameras.main.flash(2000, 200, 0, 0);
+	}
+
+	private createResult2() {
+		this.huskyEntity.play({ key: this.huskyJumpAnims[0].key, repeat: -1 });
+
+		const moveToBall = this.components.addComponent(
+			this.ballEntity,
+			MoveTo
+		);
+
+		const moveToPlayer = this.components.addComponent(
+			this.characterEntity,
+			MoveTo
+		);
+
+		this.ballMoving = BallMovement.Left;
+
+		moveToBall.setTarget({
+			x: this.ballEntity.x - 400,
+			y: this.ballEntity.y,
+		});
+
+		moveToBall.velocity = 200;
+
+		moveToBall.movingDone = () => {
+			this.ballMoving = BallMovement.Stationary;
+		};
+
+		this.characterEntity.toggleFlipX().play({
+			key: this.characterRunAnims[0].key,
+			repeat: -1,
+		});
+
+		moveToPlayer.setTarget({
+			x: this.characterEntity.x + 700,
+			y: this.characterEntity.y + 50,
+		});
+
+		moveToPlayer.velocity = 300;
+
+		moveToPlayer.movingDone = () => {
+			this.characterEntity.stop();
+			this.moveScene();
+		};
+
+		this.cameras.main.flash(2000, 200, 0, 0);
+	}
+
+	private createResult3() {
+		this.characterEntity.play({
+			key: this.characterWalkAnims[0].key,
+			repeat: -1,
+		});
+
+		const moveTo = this.components.addComponent(
+			this.characterEntity,
+			MoveTo
+		);
+
+		moveTo.setTarget({
+			x: this.characterEntity.x - 300,
+			y: this.characterEntity.y + 250,
+		});
+
+		moveTo.velocity = 150;
+
+		moveTo.movingDone = () => {
+			this.characterEntity.play({
+				key: this.characterWalkAnims[0].key,
+				repeat: -1,
+			});
 	
-		//sets character in walk animation (towards car)
-		this.characterEntity		
-			.toggleFlipX()//	
-			.play({ key: this.characterWalkAnims[0].key, repeat: -1 })
-			.setScale(0.8);
-
-		//moveto component
-		const moveToCar = this.components.addComponent(this.characterEntity,MoveTo);
-
-		//sets target location for moveto command
-		moveToCar.setTarget({
-			x: this.characterEntity.x - 200,
-			y: this.characterEntity.y,
-		});
-
-		//sets velocity of moveto command
-		moveToCar.velocity = 100;
-
-		moveToCar.movingDone = () => {
-			//knocking after moving is done
-			this.characterEntity
-			.toggleFlipX()
-			.play({ key: this.characterKnockAnims[0].key, repeat: -1,frameRate:1 })
-			.setScale(0.8);
-
-			setTimeout(() => {
-				//dog animation
-				this.anims.create({
-					key: this.dogBiteAnimation,
-					frameRate: 1,
-					frames: this.anims.generateFrameNumbers(
-						this.dogBiteAnimation,
-						{
-							start: 0,
-							end: 1,
-						}
-					),
-				});
-				this.DogEntity.setFrame(this.dogBiteAnimation);//overwrites old frame
-				this.DogEntity.play(this.dogBiteAnimation).setScale(.8);
-				//run animation
-				this.characterEntity
-				.play({ key: this.characterRunAnims[0].key, repeat: -1,frameRate:3 })
-				.setScale(0.8);
-				const moveToExit = this.components.addComponent(this.characterEntity,MoveTo);
-				//sets target location for moveto command
-				moveToExit.setTarget({
-					x: this.characterEntity.x + 1500,
-					y: this.characterEntity.y
-				});
-				moveToExit.velocity = 300;
-			},2000)
+			const moveTo = this.components.addComponent(
+				this.characterEntity,
+				MoveTo
+			);
+	
+			moveTo.setTarget({
+				x: this.characterEntity.x - 1000,
+				y: this.characterEntity.y,
+			});
+	
+			moveTo.velocity = 150;
+			moveTo.movingDone = () => {
+				this.moveScene();
+			}
 		}
-
-		//red flash
-		this.cameras.main.flash(2000, 200, 0, 0);
-
-		//fade to black and back to overworld after 5 seconds
-		setTimeout(() => {
-			this.moveScene();
-		}, 6000);
-	}
-
-	//put arm trough car window (wrong)
-	private createResult2(): void {
-
-		//sets character in walk animation (towards car)
-		this.characterEntity		
-			.toggleFlipX()//	
-			.play({ key: this.characterWalkAnims[0].key, repeat: -1 })
-			.setScale(0.8);
-
-		//moveto component
-		const moveToCar = this.components.addComponent(this.characterEntity,MoveTo);
-
-		//sets target location for moveto command
-		moveToCar.setTarget({
-			x: this.characterEntity.x - 180,
-			y: this.characterEntity.y - 30,
-		});
-
-		//sets velocity of moveto command
-		moveToCar.velocity = 100;
-
-		moveToCar.movingDone = () => {
-			//put arm trough window (once) after moving is done 
-			this.characterEntity
-			.toggleFlipX()
-			.play({ key: this.characterArmAnims[0].key,frameRate:1 })
-			.setScale(0.8);
-
-			setTimeout(() => {
-				//dog animation
-				this.anims.create({
-					key: this.dogBiteAnimation,
-					frameRate: 1,
-					frames: this.anims.generateFrameNumbers(
-						this.dogBiteAnimation,
-						{
-							start: 0,
-							end: 1,
-						}
-					),
-				});
-				this.DogEntity.setFrame(this.dogBiteAnimation);//overwrites old frame
-				this.DogEntity.play(this.dogBiteAnimation).setScale(.8);
-				//run animation
-				this.characterEntity
-				.play({ key: this.characterRunAnims[0].key, repeat: -1,frameRate:3 })
-				.setScale(0.8);
-				const moveToExit = this.components.addComponent(this.characterEntity,MoveTo);
-				//sets target location for moveto command
-				moveToExit.setTarget({
-					x: this.characterEntity.x + 1500,
-					y: this.characterEntity.y
-				});
-				moveToExit.velocity = 300;
-			},2000)
-		}
-		//red flash
-		this.cameras.main.flash(2000, 200, 0, 0);
-
-		//fade to black and back to overworld after 5 seconds
-		setTimeout(() => {
-			this.moveScene();
-		}, 6000);
-	}
-
-	//walk away (correct answer)
-	private createResult3(): void {
-
-		//sets character in walk animation
-		this.characterEntity
-			.play({ key: this.characterWalkAnims[0].key, repeat: -1 })
-			.setScale(0.8);
-
-		//moveto component
-		const moveToCharacter = this.components.addComponent(this.characterEntity,MoveTo);
-
-		//sets target location for moveto command
-		moveToCharacter.setTarget({
-			x: this.characterEntity.x + 1000,
-			y: this.characterEntity.y,
-		});
-
-		//sets velocity of moveto command
-		moveToCharacter.velocity = 200;
-
-		//green flash
 		this.cameras.main.flash(2000, 0, 200, 0);
-
-		//fade to black and back to overworld after 5 seconds
-		setTimeout(() => {
-			this.moveScene();
-		}, 5000);
 	}
 
-	//fade to black and back to overworld
 	private moveScene() {
 		fadeToBlack(this, () => {
 			this.scene.stop(this.scene.key).wake(this.exitSceneKey);

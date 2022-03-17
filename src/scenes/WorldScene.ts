@@ -5,9 +5,9 @@ import poiCloudData from "@assets/spritesheets/pointOfInterest/cloud/poi_cloud.j
 import huskyImage from "@assets/spritesheets/husky/husky.png";
 import huskyJson from "@assets/spritesheets/husky/husky.json";
 import huskyWaitImage from "@assets/images/world/husky_wait.png";
-import Car from "@assets/images/scenario_4/car.png";
-import DogInCarSheet from "@assets/spritesheets/scenario_4/dog_neutral.png";
-import DogInCarData from "@assets/spritesheets/scenario_4/dog_neutral.json";
+import Car from "@assets/images/scenario_6/car.png";
+import DogInCarSheet from "@assets/spritesheets/scenario_6/dog_neutral.png";
+import DogInCarData from "@assets/spritesheets/scenario_6/dog_neutral.json";
 import { Scene } from "phaser";
 import PlayerEntity from "../GameObjects/Entities/PlayerEntity";
 import DepthSorter from "../Services/DepthSorter";
@@ -177,24 +177,14 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 					break;
 				case "Objective":
 					if (obj.point) {
-						if (obj.name === "Husky") {
-							this.createDogScene(
+						if (obj.name === "Fence") {
+							this.createFenceScene(
 								this,
 								collidables,
 								overlappables,
 								obj.x as number,
 								obj.y as number,
-								"scene-1"
-							);
-						} else if (obj.name === "HuskyLamppost") {
-							this.createDogLamppostScene(
-								this,
-								collidables,
-								overlappables,
-								obj.x as number,
-								obj.y as number,
-								"scene-2",
-								"husky_wait"
+								"scene-2"
 							);
 						}else if (obj.name == "DogPupInHouse"){
 							this.createDogPupInHouseScene(
@@ -205,6 +195,16 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 								obj.y as number,
 								"scene-3"
 							)
+						}else if (obj.name === "HuskyLamppost") {
+							this.createDogLamppostScene(
+								this,
+								collidables,
+								overlappables,
+								obj.x as number,
+								obj.y as number,
+								"scene-4",
+								"husky_wait"
+							);
 						}else if (obj.name === "DogCarParkinglot") {
 							this.createDogCarParkinglot(
 								this,
@@ -212,25 +212,25 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 								overlappables,
 								obj.x as number,
 								obj.y as number,
-								"scene-4"
-							);
-						} else if (obj.name === "Fence") {
-							this.createFenceScene(
-								this,
-								collidables,
-								overlappables,
-								obj.x as number,
-								obj.y as number,
-								"scene-5"
-							);
-						} else if (obj.name === "Cuddle") {
-							this.createFenceScene(
-								this,
-								collidables,
-								overlappables,
-								obj.x as number,
-								obj.y as number,
 								"scene-6"
+							);						
+						}else if (obj.name === "HuskyIcecream") {
+							this.createDogScene(
+								this,
+								collidables,
+								overlappables,
+								obj.x as number,
+								obj.y as number,
+								"scene-8"
+							);
+						}  else if (obj.name === "Cuddle") {
+							this.createFenceScene(
+								this,
+								collidables,
+								overlappables,
+								obj.x as number,
+								obj.y as number,
+								"scene-11"
 							);
 						}
 					} else if (obj.ellipse) {
