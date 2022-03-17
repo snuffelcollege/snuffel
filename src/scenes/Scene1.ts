@@ -249,16 +249,71 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	}
 
 	private createChoice(): void {
-		const button1 = this.add.image(500, 950, this.imageCorrectAnswer);
-		const button2 = this.add.image(1000, 950, this.imageIncorrectAnswer1);
-		const button3 = this.add.image(1500, 950, this.imageIncorrectAnswer2);
+		const button1 = this.add.image(500, 1250, this.imageCorrectAnswer);
+		button1.on("pointerover", () => {
+			button1.angle = 5;			
+		});
+		button1.on('pointerout',() => {
+			button1.angle = 0;
+		})
+		const button1move = this.components.addComponent(
+			button1,
+			MoveTo
+		);
+		button1move.setTarget({
+			x: button1.x,
+			y: button1.y - 300,
+		});		
+		button1move.velocity = 280;
+
+		const button2 = this.add.image(1000, 1250, this.imageIncorrectAnswer1);
+		button2.on("pointerover", () => {
+			button2.angle = 5;			
+		});
+		button2.on('pointerout',() => {
+			button2.angle = 0;
+		})
+		const button2move = this.components.addComponent(
+			button2,
+			MoveTo
+		);
+		button2move.setTarget({
+			x: button2.x,
+			y: button2.y - 300,
+		});		
+		button2move.velocity = 280;
+
+		const button3 = this.add.image(1500, 1250, this.imageIncorrectAnswer2);
+		button3.on("pointerover", () => {
+			button3.angle = 5;			
+		});
+		button3.on('pointerout',() => {
+			button3.angle = 0;
+		})
+		const button3move = this.components.addComponent(
+			button3,
+			MoveTo
+		);
+		button3move.setTarget({
+			x: button3.x,
+			y: button3.y - 300,
+		});		
+		button3move.velocity = 280;
 
 		button1
 			.setInteractive({ useHandCursor: true, pixelPerfect: true })
 			.on("pointerdown", () => {
-				button1.disableInteractive();
-				button2.disableInteractive();
-				button3.disableInteractive();
+				button1.disableInteractive()				
+				button2move.setTarget({
+					x: button2.x,
+					y: button2.y + 300,
+				});		
+				button2move.velocity = 280;
+				button3move.setTarget({
+					x: button3.x,
+					y: button3.y + 300,
+				});		
+				button3move.velocity = 280;
 				this.icecreamCone = this.add
 				.image(1105, 710, this.imageIceCreamCone)
 				.setScale(0.65, 0.55)
@@ -268,9 +323,17 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		button2
 			.setInteractive({ useHandCursor: true, pixelPerfect: true })
 			.on("pointerdown", () => {
-				button1.disableInteractive();
-				button2.disableInteractive();
-				button3.disableInteractive();
+				button1move.setTarget({
+					x: button1.x,
+					y: button1.y + 300,
+				});		
+				button1move.velocity = 280;
+				button2.disableInteractive()				
+				button3move.setTarget({
+					x: button3.x,
+					y: button3.y + 300,
+				});		
+				button3move.velocity = 280;
 				this.icecreamCone = this.add
 				.image(1105, 710, this.imageIceCreamCone)
 				.setScale(0.65, 0.55)
@@ -280,8 +343,16 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		button3
 			.setInteractive({ useHandCursor: true, pixelPerfect: true })
 			.on("pointerdown", () => {
-				button1.disableInteractive();
-				button2.disableInteractive();
+				button1move.setTarget({
+					x: button1.x,
+					y: button1.y + 300,
+				});		
+				button1move.velocity = 280;
+				button2move.setTarget({
+					x: button2.x,
+					y: button2.y + 300,
+				});		
+				button2move.velocity = 280;
 				button3.disableInteractive();
 				this.icecreamCone = this.add
 				.image(1105, 710, this.imageIceCreamCone)
@@ -317,7 +388,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 		moveTo.velocity = 100;
 
-		this.cameras.main.flash(2000, 0, 200, 0);
+		//this.cameras.main.flash(2000, 0, 200, 0);
 
 		this.moveIcecreamConeAway = true;
 
@@ -365,7 +436,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 		moveToCharacter.velocity = 250;
 
-		this.cameras.main.flash(2000, 200, 0, 0);
+		//this.cameras.main.flash(2000, 200, 0, 0);
 
 		this.moveIcecreamConeAway = true;
 
@@ -405,7 +476,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 		moveToCharacter.velocity = 200;
 
-		this.cameras.main.flash(2000, 200, 0, 0);
+		//this.cameras.main.flash(2000, 200, 0, 0);
 
 		this.moveIcecreamConeAway = true;
 
