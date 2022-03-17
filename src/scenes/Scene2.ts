@@ -413,8 +413,8 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			key: this.shepherdSheet,
 			frameRate: 2,
 			frames: this.anims.generateFrameNumbers(this.shepherdSheet, {
-				start: 0,
-				end: 1,
+				start: 1,
+				end: 0,
 			}),
 			repeat: -1,
 		});
@@ -424,7 +424,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			frameRate: 8,
 			frames: this.anims.generateFrameNumbers(this.pokingSheet, {
 				start: 0,
-				end: 7,
+				end: 3,
 			}),
 			repeat: -1,
 		});
@@ -471,7 +471,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			frameRate: 8,
 			frames: this.anims.generateFrameNumbers(this.characterWalk, {
 				start: 0,
-				end: 7,
+				end: 3,
 			}),
 			repeat: -1,
 		});
