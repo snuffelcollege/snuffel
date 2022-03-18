@@ -30,7 +30,7 @@
          "draworder":"topdown",
          "id":11,
          "name":"OBJECTS",
-         "objects":[
+         "objects":[                
                 {
                  "height":0,
                  "id":1,
@@ -43,6 +43,18 @@
                  "x":4461,
                  "y":4020
                 }, 
+                {
+                 "height":0,
+                 "id":1,
+                 "name":"School",
+                 "point":true,
+                 "rotation":0,
+                 "type":"Objective",
+                 "visible":true,
+                 "width":0,
+                 "x":4461,
+                 "y":4120
+                },
                 {
                  "height":0,
                  "id":2,
