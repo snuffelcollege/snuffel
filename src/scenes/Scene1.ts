@@ -1,10 +1,13 @@
-import BackgroundImage from "@assets/images/scenario_6/BG.png";
+import BackgroundImage from "@assets/images/scenario_1/BG.png";
 import Option1 from "@assets/images/scenario_1/option_1.png";
 import Option2 from "@assets/images/scenario_1/option_2.png";
 import Option3 from "@assets/images/scenario_1/option_3.png";
-import OptionStick from "@assets/images/world/option_stick.png"
+import OptionStick from "@assets/images/world/option_stick.png";
+import Playground from "@assets/images/scenario_1/playground.png";
 import PlayerIdleSheet from "@assets/spritesheets/player/scenario/idle/character_idle.png";
 import PlayerIdleData from "@assets/spritesheets/player/scenario/idle/character_idle.json";
+import PlayerWalkSheet from "@assets/spritesheets/player//scenario/walk/character_walk.png";
+import PlayerWalkData from "@assets/spritesheets/player//scenario/walk/character_walk.json";
 import PlayerPointSheet from "@assets/spritesheets/scenario_1/boypoint.png";
 import PlayerPointData from "@assets/spritesheets/scenario_1/boypoint.json";
 import PlayerShoutSheet from "@assets/spritesheets/scenario_1/boyshout.png";
@@ -22,6 +25,7 @@ import ComponentService from "../Services/ComponentService";
 import MakeFullscreen from "../Components/MakeFullscreen";
 import { WorldSceneConfig } from "./WorldScene";
 import MoveTo from "../Components/MoveTo";
+import sceneSong from "@assets/audio/scene.mp3";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
 
@@ -67,19 +71,9 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
     private dogEntity!: Sprite;
 
-    private playerIdleAnims!: Phaser.Animations.Animation[];
-
-    private playerPointAnims!: Phaser.Animations.Animation[];
-    
-    private playerShoutAnims!: Phaser.Animations.Animation[];
-
-    private dogIdleAnims!: Phaser.Animations.Animation[];
-
-    private bullyAndDogAnims!: Phaser.Animations.Animation[];
-
-    private bullyIdleAnims!: Phaser.Animations.Animation[];
-
     private playerIdle!: string;
+
+	private playerWalk!: string;
 
     private playerPoint!: string;
 
@@ -99,6 +93,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	private optionStick!: string;
 
+	private playground!: string;
+
 	private exitSceneKey!: string;
 
 	constructor(cfg: SettingsConfig = config) {
@@ -109,6 +105,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 		//initializes variables, the string value has to be unique or phaser will reuse it in other scenes
         this.playerIdle = "playeridle1";
+		this.playerWalk = "playerwalk1";
         this.playerPoint = "playerpoint1";
         this.playerShout = "playershout1";
         this.dogIdle = "dogidle1";
@@ -118,12 +115,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.option2 = "option21";
 		this.option3 = "option31";
 		this.optionStick = "stick1";
-        this.playerIdleAnims = [];
-        this.playerPointAnims = [];
-        this.playerShoutAnims = [];
-        this.dogIdleAnims = [];
-        this.bullyAndDogAnims = [];
-        this.bullyIdleAnims = [];
+		this.playground = "playgground1";
 
 		if (!WorldSceneConfig.key) {
 			throw Error("Exit scene key is undefined");
@@ -140,16 +132,19 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	public preload(): void {
 		//assigns background to 'background4' string
 		this.load.image("background1", BackgroundImage);
+		this.load.image(this.playground, Playground);
 		this.load.image(this.option1, Option1);
 		this.load.image(this.option2, Option2);
 		this.load.image(this.option3, Option3);
 		this.load.image(this.optionStick, OptionStick);	
         this.load.aseprite(this.playerIdle, PlayerIdleSheet, PlayerIdleData);
+		this.load.aseprite(this.playerWalk, PlayerWalkSheet, PlayerWalkData);
         this.load.aseprite(this.playerPoint, PlayerPointSheet, PlayerPointData);	
         this.load.aseprite(this.playerShout, PlayerShoutSheet, PlayerShoutData);
         this.load.aseprite(this.dogIdle,DogIdleSheet,DogIdleData);
         this.load.aseprite(this.bullyAndDog,BullyAndDogSheet,BullyAndDogData);
         this.load.aseprite(this.bullyIdle,BullyIdleSheet,BullyIdleData);
+		this.load.audio("sceneSong", sceneSong);
 	}
 
 	public create(): void {
@@ -159,26 +154,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		//loads background from 'background1' string. this isn't stored in a local variable because of a bug where the wrong background was loaded in certain scenes.
 		const img = this.add.image(centerX, centerY, "background1");
 		this.components.addComponent(img, MakeFullscreen);
+		this.add.image(190, 775, this.playground).setDepth(2).setScale(1);
 
-        this.playerIdleAnims.push(
-            ...this.anims.createFromAseprite(this.playerIdle)
-        );
-        this.playerPointAnims.push(
-			...this.anims.createFromAseprite(this.playerPoint)
-		);		
-        this.playerShoutAnims.push(
-			...this.anims.createFromAseprite(this.playerShout)
-		);
-        this.dogIdleAnims.push(
-			...this.anims.createFromAseprite(this.dogIdle)
-		);
-		this.bullyAndDogAnims.push(
-			...this.anims.createFromAseprite(this.bullyAndDog)
-		);
-        this.bullyIdleAnims.push(
-            ...this.anims.createFromAseprite(this.bullyIdle)
-        );
-        
 		this.createSituation();
 	}
 
@@ -187,9 +164,60 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	}
 
 	private createSituation(): void {
-        
-        
+        this.game.sound.pauseAll();
+		var song = this.sound.add("sceneSong");
+		song.play({
+			loop: true
+		});
 
+		//player entity
+        this.anims.create({
+			key: this.playerIdle,
+			frameRate: 2,
+			frames: this.anims.generateFrameNumbers(
+				this.playerIdle,
+				{
+					start: 0,
+					end: 1,
+				}
+			),
+			repeat: -1,
+		});
+		
+		this.playerEntity = this.add.sprite(
+			700,
+			600,
+			this.playerIdle
+		);
+		this.playerEntity.setDepth(1);
+		this.playerEntity
+			.play(this.playerIdle)
+			.toggleFlipX()
+			.setScale(1);
+		
+		//bully entity (bully and dog animation)
+		this.anims.create({
+			key: this.bullyAndDog,
+			frameRate: 2,
+			frames: this.anims.generateFrameNumbers(
+				this.bullyAndDog,
+				{
+					start: 0,
+					end: 1,
+				}
+			),
+			repeat: -1,
+		});
+
+		this.bullyEntity = this.add.sprite(
+			1300,
+			550,
+			this.bullyAndDog
+		);
+		this. bullyEntity
+			.play(this.bullyAndDog)
+			.setScale(1);
+			
 		this.createChoice();		
 	}
 
@@ -363,17 +391,146 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	//tell him to stop (correct)
 	private createResult1(): void {	
+		this.anims.create({
+			key: this.playerPoint,
+			frameRate: 2,
+			frames: this.anims.generateFrameNumbers(
+				this.playerPoint,
+				{
+					start: 0,
+					end: 1,
+				}
+			),
+			repeat: -1,
+		});
 
+		this.playerEntity.setTexture(
+			this.playerPoint
+		);
+		this.playerEntity
+			.play(this.playerPoint)
+			.toggleFlipX()
+			.setScale(1);
+
+		setTimeout(() => {
+			//set bully idle animation
+			this.anims.create({
+				key: this.bullyIdle,
+				frameRate: 2,
+				frames: this.anims.generateFrameNumbers(
+					this.bullyIdle,
+					{
+						start: 1,
+						end: 0,
+					}
+				),
+				repeat: -1,
+			});
+			this.bullyEntity.x = 1500
+			this.bullyEntity.setTexture(
+				this.bullyIdle
+			);
+			this.bullyEntity
+				.play(this.bullyIdle)
+				.setScale(1);
+
+			//set dog idle animation
+			this.anims.create({
+				key: this.dogIdle,
+				frameRate: 2,
+				frames: this.anims.generateFrameNumbers(
+					this.dogIdle,
+					{
+						start: 0,
+						end: 1,
+					}
+				),
+				repeat: -1,
+			});
+	
+			this.dogEntity = this.add.sprite(
+				1200,
+				700,
+				this.dogIdle
+			);
+			this.dogEntity
+				.play(this.dogIdle)
+				.setScale(1);		
+		}, 1000);
+		
+		setTimeout(() => {
+			this.moveScene();
+		}, 5000);
 	}
 
 	//walk away (wrong)
 	private createResult2(): void {
+		this.anims.create({
+			key: this.playerWalk,
+			frameRate:4,
+			frames: this.anims.generateFrameNumbers(
+				this.playerWalk,
+				{
+					start: 0,
+					end: 3,
+				}
+			),
+			repeat: -1,
+		});
 
+		this.playerEntity.setTexture(
+			this.playerWalk
+		);
+		this.playerEntity
+			.play(this.playerWalk)
+			.setScale(1);
+		
+		const playerMove = this.components.addComponent(
+			this.playerEntity,
+			MoveTo
+		);
+		playerMove.setTarget({
+			x: this.playerEntity.x - 300,
+			y: this.playerEntity.y - 75,
+		});		
+		playerMove.velocity = 200;
+		playerMove.movingDone = () => {
+			playerMove.setTarget({
+				x: this.playerEntity.x - 550,
+				y: this.playerEntity.y,
+			});		
+			playerMove.movingDone = () => {
+				this.moveScene();
+			}
+		}
 	}
 
 	//call for teacher (maybe)
 	private createResult3(): void {
+        this.anims.create({
+			key: this.playerShout,
+			frameRate: 2,
+			frames: this.anims.generateFrameNumbers(
+				this.playerShout,
+				{
+					start: 0,
+					end: 1,
+				}
+			),
+			repeat: -1,
+		});
 
+		this.playerEntity.setTexture(
+			this.playerShout
+		);
+		this.playerEntity
+			.play(this.playerShout)
+			.toggleFlipX()
+			.setScale(1);
+		
+		setTimeout(() => {
+			this.moveScene();
+		}, 5000);
 	}
 
 	//fade to black and back to overworld
@@ -381,5 +538,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		fadeToBlack(this, () => {
 			this.scene.stop(this.scene.key).wake(this.exitSceneKey);
 		});
+		this.game.sound.removeByKey("sceneSong");
+		this.game.sound.resumeAll();
 	}
 }
