@@ -457,8 +457,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 		moveTo.velocity = 100;
 
-		//this.cameras.main.flash(2000, 0, 200, 0);
-
 		this.moveIcecreamConeAway = true;
 
 		setTimeout(() => {
@@ -496,8 +494,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		});
 
 		moveToCharacter.velocity = 200;
-
-		//this.cameras.main.flash(2000, 200, 0, 0);
 
 		this.moveIcecreamConeAway = true;
 
@@ -544,8 +540,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		});
 
 		moveToCharacter.velocity = 250;
-
-		//this.cameras.main.flash(2000, 200, 0, 0);
 
 		this.moveIcecreamConeAway = true;
 
