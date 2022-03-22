@@ -33,14 +33,14 @@
          "objects":[                
                 {
                  "height":0,
-                 "id":1,
+                 "id":50,
                  "name":"Spawn",
                  "point":true,
                  "rotation":0,
                  "type":"PlayerSpawn",
                  "visible":true,
                  "width":0,
-                 "x":4461,
+                 "x":4500,
                  "y":4020
                 }, 
                 {
@@ -52,36 +52,24 @@
                  "type":"Objective",
                  "visible":true,
                  "width":0,
-                 "x":4461,
-                 "y":4120
-                },
+                 "x":5000,
+                 "y":4250
+                },    
                 {
                  "height":0,
                  "id":2,
-                 "name":"HuskyIcecream",
+                 "name":"Fence",
                  "point":true,
                  "rotation":0,
                  "type":"Objective",
                  "visible":true,
                  "width":0,
-                 "x":5434.87878787879,
-                 "y":3970.45454545455
-                }, 
-                {
-                 "height":0,
-                 "id":2,
-                 "name":"DogCarParkinglot",
-                 "point":true,
-                 "rotation":0,
-                 "type":"Objective",
-                 "visible":true,
-                 "width":0,
-                 "x":3534.87878787879,
-                 "y":4270.45454545455
-                }, 
+                 "x":5500,
+                 "y":4250
+                },            
                 {
                  "height":356,
-                 "id":11,
+                 "id":3,
                  "name":"DogPupInHouse",
                  "point":true,
                  "rotation":0,
@@ -93,39 +81,51 @@
                 }, 
                 {
                  "height":0,
-                 "id":13,
+                 "id":4,
                  "name":"HuskyLamppost",
                  "point":true,
                  "rotation":0,
                  "type":"Objective",
                  "visible":true,
                  "width":0,
-                 "x":5138,
-                 "y":4376
-                },
+                 "x":6500,
+                 "y":4250
+                },  
                 {
                  "height":0,
-                 "id":13,
-                 "name":"Fence",
+                 "id":6,
+                 "name":"DogCarParkinglot",
                  "point":true,
                  "rotation":0,
                  "type":"Objective",
                  "visible":true,
                  "width":0,
-                 "x":4500,
-                 "y":3800
-                },
+                 "x":7500,
+                 "y":4250
+                },   
                 {
                  "height":0,
-                 "id":13,
+                 "id":8,
+                 "name":"HuskyIcecream",
+                 "point":true,
+                 "rotation":0,
+                 "type":"Objective",
+                 "visible":true,
+                 "width":0,
+                 "x":8300,
+                 "y":4250
+                },                             
+                {
+                 "height":0,
+                 "id":11,
                  "name":"Cuddle",
                  "point":true,
                  "rotation":0,
                  "type":"Objective",
                  "visible":true,
                  "width":0,
-                 "x":4500,
-                 "y":3600
+                 "x":8800,
+                 "y":4250
                 }],
          "opacity":1,
          "type":"objectgroup",
