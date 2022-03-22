@@ -42,6 +42,8 @@ import { waitFor } from "../Utilities/Scene/SceneUtil";
 import FixedHeightAnimator from "../Components/FixedHeightAnimator";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import GameObject = Phaser.GameObjects.GameObject;
+import sceneSong from "@assets/audio/scene.mp3";
+
 
 export const config: SettingsConfig = {
 	active: false,
@@ -185,9 +187,17 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 		this.load.image(this.option1Img, Option1Texture);
 		this.load.image(this.option2Img, Option2Texture);
 		this.load.image(this.option3Img, Option3Texture);
+
+		this.load.audio("sceneSong", sceneSong);
 	}
 
 	public create(): void {
+		this.game.sound.pauseAll();
+		var song = this.sound.add("sceneSong");
+		song.play({
+			loop: true
+		});
+		
 		const background = this.add.image(0, 0, "background3");
 		this.components.addComponent(background, MakeFullscreen);
 
@@ -690,5 +700,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 		fadeToBlack(this, () => {
 			this.scene.stop(this.scene.key).wake(this.exitSceneKey);
 		});
+		this.game.sound.removeByKey("sceneSong");
+		this.game.sound.resumeAll();
 	}
 }
