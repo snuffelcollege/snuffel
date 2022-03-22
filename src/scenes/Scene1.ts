@@ -4,7 +4,7 @@ import Option2 from "@assets/images/scenario_1/option_2.png";
 import Option3 from "@assets/images/scenario_1/option_3.png";
 import OptionStick from "@assets/images/world/option_stick.png";
 import Playground from "@assets/images/scenario_1/playground.png";
-import PlayerIdleSheet from "@assets/spritesheets/player/scenario/idle/character_idle.png";
+import PlayerIdleSheet from "@assets/spritesheets/player/scenario/idle/character_idle2.png";
 import PlayerIdleData from "@assets/spritesheets/player/scenario/idle/character_idle.json";
 import PlayerWalkSheet from "@assets/spritesheets/player//scenario/walk/character_walk.png";
 import PlayerWalkData from "@assets/spritesheets/player//scenario/walk/character_walk.json";
