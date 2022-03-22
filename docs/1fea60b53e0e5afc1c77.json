@@ -1,0 +1,34 @@
+{ "frames": {
+   "1": {
+    "frame": { "x": 350, "y": 0, "w": 350, "h": 600 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 754, "h": 600 },
+    "sourceSize": { "w": 754, "h": 600 },
+    "duration": 100
+   },
+   "0": {
+    "frame": { "x": 0, "y": 0, "w": 350, "h": 600 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 754, "h": 600 },
+    "sourceSize": { "w": 754, "h": 600 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "Scene4_arm.png",
+  "format": "RGBA8888",
+  "size": { "w": 754, "h": 600 },
+  "scale": "1",
+  "frameTags": [{ "name": "armscene4", "from": 0, "to": 1, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
