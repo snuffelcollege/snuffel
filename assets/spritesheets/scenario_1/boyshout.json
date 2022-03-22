@@ -1,0 +1,35 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 210, "y": 1, "w": 204, "h": 447 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 6, "w": 202, "h": 445 },
+    "sourceSize": { "w": 216, "h": 458 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 1, "y": 1, "w": 208, "h": 452 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 1, "w": 206, "h": 450 },
+    "sourceSize": { "w": 216, "h": 458 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "boyshout1-sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 414, "h": 453 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Tag", "from": 0, "to": 1, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

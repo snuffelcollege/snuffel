@@ -81,7 +81,13 @@ export default class PlayerMovement extends AbstractComponent {
 		const ptr = this.player.scene.input.activePointer;
 
 		if (ptr.isDown) {
-			this.moveWithPointer(ptr, to);
+			if(ptr.y < 420){
+				if(ptr.x < 1770){
+					this.moveWithPointer(ptr, to);
+				}
+			} else {
+				this.moveWithPointer(ptr, to);
+			}
 		} else {
 			this.moveWithKeys(to);
 		}

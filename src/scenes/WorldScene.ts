@@ -5,6 +5,9 @@ import poiCloudData from "@assets/spritesheets/pointOfInterest/cloud/poi_cloud.j
 import huskyImage from "@assets/spritesheets/husky/husky.png";
 import huskyJson from "@assets/spritesheets/husky/husky.json";
 import huskyWaitImage from "@assets/images/world/husky_wait.png";
+import Car from "@assets/images/scenario_6/car.png";
+import DogInCarSheet from "@assets/spritesheets/scenario_6/dog_neutral.png";
+import DogInCarData from "@assets/spritesheets/scenario_6/dog_neutral.json";
 import { Scene } from "phaser";
 import PlayerEntity from "../GameObjects/Entities/PlayerEntity";
 import DepthSorter from "../Services/DepthSorter";
@@ -39,7 +42,11 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 	private poiCloud!: string;
 
+	private dogInCar!: string;
+
 	private husky!: string;
+
+	private car!: string;
 
 	private components!: ComponentService;
 
@@ -59,7 +66,9 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.tilemapKey = "main_scene";
 
 		this.poiCloud = "poi_cloud";
+		this.dogInCar = "dogInCar";
 		this.husky = "husky";
+		this.car = "car";
 
 		this.components = new ComponentService();
 		this.depthSorter = new DepthSorter();
@@ -74,6 +83,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	public preload(): void {
 		// Point of Interest Idle Animations
 		this.load.aseprite(this.poiCloud, poiCloudSheet, poiCloudData);
+		this.load.aseprite(this.dogInCar,DogInCarSheet,DogInCarData);
 
 		// Player Idle & Move Animations
 		this.load.aseprite(
@@ -84,7 +94,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 		// Husky idle & moving animations
 		this.load.aseprite(this.husky, huskyImage, huskyJson);
-
+		this.load.image(this.car,Car)
 		this.load.image(this.tilesetKey, worldTiles);
 		this.load.image("husky_wait", huskyWaitImage);
 		this.load.tilemapTiledJSON({
@@ -117,7 +127,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		const BACKGROUND = tilemap.createLayer("BACKGROUND", tileset);
 
 		// add collision to the layers which have collision specified inside tiled
-		DECOR.setCollisionByProperty({ collision: true });
+		DECOR.setCollisionByProperty({ collision: true });1
 		BACKGROUND.setCollisionByProperty({ collision: true });
 
 		const collidables: GameObject[] = [];
@@ -167,8 +177,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 					break;
 				case "Objective":
 					if (obj.point) {
-						if (obj.name === "Husky") {
-							this.createDogScene(
+						if (obj.name === "School") {
+							this.createSchoolScene(
 								this,
 								collidables,
 								overlappables,
@@ -176,15 +186,60 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 								obj.y as number,
 								"scene-1"
 							);
-						} else if (obj.name === "HuskyLamppost") {
+						}else if (obj.name === "Fence") {
+							this.createFenceScene(
+								this,
+								collidables,
+								overlappables,
+								obj.x as number,
+								obj.y as number,
+								"scene-2"
+							);
+						}else if (obj.name == "DogPupInHouse"){
+							this.createDogPupInHouseScene(
+								this,
+								collidables,
+								overlappables,
+								obj.x as number,
+								obj.y as number,
+								"scene-3"
+							)
+						}else if (obj.name === "HuskyLamppost") {
 							this.createDogLamppostScene(
 								this,
 								collidables,
 								overlappables,
 								obj.x as number,
 								obj.y as number,
-								"scene-2",
+								"scene-4",
 								"husky_wait"
+							);
+						}else if (obj.name === "DogCarParkinglot") {
+							this.createDogCarParkinglot(
+								this,
+								collidables,
+								overlappables,
+								obj.x as number,
+								obj.y as number,
+								"scene-6"
+							);						
+						}else if (obj.name === "HuskyIcecream") {
+							this.createDogIceScene(
+								this,
+								collidables,
+								overlappables,
+								obj.x as number,
+								obj.y as number,
+								"scene-8"
+							);
+						}  else if (obj.name === "Cuddle") {
+							this.createFenceScene(
+								this,
+								collidables,
+								overlappables,
+								obj.x as number,
+								obj.y as number,
+								"scene-11"
 							);
 						}
 					} else if (obj.ellipse) {
@@ -285,7 +340,147 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.depthSorter.sort(time, delta);
 	}
 
-	private createDogScene(
+	private createDogIceScene(
+		scene: Scene,
+		collidables: GameObject[],
+		overlappables: GameObject[],
+		x: number,
+		y: number,
+		target_scene: string
+	): void {
+		const poiCloudAnimTags = this.anims.createFromAseprite("poi_cloud");
+
+		const dog = new MovableEntity(scene, x, y, this.husky).setScale(0.4);
+
+		const dogTalkBubble = this.add.sprite(
+			dog.x + 64,
+			dog.y - 84,
+			this.poiCloud
+		);
+
+		this.depthSorter.addSortable(dog, DepthLayers.PLAYER);
+
+		const dogAnimTags = this.anims.createFromAseprite(this.husky);
+
+		dog.setBodySize(dog.width, dog.height / 5)
+			.setOffset(0, (dog.height * 4) / 5)
+			.play({ key: dogAnimTags[1].key, repeat: -1 }, true)
+			.setImmovable(true)
+			.setFlipX(true)
+			.setDepth(DepthLayers.PLAYER)
+			.setInteractive({ useHandCursor: true })
+			.on("pointerdown", () => {
+				if (dogTalkBubble.visible) {
+					this.switchScene(target_scene);
+				}
+			});
+
+		dogTalkBubble
+			.setDepth(DepthLayers.OVERLAY)
+			.play({ key: poiCloudAnimTags[0].key, repeat: -1 }, true)
+			.setVisible(false)
+			.setInteractive({ useHandCursor: true })
+			.on("pointerdown", () => this.switchScene(target_scene));
+
+		collidables.push(dog);
+
+		// this.physics.add.collider(player, dog);
+
+		const radius = this.add.zone(
+			dog.x,
+			dog.y,
+			dog.displayWidth,
+			dog.displayHeight
+		);
+
+		this.physics.world.enable(radius); // enable the zone's physics body
+
+		(radius.body as Phaser.Physics.Arcade.Body)
+			.setOffset(-radius.displayWidth * 0.5, -radius.displayHeight * 0.5)
+			.setCircle(dog.displayWidth);
+
+		// scene.physics.add.overlap(player, radius);
+
+		overlappables.push(radius);
+
+		const dispatcher = this.components.addComponent(
+			radius,
+			OverlayDispatcher
+		);
+
+		dispatcher.setDispatchCallback((isOverlapping) => {
+			if (dogTalkBubble.visible !== isOverlapping) {
+				dogTalkBubble.setVisible(isOverlapping);
+			}
+
+			if (isOverlapping && this.sceneSwitchKey.isDown) {
+				this.switchScene(target_scene);
+			}
+		});
+	}
+
+	private createDogPupInHouseScene(
+		scene: Scene,
+		collidables: GameObject[],
+		overlappables: GameObject[],
+		x: number,
+		y: number,
+		target_scene: string
+	): void {
+		const poiCloudAnimTags = this.anims.createFromAseprite("poi_cloud");
+
+		const dog = new MovableEntity(scene, x, y, this.husky).setVisible(false)
+		const dogTalkBubble = this.add.sprite(x,y,this.poiCloud);
+
+		dog.setBodySize(100,200)
+			.setImmovable(true)
+			.setDepth(DepthLayers.PLAYER)
+			.setInteractive({ useHandCursor: true })
+			.on("pointerdown", () => {
+				if (dogTalkBubble.visible) {
+					this.switchScene(target_scene);
+				}
+			});
+
+		dogTalkBubble
+			.setDepth(DepthLayers.OVERLAY)
+			.play({ key: poiCloudAnimTags[0].key, repeat: -1 }, true)
+			.setVisible(false)
+			.setInteractive({ useHandCursor: true })
+			.on("pointerdown", () => this.switchScene(target_scene));
+
+		collidables.push(dog);
+
+		const radius = this.add.zone(
+			x,
+			y,
+			450,
+			150
+		);
+
+		this.physics.world.enable(radius); // enable the zone's physics body
+		(radius.body as Phaser.Physics.Arcade.Body)
+			.setOffset(0,160)
+
+		overlappables.push(radius);
+
+		const dispatcher = this.components.addComponent(
+			radius,
+			OverlayDispatcher
+		);
+
+		dispatcher.setDispatchCallback((isOverlapping) => {
+			if (dogTalkBubble.visible !== isOverlapping) {
+				dogTalkBubble.setVisible(isOverlapping);
+			}
+
+			if (isOverlapping && this.sceneSwitchKey.isDown) {
+				this.switchScene(target_scene);
+			}
+		});
+	}
+
+	private createFenceScene(
 		scene: Scene,
 		collidables: GameObject[],
 		overlappables: GameObject[],
@@ -451,4 +646,149 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			this.scene.switch(newScene);
 		});
 	}
+
+	private createDogCarParkinglot(
+		scene: Scene,
+		collidables: GameObject[],
+		overlappables: GameObject[],
+		x: number,
+		y: number,
+		target_scene: string
+	): void {
+		const dogWindowAnimTags = this.anims.createFromAseprite("dogInCar");
+
+		const carScene = new MovableEntity(scene, x, y, this.car).setScale(0.5);
+
+		const dogWindow = this.add.sprite(
+			carScene.x + 150,
+			carScene.y - 120,
+			this.dogInCar
+		);
+
+		//this.depthSorter.addSortable(carScene, DepthLayers.PLAYER);
+
+		carScene.setBodySize(1350,650)//width and height of collision box
+			.setImmovable(true)//speaks for itself
+			.setDepth(DepthLayers.PLAYER)//sets layer of depth
+			.setInteractive({ useHandCursor: true })
+			.on("pointerdown", () => {
+				if (dogWindow.visible) {
+					this.switchScene(target_scene);
+				}
+			});
+
+		dogWindow
+			.setDepth(DepthLayers.OVERLAY)
+			.play({ key: dogWindowAnimTags[0].key, frameRate: 1, repeat: -1}, true)
+			.setVisible(false)
+			.setInteractive({ useHandCursor: true })
+			.on("pointerdown", () => this.switchScene(target_scene))
+			.setScale(0.5)
+
+		collidables.push(carScene);
+
+		// this.physics.add.collider(player, dog);
+
+		const radius = this.add.zone(x,	y, 1000,600);
+
+		this.physics.world.enable(radius); // enable the zone's physics body
+
+		// scene.physics.add.overlap(player, radius);
+
+		overlappables.push(radius);
+
+		const dispatcher = this.components.addComponent(
+			radius,
+			OverlayDispatcher
+		);
+
+		dispatcher.setDispatchCallback((isOverlapping) => {
+			if (dogWindow.visible !== isOverlapping) {
+				dogWindow.setVisible(isOverlapping);
+			}
+
+			if (isOverlapping && this.sceneSwitchKey.isDown) {
+				this.switchScene(target_scene);
+			}
+		});
+	}
+	private createSchoolScene(
+		scene: Scene,
+		collidables: GameObject[],
+		overlappables: GameObject[],
+		x: number,
+		y: number,
+		target_scene: string
+	): void {
+		const poiCloudAnimTags = this.anims.createFromAseprite("poi_cloud");
+
+		const dog = new MovableEntity(scene, x, y, this.husky).setScale(0.4);
+
+		const dogTalkBubble = this.add.sprite(
+			dog.x + 64,
+			dog.y - 84,
+			this.poiCloud
+		);
+
+		this.depthSorter.addSortable(dog, DepthLayers.PLAYER);
+
+		const dogAnimTags = this.anims.createFromAseprite(this.husky);
+
+		dog.setBodySize(dog.width, dog.height / 5)
+			.setOffset(0, (dog.height * 4) / 5)
+			.play({ key: dogAnimTags[1].key, repeat: -1 }, true)
+			.setImmovable(true)
+			.setFlipX(true)
+			.setDepth(DepthLayers.PLAYER)
+			.setInteractive({ useHandCursor: true })
+			.on("pointerdown", () => {
+				if (dogTalkBubble.visible) {
+					this.switchScene(target_scene);
+				}
+			});
+
+		dogTalkBubble
+			.setDepth(DepthLayers.OVERLAY)
+			.play({ key: poiCloudAnimTags[0].key, repeat: -1 }, true)
+			.setVisible(false)
+			.setInteractive({ useHandCursor: true })
+			.on("pointerdown", () => this.switchScene(target_scene));
+
+		collidables.push(dog);
+
+		// this.physics.add.collider(player, dog);
+
+		const radius = this.add.zone(
+			dog.x,
+			dog.y,
+			dog.displayWidth,
+			dog.displayHeight
+		);
+
+		this.physics.world.enable(radius); // enable the zone's physics body
+
+		(radius.body as Phaser.Physics.Arcade.Body)
+			.setOffset(-radius.displayWidth * 0.5, -radius.displayHeight * 0.5)
+			.setCircle(dog.displayWidth);
+
+		// scene.physics.add.overlap(player, radius);
+
+		overlappables.push(radius);
+
+		const dispatcher = this.components.addComponent(
+			radius,
+			OverlayDispatcher
+		);
+
+		dispatcher.setDispatchCallback((isOverlapping) => {
+			if (dogTalkBubble.visible !== isOverlapping) {
+				dogTalkBubble.setVisible(isOverlapping);
+			}
+
+			if (isOverlapping && this.sceneSwitchKey.isDown) {
+				this.switchScene(target_scene);
+			}
+		});
+	}
+
 }

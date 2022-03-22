@@ -1,7 +1,7 @@
-import Background from "@assets/background.png";
-import Logo from "@assets/snuffelcollege-logo.png";
-import PlayButtonJson from "@assets/spritesheets/playButton/play_button.json";
-import PlayButtonImage from "@assets/spritesheets/playButton/play_button.png";
+import Background from "@assets/images/world/background.png";
+import Logo from "@assets/images/world/snuffelcollege-logo.png";
+import Title from "@assets/images/world/title.png";
+import StartButton from "@assets/images/world/Start_button.png";
 import HuskyImage from "@assets/spritesheets/husky/husky.png";
 import HuskyJson from "@assets/spritesheets/husky/husky.json";
 import { Scene } from "phaser";
@@ -11,6 +11,7 @@ import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
 import { WorldSceneConfig } from "./WorldScene";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import PhaserText = Phaser.GameObjects.Text;
+import BackgroundSongMP3 from "@assets/audio/overworld.mp3";
 
 export const config: SettingsConfig = {
 	active: false,
@@ -48,14 +49,14 @@ export default class StartScene extends Scene {
 
 	private husky!: string;
 
-	private playButton!: string;
+	private startButton!: string;
 
 	constructor(cfg: SettingsConfig = config) {
 		super(cfg);
 	}
 
 	public init(): void {
-		this.playButton = "play_button";
+		this.startButton = "start_button";
 		this.husky = "husky";
 
 		this.components = new ComponentService();
@@ -66,9 +67,11 @@ export default class StartScene extends Scene {
 	// A key has to be unique for the entire project, not just this scene.
 	public preload(): void {
 		this.load.aseprite(this.husky, HuskyImage, HuskyJson);
-		this.load.aseprite(this.playButton, PlayButtonImage, PlayButtonJson);
+		this.load.image(this.startButton, StartButton);
 		this.load.image("background", Background);
 		this.load.image("logo", Logo);
+		this.load.image("title", Title);
+		this.load.audio("backgroundSong", BackgroundSongMP3);
 	}
 
 	public create(): void {
@@ -78,15 +81,7 @@ export default class StartScene extends Scene {
 		const img = this.add.image(centerX, centerY, "background");
 		this.components.addComponent(img, MakeFullscreen);
 
-		const title = new PhaserText(
-			this,
-			centerX,
-			centerY / 2,
-			"Sophia SnuffelSpel",
-			textStyle
-		);
-		title.setFontSize(124).setOrigin(0.5, 0.5);
-		this.add.existing(title);
+		this.add.image(centerX, centerY-150, "title").setScale(0.5);
 
 		this.add.image(this.scale.width - 256, this.scale.height - 128, "logo");
 
@@ -96,24 +91,27 @@ export default class StartScene extends Scene {
 			.play({ key: dogAnimTags[1].key, repeat: -1 }, true)
 			.setScale(0.5);
 
-		const startButtonAnimTags = this.anims.createFromAseprite(
-			this.playButton
-		);
 		const startButton = this.add
-			.sprite(centerX, centerY, this.playButton, 1)
-			.play({ key: startButtonAnimTags[0].key, repeat: -1 })
+			.image(centerX, centerY+150, this.startButton)
+			.setScale(0.5)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
 				fadeToBlack(this, () => {
 					this.scene.start(WorldSceneConfig.key);
+					var song = this.sound.add("backgroundSong");
+						song.play({
+							loop: true,
+							volume: 0.3
+						});
 				});
 			})
 			.on("pointerover", () => {
-				startButton.tint = 0xf0_d8_00;
+				startButton.displayHeight = startButton.displayHeight*1.1;
+				startButton.displayWidth = startButton.displayWidth*1.1;
 			})
-			.on("pointerup", () => {
-				startButton.tint = 0xf0_d8_00;
-			})
-			.on("pointerout", () => startButton.clearTint());
+			.on("pointerout", () => {
+				startButton.displayHeight = startButton.displayHeight/1.1;
+				startButton.displayWidth = startButton.displayWidth/1.1;
+			});
 	}
 }

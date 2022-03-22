@@ -14,6 +14,9 @@ const config: GameConfig = {
 		width: 1920,
 		height: 1080,
 	},
+	audio: {
+		disableWebAudio: true
+	},
 	pixelArt: false,
 	antialiasGL: false,
 	roundPixels: false,

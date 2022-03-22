@@ -1,4 +1,4 @@
-import BackgroundImage from "@assets/images/scenario_3/background.png";
+import BackgroundImage from "@assets/images/scenario_3/BG.png";
 import { Scene } from "phaser";
 
 import CharacterPupHoldTexture from "@assets/spritesheets/scenario_3/character_pup_hold.png";
@@ -7,31 +7,24 @@ import CharacterIdleTexture from "@assets/spritesheets/player/scenario/idle/char
 import CharacterIdleConfig from "@assets/spritesheets/player/scenario/idle/character_idle.json";
 import MotherDogTexture from "@assets/spritesheets/scenario_3/mother_dog.png";
 import MotherDogConfig from "@assets/spritesheets/scenario_3/mother_dog.json";
-
 import CharacterWalkTexture from "@assets/spritesheets/player/scenario/walk/character_walk.png";
 import CharacterWalkConfig from "@assets/spritesheets/player/scenario/walk/character_walk.json";
-
 import CharacterRunTexture from "@assets/spritesheets/player/scenario/run/character_run.png";
 import CharacterRunConfig from "@assets/spritesheets/player/scenario/run/character_run.json";
-
 import CharacterPupHoldFearTexture from "@assets/spritesheets/scenario_3/character_pup_hold_fear.png";
 import CharacterPupHoldFearConfig from "@assets/spritesheets/scenario_3/character_pup_hold_fear.json";
-
 import PointOfInterestCloudTexture from "@assets/spritesheets/pointOfInterest/cloud/poi_cloud.png";
 import PointOfInterestCloudConfig from "@assets/spritesheets/pointOfInterest/cloud/poi_cloud.json";
-
 import AdultNPCTexture from "@assets/spritesheets/scenario_3/npc_1.png";
 import AdultNPCConfig from "@assets/spritesheets/scenario_3/npc_1.json";
-
 import ApprovalChatTexture from "@assets/spritesheets/scenario_3/approval_chat_icon.png";
 import ApprovalChatConfig from "@assets/spritesheets/scenario_3/approval_chat_icon.json";
-
 import QuestionChatTexture from "@assets/spritesheets/scenario_3/question_chat_icon.png";
 import QuestionChatConfig from "@assets/spritesheets/scenario_3/question_chat_icon.json";
-
-import Option1Texture from "@assets/images/scenario_3/scenario_3_option_1.png";
-import Option2Texture from "@assets/images/scenario_3/scenario_3_option_2.png";
-import Option3Texture from "@assets/images/scenario_3/scenario_3_option_3.png";
+import Option1Texture from "@assets/images/scenario_3/option_1.png";
+import Option2Texture from "@assets/images/scenario_3/option_2.png";
+import Option3Texture from "@assets/images/scenario_3/option_3.png";
+import OptionStick from "@assets/images/world/option_stick.png";
 
 import { WorldSceneConfig } from "./WorldScene";
 
@@ -69,11 +62,11 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 
 	private option3Img!: string;
 
+	private optionStick!: string;
+
 	private exitSceneKey!: string;
 
 	private components!: ComponentService;
-
-	private backgroundImage!: string;
 
 	private motherDogSleep!: string;
 
@@ -117,8 +110,6 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 
 		this.exitSceneKey = WorldSceneConfig.key;
 
-		this.backgroundImage = "scene3backgroundImage";
-
 		this.motherDog = "scene3motherDog";
 
 		this.characterWalk = "scene3characterWalk";
@@ -132,17 +123,18 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 		this.approvalChatIcon = "scene3ApprovalIcon";
 		this.questionChatIcon = "scene3QuestionIcon";
 
-		this.option1Img = "scene3Option1";
-		this.option2Img = "scene3Option2";
-		this.option3Img = "scene3Option3";
+		this.option1Img = "scene3Option13";
+		this.option2Img = "scene3Option23";
+		this.option3Img = "scene3Option33";
+		this.optionStick = "stick3";
 
 		addFadeIn(this);
 	}
 
 	// A key has to be unique for the entire project, not just this scene.
 	public preload(): void {
-		this.load.image(this.backgroundImage, BackgroundImage);
-
+		this.load.image("background3", BackgroundImage);
+		this.load.image(this.optionStick, OptionStick);
 		this.load.aseprite(this.motherDog, MotherDogTexture, MotherDogConfig);
 		this.load.aseprite(
 			this.characterHoldPup,
@@ -196,7 +188,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 	}
 
 	public create(): void {
-		const background = this.add.image(0, 0, this.backgroundImage);
+		const background = this.add.image(0, 0, "background3");
 		this.components.addComponent(background, MakeFullscreen);
 
 		// define entities
@@ -205,9 +197,9 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 			.setOrigin(0, 0);
 
 		const character = this.add
-			.sprite(this.scale.width, 213, this.characterWalk)
+			.sprite(this.scale.width, 330, this.characterWalk)
 			.setOrigin(0, 0)
-			.toggleFlipX();
+			.toggleFlipX()
 
 		// define components
 		const characterMover = this.components.addComponent(character, MoveTo);
@@ -223,7 +215,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 
 		// adjust parameters
 		characterMover.velocity = 170;
-		characterAnimator.desiredHeight = 744;
+		characterAnimator.desiredHeight = 600;
 		motherDogAnimator.desiredHeight = 470;
 
 		characterAnimator.addAnimations(
@@ -242,49 +234,190 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 		motherDogAnimator.loop(1);
 
 		characterMover.movingDone = () => {
-			console.log("moving done");
 
 			// todo: idle animation without pup
 			characterAnimator.loop(1);
 			character.toggleFlipX();
 
+			const stick1 = this.add.image(420,1260, this.optionStick);
+			const stick1move = this.components.addComponent(
+				stick1,
+				MoveTo
+			);
+			stick1move.setTarget({
+				x: stick1.x,
+				y: stick1.y - 300,
+			});		
+			stick1move.velocity = 280;
+			const stick2 = this.add.image(970,1260, this.optionStick);
+			const stick2move = this.components.addComponent(
+				stick2,
+				MoveTo
+			);
+			stick2move.setTarget({
+				x: stick2.x,
+				y: stick2.y - 300,
+			});		
+			stick2move.velocity = 280;
+			const stick3 = this.add.image(1510,1260, this.optionStick);
+			const stick3move = this.components.addComponent(
+				stick3,
+				MoveTo
+			);
+			stick3move.setTarget({
+				x: stick3.x,
+				y: stick3.y - 300,
+			});		
+			stick3move.velocity = 280;
 			// ... present stages
 			const options = [
-				createOption(this, this.option1Img, 317, 1050).setOrigin(0, 1),
-				createOption(this, this.option2Img, 772, 1050).setOrigin(0, 1),
-				createOption(this, this.option3Img, 1228, 1050).setOrigin(0, 1),
+				createOption(this, this.option1Img, 420, 1200).setOrigin(0.5),
+				createOption(this, this.option2Img, 970, 1200).setOrigin(0.5),
+				createOption(this, this.option3Img, 1510, 1200).setOrigin(0.5),
 			];
+			const button1move = this.components.addComponent(
+				options[0],
+				MoveTo
+			);
+			button1move.setTarget({
+				x: options[0].x,
+				y: options[0].y - 300,
+			});		
+			button1move.velocity = 280;			
+			const button2move = this.components.addComponent(
+				options[1],
+				MoveTo
+			);
+			button2move.setTarget({
+				x: options[1].x,
+				y: options[1].y - 300,
+			});		
+			button2move.velocity = 280;
+			const button3move = this.components.addComponent(
+				options[2],
+				MoveTo
+			);
+			button3move.setTarget({
+				x: options[2].x,
+				y: options[2].y - 300,
+			});		
+			button3move.velocity = 280;
+
+			options[0].on("pointerover", () => {
+				options[0].angle = 5;			
+			});
+			options[0].on('pointerout',() => {
+				options[0].angle = 0;
+			})
+			options[1].on("pointerover", () => {
+				options[1].angle = 5;			
+			});
+			options[1].on('pointerout',() => {
+				options[1].angle = 0;
+			})
+			options[2].on("pointerover", () => {
+				options[2].angle = 5;			
+			});
+			options[2].on('pointerout',() => {
+				options[2].angle = 0;
+			})
 
 			options[0].on(
-				"pointerdown",
-				this.option1.bind(
-					this,
+				"pointerdown",() => {		
+				//disables sign 1, moves signs and sticks of option 2 and 3 offscreen
+				options[0].disableInteractive()				
+				button2move.setTarget({
+					x: options[1].x,
+					y: options[1].y + 300,
+				});		
+				button2move.velocity = 280;
+				stick2move.setTarget({
+					x: stick2.x,
+					y: stick2.y + 300,
+				});		
+				stick2move.velocity = 280;
+				button3move.setTarget({
+					x: options[2].x,
+					y: options[2].y + 300,
+				});		
+				button3move.velocity = 280;
+				stick3move.setTarget({
+					x: stick3.x,
+					y: stick3.y + 300,
+				});		
+				stick3move.velocity = 280;			
+				this.option1(
 					options,
 					characterAnimator,
 					motherDogAnimator,
 					characterMover
-				) as () => void
-			);
+				);
+			});
 
 			options[1].on(
-				"pointerdown",
-				this.option2.bind(
-					this,
-					options,
-					characterAnimator,
-					motherDogAnimator,
-					characterMover
-				) as () => void
+				"pointerdown", () => {
+					//disables sign 2, moves signs and sticks of option 1 and 3 offscreen
+				stick1move.setTarget({
+					x: stick1.x,
+					y: stick1.y + 300,
+				});		
+				stick1move.velocity = 280;
+				button1move.setTarget({
+					x: options[0].x,
+					y: options[0].y + 300,
+				});		
+				button1move.velocity = 280;
+				options[1].disableInteractive()				
+				button3move.setTarget({
+					x: options[2].x,
+					y: options[2].y + 300,
+				});		
+				button3move.velocity = 280;
+				stick3move.setTarget({
+					x: stick3.x,
+					y: stick3.y + 300,
+				});		
+				stick3move.velocity = 280;
+					this.option2(
+						options,
+						characterAnimator,
+						motherDogAnimator,
+						characterMover
+					);
+
+				}
 			);
 
 			options[2].on(
-				"pointerdown",
-				this.option3.bind(
-					this,
-					options,
-					characterAnimator,
-					characterMover
-				) as () => void
+				"pointerdown", () => {
+					stick1move.setTarget({
+						x: stick1.x,
+						y: stick1.y + 300,
+					});		
+					stick1move.velocity = 280;
+					button1move.setTarget({
+						x: options[0].x,
+						y: options[0].y + 300,
+					});		
+					button1move.velocity = 280;
+					stick2move.setTarget({
+						x: stick2.x,
+						y: stick2.y + 300,
+					});		
+					stick2move.velocity = 280;
+					button2move.setTarget({
+						x: options[1].x,
+						y: options[1].y + 300,
+					});		
+					button2move.velocity = 280;
+					options[2].disableInteractive();
+					this.option3(
+						options,
+						characterAnimator,
+						characterMover
+					);
+
+				}
 			);
 		};
 
@@ -302,10 +435,6 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 
 		// play character idle animation
 		characterAnimator.loop(2);
-
-		console.log(
-			"Pick up puppy, mother dog starts barking, character runs away in fear"
-		);
 
 		// display wrong choice effect
 		optionEffect(this, false);

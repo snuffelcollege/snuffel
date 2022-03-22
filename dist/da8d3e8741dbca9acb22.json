@@ -1,0 +1,35 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 1, "y": 1, "w": 252, "h": 351 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 250, "h": 349 },
+    "sourceSize": { "w": 250, "h": 349 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 254, "y": 1, "w": 252, "h": 351 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 250, "h": 349 },
+    "sourceSize": { "w": 250, "h": 349 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "Scenario5_dog1.png",
+  "format": "RGBA8888",
+  "size": { "w": 507, "h": 353 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Tag", "from": 0, "to": 1, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
