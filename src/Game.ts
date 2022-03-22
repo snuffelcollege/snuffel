@@ -11,8 +11,8 @@ const config: GameConfig = {
 	scale: {
 		autoCenter: Scale.CENTER_BOTH,
 		mode: ScaleModes.FIT,
-		width: window.innerWidth,
-		height: window.innerHeight,
+		width: 1920,
+		height: 1080,
 	},
 	audio: {
 		disableWebAudio: true

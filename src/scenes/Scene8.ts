@@ -24,6 +24,7 @@ import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
 import FixedHeightAnimator from "../Components/FixedHeightAnimator";
+import sceneSong from "@assets/audio/scene.mp3";
 
 // Config for the scene defining gravity and debug settings.
 export const config: SettingsConfig = {
@@ -143,7 +144,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.image(this.option3, Option3);
 		this.load.image(this.imageIceCreamCone, IceCreamConeImage);
 		this.load.image(this.fallenIceCreamConeImage, FallenIceCreamConeImage);
-		this.load.image(this.optionStick, OptionStick)
+		this.load.image(this.optionStick, OptionStick);
+		this.load.audio("sceneSong", sceneSong);
 		this.load.spritesheet(
 			this.spriteSheetPlayerCharacter,
 			PlayerCharacterSheet,
@@ -169,6 +171,11 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	}
 
 	public create(): void {
+		this.game.sound.pauseAll();
+		var song = this.sound.add("sceneSong");
+		song.play({
+			loop: true
+		});
 		const centerX = this.scale.displaySize.width * 0.5;
 		const centerY = this.scale.displaySize.height * 0.5;
 
@@ -554,5 +561,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		fadeToBlack(this, () => {
 			this.scene.stop(this.scene.key).wake(this.exitSceneKey);
 		});
+		this.game.sound.removeByKey("sceneSong");
+		this.game.sound.resumeAll();
 	}
 }
