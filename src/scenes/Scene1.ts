@@ -2,7 +2,8 @@ import BackgroundImage from "@assets/images/scenario_1/BG.png";
 import Option1 from "@assets/images/scenario_1/option_1.png";
 import Option2 from "@assets/images/scenario_1/option_2.png";
 import Option3 from "@assets/images/scenario_1/option_3.png";
-import OptionStick from "@assets/images/world/option_stick.png"
+import OptionStick from "@assets/images/world/option_stick.png";
+import Playground from "@assets/images/scenario_1/playground.png";
 import PlayerIdleSheet from "@assets/spritesheets/player/scenario/idle/character_idle.png";
 import PlayerIdleData from "@assets/spritesheets/player/scenario/idle/character_idle.json";
 import PlayerWalkSheet from "@assets/spritesheets/player//scenario/walk/character_walk.png";
@@ -92,6 +93,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	private optionStick!: string;
 
+	private playground!: string;
+
 	private exitSceneKey!: string;
 
 	constructor(cfg: SettingsConfig = config) {
@@ -112,6 +115,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.option2 = "option21";
 		this.option3 = "option31";
 		this.optionStick = "stick1";
+		this.playground = "playgground1";
 
 		if (!WorldSceneConfig.key) {
 			throw Error("Exit scene key is undefined");
@@ -128,6 +132,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	public preload(): void {
 		//assigns background to 'background4' string
 		this.load.image("background1", BackgroundImage);
+		this.load.image(this.playground, Playground);
 		this.load.image(this.option1, Option1);
 		this.load.image(this.option2, Option2);
 		this.load.image(this.option3, Option3);
@@ -149,6 +154,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		//loads background from 'background1' string. this isn't stored in a local variable because of a bug where the wrong background was loaded in certain scenes.
 		const img = this.add.image(centerX, centerY, "background1");
 		this.components.addComponent(img, MakeFullscreen);
+		this.add.image(190, 775, this.playground).setDepth(2).setScale(1);
 
 		this.createSituation();
 	}
@@ -177,12 +183,13 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			),
 			repeat: -1,
 		});
-
+		
 		this.playerEntity = this.add.sprite(
 			700,
 			600,
 			this.playerIdle
 		);
+		this.playerEntity.setDepth(1);
 		this.playerEntity
 			.play(this.playerIdle)
 			.toggleFlipX()
