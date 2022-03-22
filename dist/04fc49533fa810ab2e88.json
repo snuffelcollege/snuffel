@@ -1,0 +1,35 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 1, "y": 1, "w": 146, "h": 111 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 144, "h": 109 },
+    "sourceSize": { "w": 144, "h": 109 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 148, "y": 1, "w": 146, "h": 111 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 144, "h": 109 },
+    "sourceSize": { "w": 144, "h": 109 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "dogbite1-sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 295, "h": 113 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Tag", "from": 0, "to": 1, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
