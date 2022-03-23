@@ -90,6 +90,18 @@
                  "width":0,
                  "x":6500,
                  "y":4250
+                },
+                {
+                 "height":0,
+                 "id":5,
+                 "name":"Guidedog",
+                 "point":true,
+                 "rotation":0,
+                 "type":"Objective",
+                 "visible":true,
+                 "width":0,
+                 "x":4500,
+                 "y":4250
                 },  
                 {
                  "height":0,
