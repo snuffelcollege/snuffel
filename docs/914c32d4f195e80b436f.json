@@ -1,0 +1,35 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 313, "y": 1, "w": 304, "h": 571 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 18, "y": 0, "w": 302, "h": 569 },
+    "sourceSize": { "w": 320, "h": 582 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 1, "y": 1, "w": 311, "h": 571 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 309, "h": 569 },
+    "sourceSize": { "w": 320, "h": 582 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "Abyangry1-sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 617, "h": 572 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Tag", "from": 0, "to": 1, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

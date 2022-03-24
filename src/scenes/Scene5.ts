@@ -1,4 +1,16 @@
 import BackgroundImage from "@assets/images/scenario_5/BG.png";
+import RayIdle from "@assets/spritesheets/scenario_5/dogidle.png";
+import RayData from "@assets/spritesheets/scenario_5/dogidle.json";
+import RayAngry from "@assets/spritesheets/scenario_5/dogangry.png";
+import RayAngryData from "@assets/spritesheets/scenario_5/dogangry.json";
+import AbyIdle from "@assets/spritesheets/scenario_5/abyidle.png";
+import AbyData from "@assets/spritesheets/scenario_5/abyidle.json";
+import AbyAngry from "@assets/spritesheets/scenario_5/abyangry.png";
+import AbyAngryData from "@assets/spritesheets/scenario_5/abyangry.json";
+import BoyBark from "@assets/spritesheets/scenario_5/boybark.png";
+import BoyBarkData from "@assets/spritesheets/scenario_5/boybark.json";
+import BoyPet from "@assets/spritesheets/scenario_5/boypet.png";
+import BoyPetData from "@assets/spritesheets/scenario_5/boypet.json";
 import Option1 from "@assets/images/scenario_5/option_1.png";
 import Option2 from "@assets/images/scenario_5/option_2.png";
 import Option3 from "@assets/images/scenario_5/option_3.png";
@@ -67,12 +79,22 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	private characterRun!: string; //aseprite of character walking
 
 	private characterIdle!: string;//aseprite of character idling
-	
-	private DogEntity!: Sprite; //entity that uses dog animation
-	
-	private dogIdleAnimation!: string;//aseprite of regular dog in car window
 
-	private dogBiteAnimation!: string;
+	private rayIdle!: string;
+
+	private rayAngry!: string;
+
+	private abyIdle!: string;
+	
+	private abyAngry!: string;
+
+	private boyBark!: string;
+
+	private boyPet!: string;
+
+	private DogEntity!: Sprite; //entity that uses dog animation
+
+	private AbyEntity!: Sprite;
 
 	private option1!: string;
 
@@ -98,8 +120,12 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.characterWalk = "characterWalk6";
 		this.characterIdle = "characterIdle6";
 		this.characterRun = "characterRun6";
-		this.dogIdleAnimation = "dogidleanimation6";
-		this.dogBiteAnimation = "dogbiteanimation6";
+		this.rayIdle = "rayIdle";
+		this.abyIdle = "abyIdle";
+		this.boyBark = "boyBark";
+		this.boyPet = "boyPet";
+		this.rayAngry = "rayAngry";
+		this.abyAngry = "abyAngry";
 
 		if (!WorldSceneConfig.key) {
 			throw Error("Exit scene key is undefined");
@@ -139,6 +165,36 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			CharacterIdleSheet,
 			CharacterIdleData
 		);
+		this.load.aseprite(
+			this.rayIdle,
+			RayIdle,
+			RayData
+		);
+		this.load.aseprite(
+			this.rayAngry,
+			RayAngry,
+			RayAngryData
+		);
+		this.load.aseprite(
+			this.abyIdle,
+			AbyIdle,
+			AbyData
+		);
+		this.load.aseprite(
+			this.abyAngry,
+			AbyAngry,
+			AbyAngryData
+		);
+		this.load.aseprite(
+			this.boyBark,
+			BoyBark,
+			BoyBarkData
+		);
+		this.load.aseprite(
+			this.boyPet,
+			BoyPet,
+			BoyPetData
+		);
 	}
 
 	public create(): void {
@@ -150,7 +206,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		const centerX = this.scale.displaySize.width * 0.5;
 		const centerY = this.scale.displaySize.height * 0.5;
 		
-		//loads background from 'background4' string. this isn't stored in a local variable because of a bug where the wrong background was loaded in certain scenes.
+		//loads background from 'background5' string. this isn't stored in a local variable because of a bug where the wrong background was loaded in certain scenes.
 		const img = this.add.image(centerX, centerY, "background5");
 		this.components.addComponent(img, MakeFullscreen);
 
@@ -183,23 +239,39 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			),
 			repeat: -1,
 		});
-		this.characterEntity = this.add.sprite(1100,700,this.characterIdle);
-		this.characterEntity.play(this.characterIdle).setScale(.8);
+		this.characterEntity = this.add.sprite(650,700,this.characterIdle).toggleFlipX();
+		this.characterEntity.play(this.characterIdle).setScale(1);
 
 		//dog animation
 		this.anims.create({
-			key: this.dogIdleAnimation,
-			frameRate: 1,
+			key: this.rayIdle,
+			frameRate: 2,
 			frames: this.anims.generateFrameNumbers(
-				this.dogIdleAnimation,
+				this.rayIdle,
+				{
+					start: 1,
+					end: 0,
+				}
+			),
+			repeat: -1,
+		});
+		this.DogEntity = this.add.sprite(1200,750,this.rayIdle);
+		this.DogEntity.play(this.rayIdle).setScale(1);
+
+		this.anims.create({
+			key: this.abyIdle,
+			frameRate: 2,
+			frames: this.anims.generateFrameNumbers(
+				this.abyIdle,
 				{
 					start: 0,
 					end: 1,
 				}
 			),
+			repeat: -1,
 		});
-		this.DogEntity = this.add.sprite(780,700,this.dogIdleAnimation);
-		// this.DogEntity.play(this.dogIdleAnimation).setScale(.8);
+		this.AbyEntity = this.add.sprite(1050,580,this.abyIdle);
+		this.AbyEntity.play(this.abyIdle).setScale(1);
 
 		this.createChoice();		
 	}
@@ -216,7 +288,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			y: stick1.y - 300,
 		});		
 		stick1move.velocity = 280;
-		const button1 = this.add.image(500, 1200, this.option1);
+		const button1 = this.add.image(500, 1200, this.option1).setScale(0.5);
 		button1.on("pointerover", () => {
 			button1.angle = 5;			
 		});
@@ -244,7 +316,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			y: stick2.y - 300,
 		});		
 		stick2move.velocity = 280;
-		const button2 = this.add.image(1000, 1200, this.option2);
+		const button2 = this.add.image(1000, 1200, this.option2).setScale(0.5);
 		button2.on("pointerover", () => {
 			button2.angle = 5;			
 		});
@@ -272,7 +344,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			y: stick3.y - 300,
 		});		
 		stick3move.velocity = 280;
-		const button3 = this.add.image(1500, 1200, this.option3);
+		const button3 = this.add.image(1500, 1200, this.option3).setScale(0.5);
 		button3.on("pointerover", () => {
 			button3.angle = 5;			
 		});
@@ -373,23 +445,150 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	}
 
 	private createResult1(): void {
-	//fade to black and back to overworld after 5 seconds
+		this.anims.create({
+			key: this.boyBark,
+			frameRate: 2,
+			frames: this.anims.generateFrameNumbers(
+				this.boyBark,
+				{
+					start: 1,
+					end: 0,
+				}
+			),
+			repeat: -1,
+		});
+		this.characterEntity.play(this.boyBark).setScale(1).toggleFlipX();
+
+
+		this.anims.create({
+			key: this.abyAngry,
+			frameRate: 2,
+			frames: this.anims.generateFrameNumbers(
+				this.abyAngry,
+				{
+					start: 1,
+					end: 0,
+				}
+			),
+			repeat: -1,
+		});
+		this.AbyEntity.play(this.abyAngry).setScale(1);
+	
+		this.anims.create({
+			key: this.rayAngry,
+			frameRate: 2,
+			frames: this.anims.generateFrameNumbers(
+				this.rayAngry,
+				{
+					start: 1,
+					end: 0,
+				}
+			),
+			repeat: -1,
+		});
+		this.DogEntity.play(this.rayAngry).setScale(1);
+	
+		//fade to black and back to overworld after 5 seconds
 		setTimeout(() => {
 			this.moveScene();
 		}, 6000);
 	}
 
 	private createResult2(): void {
-		setTimeout(() => {
+		this.anims.create({
+			key: this.characterWalk,
+			frameRate: 2,
+			frames: this.anims.generateFrameNumbers(
+				this.characterWalk,
+				{
+					start: 1,
+					end: 0,
+				}
+			),
+			repeat: -1,
+		});
+
+		this.characterEntity.play(this.characterWalk).setScale(1).setDepth(1);
+
+		const movePast = this.components.addComponent(
+			this.characterEntity,
+			MoveTo
+		);
+
+		movePast.setTarget({
+			x: 0,
+			y: 750
+		});
+
+		movePast.velocity = 200;
+		movePast.movingDone = () => {
 			this.moveScene();
-		}, 5000);
+		}
 	}
 
 	private createResult3(): void {
-		//fade to black and back to overworld after 5 seconds
-		setTimeout(() => {
-			this.moveScene();
-		}, 5000);
+		this.anims.create({
+			key: this.characterWalk,
+			frameRate: 2,
+			frames: this.anims.generateFrameNumbers(
+				this.characterWalk,
+				{
+					start: 1,
+					end: 0,
+				}
+			),
+			repeat: -1,
+		});
+
+		this.characterEntity.play(this.characterWalk).setScale(1).toggleFlipX().setDepth(1);
+		
+		const movetoRay = this.components.addComponent(
+			this.characterEntity,
+			MoveTo
+		);
+
+		movetoRay.setTarget({
+			x: 1100,
+			y: 750
+		});
+
+		movetoRay.velocity = 250;
+
+		movetoRay.movingDone = () => {
+			this.anims.create({
+				key: this.boyPet,
+				frameRate: 2,
+				frames: this.anims.generateFrameNumbers(
+					this.boyPet,
+					{
+						start: 1,
+						end: 0,
+					}
+				),
+				repeat: -1,
+			});
+			this.characterEntity.play(this.boyPet).setScale(1).setDepth(0);
+	
+	
+			this.anims.create({
+				key: this.abyAngry,
+				frameRate: 2,
+				frames: this.anims.generateFrameNumbers(
+					this.abyAngry,
+					{
+						start: 1,
+						end: 0,
+					}
+				),
+				repeat: -1,
+			});
+			this.AbyEntity.play(this.abyAngry).setScale(1).setDepth(0);
+			
+			//fade to black and back to overworld after 5 seconds
+			setTimeout(() => {
+				this.moveScene();
+			}, 5000);
+		}		
 	}
 
 	//fade to black and back to overworld

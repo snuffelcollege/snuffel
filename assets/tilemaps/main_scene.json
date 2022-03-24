@@ -100,7 +100,7 @@
                  "type":"Objective",
                  "visible":true,
                  "width":0,
-                 "x":4500,
+                 "x":7000,
                  "y":4250
                 },  
                 {
@@ -112,7 +112,7 @@
                  "type":"Objective",
                  "visible":true,
                  "width":0,
-                 "x":7500,
+                 "x":8000,
                  "y":4250
                 },   
                 {
@@ -124,7 +124,7 @@
                  "type":"Objective",
                  "visible":true,
                  "width":0,
-                 "x":8300,
+                 "x":9000,
                  "y":4250
                 },                             
                 {
@@ -136,7 +136,7 @@
                  "type":"Objective",
                  "visible":true,
                  "width":0,
-                 "x":8800,
+                 "x":9500,
                  "y":4250
                 }],
          "opacity":1,
