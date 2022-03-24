@@ -447,7 +447,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 		characterAnimator.loop(2);
 
 		// display wrong choice effect
-		optionEffect(this, false);
+		//optionEffect(this, false);
 
 		// wait a bit to let the it sink in
 		waitFor(
@@ -493,7 +493,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 		Scene3.disableOptions(options);
 
 		// display wrong choice effect
-		optionEffect(this, false);
+		//optionEffect(this, false);
 
 		// wait a bit to let the it sink in
 		waitFor(
@@ -560,7 +560,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 		Scene3.disableOptions(options);
 
 		// display wrong choice effect
-		optionEffect(this, true);
+		//optionEffect(this, true);
 
 		// load npc on right side of the scene
 		const adultNpc = this.add
