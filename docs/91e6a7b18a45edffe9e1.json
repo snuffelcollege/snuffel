@@ -1,0 +1,75 @@
+{
+	"frames": {
+		"0": {
+			"frame": {
+				"x": 131,
+				"y": 1,
+				"w": 125,
+				"h": 89
+			},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 123,
+				"h": 87
+			},
+			"sourceSize": {
+				"w": 127,
+				"h": 94
+			},
+			"duration": 400
+		},
+		"1": {
+			"frame": {
+				"x": 1,
+				"y": 1,
+				"w": 129,
+				"h": 96
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 127,
+				"h": 94
+			},
+			"sourceSize": {
+				"w": 127,
+				"h": 94
+			},
+			"duration": 400
+		}
+	},
+	"meta": {
+		"app": "https://www.aseprite.org/",
+		"version": "1.3-beta7-x64",
+		"image": "approval_chat_icon.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 256,
+			"h": 97
+		},
+		"scale": "1",
+		"frameTags": [
+			{
+				"name": "approval_chat_icon",
+				"from": 0,
+				"to": 1,
+				"direction": "forward",
+				"color": "#000000ff"
+			}
+		],
+		"layers": [
+			{
+				"name": "Layer",
+				"opacity": 255,
+				"blendMode": "normal"
+			}
+		],
+		"slices": [
+		]
+	}
+}
