@@ -5,9 +5,11 @@ import Option3 from "@assets/images/scenario_2/option_3.png";
 import OptionStick from "@assets/images/world/option_stick.png";
 import StartText from "@assets/images/scenario_2/start_text.png";
 import EndText from "@assets/images/scenario_2/end_text.png";
-import GoodEmotion from "@assets/images/world/correct_option.png"
-import MixedEmotion from "@assets/images/world/almost_option.png"
-import BadEmotion from "@assets/images/world/incorrect_option.png"
+import GoodEmotion from "@assets/images/world/correct_option.png";
+import MixedEmotion from "@assets/images/world/almost_option.png";
+import BadEmotion from "@assets/images/world/incorrect_option.png";
+import ContinueButton from "@assets/images/UI/continue_button.png";
+import ReplayButton from "@assets/images/UI/replay_button.png";
 import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/character_run_.png";
 import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/character_walk.png";
 import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/character_walk.json";
@@ -93,6 +95,10 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private badEmotion!: string;
 
+	private continueButton!: string;
+
+	private replayButton!: string;
+
 	private optionStick!: string;
 
 	private characterRun!: string;
@@ -135,6 +141,8 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.goodEmotion = "goodemotion2";
 		this.mixedEmotion = "mixedemotion2"
 		this.badEmotion = "bademotion2";
+		this.continueButton = "continuebutton2";
+		this.replayButton = "replaybutton2";
 		this.shepherdImage = "shepherdImage2";
 		this.shepherdSheet = "shepherdSheet2";
 		this.barkingSheet = "barkingSheet2";
@@ -168,6 +176,8 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.load.image(this.option2, Option2);
 		this.load.image(this.option3, Option3);
 		this.load.image(this.optionStick, OptionStick)
+		this.load.image(this.continueButton,ContinueButton);
+		this.load.image(this.replayButton,ReplayButton);
 		this.load.image(this.startText,StartText);
 		this.load.image(this.endText, EndText);
 		this.load.image(this.goodEmotion,GoodEmotion);
@@ -439,6 +449,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			});	
 	}
 
+	//poke stick to fence(wrong)
 	private createResult1(): void {
 		this.anims.create({
 			key: this.shepherdSheet,
@@ -490,14 +501,23 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 			setTimeout(() => {
 					this.add.image(600,130,this.badEmotion).setScale(0.6);
-					this.add.image(600,300,this.endText).setScale(0.6);
-					//this.moveScene();
+					this.add.image(600,300,this.endText).setScale(0.6);					
+					const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+					replaybutton.on("pointerdown", () => {
+						this.scene.restart();
+					})
+					// const continuebutton = this.add.image(1090,420,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+					// continuebutton.on("pointerdown", () => {
+					// 	this.moveScene();
+					// });
+					
 			}, 3000);
 		}, 2000);
 
 		
 	}
 
+	//walk away (correct)
 	private createResult2(): void {
 		this.anims.create({
 			key: this.characterWalk,
@@ -527,11 +547,19 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 		setTimeout(() => {
 			this.add.image(600,130,this.goodEmotion).setScale(0.6);
-			this.add.image(600,300,this.endText).setScale(0.6);
-			//this.moveScene();
+			this.add.image(600,300,this.endText).setScale(0.6);		
+			// const replaybutton = this.add.image(990,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			// replaybutton.on("pointerdown", () => {
+			// 	this.scene.restart();
+			// })
+			const continuebutton = this.add.image(1090,420,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			continuebutton.on("pointerdown", () => {
+				this.moveScene();
+			});
 		}, 3000);
 	}
 
+	//bark against dog (maybe)
 	private createResult3(): void {
 		this.anims.create({
 			key: this.barkingSheet,
@@ -561,8 +589,15 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 		setTimeout(() => {
 			this.add.image(600,130,this.mixedEmotion).setScale(0.6);
-			this.add.image(600,300,this.endText).setScale(0.6);
-			//this.moveScene();
+			this.add.image(600,300,this.endText).setScale(0.6);			
+			const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			replaybutton.on("pointerdown", () => {
+				this.scene.restart();
+			})
+			// const continuebutton = this.add.image(1090,420,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			// continuebutton.on("pointerdown", () => {
+			// 	this.moveScene();
+			// });
 		}, 3000);
 	}
 
