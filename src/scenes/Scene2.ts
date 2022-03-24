@@ -3,6 +3,11 @@ import Option1 from "@assets/images/scenario_2/option_1.png";
 import Option2 from "@assets/images/scenario_2/option_2.png";
 import Option3 from "@assets/images/scenario_2/option_3.png";
 import OptionStick from "@assets/images/world/option_stick.png";
+import StartText from "@assets/images/scenario_2/start_text.png";
+import EndText from "@assets/images/scenario_2/end_text.png";
+import GoodEmotion from "@assets/images/world/correct_option.png"
+import MixedEmotion from "@assets/images/world/almost_option.png"
+import BadEmotion from "@assets/images/world/incorrect_option.png"
 import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/character_run_.png";
 import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/character_walk.png";
 import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/character_walk.json";
@@ -78,6 +83,16 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private option3!: string;
 
+	private startText!: string;
+
+	private endText!: string;
+
+	private goodEmotion!: string;
+
+	private mixedEmotion!: string;
+
+	private badEmotion!: string;
+
 	private optionStick!: string;
 
 	private characterRun!: string;
@@ -115,6 +130,11 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.option2 = "option22";
 		this.option3 = "option32";
 		this.optionStick = "stick2"
+		this.startText = "starttext2";
+		this.endText = "endtext2";
+		this.goodEmotion = "goodemotion2";
+		this.mixedEmotion = "mixedemotion2"
+		this.badEmotion = "bademotion2";
 		this.shepherdImage = "shepherdImage2";
 		this.shepherdSheet = "shepherdSheet2";
 		this.barkingSheet = "barkingSheet2";
@@ -148,6 +168,11 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.load.image(this.option2, Option2);
 		this.load.image(this.option3, Option3);
 		this.load.image(this.optionStick, OptionStick)
+		this.load.image(this.startText,StartText);
+		this.load.image(this.endText, EndText);
+		this.load.image(this.goodEmotion,GoodEmotion);
+		this.load.image(this.mixedEmotion,MixedEmotion);
+		this.load.image(this.badEmotion,BadEmotion);
 		this.load.aseprite(
 			this.characterWalk,
 			CharacterWalkSheet,
@@ -227,20 +252,23 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		);
 		this.characterEntity
 			.play(this.characterIdle)
-			.setScale(1);
+			.setScale(1)
+			.toggleFlipX()
+			.setDepth(1);
 		
 		this.shepherdEntity = this.add.sprite(
-			1000,
+			1555,
 			350,
 			this.shepherdSheet
-		);
+		).setDepth(0);
 
 		this.stickEntity = this.add.sprite(1125, 1025, this.stickImage)
-
+		
 		this.createChoice();
 	}
 
 	private createChoice(): void {
+		const startTextImage = this.add.image(650,100,this.startText).setScale(0.7);
 		//create stick 1 and sign 1, add movecomponents
 		const stick1 = this.add.image(500,1280, this.optionStick);
 		const stick1move = this.components.addComponent(
@@ -268,7 +296,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			y: button1.y - 300,
 		});		
 		button1move.velocity = 280;
-		const stick2 = this.add.image(1000,1280, this.optionStick);
+		const stick2 = this.add.image(1000,1280, this.optionStick).setDepth(2);
 		const stick2move = this.components.addComponent(
 			stick2,
 			MoveTo
@@ -280,7 +308,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			y: stick2.y - 300,
 		});		
 		stick2move.velocity = 280;
-		const button2 = this.add.image(1000, 1200, this.option2);
+		const button2 = this.add.image(1000, 1200, this.option2).setDepth(2);
 		button2.on("pointerover", () => {
 			button2.angle = 5;			
 		});
@@ -298,7 +326,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		button2move.velocity = 280;
 		
 		//create stick 3 and sign 3, add movecomponents
-		const stick3 = this.add.image(1500,1280, this.optionStick);
+		const stick3 = this.add.image(1500,1280, this.optionStick).setDepth(2);
 		const stick3move = this.components.addComponent(
 			stick3,
 			MoveTo
@@ -308,7 +336,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			y: stick3.y - 300,
 		});		
 		stick3move.velocity = 280;
-		const button3 = this.add.image(1500, 1200, this.option3);
+		const button3 = this.add.image(1500, 1200, this.option3).setDepth(2);
 		button3.on("pointerover", () => {
 			button3.angle = 5;			
 		});
@@ -446,7 +474,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 			//this.cameras.main.flash(2000, 200, 0, 0);
 			this.shepherdEntity.play(this.shepherdSheet);
-			this.characterEntity.play(this.characterRun).setScale(2);
+			this.characterEntity.play(this.characterRun).setScale(2).toggleFlipX();
 
 			const moveTo = this.components.addComponent(this.characterEntity, MoveTo);
 
@@ -476,7 +504,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			repeat: -1,
 		});
 
-		this.characterEntity.setScale(1).play(this.characterWalk);
+		this.characterEntity.setScale(1).play(this.characterWalk).toggleFlipX();
 
 		const moveToCharacter = this.components.addComponent(
 			this.characterEntity,
