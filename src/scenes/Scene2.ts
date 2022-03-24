@@ -268,7 +268,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 	}
 
 	private createChoice(): void {
-		const startTextImage = this.add.image(650,100,this.startText).setScale(0.7);
+		const startTextImage = this.add.image(600,200,this.startText).setScale(0.6);
 		//create stick 1 and sign 1, add movecomponents
 		const stick1 = this.add.image(500,1280, this.optionStick);
 		const stick1move = this.components.addComponent(
@@ -378,6 +378,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 					y: stick3.y + 300,
 				});		
 				stick3move.velocity = 280;
+				startTextImage.destroy();
 				this.createResult1();
 			});
 		button2
@@ -405,6 +406,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 					y: stick3.y + 300,
 				});		
 				stick3move.velocity = 280;
+				startTextImage.destroy();
 				this.createResult2();
 			});
 		button3
@@ -432,6 +434,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 				});		
 				button2move.velocity = 280;
 				button3.disableInteractive();
+				startTextImage.destroy();
 				this.createResult3();
 			});	
 	}
@@ -486,7 +489,9 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			moveTo.velocity = 250;
 
 			setTimeout(() => {
-					this.moveScene();
+					this.add.image(600,130,this.badEmotion).setScale(0.6);
+					this.add.image(600,300,this.endText).setScale(0.6);
+					//this.moveScene();
 			}, 3000);
 		}, 2000);
 
@@ -521,8 +526,10 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		//this.cameras.main.flash(2000, 0, 200, 0);
 
 		setTimeout(() => {
-			this.moveScene();
-		}, 5000);
+			this.add.image(600,130,this.goodEmotion).setScale(0.6);
+			this.add.image(600,300,this.endText).setScale(0.6);
+			//this.moveScene();
+		}, 3000);
 	}
 
 	private createResult3(): void {
@@ -553,8 +560,10 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		//this.cameras.main.flash(2000, 200, 0, 0);
 
 		setTimeout(() => {
-			this.moveScene();
-		}, 5000);
+			this.add.image(600,130,this.mixedEmotion).setScale(0.6);
+			this.add.image(600,300,this.endText).setScale(0.6);
+			//this.moveScene();
+		}, 3000);
 	}
 
 	private moveScene() {
