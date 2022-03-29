@@ -3,17 +3,18 @@ import Option1 from "@assets/images/scenario_1/option_1.png";
 import Option2 from "@assets/images/scenario_1/option_2.png";
 import Option3 from "@assets/images/scenario_1/option_3.png";
 import OptionStick from "@assets/images/world/option_stick.png";
-import StartText from "@assets/images/scenario_1/start_text.png";
+import StartDialog1 from "@assets/images/scenario_1/start_dialog_1.png";
+import StartDialog2 from "@assets/images/scenario_1/start_dialog_2.png";
 import EndText from "@assets/images/scenario_1/end_text.png";
 import EndDialog1 from "@assets/images/scenario_1/end_dialog_1.png";
-import EndDialog2 from "@assets/images/scenario_1/end_dialog_2.png";
 import GoodEmotion from "@assets/images/world/correct_option.png";
 import MixedEmotion from "@assets/images/world/almost_option.png";
 import BadEmotion from "@assets/images/world/incorrect_option.png";
 import ContinueButton from "@assets/images/UI/continue_button.png";
 import ReplayButton from "@assets/images/UI/replay_button.png";
 import Playground from "@assets/images/scenario_1/playground.png";
-import PlayerIdleSheet from "@assets/spritesheets/player/scenario/idle/character_idle2.png";
+import PlayerIdle1Sheet from "@assets/spritesheets/player/scenario/idle/character_idle.png";
+import PlayerIdle2Sheet from "@assets/spritesheets/player/scenario/idle/character_idle2.png";
 import PlayerIdleData from "@assets/spritesheets/player/scenario/idle/character_idle.json";
 import PlayerWalkSheet from "@assets/spritesheets/player//scenario/walk/character_walk.png";
 import PlayerWalkData from "@assets/spritesheets/player//scenario/walk/character_walk.json";
@@ -80,7 +81,9 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
     private dogEntity!: Sprite;
 
-    private playerIdle!: string;
+	private playerIdle1!: string;
+
+    private playerIdle2!: string;
 
 	private playerWalk!: string;
 
@@ -102,13 +105,13 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	private optionStick!: string;
 
-	private startText!: string;
+	private startDialog1!: string;
+
+	private startDialog2!: string;
 
 	private endText!: string;
 
 	private endDialog1!: string;
-
-	private endDialog2!: string;
 
 	private goodEmotion!: string;
 
@@ -131,7 +134,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	public init(): void {
 
 		//initializes variables, the string value has to be unique or phaser will reuse it in other scenes
-        this.playerIdle = "playeridle1";
+        this.playerIdle1 = "playeridle11";
+		this.playerIdle2 = "playeridle21";
 		this.playerWalk = "playerwalk1";
         this.playerPoint = "playerpoint1";
         this.playerShout = "playershout1";
@@ -142,10 +146,10 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.option2 = "option21";
 		this.option3 = "option31";
 		this.optionStick = "stick1";
-		this.startText = "starttext1";
+		this.startDialog1 = "startdialog11";
+		this.startDialog2 = "startdialog21";
 		this.endText = "endtext1";
 		this.endDialog1 = "enddialog11";
-		this.endDialog2 = "enddialog21"
 		this.goodEmotion = "goodemotion1";
 		this.mixedEmotion = "mixedemotion1"
 		this.badEmotion = "bademotion1";
@@ -175,14 +179,15 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.image(this.optionStick, OptionStick);	
 		this.load.image(this.continueButton,ContinueButton);
 		this.load.image(this.replayButton,ReplayButton);
-		this.load.image(this.startText,StartText);
+		this.load.image(this.startDialog1, StartDialog1);
+		this.load.image(this.startDialog2, StartDialog2);
 		this.load.image(this.endText, EndText);
 		this.load.image(this.endDialog1, EndDialog1);
-		this.load.image(this.endDialog2, EndDialog2);
 		this.load.image(this.goodEmotion,GoodEmotion);
 		this.load.image(this.mixedEmotion,MixedEmotion);
 		this.load.image(this.badEmotion,BadEmotion);
-        this.load.aseprite(this.playerIdle, PlayerIdleSheet, PlayerIdleData);
+        this.load.aseprite(this.playerIdle1, PlayerIdle1Sheet, PlayerIdleData);
+		this.load.aseprite(this.playerIdle2, PlayerIdle2Sheet, PlayerIdleData);
 		this.load.aseprite(this.playerWalk, PlayerWalkSheet, PlayerWalkData);
         this.load.aseprite(this.playerPoint, PlayerPointSheet, PlayerPointData);	
         this.load.aseprite(this.playerShout, PlayerShoutSheet, PlayerShoutData);
@@ -217,10 +222,10 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 		//player entity
         this.anims.create({
-			key: this.playerIdle,
+			key: this.playerIdle1,
 			frameRate: 2,
 			frames: this.anims.generateFrameNumbers(
-				this.playerIdle,
+				this.playerIdle1,
 				{
 					start: 0,
 					end: 1,
@@ -232,12 +237,71 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.playerEntity = this.add.sprite(
 			700,
 			600,
-			this.playerIdle
+			this.playerIdle1
 		);
 		this.playerEntity.setDepth(1);
 		this.playerEntity
-			.play(this.playerIdle)
+			.play(this.playerIdle1)
 			.toggleFlipX()
+			.setScale(1);
+		
+		//dog animation
+		this.anims.create({
+			key: this.dogIdle,
+			frameRate: 2,
+			frames: this.anims.generateFrameNumbers(
+				this.dogIdle,
+				{
+					start: 0,
+					end: 1,
+				}
+			),
+			repeat: -1,
+		});	
+		//dog is being put on bully entity
+		this.bullyEntity = this.add.sprite(
+			1200,
+			700,
+			this.dogIdle
+		)
+		this.bullyEntity
+			.play(this.dogIdle)
+			.setScale(1);
+		
+		//first textbox with continue button
+		const startDialogImage1 = this.add.image(700,300,this.startDialog1).setScale(0.6);
+		const continuebutton1 = this.add.image(1200,300,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+		continuebutton1.on("pointerdown", () => {
+			startDialogImage1.destroy();
+			continuebutton1.destroy()			
+			this.createChoice();				
+		});		
+	}
+
+	private createChoice(): void {	
+		//second textbox containing scenario	
+		const startDialogImage2 = this.add.image(700,300,this.startDialog2).setScale(0.6);	
+		
+		//player entity to idle 2
+        this.anims.create({
+			key: this.playerIdle2,
+			frameRate: 2,
+			frames: this.anims.generateFrameNumbers(
+				this.playerIdle2,
+				{
+					start: 0,
+					end: 1,
+				}
+			),
+			repeat: -1,
+		});
+		
+		this.playerEntity.setTexture(
+			this.playerIdle2
+		);
+		this.playerEntity.setDepth(1);
+		this.playerEntity
+			.play(this.playerIdle2)
 			.setScale(1);
 		
 		//bully entity (bully and dog animation)
@@ -252,22 +316,16 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				}
 			),
 			repeat: -1,
-		});
-
-		this.bullyEntity = this.add.sprite(
-			1300,
-			550,
+		});	
+		this.bullyEntity.x = 1300;
+		this.bullyEntity.y = 550;
+		this.bullyEntity.setTexture(
 			this.bullyAndDog
 		);
 		this. bullyEntity
 			.play(this.bullyAndDog)
-			.setScale(1);
-			
-		this.createChoice();		
-	}
-
-	private createChoice(): void {
-		const startTextImage = this.add.image(600,200,this.startText).setScale(0.6);
+			.setScale(1);			
+		
 		//create stick 1 and sign 1, add movecomponents
 		const stick1 = this.add.image(500,1280, this.optionStick);
 		const stick1move = this.components.addComponent(
@@ -377,7 +435,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 					y: stick3.y + 300,
 				});		
 				stick3move.velocity = 280;
-				startTextImage.destroy();
+				startDialogImage2.destroy();
 				this.createResult1();
 			});
 		button2
@@ -405,7 +463,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 					y: stick3.y + 300,
 				});		
 				stick3move.velocity = 280;
-				startTextImage.destroy();
+				startDialogImage2.destroy();
 				this.createResult2();
 			});
 		button3
@@ -433,7 +491,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				});		
 				button2move.velocity = 280;
 				button3.disableInteractive();
-				startTextImage.destroy();
+				startDialogImage2.destroy();
 				this.createResult3();
 			});
 	}
@@ -510,13 +568,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		setTimeout(() => {
 			this.add.image(700,350,this.endDialog1).setScale(0.6);			
 			const continuebutton = this.add.image(1200,350,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
-			continuebutton.on("pointerdown", () => {
-				this.add.image(700,350,this.endDialog2).setScale(0.6);	
-				continuebutton.destroy();
-				const continuebutton2 = this.add.image(1200,350,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
-				continuebutton2.on("pointerdown", () => {
-					this.moveScene();
-				});
+			continuebutton.on("pointerdown", () => {				
+				this.moveScene();
 			});			
 		}, 4000);
 	}

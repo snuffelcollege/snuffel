@@ -531,7 +531,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		setTimeout(() => {
 			this.add.image(600,130,this.mixedEmotion).setScale(0.6);
 			this.add.image(600,300,this.endText).setScale(0.6);					
-			const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			const replaybutton = this.add.image(990,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 					replaybutton.on("pointerdown", () => {
 						this.scene.restart();
 					});
@@ -569,7 +569,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			this.characterEntity.destroy();
 			this.add.image(600,130,this.goodEmotion).setScale(0.6);
 			this.add.image(600,300,this.endText).setScale(0.6);
-			const continuebutton = this.add.image(1090,420,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			const continuebutton = this.add.image(990,420,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 			continuebutton.on("pointerdown", () => {
 				this.moveScene();
 			});
@@ -638,7 +638,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			setTimeout(() => {
 				this.add.image(600,130,this.badEmotion).setScale(0.6);
 					this.add.image(600,300,this.endText).setScale(0.6);					
-					const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+					const replaybutton = this.add.image(990,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 					replaybutton.on("pointerdown", () => {
 						this.scene.restart();
 					});
