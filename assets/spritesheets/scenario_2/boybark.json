@@ -24,7 +24,7 @@
   "size": { "w": 486, "h": 495 },
   "scale": "1",
   "frameTags": [
-   { "name": "Tag", "from": 0, "to": 1, "direction": "forward" }
+   { "name": "boybark", "from": 0, "to": 1, "direction": "forward" }
   ],
   "layers": [
    { "name": "Layer", "opacity": 255, "blendMode": "normal" }

@@ -8,6 +8,8 @@ import huskyWaitImage from "@assets/images/world/husky_wait.png";
 import Car from "@assets/images/scenario_6/car.png";
 import DogInCarSheet from "@assets/spritesheets/scenario_6/dog_neutral.png";
 import DogInCarData from "@assets/spritesheets/scenario_6/dog_neutral.json";
+import Scene1DogSheet from "@assets/spritesheets/scenario_1/snuffelidle.png";
+import Scene1DogData from "@assets/spritesheets/scenario_1/snuffelidle.json";
 import { Scene } from "phaser";
 import PlayerEntity from "../GameObjects/Entities/PlayerEntity";
 import DepthSorter from "../Services/DepthSorter";
@@ -44,9 +46,15 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 	private dogInCar!: string;
 
+	private scene1Dog!: string;
+
 	private husky!: string;
 
+	private huskyWait!: string;
+
 	private car!: string;
+
+	private dogAnimTags!: Phaser.Animations.Animation[];
 
 	private components!: ComponentService;
 
@@ -68,7 +76,11 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.poiCloud = "poi_cloud";
 		this.dogInCar = "dogInCar";
 		this.husky = "husky";
+		this.huskyWait = "huskywait"
 		this.car = "car";
+		this.scene1Dog = "scene1dog";
+
+		this.dogAnimTags = [];
 
 		this.components = new ComponentService();
 		this.depthSorter = new DepthSorter();
@@ -84,6 +96,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		// Point of Interest Idle Animations
 		this.load.aseprite(this.poiCloud, poiCloudSheet, poiCloudData);
 		this.load.aseprite(this.dogInCar,DogInCarSheet,DogInCarData);
+		this.load.aseprite(this.scene1Dog,Scene1DogSheet,Scene1DogData);
+
 
 		// Player Idle & Move Animations
 		this.load.aseprite(
@@ -96,7 +110,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.load.aseprite(this.husky, huskyImage, huskyJson);
 		this.load.image(this.car,Car)
 		this.load.image(this.tilesetKey, worldTiles);
-		this.load.image("husky_wait", huskyWaitImage);
+		this.load.image(this.huskyWait, huskyWaitImage);
 		this.load.tilemapTiledJSON({
 			key: this.tilemapKey,
 			url: mainSceneTileData,
@@ -211,8 +225,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 								overlappables,
 								obj.x as number,
 								obj.y as number,
-								"scene-4",
-								"husky_wait"
+								"scene-4"
 							);
 						}else if (obj.name === "Guidedog") {
 							this.createGuidedogScene(
@@ -369,11 +382,11 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 		this.depthSorter.addSortable(dog, DepthLayers.PLAYER);
 
-		const dogAnimTags = this.anims.createFromAseprite(this.husky);
+		this.dogAnimTags = this.anims.createFromAseprite(this.husky);
 
 		dog.setBodySize(dog.width, dog.height / 5)
 			.setOffset(0, (dog.height * 4) / 5)
-			.play({ key: dogAnimTags[1].key, repeat: -1 }, true)
+			.play({ key: this.dogAnimTags[1].key, repeat: -1 }, true)
 			.setImmovable(true)
 			.setFlipX(true)
 			.setDepth(DepthLayers.PLAYER)
@@ -509,11 +522,11 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 		this.depthSorter.addSortable(dog, DepthLayers.PLAYER);
 
-		const dogAnimTags = this.anims.createFromAseprite(this.husky);
+		this.dogAnimTags = this.anims.createFromAseprite(this.husky);
 
 		dog.setBodySize(dog.width, dog.height / 5)
 			.setOffset(0, (dog.height * 4) / 5)
-			.play({ key: dogAnimTags[1].key, repeat: -1 }, true)
+			.play({ key: this.dogAnimTags[1].key, repeat: -1 }, true)
 			.setImmovable(true)
 			.setFlipX(true)
 			.setDepth(DepthLayers.PLAYER)
@@ -574,12 +587,11 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		overlappables: GameObject[],
 		x: number,
 		y: number,
-		target_scene: string,
-		image_key: string
+		target_scene: string
 	): void {
 		const poiCloudAnimTags = this.anims.createFromAseprite("poi_cloud");
 
-		const dogLamppost = new MovableEntity(scene, x, y, image_key).setScale(
+		const dogLamppost = new MovableEntity(scene, x, y, this.huskyWait).setScale(
 			0.4
 		);
 
@@ -591,7 +603,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 		this.depthSorter.addSortable(dogLamppost, DepthLayers.PLAYER);
 
-		const dogAnimTags = this.anims.createFromAseprite(this.husky);
+		//this.dogAnimTags = this.anims.createFromAseprite(this.husky);
 
 		dogLamppost
 			.setScale(0.5)
@@ -670,11 +682,11 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 		this.depthSorter.addSortable(dog, DepthLayers.PLAYER);
 
-		const dogAnimTags = this.anims.createFromAseprite(this.husky);
+		this.dogAnimTags = this.anims.createFromAseprite(this.husky);
 
 		dog.setBodySize(dog.width, dog.height / 5)
 			.setOffset(0, (dog.height * 4) / 5)
-			.play({ key: dogAnimTags[1].key, repeat: -1 }, true)
+			.play({ key: this.dogAnimTags[1].key, repeat: -1 }, true)
 			.setImmovable(true)
 			.setFlipX(true)
 			.setDepth(DepthLayers.PLAYER)
@@ -772,7 +784,6 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => this.switchScene(target_scene))
 			.setScale(0.5)
-
 		collidables.push(carScene);
 
 		// this.physics.add.collider(player, dog);
@@ -810,23 +821,23 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	): void {
 		const poiCloudAnimTags = this.anims.createFromAseprite("poi_cloud");
 
-		const dog = new MovableEntity(scene, x, y, this.husky).setScale(0.4);
+		const dog = new MovableEntity(scene, x, y, this.scene1Dog).setScale(0.6);
 
 		const dogTalkBubble = this.add.sprite(
-			dog.x + 64,
-			dog.y - 84,
+			dog.x - 150,
+			dog.y - 130,
 			this.poiCloud
 		);
 
 		this.depthSorter.addSortable(dog, DepthLayers.PLAYER);
 
-		const dogAnimTags = this.anims.createFromAseprite(this.husky);
+		this.dogAnimTags = this.anims.createFromAseprite(this.scene1Dog);
 
 		dog.setBodySize(dog.width, dog.height / 5)
 			.setOffset(0, (dog.height * 4) / 5)
-			.play({ key: dogAnimTags[1].key, repeat: -1 }, true)
+			.play({ key: this.dogAnimTags[0].key, repeat: -1, frameRate: 2 }, true)
 			.setImmovable(true)
-			.setFlipX(true)
+			.setFlipX(false)
 			.setDepth(DepthLayers.PLAYER)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
@@ -837,6 +848,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 		dogTalkBubble
 			.setDepth(DepthLayers.OVERLAY)
+			.setFlipX(true)
 			.play({ key: poiCloudAnimTags[0].key, repeat: -1 }, true)
 			.setVisible(false)
 			.setInteractive({ useHandCursor: true })
@@ -849,15 +861,15 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		const radius = this.add.zone(
 			dog.x,
 			dog.y,
-			dog.displayWidth,
-			dog.displayHeight
+			230,
+			230
 		);
 
 		this.physics.world.enable(radius); // enable the zone's physics body
 
 		(radius.body as Phaser.Physics.Arcade.Body)
 			.setOffset(-radius.displayWidth * 0.5, -radius.displayHeight * 0.5)
-			.setCircle(dog.displayWidth);
+			.setCircle(230);
 
 		// scene.physics.add.overlap(player, radius);
 

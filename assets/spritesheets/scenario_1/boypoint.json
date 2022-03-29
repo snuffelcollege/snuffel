@@ -24,7 +24,7 @@
   "size": { "w": 574, "h": 466 },
   "scale": "1",
   "frameTags": [
-   { "name": "Tag", "from": 0, "to": 1, "direction": "forward" }
+   { "name": "boypoint", "from": 0, "to": 1, "direction": "forward" }
   ],
   "layers": [
    { "name": "Layer", "opacity": 255, "blendMode": "normal" }
