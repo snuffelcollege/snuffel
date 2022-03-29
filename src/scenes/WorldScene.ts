@@ -744,6 +744,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	private switchScene(newScene: string) {
 		fadeToBlack(this, () => {
 			this.scene.switch(newScene);
+			this.game.scene.start("UIScene");
 		});
 	}
 
