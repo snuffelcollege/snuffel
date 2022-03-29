@@ -3,7 +3,14 @@ import Car from "@assets/images/scenario_6/car.png";
 import Option1 from "@assets/images/scenario_6/option_1.png";
 import Option2 from "@assets/images/scenario_6/option_2.png";
 import Option3 from "@assets/images/scenario_6/option_3.png";
-import OptionStick from "@assets/images/world/option_stick.png"
+import OptionStick from "@assets/images/world/option_stick.png";
+import StartText from "@assets/images/scenario_6/start_text.png";
+import EndText from "@assets/images/scenario_6/end_text.png";
+import GoodEmotion from "@assets/images/world/correct_option.png";
+import MixedEmotion from "@assets/images/world/almost_option.png";
+import BadEmotion from "@assets/images/world/incorrect_option.png";
+import ContinueButton from "@assets/images/UI/continue_button.png";
+import ReplayButton from "@assets/images/UI/replay_button.png";
 import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/character_walk.png";
 import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/character_walk.json";
 import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/character_run.png";
@@ -101,6 +108,20 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	private optionStick!: string;
 
+	private startText!: string;
+
+	private endText!: string;
+
+	private goodEmotion!: string;
+
+	private mixedEmotion!: string;
+
+	private badEmotion!: string;
+
+	private continueButton!: string;
+
+	private replayButton!: string;
+
 	private exitSceneKey!: string;
 
 	constructor(cfg: SettingsConfig = config) {
@@ -115,6 +136,13 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.option2 = "option26";
 		this.option3 = "option36";
 		this.optionStick = "stick6";
+		this.startText = "starttext6";
+		this.endText = "endtext6";
+		this.goodEmotion = "goodemotion6";
+		this.mixedEmotion = "mixedemotion6"
+		this.badEmotion = "bademotion6";
+		this.continueButton = "continuebutton6";
+		this.replayButton = "replaybutton6";
 		this.characterWalk = "characterWalk6";
 		this.characterIdle = "characterIdle6";
 		this.characterRun = "characterRun6";
@@ -148,6 +176,13 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.image(this.option2, Option2);
 		this.load.image(this.option3, Option3);
 		this.load.image(this.optionStick, OptionStick);
+		this.load.image(this.continueButton,ContinueButton);
+		this.load.image(this.replayButton,ReplayButton);
+		this.load.image(this.startText,StartText);
+		this.load.image(this.endText, EndText);
+		this.load.image(this.goodEmotion,GoodEmotion);
+		this.load.image(this.mixedEmotion,MixedEmotion);
+		this.load.image(this.badEmotion,BadEmotion);
 		this.load.audio("sceneSong", sceneSong);
 		this.load.aseprite(
 			this.characterWalk,
@@ -222,7 +257,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	}
 
 	private createSituation(): void {
-
+		
 		//main character idling
 		this.anims.create({
 			key: this.characterIdle,
@@ -258,6 +293,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	}
 
 	private createChoice(): void {
+		const startTextImage = this.add.image(600,200,this.startText).setScale(0.6);
 		//create stick 1 and sign 1, add movecomponents
 		const stick1 = this.add.image(500,1280, this.optionStick);
 		const stick1move = this.components.addComponent(
@@ -367,6 +403,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 					y: stick3.y + 300,
 				});		
 				stick3move.velocity = 280;
+				startTextImage.destroy();
 				this.createResult1();
 			});
 		button2
@@ -394,6 +431,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 					y: stick3.y + 300,
 				});		
 				stick3move.velocity = 280;
+				startTextImage.destroy();
 				this.createResult2();
 			});
 		button3
@@ -421,11 +459,12 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				});		
 				button2move.velocity = 280;
 				button3.disableInteractive();
+				startTextImage.destroy();
 				this.createResult3();
 			});
 	}
 
-	//knock on car window (wrong)
+	//knock on car window (maybe)
 	private createResult1(): void {
 	
 		//sets character in walk animation (towards car)
@@ -482,12 +521,13 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			},2000)
 		}
 
-		//red flash
-		//this.cameras.main.flash(2000, 200, 0, 0);
-
-		//fade to black and back to overworld after 5 seconds
 		setTimeout(() => {
-			this.moveScene();
+			this.add.image(600,130,this.mixedEmotion).setScale(0.6);
+			this.add.image(600,300,this.endText).setScale(0.6);					
+			const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			replaybutton.on("pointerdown", () => {
+				this.scene.restart();
+			});			
 		}, 6000);
 	}
 
@@ -547,12 +587,13 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				moveToExit.velocity = 300;
 			},2000)
 		}
-		//red flash
-		//this.cameras.main.flash(2000, 200, 0, 0);
-
-		//fade to black and back to overworld after 5 seconds
 		setTimeout(() => {
-			this.moveScene();
+					this.add.image(600,130,this.badEmotion).setScale(0.6);
+					this.add.image(600,300,this.endText).setScale(0.6);					
+					const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+					replaybutton.on("pointerdown", () => {
+						this.scene.restart();
+					});					
 		}, 6000);
 	}
 
@@ -576,13 +617,15 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		//sets velocity of moveto command
 		moveToCharacter.velocity = 200;
 
-		//green flash
-		//this.cameras.main.flash(2000, 0, 200, 0);
-
-		//fade to black and back to overworld after 5 seconds
 		setTimeout(() => {
-			this.moveScene();
-		}, 5000);
+			this.add.image(600,130,this.goodEmotion).setScale(0.6);
+			this.add.image(600,300,this.endText).setScale(0.6);				
+			const continuebutton = this.add.image(1090,420,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			continuebutton.on("pointerdown", () => {
+				this.moveScene();
+			});
+			
+	}, 5000);
 	}
 
 	//fade to black and back to overworld

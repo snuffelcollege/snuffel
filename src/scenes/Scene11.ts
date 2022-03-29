@@ -11,6 +11,13 @@ import Option1 from "@assets/images/scenario_11/option_1.png";
 import Option2 from "@assets/images/scenario_11/option_2.png";
 import Option3 from "@assets/images/scenario_11/option_3.png";
 import OptionStick from "@assets/images/world/option_stick.png";
+import StartText from "@assets/images/scenario_11/start_text.png";
+import EndText from "@assets/images/scenario_11/end_text.png";
+import GoodEmotion from "@assets/images/world/correct_option.png";
+import MixedEmotion from "@assets/images/world/almost_option.png";
+import BadEmotion from "@assets/images/world/incorrect_option.png";
+import ContinueButton from "@assets/images/UI/continue_button.png";
+import ReplayButton from "@assets/images/UI/replay_button.png";
 import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/character_run_.png";
 import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/character_walk.png";
 import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/character_walk.json";
@@ -82,6 +89,20 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private optionStick!: string;
 
+	private startText!: string;
+
+	private endText!: string;
+
+	private goodEmotion!: string;
+
+	private mixedEmotion!: string;
+
+	private badEmotion!: string;
+
+	private continueButton!: string;
+
+	private replayButton!: string;
+
 	private characterRun!: string;
 
 	private exitSceneKey!: string;
@@ -109,6 +130,13 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.option2 = "option211";
 		this.option3 = "option311";
 		this.optionStick = "stick11"
+		this.startText = "starttext11";
+		this.endText = "endtext11";
+		this.goodEmotion = "goodemotion11";
+		this.mixedEmotion = "mixedemotion11"
+		this.badEmotion = "bademotion11";
+		this.continueButton = "continuebutton11";
+		this.replayButton = "replaybutton11";
 		this.characterRun = "spriteSheetPlayerCharacterRun11";
 		this.characterWalk = "characterWalk11";
 		this.characterIdle = "characterIdle11";
@@ -138,7 +166,14 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.load.image(this.option1, Option1);
 		this.load.image(this.option2, Option2);
 		this.load.image(this.option3, Option3);
-		this.load.image(this.optionStick, OptionStick)
+		this.load.image(this.optionStick, OptionStick);
+		this.load.image(this.continueButton,ContinueButton);
+		this.load.image(this.replayButton,ReplayButton);
+		this.load.image(this.startText,StartText);
+		this.load.image(this.endText, EndText);
+		this.load.image(this.goodEmotion,GoodEmotion);
+		this.load.image(this.mixedEmotion,MixedEmotion);
+		this.load.image(this.badEmotion,BadEmotion);
 		this.load.aseprite(
 			this.characterWalk,
 			CharacterWalkSheet,
@@ -281,12 +316,13 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			);
 			this.dogAndBoyEntity
 				.play(this.dogAndBoy);
-
+			
 			this.createChoice();
 		}, 3500);		
 	}
 
 	private createChoice(): void {
+		const startTextImage = this.add.image(600,200,this.startText).setScale(0.6);
 		//create stick 1 and sign 1, add movecomponents
 		const stick1 = this.add.image(500,1280, this.optionStick);
 		const stick1move = this.components.addComponent(
@@ -396,6 +432,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 					y: stick3.y + 300,
 				});		
 				stick3move.velocity = 280;
+				startTextImage.destroy();
 				this.createResult1();
 			});
 		button2
@@ -423,6 +460,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 					y: stick3.y + 300,
 				});		
 				stick3move.velocity = 280;
+				startTextImage.destroy();
 				this.createResult2();
 			});
 		button3
@@ -450,10 +488,12 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 				});		
 				button2move.velocity = 280;
 				button3.disableInteractive();
+				startTextImage.destroy();
 				this.createResult3();
 			});	
 	}
 
+	//walk away (correct)
 	private createResult1(): void {
 		this.dogAndBoyEntity.destroy();
 		this.anims.create({
@@ -476,7 +516,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			repeat: -1,
 		});
 
-		//this.cameras.main.flash(2000, 0, 200, 0);
 		this.characterEntity.setVisible(true).play(this.characterWalk).toggleFlipX();
 		this.dogEntity.setVisible(true).play(this.dog);
 
@@ -490,10 +529,16 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		moveTo.velocity = 250;
 
 		setTimeout(() => {
-			this.moveScene();
+			this.add.image(600,130,this.goodEmotion).setScale(0.6);
+			this.add.image(600,300,this.endText).setScale(0.6);								
+			const continuebutton = this.add.image(1090,420,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			continuebutton.on("pointerdown", () => {
+				this.moveScene();
+			});			
 		}, 5000);
 	}
 
+	//continue hug (wrong)
 	private createResult2(): void {
 		this.anims.create({
 			key: this.continueHug,
@@ -507,14 +552,19 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 		this.dogAndBoyEntity.setScale(1).play(this.continueHug);
 
-		
-		//this.cameras.main.flash(2000, 200, 0, 0);
+	
 
 		setTimeout(() => {
-			this.moveScene();
+			this.add.image(600,130,this.badEmotion).setScale(0.6);
+			this.add.image(600,300,this.endText).setScale(0.6);					
+			const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			replaybutton.on("pointerdown", () => {
+				this.scene.restart();
+			});			
 		}, 5000);
 	}
-
+	
+	//pet dog (maybe)
 	private createResult3(): void {
 		this.anims.create({
 			key: this.petDog,
@@ -527,11 +577,15 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		});
 
 		this.dogAndBoyEntity.play(this.petDog);
-		//this.cameras.main.flash(2000, 200, 0, 0);
 
 		setTimeout(() => {
-			this.moveScene();
-		}, 5000);
+			this.add.image(600,130,this.mixedEmotion).setScale(0.6);
+			this.add.image(600,300,this.endText).setScale(0.6);					
+			const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			replaybutton.on("pointerdown", () => {
+				this.scene.restart();
+			});
+		}, 4000);
 	}
 
 	private moveScene() {
