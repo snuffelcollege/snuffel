@@ -25,6 +25,13 @@ import Option1Texture from "@assets/images/scenario_3/option_1.png";
 import Option2Texture from "@assets/images/scenario_3/option_2.png";
 import Option3Texture from "@assets/images/scenario_3/option_3.png";
 import OptionStick from "@assets/images/world/option_stick.png";
+import StartText from "@assets/images/scenario_3/start_text.png";
+import EndText from "@assets/images/scenario_3/end_text.png";
+import GoodEmotion from "@assets/images/world/correct_option.png";
+import MixedEmotion from "@assets/images/world/almost_option.png";
+import BadEmotion from "@assets/images/world/incorrect_option.png";
+import ContinueButton from "@assets/images/UI/continue_button.png";
+import ReplayButton from "@assets/images/UI/replay_button.png";
 
 import { WorldSceneConfig } from "./WorldScene";
 
@@ -65,6 +72,20 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 	private option3Img!: string;
 
 	private optionStick!: string;
+
+	private startText!: string;
+
+	private endText!: string;
+
+	private goodEmotion!: string;
+
+	private mixedEmotion!: string;
+
+	private badEmotion!: string;
+
+	private continueButton!: string;
+
+	private replayButton!: string;
 
 	private exitSceneKey!: string;
 
@@ -129,6 +150,13 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 		this.option2Img = "scene3Option23";
 		this.option3Img = "scene3Option33";
 		this.optionStick = "stick3";
+		this.startText = "starttext3";
+		this.endText = "endtext3";
+		this.goodEmotion = "goodemotion3";
+		this.mixedEmotion = "mixedemotion3";
+		this.badEmotion = "bademotion3";
+		this.continueButton = "continuebutton3";
+		this.replayButton = "replaybutton3";
 
 		addFadeIn(this);
 	}
@@ -137,6 +165,13 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 	public preload(): void {
 		this.load.image("background3", BackgroundImage);
 		this.load.image(this.optionStick, OptionStick);
+		this.load.image(this.continueButton,ContinueButton);
+		this.load.image(this.replayButton,ReplayButton);
+		this.load.image(this.startText,StartText);
+		this.load.image(this.endText, EndText);
+		this.load.image(this.goodEmotion,GoodEmotion);
+		this.load.image(this.mixedEmotion,MixedEmotion);
+		this.load.image(this.badEmotion,BadEmotion);
 		this.load.aseprite(this.motherDog, MotherDogTexture, MotherDogConfig);
 		this.load.aseprite(
 			this.characterHoldPup,
@@ -313,6 +348,8 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 			});		
 			button3move.velocity = 280;
 
+			const startTextImage = this.add.image(600,200,this.startText).setScale(0.6);
+
 			options[0].on("pointerover", () => {
 				options[0].angle = 5;			
 			});
@@ -362,6 +399,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 					motherDogAnimator,
 					characterMover
 				);
+				startTextImage.destroy();
 			});
 
 			options[1].on(
@@ -394,9 +432,8 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 						motherDogAnimator,
 						characterMover
 					);
-
-				}
-			);
+				startTextImage.destroy();
+			});
 
 			options[2].on(
 				"pointerdown", () => {
@@ -426,9 +463,8 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 						characterAnimator,
 						characterMover
 					);
-
-				}
-			);
+					startTextImage.destroy();
+				});
 		};
 
 		characterMover.setTarget({ x: 1168, y: character.y });
@@ -467,7 +503,12 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 						characterMover.velocity = 325;
 
 						characterMover.movingDone = () => {
-							this.moveScene();
+						this.add.image(600,130,this.badEmotion).setScale(0.6);
+						this.add.image(600,300,this.endText).setScale(0.6);					
+						const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+						replaybutton.on("pointerdown", () => {
+							this.scene.restart();
+							});
 						};
 
 						characterMover.setTarget({
@@ -532,7 +573,13 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 							motherDogAnimator.loop(0);
 
 							characterMover.velocity = 325;
-							characterMover.movingDone = () => this.moveScene();
+							characterMover.movingDone = () =>
+								this.add.image(600,130,this.mixedEmotion).setScale(0.6);
+								this.add.image(600,300,this.endText).setScale(0.6);					
+								const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+								replaybutton.on("pointerdown", () => {
+									this.scene.restart();
+								});
 							characterMover.setTarget({
 								x: this.scale.width,
 								y: originalY,
@@ -674,7 +721,12 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 											characterMover.movingDone = () => {
 												characterAnimator.animatable.toggleFlipX();
 												characterAnimator.loop(1);
-												this.moveScene();
+												this.add.image(600,130,this.goodEmotion).setScale(0.6);
+												this.add.image(600,300,this.endText).setScale(0.6);
+												const continuebutton = this.add.image(1090,420,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+												continuebutton.on("pointerdown", () => {
+													this.moveScene();
+												});
 											};
 										},
 										3000
