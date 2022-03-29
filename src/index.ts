@@ -15,7 +15,7 @@ import Scene11 from "./scenes/Scene11";
 
 function launchGame() {
 	// Append game scenes here, order is important!!
-	config.scene = [StartScene, WorldScene, UI, Scene1, Scene2, Scene3, Scene4, Scene5, Scene6, Scene8, Scene11];
+	config.scene = [StartScene, WorldScene, Scene1, Scene2, Scene3, Scene4, Scene5, Scene6, Scene8, Scene11, UI];
 
 	const snuffelGame = new Game(config);
 }

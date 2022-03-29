@@ -13,6 +13,7 @@ import MutedSoundIcon from "@assets/images/UI/muted.png";
 import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import Sprite = Phaser.GameObjects.Sprite;
+import { config } from "vue/types/umd"
 
 export default class UI extends Scene implements SceneLifecycle {
 
@@ -83,9 +84,11 @@ export default class UI extends Scene implements SceneLifecycle {
 
     create ()
     {
-        const togglesound = this.add
+        console.log("TEST");
+        if(this.game.scene.isActive("world-scene")){
+            const togglesound = this.add
 			.image(1850,70, this.unmuted)
-            .setScale(0.4)            
+            .setScale(0.4)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
                 switch(this.muteState){
@@ -101,60 +104,59 @@ export default class UI extends Scene implements SceneLifecycle {
                         break;
                 }
 			});
-        
-        this.controlSpacebarEntity = this.add.sprite(400, 600, this.controlSpacebar).setScale(0.5).setVisible(false);
-        this.controlUpEntity = this.add.sprite(950, 450, this.controlUp).setScale(0.5).setVisible(false);
-        this.controlDownEntity = this.add.sprite(950, 750, this.controlDown).setScale(0.5).setVisible(false);
-        this.controlLeftEntity = this.add.sprite(800, 600, this.controlLeft).setScale(0.5).setVisible(false);
-        this.controlRightEntity = this.add.sprite(1100, 600, this.controlRight).setScale(0.5).setVisible(false);
-        this.controlRegularEntity = this.add.sprite(1350, 600, this.controlRegular).setScale(0.5).setVisible(false);
-        this.controlClickEntity = this.add.sprite(1600, 600, this.controlClick).setScale(0.5).setVisible(false);
-        
-        const controls = this.add
-            .image(1850,170,this.controls_icon)
-            .setScale(0.4)
-            .setInteractive({useHandCursor: true})
-            .on("pointerdown",() => {
-                switch(this.controlState){
-                   case false:
-                        this.controlUpEntity.setVisible(true);
-                        this.controlDownEntity.setVisible(true);
-                        this.controlLeftEntity.setVisible(true);
-                        this.controlRightEntity.setVisible(true);
-                        this.controlSpacebarEntity.setVisible(true);
-                        this.controlRegularEntity.setVisible(true);
-                        this.controlClickEntity.setVisible(true);
-                        this.controlState = true;
-                        break;
-                    case true:
-                        this.controlUpEntity.setVisible(false);
-                        this.controlDownEntity.setVisible(false);
-                        this.controlLeftEntity.setVisible(false);
-                        this.controlRightEntity.setVisible(false);
-                        this.controlSpacebarEntity.setVisible(false);
-                        this.controlRegularEntity.setVisible(false);
-                        this.controlClickEntity.setVisible(false);
-                        this.controlState = false;
-                        break;       
-                }
-            });
-        
-        
-        const badge = this.add
-            .image(1850,270,this.badge_icon)
-            .setScale(0.4)
-            .setInteractive({useHandCursor: true})
-            .on("pointerdown",() => {
-                //open and close badge case
-            });
-        const map = this.add
-            .image(1850,370,this.map_icon)
-            .setScale(0.4)
-            .setInteractive({useHandCursor: true})
-            .on("pointerdown",() => {
-                //show area map
-           });
 
-
+            this.controlSpacebarEntity = this.add.sprite(400, 600, this.controlSpacebar).setScale(0.5).setVisible(false);
+            this.controlUpEntity = this.add.sprite(950, 450, this.controlUp).setScale(0.5).setVisible(false);
+            this.controlDownEntity = this.add.sprite(950, 750, this.controlDown).setScale(0.5).setVisible(false);
+            this.controlLeftEntity = this.add.sprite(800, 600, this.controlLeft).setScale(0.5).setVisible(false);
+            this.controlRightEntity = this.add.sprite(1100, 600, this.controlRight).setScale(0.5).setVisible(false);
+            this.controlRegularEntity = this.add.sprite(1350, 600, this.controlRegular).setScale(0.5).setVisible(false);
+            this.controlClickEntity = this.add.sprite(1600, 600, this.controlClick).setScale(0.5).setVisible(false);
+            
+            const controls = this.add
+                .image(1850,170,this.controls_icon)
+                .setScale(0.4)
+                .setInteractive({useHandCursor: true})
+                .on("pointerdown",() => {
+                    switch(this.controlState){
+                    case false:
+                            this.controlUpEntity.setVisible(true);
+                            this.controlDownEntity.setVisible(true);
+                            this.controlLeftEntity.setVisible(true);
+                            this.controlRightEntity.setVisible(true);
+                            this.controlSpacebarEntity.setVisible(true);
+                            this.controlRegularEntity.setVisible(true);
+                            this.controlClickEntity.setVisible(true);
+                            this.controlState = true;
+                            break;
+                        case true:
+                            this.controlUpEntity.setVisible(false);
+                            this.controlDownEntity.setVisible(false);
+                            this.controlLeftEntity.setVisible(false);
+                            this.controlRightEntity.setVisible(false);
+                            this.controlSpacebarEntity.setVisible(false);
+                            this.controlRegularEntity.setVisible(false);
+                            this.controlClickEntity.setVisible(false);
+                            this.controlState = false;
+                            break;       
+                    }
+                });
+            
+            
+            const badge = this.add
+                .image(1850,270,this.badge_icon)
+                .setScale(0.4)
+                .setInteractive({useHandCursor: true})
+                .on("pointerdown",() => {
+                    //open and close badge case
+                });
+            const map = this.add
+                .image(1850,370,this.map_icon)
+                .setScale(0.4)
+                .setInteractive({useHandCursor: true})
+                .on("pointerdown",() => {
+                    //show area map
+            });
+            }
     }
 }
