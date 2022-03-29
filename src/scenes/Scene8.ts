@@ -3,6 +3,13 @@ import Option1 from "@assets/images/scenario_8/option_1.png";
 import Option2 from "@assets/images/scenario_8/option_2.png";
 import Option3 from "@assets/images/scenario_8/option_3.png";
 import OptionStick from "@assets/images/world/option_stick.png";
+import StartText from "@assets/images/scenario_8/start_text.png";
+import EndText from "@assets/images/scenario_8/end_text.png";
+import GoodEmotion from "@assets/images/world/correct_option.png";
+import MixedEmotion from "@assets/images/world/almost_option.png";
+import BadEmotion from "@assets/images/world/incorrect_option.png";
+import ContinueButton from "@assets/images/UI/continue_button.png";
+import ReplayButton from "@assets/images/UI/replay_button.png";
 import PlayerCharacterSheet from "@assets/spritesheets/player/scenario/icecreamidle/icecream_idle.png";
 import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/character_run.png";
 import CharacterRunData from "@assets/spritesheets/player/scenario/run/character_run.json";
@@ -78,6 +85,20 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	private option3!: string;
 
 	private optionStick!: string;
+	
+	private startText!: string;
+
+	private endText!: string;
+
+	private goodEmotion!: string;
+
+	private mixedEmotion!: string;
+
+	private badEmotion!: string;
+
+	private continueButton!: string;
+
+	private replayButton!: string;
 
 	private imageIceCreamCone!: string;
 
@@ -111,9 +132,16 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.option2 = "option28";
 		this.option3 = "option38";
 		this.optionStick = "stick8"
+		this.startText = "starttext8";
+		this.endText = "endtext8";
+		this.goodEmotion = "goodemotion8";
+		this.mixedEmotion = "mixedemotion8"
+		this.badEmotion = "bademotion8";
+		this.continueButton = "continuebutton8";
+		this.replayButton = "replaybutton8";
 		this.imageIceCreamCone = "imageIceCreamCone";
 		this.fallenIceCreamConeImage = "fallenIceCreamCone"
-		this.spriteSheetPlayerCharacter = "spriteSheetPlayerCharacter1";
+		this.spriteSheetPlayerCharacter = "spriteSheetPlayerCharacter8";
 		this.characterRun = "spriteSheetPlayerCharacterRun8";
 		this.characterWalk = "characterWalk8";
 		this.characterIdle = "characterIdle8";
@@ -141,6 +169,13 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.image(this.option1, Option1);
 		this.load.image(this.option2, Option2);
 		this.load.image(this.option3, Option3);
+		this.load.image(this.continueButton,ContinueButton);
+		this.load.image(this.replayButton,ReplayButton);
+		this.load.image(this.startText,StartText);
+		this.load.image(this.endText, EndText);
+		this.load.image(this.goodEmotion,GoodEmotion);
+		this.load.image(this.mixedEmotion,MixedEmotion);
+		this.load.image(this.badEmotion,BadEmotion);
 		this.load.image(this.imageIceCreamCone, IceCreamConeImage);
 		this.load.image(this.fallenIceCreamConeImage, FallenIceCreamConeImage);
 		this.load.image(this.optionStick, OptionStick);
@@ -260,6 +295,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	}
 
 	private createChoice(): void {
+		const startTextImage = this.add.image(600,200,this.startText).setScale(0.6);
 		//create stick 1 and sign 1, add movecomponents
 		const stick1 = this.add.image(500,1280, this.optionStick);
 		const stick1move = this.components.addComponent(
@@ -373,6 +409,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				.image(1105, 710, this.imageIceCreamCone)
 				.setScale(0.65, 0.55)
 				.setDepth(100);
+				startTextImage.destroy();
 				this.createResult1();
 			});
 		button2
@@ -404,6 +441,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				.image(1105, 710, this.imageIceCreamCone)
 				.setScale(0.65, 0.55)
 				.setDepth(100);
+				startTextImage.destroy();
 				this.createResult2();
 			});
 		button3
@@ -435,10 +473,12 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				.image(1105, 710, this.imageIceCreamCone)
 				.setScale(0.65, 0.55)
 				.setDepth(100);
+				startTextImage.destroy();
 				this.createResult3();
 			});		
 	}
 
+	//stand still (correct)
 	private createResult1(): void {
 		this.anims.create({
 			key: this.characterIdle,
@@ -466,10 +506,17 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.moveIcecreamConeAway = true;
 
 		setTimeout(() => {
-			this.moveScene();
+			this.add.image(600,130,this.goodEmotion).setScale(0.6);
+			this.add.image(600,300,this.endText).setScale(0.6);	
+			const continuebutton = this.add.image(1090,420,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			continuebutton.on("pointerdown", () => {
+				this.moveScene();
+			});
+			
 		}, 5000);
 	}
 	
+	//walk away (maybe)
 	private createResult2(): void {
 		this.huskyEntity.play({ key: "husky_walk", repeat: -1 });
 
@@ -479,7 +526,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		);
 
 		moveToHusky.setTarget({
-			x: this.huskyEntity.x + 1200,
+			x: this.huskyEntity.x + 1300,
 			y: this.huskyEntity.y,
 		});
 
@@ -504,10 +551,17 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.moveIcecreamConeAway = true;
 
 		setTimeout(() => {
-			this.moveScene();
+			this.add.image(600,130,this.mixedEmotion).setScale(0.6);
+			this.add.image(600,300,this.endText).setScale(0.6);					
+			const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			replaybutton.on("pointerdown", () => {
+				this.scene.restart();
+			})
+			
 		}, 5000);
 	}
 
+	//run away (wrong)
 	private createResult3(): void {
 		this.huskyEntity.play({ key: "husky_walk", repeat: -1 });
 
@@ -548,9 +602,13 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		moveToCharacter.velocity = 250;
 
 		this.moveIcecreamConeAway = true;
-
 		setTimeout(() => {
-			this.moveScene();
+			this.add.image(600,130,this.badEmotion).setScale(0.6);
+			this.add.image(600,300,this.endText).setScale(0.6);					
+			const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			replaybutton.on("pointerdown", () => {
+				this.scene.restart();
+			})			
 		}, 5000);
 	}
 
