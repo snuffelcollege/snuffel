@@ -23,7 +23,6 @@ import { WorldSceneConfig } from "./WorldScene";
 import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
-import FixedHeightAnimator from "../Components/FixedHeightAnimator";
 import sceneSong from "@assets/audio/scene.mp3";
 
 // Config for the scene defining gravity and debug settings.

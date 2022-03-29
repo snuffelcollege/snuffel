@@ -7,6 +7,13 @@ import Option1 from "@assets/images/scenario_4/option_1.png";
 import Option2 from "@assets/images/scenario_4/option_2.png";
 import Option3 from "@assets/images/scenario_4/option_3.png";
 import OptionStick from "@assets/images/world/option_stick.png"
+import StartText from "@assets/images/scenario_4/start_text.png";
+import EndText from "@assets/images/scenario_4/end_text.png";
+import GoodEmotion from "@assets/images/world/correct_option.png";
+import MixedEmotion from "@assets/images/world/almost_option.png";
+import BadEmotion from "@assets/images/world/incorrect_option.png";
+import ContinueButton from "@assets/images/UI/continue_button.png";
+import ReplayButton from "@assets/images/UI/replay_button.png";
 import Shrubbery from  "@assets/images/scenario_4/shrubbery.png";
 import HuskyIdleLamppostData from "@assets/spritesheets/husky/husky_idle_lamppost.json";
 import HuskyIdleLamppostSheet from "@assets/spritesheets/husky/husky_idle_lamppost.png";
@@ -51,6 +58,20 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 	private characterEntity!: Sprite;
 
 	private optionStick!: string;
+
+	private startText!: string;
+
+	private endText!: string;
+
+	private goodEmotion!: string;
+
+	private mixedEmotion!: string;
+
+	private badEmotion!: string;
+
+	private continueButton!: string;
+
+	private replayButton!: string;
 
 	private characterWalk!: string;
 
@@ -97,6 +118,13 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		this.option2 = "option24";
 		this.option3 = "option34";
 		this.optionStick = "stick4";
+		this.startText = "starttext4";
+		this.endText = "endtext4";
+		this.goodEmotion = "goodemotion4";
+		this.mixedEmotion = "mixedemotion4";
+		this.badEmotion = "bademotion4";
+		this.continueButton = "continuebutton4";
+		this.replayButton = "replaybutton4";
 		this.shrubbery = "shrubbery"
 
 		this.characterWalkAnims = [];
@@ -126,7 +154,14 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		this.load.image(this.option1, Option1);
 		this.load.image(this.option2, Option2);
 		this.load.image(this.option3, Option3);
-		this.load.image(this.optionStick, OptionStick);	
+		this.load.image(this.optionStick, OptionStick);
+		this.load.image(this.continueButton,ContinueButton);
+		this.load.image(this.replayButton,ReplayButton);
+		this.load.image(this.startText,StartText);
+		this.load.image(this.endText, EndText);
+		this.load.image(this.goodEmotion,GoodEmotion);
+		this.load.image(this.mixedEmotion,MixedEmotion);
+		this.load.image(this.badEmotion,BadEmotion);	
 		this.load.audio("sceneSong", sceneSong);
 
 		this.load.aseprite(
@@ -258,6 +293,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 	}
 
 	private createChoice(): void {
+		const startTextImage = this.add.image(600,200,this.startText).setScale(0.6);
 		//create stick 1 and sign 1, add movecomponents
 		const stick1 = this.add.image(500,1280, this.optionStick).setDepth(3);
 		const stick1move = this.components.addComponent(
@@ -367,6 +403,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 					y: stick3.y + 300,
 				});		
 				stick3move.velocity = 280;
+				startTextImage.destroy();
 				this.createResult1();
 			});
 		button2
@@ -394,6 +431,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 					y: stick3.y + 300,
 				});		
 				stick3move.velocity = 280;
+				startTextImage.destroy();
 				this.createResult2();
 			});
 		button3
@@ -421,6 +459,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 				});		
 				button2move.velocity = 280;
 				button3.disableInteractive();
+				startTextImage.destroy();
 				this.createResult3();
 			});
 	}
@@ -455,7 +494,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 			});
 
 			moveTo.setTarget({
-				x: this.characterEntity.x + 700,
+				x: this.characterEntity.x + 1250,
 				y: this.characterEntity.y + 50,
 			});
 
@@ -463,11 +502,14 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 
 			moveTo.movingDone = () => {
 				this.characterEntity.stop();
-				this.moveScene();
+				this.add.image(600,130,this.badEmotion).setScale(0.6);
+				this.add.image(600,300,this.endText).setScale(0.6);					
+				const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+				replaybutton.on("pointerdown", () => {
+					this.scene.restart();
+				});		
 			};
 		};
-
-		//this.cameras.main.flash(2000, 200, 0, 0);
 	}
 
 	private createResult2() {
@@ -506,10 +548,14 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 	
 			moveTo.velocity = 150;
 			moveTo.movingDone = () => {
+			this.add.image(600,130,this.goodEmotion).setScale(0.6);
+			this.add.image(600,300,this.endText).setScale(0.6);					
+			const continuebutton = this.add.image(1090,420,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			continuebutton.on("pointerdown", () => {
 				this.moveScene();
+			});
 			}
 		}
-		//this.cameras.main.flash(2000, 0, 200, 0);
 	}
 
 	private createResult3() {
@@ -544,7 +590,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		});
 
 		moveToPlayer.setTarget({
-			x: this.characterEntity.x + 700,
+			x: this.characterEntity.x + 900,
 			y: this.characterEntity.y + 50,
 		});
 
@@ -552,10 +598,13 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 
 		moveToPlayer.movingDone = () => {
 			this.characterEntity.stop();
-			this.moveScene();
+			this.add.image(600,130,this.mixedEmotion).setScale(0.6);
+			this.add.image(600,300,this.endText).setScale(0.6);					
+			const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			replaybutton.on("pointerdown", () => {
+				this.scene.restart();
+			});
 		};
-
-		//this.cameras.main.flash(2000, 200, 0, 0);
 	}
 
 	

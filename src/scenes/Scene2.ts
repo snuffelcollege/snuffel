@@ -139,7 +139,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.startText = "starttext2";
 		this.endText = "endtext2";
 		this.goodEmotion = "goodemotion2";
-		this.mixedEmotion = "mixedemotion2"
+		this.mixedEmotion = "mixedemotion2";
 		this.badEmotion = "bademotion2";
 		this.continueButton = "continuebutton2";
 		this.replayButton = "replaybutton2";
@@ -505,7 +505,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 					const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 					replaybutton.on("pointerdown", () => {
 						this.scene.restart();
-					})
+					});
 					// const continuebutton = this.add.image(1090,420,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 					// continuebutton.on("pointerdown", () => {
 					// 	this.moveScene();
