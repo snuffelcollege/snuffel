@@ -509,7 +509,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				this.DogEntity.play(this.dogBiteAnimation).setScale(.8);
 				//run animation
 				this.characterEntity
-				.play({ key: this.characterRunAnims[0].key, repeat: -1,frameRate:3 })
+				.play({ key: this.characterRunAnims[0].key, repeat: -1})
 				.setScale(0.8);
 				const moveToExit = this.components.addComponent(this.characterEntity,MoveTo);
 				//sets target location for moveto command
@@ -576,7 +576,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				this.DogEntity.play(this.dogBiteAnimation).setScale(.8);
 				//run animation
 				this.characterEntity
-				.play({ key: this.characterRunAnims[0].key, repeat: -1,frameRate:3 })
+				.play({ key: this.characterRunAnims[0].key, repeat: -1})
 				.setScale(0.8);
 				const moveToExit = this.components.addComponent(this.characterEntity,MoveTo);
 				//sets target location for moveto command
