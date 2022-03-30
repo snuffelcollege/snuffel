@@ -1,5 +1,12 @@
 import MapIcon from "@assets/images/UI/map_icon.png";
 import BadgeIcon from "@assets/images/UI/badge_icon.png";
+import BadgeCase from "@assets/images/UI/badges/badge_case.png";
+import BadgeS1 from "@assets/images/UI/badges/badge_s1.png";
+import BadgeS2 from "@assets/images/UI/badges/badge_s2.png";
+import BadgeS3 from "@assets/images/UI/badges/badge_s3.png";
+import BadgeS4 from "@assets/images/UI/badges/badge_s4.png";
+import BadgeS5 from "@assets/images/UI/badges/badge_s5.png";
+import BadgeS6 from "@assets/images/UI/badges/badge_s6.png";
 import ControlsIcon from "@assets/images/UI/controls_icon.png";
 import ControlKeys from "@assets/images/UI/tutorial_buttons.png";
 import ControlKeysData from "@assets/images/UI/tutorial_buttons.json";
@@ -11,6 +18,7 @@ import MutedSoundIcon from "@assets/images/UI/muted.png";
 import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import Sprite = Phaser.GameObjects.Sprite;
+import WorldScene from "./WorldScene";
 // import { config } from "vue/types/umd"
 
 export default class UI extends Scene implements SceneLifecycle {
@@ -18,6 +26,14 @@ export default class UI extends Scene implements SceneLifecycle {
     private map_icon!: string;
 
     private badge_icon!: string;
+    private badgeCase!: string;
+    private badgeS1!: string;
+    private badgeS2!: string;
+    private badgeS3!: string;
+    private badgeS4!: string;
+    private badgeS5!: string;
+    private badgeS6!: string;
+    private badgeState!: boolean;
 
     private controls_icon!: string;
 
@@ -36,6 +52,14 @@ export default class UI extends Scene implements SceneLifecycle {
     public init(): void {
         this.map_icon = "map";
         this.badge_icon = "badge";
+        this.badgeCase = "badgecase";
+        this.badgeS1 = "badges1";
+        this.badgeS2 = "badges2";
+        this.badgeS3 = "badges3";
+        this.badgeS4 = "badges4";
+        this.badgeS5 = "badges5";
+        this.badgeS6 = "badges6";
+        this.badgeState = false;
         this.controls_icon = "controls";
         this.controlKeys = "controlKeys";
         this.controlSpacebar = "spacebar";
@@ -54,6 +78,13 @@ export default class UI extends Scene implements SceneLifecycle {
     public preload(): void {
         this.load.image(this.map_icon, MapIcon);
         this.load.image(this.badge_icon,BadgeIcon);
+        this.load.image(this.badgeCase, BadgeCase);
+        this.load.image(this.badgeS1,BadgeS1);
+        this.load.image(this.badgeS2,BadgeS2);
+        this.load.image(this.badgeS3,BadgeS3);
+        this.load.image(this.badgeS4,BadgeS4);
+        this.load.image(this.badgeS5,BadgeS5);
+        this.load.image(this.badgeS6,BadgeS6);
         this.load.image(this.controls_icon, ControlsIcon);
         this.load.image(this.controlSpacebar, ControlSpacebar);
         this.load.image(this.controlClick, ControlClick);
@@ -66,6 +97,7 @@ export default class UI extends Scene implements SceneLifecycle {
     create ()
     {
         if(this.game.scene.isVisible("start-scene")==false){
+            
             const togglesound = this.add
 			.image(1850,70, this.unmuted)
             .setScale(0.4)
@@ -85,7 +117,6 @@ export default class UI extends Scene implements SceneLifecycle {
 
             if(this.game.sound.mute){
                 togglesound.setTexture(this.muted);
-                console.log("MUTED");   
             }
 
             this.anims.create({
@@ -130,13 +161,41 @@ export default class UI extends Scene implements SceneLifecycle {
                     }
                 });
             
-            
+            const badgeCaseImage = this.add.sprite(1000,550, this.badgeCase).setScale(0.4).setVisible(false);
+            const badgeS1Image = this.add.sprite(680,450, this.badgeS1).setScale(0.4).setVisible(false);
+            const badgeS2Image = this.add.sprite(1010,445, this.badgeS2).setScale(0.4).setVisible(false);
+            const badgeS3Image = this.add.sprite(1320,455, this.badgeS3).setScale(0.4).setVisible(false);
+            const badgeS4Image = this.add.sprite(690,755, this.badgeS4).setScale(0.4).setVisible(false);
+            const badgeS5Image = this.add.sprite(1010,765, this.badgeS5).setScale(0.4).setVisible(false);
+            const badgeS6Image = this.add.sprite(1310,750, this.badgeS6).setScale(0.4).setVisible(false);
+
             const badge = this.add
                 .image(1850,270,this.badge_icon)
                 .setScale(0.4)
                 .setInteractive({useHandCursor: true})
                 .on("pointerdown",() => {
-                    //open and close badge case
+                    switch(this.badgeState){
+                        case false:
+                            badgeCaseImage.setVisible(true);
+                            badgeS1Image.setVisible(WorldScene.scenario1Fininshed);
+                            badgeS2Image.setVisible(WorldScene.scenario2Fininshed);
+                            badgeS3Image.setVisible(WorldScene.scenario3Fininshed);
+                            badgeS4Image.setVisible(WorldScene.scenario4Fininshed);
+                            badgeS5Image.setVisible(WorldScene.scenario5Fininshed);
+                            badgeS6Image.setVisible(WorldScene.scenario6Fininshed);
+                            this.badgeState = true;
+                            break;
+                        case true:
+                            badgeCaseImage.setVisible(false);
+                            badgeS1Image.setVisible(false);
+                            badgeS2Image.setVisible(false);
+                            badgeS3Image.setVisible(false);
+                            badgeS4Image.setVisible(false);
+                            badgeS5Image.setVisible(false);
+                            badgeS6Image.setVisible(false);
+                            this.badgeState = false;
+                            break;
+                    }
                 });
             const map = this.add
                 .image(1850,370,this.map_icon)

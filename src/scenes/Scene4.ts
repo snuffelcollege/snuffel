@@ -24,7 +24,7 @@ import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import ComponentService from "../Services/ComponentService";
 import MakeFullscreen from "../Components/MakeFullscreen";
-import { WorldSceneConfig } from "./WorldScene";
+import WorldScene, { WorldSceneConfig } from "./WorldScene";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
 import MoveTo from "../Components/MoveTo";
 import FixedHeightAnimator from "../Components/FixedHeightAnimator";
@@ -552,6 +552,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 			this.add.image(600,300,this.endText).setScale(0.6);					
 			const continuebutton = this.add.image(1090,420,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 			continuebutton.on("pointerdown", () => {
+				WorldScene.scenario4Fininshed = true;		
 				this.moveScene();
 			});
 			}

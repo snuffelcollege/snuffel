@@ -33,7 +33,7 @@ import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
 import ComponentService from "../Services/ComponentService";
 import MakeFullscreen from "../Components/MakeFullscreen";
-import { WorldSceneConfig } from "./WorldScene";
+import WorldScene, { WorldSceneConfig } from "./WorldScene";
 import MoveTo from "../Components/MoveTo";
 import sceneSong from "@assets/audio/scene.mp3";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
@@ -568,7 +568,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		setTimeout(() => {
 			this.add.image(700,350,this.endDialog1).setScale(0.6);			
 			const continuebutton = this.add.image(1200,350,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
-			continuebutton.on("pointerdown", () => {				
+			continuebutton.on("pointerdown", () => {		
+				WorldScene.scenario1Fininshed = true;		
 				this.moveScene();
 			});			
 		}, 4000);

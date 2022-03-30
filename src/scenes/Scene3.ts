@@ -33,7 +33,7 @@ import BadEmotion from "@assets/images/world/incorrect_option.png";
 import ContinueButton from "@assets/images/UI/continue_button.png";
 import ReplayButton from "@assets/images/UI/replay_button.png";
 
-import { WorldSceneConfig } from "./WorldScene";
+import WorldScene, { WorldSceneConfig } from "./WorldScene";
 
 import SceneLifecycle from "../SceneLifecycle";
 
@@ -725,6 +725,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 												this.add.image(600,300,this.endText).setScale(0.6);
 												const continuebutton = this.add.image(1090,420,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 												continuebutton.on("pointerdown", () => {
+													WorldScene.scenario3Fininshed = true;		
 													this.moveScene();
 												});
 											};
