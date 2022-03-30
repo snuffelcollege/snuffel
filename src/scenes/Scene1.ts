@@ -658,7 +658,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	//fade to black and back to overworld
 	private moveScene() {
 		fadeToBlack(this, () => {
-			this.scene.stop(this.scene.key).restart();
+			this.scene.stop(this.scene.key).wake(this.exitSceneKey);
+			this.scene.start("UIScene");
 		});
 		this.game.sound.removeByKey("sceneSong");
 		this.game.sound.resumeAll();

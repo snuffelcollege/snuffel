@@ -127,6 +127,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	private exitSceneKey!: string;
 
+
 	constructor(cfg: SettingsConfig = config) {
 		super(cfg);
 	}
@@ -650,6 +651,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	private moveScene() {
 		fadeToBlack(this, () => {
 			this.scene.stop(this.scene.key).wake(this.exitSceneKey);
+			this.scene.start("UIScene");
 		});
 		this.game.sound.removeByKey("sceneSong");
 		this.game.sound.resumeAll();

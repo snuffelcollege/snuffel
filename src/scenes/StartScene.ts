@@ -103,6 +103,7 @@ export default class StartScene extends Scene {
 							loop: true,
 							volume: 0.3
 						});
+					this.scene.stop("UIScene");
 					this.scene.start("UIScene");
 				});
 			})
