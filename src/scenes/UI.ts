@@ -19,7 +19,6 @@ import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import Sprite = Phaser.GameObjects.Sprite;
 import WorldScene from "./WorldScene";
-// import { config } from "vue/types/umd"
 
 export default class UI extends Scene implements SceneLifecycle {
 
