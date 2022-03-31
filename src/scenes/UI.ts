@@ -175,25 +175,49 @@ export default class UI extends Scene implements SceneLifecycle {
                 .on("pointerdown",() => {
                     switch(this.badgeState){
                         case false:
-                            badgeCaseImage.setVisible(true);
-                            badgeS1Image.setVisible(WorldScene.scenario1Fininshed);
-                            badgeS2Image.setVisible(WorldScene.scenario2Fininshed);
-                            badgeS3Image.setVisible(WorldScene.scenario3Fininshed);
-                            badgeS4Image.setVisible(WorldScene.scenario4Fininshed);
-                            badgeS5Image.setVisible(WorldScene.scenario5Fininshed);
-                            badgeS6Image.setVisible(WorldScene.scenario6Fininshed);
+                            badgeCaseImage.setVisible(true).setAlpha(0);
+                            badgeS1Image.setVisible(WorldScene.scenario1Fininshed).setAlpha(0);
+                            badgeS2Image.setVisible(WorldScene.scenario2Fininshed).setAlpha(0);
+                            badgeS3Image.setVisible(WorldScene.scenario3Fininshed).setAlpha(0);
+                            badgeS4Image.setVisible(WorldScene.scenario4Fininshed).setAlpha(0);
+                            badgeS5Image.setVisible(WorldScene.scenario5Fininshed).setAlpha(0);
+                            badgeS6Image.setVisible(WorldScene.scenario6Fininshed).setAlpha(0);
+                            //fade in effect
+                            this.add.tween({
+                                targets: [badgeCaseImage,badgeS1Image,badgeS2Image,badgeS3Image,badgeS4Image,badgeS5Image,badgeS6Image],
+                                ease: 'Sine.easeInOut',
+                                duration: 500,
+                                delay: 0,
+                                alpha: {
+                                  getStart: () => 0,
+                                  getEnd: () => 1
+                                }
+                              });
                             this.badgeState = true;
                             break;
                         case true:
-                            badgeCaseImage.setVisible(false);
-                            badgeS1Image.setVisible(false);
-                            badgeS2Image.setVisible(false);
-                            badgeS3Image.setVisible(false);
-                            badgeS4Image.setVisible(false);
-                            badgeS5Image.setVisible(false);
-                            badgeS6Image.setVisible(false);
-                            this.badgeState = false;
-                            break;
+                            //fadeout effect
+                            this.add.tween({
+                                targets: [badgeCaseImage,badgeS1Image,badgeS2Image,badgeS3Image,badgeS4Image,badgeS5Image,badgeS6Image],
+                                ease: 'Sine.easeInOut',
+                                duration: 500,
+                                delay: 0,
+                                alpha: {
+                                  getStart: () => 1,
+                                  getEnd: () => 0
+                                },
+                                onComplete: () => {
+                                    badgeCaseImage.setVisible(false);
+                                    badgeS1Image.setVisible(false);
+                                    badgeS2Image.setVisible(false);
+                                    badgeS3Image.setVisible(false);
+                                    badgeS4Image.setVisible(false);
+                                    badgeS5Image.setVisible(false);
+                                    badgeS6Image.setVisible(false);
+                                    this.badgeState = false;
+                                }
+                              });
+                              break;                            
                     }
                 });
             const map = this.add
