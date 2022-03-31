@@ -28,6 +28,8 @@ import BullyAndDogSheet from "@assets/spritesheets/scenario_1/Johnny+dog.png";
 import BullyAndDogData from "@assets/spritesheets/scenario_1/Johnny+dog.json";
 import BullyIdleSheet from "@assets/spritesheets/scenario_1/johnnyidle.png";
 import BullyIdleData from "@assets/spritesheets/scenario_1/johnnyidle.json";
+import BullyWalkSheet from "@assets/spritesheets/scenario_1/johnnywalk.png";
+import BullyWalkData from "@assets/spritesheets/scenario_1/johnnywalk.json";
 import { GameObjects, Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
@@ -96,6 +98,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
     private bullyAndDog!: string;
 
     private bullyIdle!: string;
+    
+	private bullyWalk!: string;
 
 	private option1!: string;
 
@@ -142,6 +146,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
         this.dogIdle = "dogidle1";
         this.bullyAndDog = "bullyanddog1";
         this.bullyIdle = "bullyidle1";        
+        this.bullyWalk = "bullywalk1";        
 		this.option1 = "option11";
 		this.option2 = "option21";
 		this.option3 = "option31";
@@ -194,6 +199,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
         this.load.aseprite(this.dogIdle,DogIdleSheet,DogIdleData);
         this.load.aseprite(this.bullyAndDog,BullyAndDogSheet,BullyAndDogData);
         this.load.aseprite(this.bullyIdle,BullyIdleSheet,BullyIdleData);
+        this.load.aseprite(this.bullyWalk,BullyWalkSheet,BullyWalkData);
 		this.load.audio("sceneSong", sceneSong);
 	}
 
@@ -244,8 +250,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			.play(this.playerIdle1)
 			.toggleFlipX()
 			.setScale(1);
-		
-		//dog animation
+
+		//dog animation	
 		this.anims.create({
 			key: this.dogIdle,
 			frameRate: 2,
@@ -258,13 +264,13 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			),
 			repeat: -1,
 		});	
-		//dog is being put on bully entity
-		this.bullyEntity = this.add.sprite(
+	
+		this.dogEntity = this.add.sprite(
 			1200,
 			700,
 			this.dogIdle
 		)
-		this.bullyEntity
+		this.dogEntity
 			.play(this.dogIdle)
 			.setScale(1);
 		
@@ -274,7 +280,57 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		continuebutton1.on("pointerdown", () => {
 			startDialogImage1.destroy();
 			continuebutton1.destroy()			
-			this.createChoice();				
+			
+			this.anims.create({
+				key: this.bullyWalk,
+				frameRate: 2,
+				frames: this.anims.generateFrameNumbers(
+					this.bullyWalk,
+					{
+						start: 0,
+						end: 1,
+					}
+				),
+				repeat: -1,
+			});
+	
+			this.bullyEntity = this.add.sprite(
+				1920,
+				600,
+				this.bullyWalk
+			)
+			
+			this.bullyEntity.play(this.bullyWalk).setScale(1);
+	
+			const bullyMove = this.components.addComponent(
+				this.bullyEntity,
+				MoveTo
+			);
+			bullyMove.setTarget({
+				x: this.dogEntity.x + 200,
+				y: this.dogEntity.y - 150,
+			});		
+			bullyMove.velocity = 200;
+			bullyMove.movingDone = () => {
+				this.bullyEntity.setVisible(false);
+	
+				this.anims.create({
+					key: this.bullyAndDog,
+					frameRate: 2,
+					frames: this.anims.generateFrameNumbers(
+						this.bullyAndDog,
+						{
+							start: 0,
+							end: 1,
+						}
+					),
+					repeat: -1,
+				});
+				this.dogEntity.setTexture(this.bullyAndDog);
+				this.dogEntity.setX(1300).setY(600);
+				this.dogEntity.play(this.bullyAndDog);
+				this.createChoice();
+			};				
 		});		
 	}
 
@@ -302,28 +358,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.playerEntity.setDepth(1);
 		this.playerEntity
 			.play(this.playerIdle2)
-			.setScale(1);
-		
-		//bully entity (bully and dog animation)
-		this.anims.create({
-			key: this.bullyAndDog,
-			frameRate: 2,
-			frames: this.anims.generateFrameNumbers(
-				this.bullyAndDog,
-				{
-					start: 0,
-					end: 1,
-				}
-			),
-			repeat: -1,
-		});	
-		this.bullyEntity.x = 1300;
-		this.bullyEntity.y = 550;
-		this.bullyEntity.setTexture(
-			this.bullyAndDog
-		);
-		this. bullyEntity
-			.play(this.bullyAndDog)
 			.setScale(1);			
 		
 		//create stick 1 and sign 1, add movecomponents
@@ -533,6 +567,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				),
 				repeat: -1,
 			});
+			this.bullyEntity.setVisible(true);
 			this.bullyEntity.x = 1500
 			this.bullyEntity.setTexture(
 				this.bullyIdle
@@ -555,12 +590,10 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				repeat: -1,
 			});
 	
-			this.dogEntity = this.add.sprite(
-				1200,
-				700,
-				this.dogIdle
-			);
+			this.dogEntity.setTexture(this.dogIdle);
 			this.dogEntity
+				.setX(1200)
+				.setY(700)
 				.play(this.dogIdle)
 				.setScale(1);		
 		}, 1000);
@@ -572,7 +605,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				WorldScene.scenario1Fininshed = true;		
 				this.moveScene();
 			});			
-		}, 4000);
+		}, 2000);
 	}
 
 	//walk away (wrong)
