@@ -283,7 +283,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			
 			this.anims.create({
 				key: this.bullyWalk,
-				frameRate: 2,
+				frameRate: 4,
 				frames: this.anims.generateFrameNumbers(
 					this.bullyWalk,
 					{
