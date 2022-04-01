@@ -1,0 +1,35 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 1, "y": 1, "w": 256, "h": 267 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 2, "y": 0, "w": 254, "h": 265 },
+    "sourceSize": { "w": 285, "h": 266 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 1, "y": 269, "w": 256, "h": 261 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 2, "y": 6, "w": 254, "h": 259 },
+    "sourceSize": { "w": 285, "h": 266 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "ray-sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 257, "h": 530 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "ray", "from": 0, "to": 1, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
