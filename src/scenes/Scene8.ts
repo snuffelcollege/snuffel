@@ -31,6 +31,7 @@ import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
 import sceneSong from "@assets/audio/scene.mp3";
+import splash from "@assets/audio/objects/fallen_icecream.mp3";
 
 // Config for the scene defining gravity and debug settings.
 export const config: SettingsConfig = {
@@ -180,6 +181,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.image(this.fallenIceCreamConeImage, FallenIceCreamConeImage);
 		this.load.image(this.optionStick, OptionStick);
 		this.load.audio("sceneSong", sceneSong);
+		this.load.audio("splash", splash);
 		this.load.spritesheet(
 			this.spriteSheetPlayerCharacter,
 			PlayerCharacterSheet,
@@ -206,7 +208,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	public create(): void {
 		this.game.sound.pauseAll();
-		var song = this.sound.add("sceneSong");
+		var song = this.sound.add("sceneSong", {volume: 0.3});
 		song.play({
 			loop: true
 		});
@@ -230,9 +232,13 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		super.update(time, delta);
 
 		if (this.moveIcecreamConeAway){	
+			var splash = this.sound.add("splash");
 			this.icecreamCone
 				.setRotation(this.icecreamCone.rotation - 0.075)
 				.setPosition(this.icecreamCone.x - 0.8, this.icecreamCone.y + 3);
+				splash.play({
+					loop: false
+				});
 			setTimeout(() => {
 				this.moveIcecreamConeAway = false;
 				this.icecreamCone.destroy();
@@ -620,6 +626,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			this.scene.start("UIScene");
 		});
 		this.game.sound.removeByKey("sceneSong");
+		this.game.sound.removeByKey("splash");
 		this.game.sound.resumeAll();
 	}
 }

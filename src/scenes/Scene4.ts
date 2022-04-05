@@ -32,6 +32,7 @@ import { waitFor } from "../Utilities/Scene/SceneUtil";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
 import sceneSong from "@assets/audio/scene.mp3";
+import bark from "@assets/audio/dog/regular_bark_4.mp3";
 
 export const config: SettingsConfig = {
 	active: false,
@@ -163,6 +164,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		this.load.image(this.mixedEmotion,MixedEmotion);
 		this.load.image(this.badEmotion,BadEmotion);	
 		this.load.audio("sceneSong", sceneSong);
+		this.load.audio("bark", bark);
 
 		this.load.aseprite(
 			this.characterRun,
@@ -191,7 +193,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 
 	public create(): void {
 		this.game.sound.pauseAll();
-		var song = this.sound.add("sceneSong");
+		var song = this.sound.add("sceneSong", {volume: 0.3});
 		song.play({
 			loop: true
 		});
@@ -487,6 +489,10 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 				key: this.huskyJumpAnims[0].key,
 				repeat: -1,
 			});
+			var bark = this.sound.add("bark");
+			bark.play({
+				loop: true
+			});
 
 			this.characterEntity.toggleFlipX().play({
 				key: this.characterRunAnims[0].key,
@@ -549,7 +555,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 			moveTo.velocity = 150;
 			moveTo.movingDone = () => {
 			this.add.image(600,130,this.goodEmotion).setScale(0.6);
-			this.add.image(600,300,this.endText).setScale(0.6);					
+			this.add.image(600,300,this.endText).setScale(0.6);				
 			const continuebutton = this.add.image(1090,420,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 			continuebutton.on("pointerdown", () => {
 				WorldScene.scenario4Fininshed = true;		
@@ -561,6 +567,10 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 
 	private createResult3() {
 		this.huskyEntity.play({ key: this.huskyJumpAnims[0].key, repeat: -1 });
+		var bark = this.sound.add("bark");
+		bark.play({
+			loop: true
+		});
 
 		const moveToBall = this.components.addComponent(
 			this.ballEntity,
@@ -616,6 +626,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 			this.scene.start("UIScene");
 		});
 		this.game.sound.removeByKey("sceneSong");
+		this.game.sound.removeByKey("bark");
 		this.game.sound.resumeAll();
 	}
 }
