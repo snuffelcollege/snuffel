@@ -28,6 +28,8 @@ import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/characte
 import CharacterRunData from "@assets/spritesheets/player/scenario/run/character_run.json";
 import CharacterIdleSheet from "@assets/spritesheets/player/scenario/idle/character_idle.png";
 import CharacterIdleData from "@assets/spritesheets/player/scenario/idle/character_idle.json";
+import CatSheet from "@assets/spritesheets/scenario_5/collin.png";
+import CatData from "@assets/spritesheets/scenario_5/collin.json";
 import { GameObjects, Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
@@ -38,6 +40,8 @@ import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
 import sceneSong from "@assets/audio/scene.mp3";
+import growl from "@assets/audio/dog/long_growl_1.mp3";
+import meow from "@assets/audio/cat/cat_meow_1.mp3";
 
 // Config for the scene defining gravity and debug settings.
 export const config: SettingsConfig = {
@@ -103,6 +107,10 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	private AbyEntity!: Sprite;
 
+	private CatEntity!: Sprite;
+
+	private catMeow!: string;
+
 	private option1!: string;
 
 	private option2!: string;
@@ -155,6 +163,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.boyPet = "boyPet";
 		this.rayAngry = "rayAngry";
 		this.abyAngry = "abyAngry";
+		this.catMeow = "catMeow";
 
 		if (!WorldSceneConfig.key) {
 			throw Error("Exit scene key is undefined");
@@ -186,6 +195,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.image(this.mixedEmotion,MixedEmotion);
 		this.load.image(this.badEmotion,BadEmotion);
 		this.load.audio("sceneSong", sceneSong);
+		this.load.audio("growl", growl);
+		this.load.audio("meow", meow);
 		this.load.aseprite(
 			this.characterWalk,
 			CharacterWalkSheet,
@@ -231,11 +242,16 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			BoyPet,
 			BoyPetData
 		);
+		this.load.aseprite(
+			this.catMeow,
+			CatSheet,
+			CatData
+		);
 	}
 
 	public create(): void {
 		this.game.sound.pauseAll();
-		var song = this.sound.add("sceneSong");
+		var song = this.sound.add("sceneSong", {volume: 0.3});
 		song.play({
 			loop: true
 		});
@@ -308,6 +324,27 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		});
 		this.AbyEntity = this.add.sprite(1050,580,this.abyIdle);
 		this.AbyEntity.play(this.abyIdle).setScale(1);
+
+		this.anims.create({
+			key: this.catMeow,
+			frameRate: 2,
+			frames: this.anims.generateFrameNumbers(
+				this.catMeow,
+				{
+					start: 0,
+					end: 1,
+				}
+			),
+			repeat: 1,
+		});
+		this.CatEntity = this.add.sprite(125,725,this.catMeow).setInteractive();
+		this.CatEntity.on('pointerdown',  () => {
+			this.CatEntity.play(this.catMeow);
+				var meow = this.sound.add("meow");
+				meow.play({
+					loop: false
+				});
+		}, this);
 
 		this.createChoice();		
 	}
@@ -527,6 +564,10 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			repeat: -1,
 		});
 		this.DogEntity.play(this.rayAngry).setScale(1);
+		var growl = this.sound.add("growl");
+		growl.play({
+			loop: true
+		});
 	
 		//fade to black and back to overworld after 5 seconds
 		setTimeout(() => {
@@ -655,6 +696,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			this.scene.start("UIScene");
 		});
 		this.game.sound.removeByKey("sceneSong");
+		this.game.sound.removeByKey("growl");
+		this.game.sound.removeByKey("meow");
 		this.game.sound.resumeAll();
 	}
 }

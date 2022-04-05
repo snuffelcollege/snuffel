@@ -35,6 +35,7 @@ import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
 import sceneSong from "@assets/audio/scene.mp3";
+import bark from "@assets/audio/dog/small_bark_1.mp3";
 
 // Config for the scene defining gravity and debug settings.
 export const config: SettingsConfig = {
@@ -184,6 +185,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.image(this.mixedEmotion,MixedEmotion);
 		this.load.image(this.badEmotion,BadEmotion);
 		this.load.audio("sceneSong", sceneSong);
+		this.load.audio("bark", bark);
 		this.load.aseprite(
 			this.characterWalk,
 			CharacterWalkSheet,
@@ -223,7 +225,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	public create(): void {
 		this.game.sound.pauseAll();
-		var song = this.sound.add("sceneSong");
+		var song = this.sound.add("sceneSong", {volume: 0.3});
 		song.play({
 			loop: true
 		});
@@ -504,9 +506,14 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 							end: 1,
 						}
 					),
+					repeat: -1
 				});
 				this.DogEntity.setFrame(this.dogBiteAnimation);//overwrites old frame
 				this.DogEntity.play(this.dogBiteAnimation).setScale(.8);
+				var bark = this.sound.add("bark");
+					bark.play({
+						loop: true
+					});
 				//run animation
 				this.characterEntity
 				.play({ key: this.characterRunAnims[0].key, repeat: -1})
@@ -571,9 +578,14 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 							end: 1,
 						}
 					),
+					repeat: -1
 				});
 				this.DogEntity.setFrame(this.dogBiteAnimation);//overwrites old frame
 				this.DogEntity.play(this.dogBiteAnimation).setScale(.8);
+				var bark = this.sound.add("bark");
+					bark.play({
+						loop: true
+					});
 				//run animation
 				this.characterEntity
 				.play({ key: this.characterRunAnims[0].key, repeat: -1})
@@ -636,6 +648,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			this.scene.start("UIScene");
 		});
 		this.game.sound.removeByKey("sceneSong");
+		this.game.sound.removeByKey("bark");
 		this.game.sound.resumeAll();
 	}
 }

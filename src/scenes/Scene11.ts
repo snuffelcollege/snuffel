@@ -33,6 +33,7 @@ import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
 import SceneSong from "@assets/audio/scene.mp3";
+import squeal from "@assets/audio/dog/squeal_1.mp3";
 
 // Config for the scene defining gravity and debug settings.
 export const config: SettingsConfig = {
@@ -174,6 +175,8 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.load.image(this.goodEmotion,GoodEmotion);
 		this.load.image(this.mixedEmotion,MixedEmotion);
 		this.load.image(this.badEmotion,BadEmotion);
+		this.load.audio("sceneSong", SceneSong);
+		this.load.audio("squeal", squeal);
 		this.load.aseprite(
 			this.characterWalk,
 			CharacterWalkSheet,
@@ -208,9 +211,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			this.petDog,
 			PetDog,
 			PetDogData
-		);
-
-		this.load.audio("sceneSong", SceneSong);
+		);		
 	}
 
 	public create(): void {
@@ -230,7 +231,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private createSituation(): void {
 		this.game.sound.pauseAll();
-		var song = this.sound.add("sceneSong");
+		var song = this.sound.add("sceneSong", {volume: 0.3});
 		song.play({
 			loop: true
 		});
@@ -551,8 +552,10 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		});
 
 		this.dogAndBoyEntity.setScale(1).play(this.continueHug);
-
-	
+		var squeal = this.sound.add("squeal");
+		squeal.play({
+			loop: true
+		});	
 
 		setTimeout(() => {
 			this.add.image(600,130,this.badEmotion).setScale(0.6);
@@ -594,6 +597,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			this.scene.start("UIScene");
 		});
 		this.game.sound.removeByKey("sceneSong");
+		this.game.sound.removeByKey("squeal");
 		this.game.sound.resumeAll();
 	}
 }
