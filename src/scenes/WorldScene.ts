@@ -149,15 +149,33 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		// the Tiled layer name => look in the json file to find all names
 		// the below capitalised variables represent each layer added to the Tiled map.
 		// todo; remove the 2nd tileset.
-		const FOREGROUND = tilemap.createLayer("FOREGROUND", tileset);
-		const SKY = tilemap.createLayer("SKY", tileset);
-		const OVERLAY = tilemap.createLayer("OVERLAY", tileset);
-		const DECOR = tilemap.createLayer("DECOR", tileset);
-		const BACKGROUND = tilemap.createLayer("BACKGROUND", tileset);
+		const Water = tilemap.createLayer("Water", tileset);
+		const Grass = tilemap.createLayer("Grass", tileset);
+		const Treeline_1 = tilemap.createLayer("Treeline_1", tileset);
+		const Treeline_2 = tilemap.createLayer("Treeline_2", tileset);
+		const Treeline_3 = tilemap.createLayer("Treeline_3", tileset);
+		const Treeline_4 = tilemap.createLayer("Treeline_4", tileset);
+		const Treeline_5 = tilemap.createLayer("Treeline_5", tileset);
+		const Concrete = tilemap.createLayer("Concrete", tileset);
+		const Fences = tilemap.createLayer("Fences", tileset);
+		const Road = tilemap.createLayer("Road", tileset);
+		const Road_lines = tilemap.createLayer("Road_lines", tileset);
+		const Lanterns = tilemap.createLayer("Lanterns", tileset);
+		const Collision_houses = tilemap.createLayer("Collision_houses", tileset);
+		const Roofs = tilemap.createLayer("Roofs", tileset);
 
 		// add collision to the layers which have collision specified inside tiled
-		DECOR.setCollisionByProperty({ collision: true });1
-		BACKGROUND.setCollisionByProperty({ collision: true });
+		Water.setCollisionByProperty({ collision: true });
+		Grass.setCollisionByProperty({ collision: true });
+		Treeline_1.setCollisionByProperty({ collision: true });
+		Treeline_2.setCollisionByProperty({ collision: true });
+		Treeline_3.setCollisionByProperty({ collision: true });
+		Treeline_4.setCollisionByProperty({ collision: true });
+		Treeline_5.setCollisionByProperty({ collision: true });
+		Concrete.setCollisionByProperty({ collision: true });
+		Fences.setCollisionByProperty({ collision: true });
+		Lanterns.setCollisionByProperty({ collision: true });
+		Collision_houses.setCollisionByProperty({ collision: true });
 
 		const collidables: GameObject[] = [];
 		const overlappables: GameObject[] = [];
@@ -196,8 +214,20 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 						this.components.addComponent(p, CameraComponent);
 
-						this.physics.add.collider(p, DECOR);
-						this.physics.add.collider(p, BACKGROUND);
+						//adds collision
+						this.physics.add.collider(p, Water);
+						this.physics.add.collider(p, Grass);
+						this.physics.add.collider(p, Treeline_1);
+						this.physics.add.collider(p, Treeline_2);
+						this.physics.add.collider(p, Treeline_3);
+						this.physics.add.collider(p, Treeline_4);
+						this.physics.add.collider(p, Treeline_5);
+						this.physics.add.collider(p, Concrete);
+						this.physics.add.collider(p, Fences);
+						this.physics.add.collider(p, Road);
+						this.physics.add.collider(p, Road_lines);
+						this.physics.add.collider(p, Lanterns);
+						this.physics.add.collider(p, Collision_houses);
 
 						this.depthSorter.addSortable(p, DepthLayers.PLAYER);
 
@@ -365,9 +395,20 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		);
 
 		// sort z indices
-		BACKGROUND.setDepth(DepthLayers.BACKGROUND);
-		OVERLAY.setDepth(DepthLayers.OVERLAY);
-		DECOR.setDepth(DepthLayers.DECOR);
+		Water.setDepth(DepthLayers.Water);
+		Grass.setDepth(DepthLayers.Grass);
+		Treeline_1.setDepth(DepthLayers.Treeline_1);
+		Treeline_2.setDepth(DepthLayers.Treeline_2);
+		Treeline_3.setDepth(DepthLayers.Treeline_3);
+		Treeline_4.setDepth(DepthLayers.Treeline_4);
+		Treeline_5.setDepth(DepthLayers.Treeline_5);
+		Concrete.setDepth(DepthLayers.Concrete);
+		Fences.setDepth(DepthLayers.Fences);
+		Road.setDepth(DepthLayers.Road);
+		Road_lines.setDepth(DepthLayers.Road_lines);
+		Lanterns.setDepth(DepthLayers.Lanterns);
+		Collision_houses.setDepth(DepthLayers.Collision_houses);
+		Roofs.setDepth(DepthLayers.Roofs);
 
 		this.depthSorter.setRatio(tilemap.heightInPixels * 1.1);
 	}
@@ -421,7 +462,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			});
 
 		dogTalkBubble
-			.setDepth(DepthLayers.OVERLAY)
+			.setDepth(DepthLayers.Roofs)
 			.setFlipX(true)
 			.play({ key: poiCloudAnimTags[0].key, repeat: -1 }, true)
 			.setVisible(false)
@@ -500,7 +541,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			});
 
 		dogTalkBubble
-			.setDepth(DepthLayers.OVERLAY)
+			.setDepth(DepthLayers.Roofs)
 			.play({ key: poiCloudAnimTags[0].key, repeat: -1 }, true)
 			.setVisible(false)
 			.setInteractive({ useHandCursor: true })
@@ -566,7 +607,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			});
 
 		dogTalkBubble
-			.setDepth(DepthLayers.OVERLAY)
+			.setDepth(DepthLayers.Roofs)
 			.play({ key: poiCloudAnimTags[0].key, repeat: -1 }, true)
 			.setVisible(false)
 			.setInteractive({ useHandCursor: true })
@@ -642,7 +683,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			});
 
 		dogTalkBubble
-			.setDepth(DepthLayers.OVERLAY)
+			.setDepth(DepthLayers.Roofs)
 			.play({ key: poiCloudAnimTags[0].key, repeat: -1 }, true)
 			.setVisible(false)
 			.setInteractive({ useHandCursor: true })
@@ -720,7 +761,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			});
 
 		dogTalkBubble
-			.setDepth(DepthLayers.OVERLAY)
+			.setDepth(DepthLayers.Roofs)
 			.play({ key: poiCloudAnimTags[0].key, repeat: -1 }, true)
 			.setVisible(false)
 			.setInteractive({ useHandCursor: true })
@@ -791,7 +832,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			});
 
 		dogWindow
-			.setDepth(DepthLayers.OVERLAY)
+			.setDepth(DepthLayers.Roofs)
 			.play({ key: dogWindowAnimTags[0].key, frameRate: 1, repeat: -1}, true)
 			.setVisible(false)
 			.setInteractive({ useHandCursor: true })
@@ -860,7 +901,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			});
 
 		dogTalkBubble
-			.setDepth(DepthLayers.OVERLAY)
+			.setDepth(DepthLayers.Roofs)
 			.play({ key: poiCloudAnimTags[0].key, repeat: -1 }, true)
 			.setVisible(false)
 			.setInteractive({ useHandCursor: true })
@@ -935,7 +976,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			});
 
 		dogTalkBubble
-			.setDepth(DepthLayers.OVERLAY)
+			.setDepth(DepthLayers.Roofs)
 			.play({ key: poiCloudAnimTags[0].key, repeat: -1 }, true)
 			.setVisible(false)
 			.setInteractive({ useHandCursor: true })

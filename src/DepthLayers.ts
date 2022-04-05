@@ -3,11 +3,21 @@
  * any of the existing code.
  */
 const enum DepthLayers {
-	BACKGROUND,
-	DECOR,
-	COLLISION,
+	Water,
+	Grass,
+	Treeline_1,
+	Treeline_2,
+	Treeline_3,
+	Treeline_4,
+	Treeline_5,
+	Concrete,
+	Fences,
+	Road,
+	Road_lines,
+	Lanterns,
+	Collision_houses,
 	PLAYER,
-	OVERLAY,
+	Roofs
 }
 
 export default DepthLayers;
