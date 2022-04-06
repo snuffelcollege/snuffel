@@ -1,7 +1,10 @@
 import worldTiles from "@assets/tilesheets/world_tiles.png";
 import mainSceneTileData from "@assets/tilemaps/main_scene.json";
 import poiCloudSheet from "@assets/spritesheets/pointOfInterest/cloud/poi_cloud.png";
+import door from "@assets/images/scenario_3/door.png";
 import poiCloudData from "@assets/spritesheets/pointOfInterest/cloud/poi_cloud.json";
+import fence from "@assets/images/scenario_2/fence.png";
+import dog from "@assets/images/scenario_2/dog1.png";
 import huskyImage from "@assets/spritesheets/husky/husky.png";
 import huskyJson from "@assets/spritesheets/husky/husky.json";
 import huskyWaitImage from "@assets/images/world/husky_wait.png";
@@ -52,6 +55,12 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 	private poiCloud!: string;
 
+	private door!: string;
+
+	private fence!: string;
+
+	private dog!: string;
+
 	private dogInCar!: string;
 
 	private scene1Dog!: string;
@@ -89,6 +98,9 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.tilemapKey = "main_scene";
 
 		this.poiCloud = "poi_cloud";
+		this.fence = "fence";
+		this.dog = "dog";
+		this.door = "door";
 		this.dogInCar = "dogInCar";
 		this.husky = "husky";
 		this.huskyWait = "huskywait"
@@ -108,8 +120,11 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	 * A key has to be unique for the entire project, not just this scene.
 	 */
 	public preload(): void {
-		// Point of Interest Idle Animations
+		// Point of Interests
 		this.load.aseprite(this.poiCloud, poiCloudSheet, poiCloudData);
+		this.load.image(this.fence, fence);
+		this.load.image(this.dog, dog);
+		this.load.image(this.door, door);
 		this.load.aseprite(this.dogInCar,DogInCarSheet,DogInCarData);
 		this.load.aseprite(this.scene1Dog,Scene1DogSheet,Scene1DogData);
 
@@ -591,27 +606,19 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		y: number,
 		target_scene: string
 	): void {
-		const poiCloudAnimTags = this.anims.createFromAseprite("poi_cloud");
+		const openDoor = this.add.sprite(x,y+18,"door").setDepth(DepthLayers.PLAYER).setVisible(false);
 
-		const dog = new MovableEntity(scene, x, y, this.husky).setVisible(false)
-		const dogTalkBubble = this.add.sprite(x,y,this.poiCloud);
+		const dog = new MovableEntity(scene, x, y, this.husky).setVisible(false);
 
 		dog.setBodySize(100,200)
 			.setImmovable(true)
 			.setDepth(DepthLayers.PLAYER)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
-				if (dogTalkBubble.visible && !WorldScene.scenario3Fininshed) {
+				if (openDoor.visible && !WorldScene.scenario3Fininshed) {
 					this.switchScene(target_scene);
 				}
 			});
-
-		dogTalkBubble
-			.setDepth(DepthLayers.Roofs)
-			.play({ key: poiCloudAnimTags[0].key, repeat: -1 }, true)
-			.setVisible(false)
-			.setInteractive({ useHandCursor: true })
-			.on("pointerdown", () => {if(!WorldScene.scenario3Fininshed){this.switchScene(target_scene)}});
 
 		collidables.push(dog);
 
@@ -619,12 +626,12 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			x,
 			y,
 			450,
-			150
+			280
 		);
 
 		this.physics.world.enable(radius); // enable the zone's physics body
 		(radius.body as Phaser.Physics.Arcade.Body)
-			.setOffset(0,160)
+			.setOffset(0,250);
 
 		overlappables.push(radius);
 
@@ -635,9 +642,9 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 		dispatcher.setDispatchCallback((isOverlapping) => {
 				if (WorldScene.scenario3Fininshed){
-					dogTalkBubble.setVisible(false);
+					openDoor.setVisible(false);
 				}else{
-					dogTalkBubble.setVisible(isOverlapping);
+					openDoor.setVisible(isOverlapping);
 				}	
 			
 
