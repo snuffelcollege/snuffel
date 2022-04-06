@@ -3,6 +3,13 @@ import Option1 from "@assets/images/scenario_1/option_1.png";
 import Option2 from "@assets/images/scenario_1/option_2.png";
 import Option3 from "@assets/images/scenario_1/option_3.png";
 import OptionStick from "@assets/images/world/option_stick.png";
+import BadgeCase from "@assets/images/UI/badges/badge_case.png";
+import BadgeS1 from "@assets/images/UI/badges/badge_s1.png";
+import BadgeS2 from "@assets/images/UI/badges/badge_s2.png";
+import BadgeS3 from "@assets/images/UI/badges/badge_s3.png";
+import BadgeS4 from "@assets/images/UI/badges/badge_s4.png";
+import BadgeS5 from "@assets/images/UI/badges/badge_s5.png";
+import BadgeS6 from "@assets/images/UI/badges/badge_s6.png";
 import StartDialog1 from "@assets/images/scenario_1/start_dialog_1.png";
 import StartDialog2 from "@assets/images/scenario_1/start_dialog_2.png";
 import EndText from "@assets/images/scenario_1/end_text.png";
@@ -38,6 +45,7 @@ import MakeFullscreen from "../Components/MakeFullscreen";
 import WorldScene, { WorldSceneConfig } from "./WorldScene";
 import MoveTo from "../Components/MoveTo";
 import sceneSong from "@assets/audio/scene.mp3";
+import BadgeBling from "@assets/audio/UI/badge_bling.mp3";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
 
@@ -109,6 +117,20 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	private optionStick!: string;
 
+	private badgeCase!: string;
+
+    private badgeS1!: string;
+    
+	private badgeS2!: string;
+    
+	private badgeS3!: string;
+    
+	private badgeS4!: string;
+    
+	private badgeS5!: string;
+    
+	private badgeS6!: string;
+
 	private startDialog1!: string;
 
 	private startDialog2!: string;
@@ -151,6 +173,13 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.option2 = "option21";
 		this.option3 = "option31";
 		this.optionStick = "stick1";
+		this.badgeCase = "badgecase1";
+        this.badgeS1 = "badges11";
+        this.badgeS2 = "badges21";
+        this.badgeS3 = "badges31";
+        this.badgeS4 = "badges41";
+        this.badgeS5 = "badges51";
+        this.badgeS6 = "badges61";
 		this.startDialog1 = "startdialog11";
 		this.startDialog2 = "startdialog21";
 		this.endText = "endtext1";
@@ -182,6 +211,13 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.image(this.option2, Option2);
 		this.load.image(this.option3, Option3);
 		this.load.image(this.optionStick, OptionStick);	
+		this.load.image(this.badgeCase, BadgeCase);
+        this.load.image(this.badgeS1,BadgeS1);
+        this.load.image(this.badgeS2,BadgeS2);
+        this.load.image(this.badgeS3,BadgeS3);
+        this.load.image(this.badgeS4,BadgeS4);
+        this.load.image(this.badgeS5,BadgeS5);
+        this.load.image(this.badgeS6,BadgeS6);
 		this.load.image(this.continueButton,ContinueButton);
 		this.load.image(this.replayButton,ReplayButton);
 		this.load.image(this.startDialog1, StartDialog1);
@@ -201,6 +237,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
         this.load.aseprite(this.bullyIdle,BullyIdleSheet,BullyIdleData);
         this.load.aseprite(this.bullyWalk,BullyWalkSheet,BullyWalkData);
 		this.load.audio("sceneSong", sceneSong);
+		this.load.audio("badgeBling", BadgeBling);
 	}
 
 	public create(): void {
@@ -602,8 +639,45 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			this.add.image(700,350,this.endDialog1).setScale(0.6);			
 			const continuebutton = this.add.image(1200,350,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 			continuebutton.on("pointerdown", () => {		
-				WorldScene.scenario1Fininshed = true;		
-				this.moveScene();
+				WorldScene.scenario1Fininshed = true;	
+				
+				const badgeCaseImage = this.add.sprite(1000,550, this.badgeCase).setScale(0.4).setVisible(true).setAlpha(0).setDepth(5);
+				const badgeS1Image = this.add.sprite(680,450, this.badgeS1).setScale(0.4).setVisible(WorldScene.scenario1Fininshed).setAlpha(0).setDepth(5);
+				const badgeS2Image = this.add.sprite(1010,445, this.badgeS2).setScale(0.4).setVisible(WorldScene.scenario2Fininshed).setAlpha(0).setDepth(5);
+				const badgeS3Image = this.add.sprite(1320,455, this.badgeS3).setScale(0.4).setVisible(WorldScene.scenario3Fininshed).setAlpha(0).setDepth(5);
+				const badgeS4Image = this.add.sprite(690,755, this.badgeS4).setScale(0.4).setVisible(WorldScene.scenario4Fininshed).setAlpha(0).setDepth(5);
+				const badgeS5Image = this.add.sprite(1010,765, this.badgeS5).setScale(0.4).setVisible(WorldScene.scenario5Fininshed).setAlpha(0).setDepth(5);
+				const badgeS6Image = this.add.sprite(1310,750, this.badgeS6).setScale(0.4).setVisible(WorldScene.scenario6Fininshed).setAlpha(0).setDepth(5);
+				//fade in effect
+				this.add.tween({
+					targets: [badgeCaseImage,badgeS2Image,badgeS3Image,badgeS4Image,badgeS5Image,badgeS6Image],
+					ease: 'Sine.easeInOut',
+					duration: 500,
+					delay: 0,
+					alpha: {
+					  getStart: () => 0,
+					  getEnd: () => 1					  
+					}					
+				  });
+				  this.add.tween({
+					targets: [badgeS1Image],
+					ease: 'Sine.easeInOut',
+					duration: 500,
+					delay: 0,
+					alpha: {
+						getStart: () => 0,
+						getEnd: () => 1					  
+					  },
+					scale: {
+					  getStart: () => 3,
+					  getEnd: () => 0.4					  
+					}		
+				  });
+				  this.sound.add("badgeBling", {volume: 0.5}).play();
+			  	    
+				  setTimeout(() => {
+						this.moveScene();
+				  }, 4000);  
 			});			
 		}, 2000);
 	}
