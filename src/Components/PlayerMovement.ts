@@ -18,7 +18,7 @@ enum MovementState {
  * Moves the player with WASD and mouse input.
  */
 export default class PlayerMovement extends AbstractComponent {
-	protected static readonly maxVelocity = 1024;//normal value is 256
+	protected static readonly maxVelocity = 356;//normal value is 256
 
 	private static northWestRad = PlayerMovement.degToRad(225);
 
