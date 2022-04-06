@@ -610,7 +610,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		doorCollidable.setBodySize(100,200)
 			.setImmovable(true)
 			.setDepth(DepthLayers.Collision_houses)
-			.setInteractive({ useHandCursor: true });
+			.setInteractive({ useHandCursor: true })
+			.on("pointerdown", () => {if(!WorldScene.scenario3Fininshed){this.switchScene(target_scene)}});
 
 		collidables.push(doorCollidable);
 
