@@ -42,6 +42,15 @@ import Sprite = Phaser.GameObjects.Sprite;
 import sceneSong from "@assets/audio/scene.mp3";
 import BadgeBling from "@assets/audio/UI/badge_bling.mp3";
 import bark from "@assets/audio/dog/regular_bark_1.mp3";
+import stickAudio from "@assets/audio/objects/fallen_stick.mp3";
+import StartTextAudio from "@assets/audio/scenario_2/start_text.mp3";
+import EndTextAudio from "@assets/audio/scenario_2/end_text.mp3";
+import Option1Audio from "@assets/audio/scenario_2/option_1.mp3";
+import Option2Audio from "@assets/audio/scenario_2/option_2.mp3";
+import Option3Audio from "@assets/audio/scenario_2/option_3.mp3";
+import GoodEmotionAudio from "@assets/audio/correct.mp3";
+import MixedEmotionAudio from "@assets/audio/almost.mp3";
+import BadEmotionAudio from "@assets/audio/incorrect.mp3";
 
 // Config for the scene defining gravity and debug settings.
 export const config: SettingsConfig = {
@@ -254,6 +263,15 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.load.audio("sceneSong", sceneSong);
 		this.load.audio("bark", bark);
 		this.load.audio("badgeBling", BadgeBling);
+		this.load.audio("2fallenStick",stickAudio);
+		this.load.audio("2startTextAudio",StartTextAudio);
+		this.load.audio("2endTextAudio", EndTextAudio);
+		this.load.audio("2option1Audio", Option1Audio);
+		this.load.audio("2option2Audio", Option2Audio);
+		this.load.audio("2option3Audio", Option3Audio);
+		this.load.audio("2goodEmotionAudio", GoodEmotionAudio);
+		this.load.audio("2mixedEmotionAudio", MixedEmotionAudio);
+		this.load.audio("2badEmotionAudio", BadEmotionAudio);
 	}
 
 	public create(): void {
@@ -312,7 +330,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		).setDepth(0);
 
 		this.stickEntity = this.add.sprite(1125, 1025, this.stickImage)
-		
+		this.sound.add("2startTextAudio", {volume: 1.5}).play();
 		this.createChoice();
 	}
 
@@ -331,9 +349,12 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		stick1move.velocity = 280;
 		const button1 = this.add.image(500, 1200, this.option1);
 		button1.on("pointerover", () => {
+			this.game.sound.removeByKey("2startTextAudio");
+			this.sound.add("2option1Audio", {volume: 1.5}).play();
 			button1.angle = 5;			
 		});
 		button1.on('pointerout',() => {
+			this.game.sound.removeByKey("2option1Audio");
 			button1.angle = 0;
 		})
 		const button1move = this.components.addComponent(
@@ -359,9 +380,12 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		stick2move.velocity = 280;
 		const button2 = this.add.image(1000, 1200, this.option2).setDepth(2);
 		button2.on("pointerover", () => {
+			this.game.sound.removeByKey("2startTextAudio");
+			this.sound.add("2option2Audio", {volume: 1.5}).play();
 			button2.angle = 5;			
 		});
 		button2.on('pointerout',() => {
+			this.game.sound.removeByKey("2option2Audio");
 			button2.angle = 0;
 		})
 		const button2move = this.components.addComponent(
@@ -387,9 +411,12 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		stick3move.velocity = 280;
 		const button3 = this.add.image(1500, 1200, this.option3).setDepth(2);
 		button3.on("pointerover", () => {
+			this.game.sound.removeByKey("2startTextAudio");
+			this.sound.add("2option3Audio", {volume: 1.5}).play();
 			button3.angle = 5;			
 		});
 		button3.on('pointerout',() => {
+			this.game.sound.removeByKey("2option3Audio");
 			button3.angle = 0;
 		})
 		const button3move = this.components.addComponent(
@@ -530,6 +557,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			bark.play({
 				loop: true
 			});
+			this.sound.add("2fallenStick", {volume: 0.5}).play();	
 			this.characterEntity.play(this.characterRun).setScale(2).toggleFlipX();
 
 			const moveTo = this.components.addComponent(this.characterEntity, MoveTo);
@@ -545,7 +573,16 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 					this.add.image(600,130,this.badEmotion).setScale(0.6);
 					this.add.image(600,300,this.endText).setScale(0.6);					
 					const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+					this.sound.removeByKey("bark");
+					this.sound.removeByKey("2fallenStick");
+					this.sound.add("2badEmotionAudio", {volume: 1.5}).play();	
+					
+					setTimeout(() => {
+						this.sound.add("2endTextAudio", {volume: 1.5}).play();
+					}, 2500);
 					replaybutton.on("pointerdown", () => {
+						this.game.sound.removeByKey("2badEmotionAudio");
+						this.game.sound.removeByKey("2endTextAudio");	
 						this.scene.restart();
 					});
 					
@@ -585,7 +622,14 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			this.add.image(600,130,this.goodEmotion).setScale(0.6);
 			this.add.image(600,300,this.endText).setScale(0.6);
 			const continuebutton = this.add.image(1090,420,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			this.sound.add("2goodEmotionAudio", {volume: 1.5}).play();	
+					
+			setTimeout(() => {
+				this.sound.add("2endTextAudio", {volume: 1.5}).play();
+			}, 3000);
 			continuebutton.on("pointerdown", () => {
+				this.game.sound.removeByKey("2goodEmotionAudio");
+				this.game.sound.removeByKey("2endTextAudio");	
 				WorldScene.scenario2Fininshed = true;		
 				const badgeCaseImage = this.add.sprite(1000,550, this.badgeCase).setScale(0.4).setVisible(true).setAlpha(0).setDepth(5);
 				const badgeS1Image = this.add.sprite(680,450, this.badgeS1).setScale(0.4).setVisible(WorldScene.scenario1Fininshed).setAlpha(0).setDepth(5);
@@ -663,7 +707,15 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			this.add.image(600,130,this.mixedEmotion).setScale(0.6);
 			this.add.image(600,300,this.endText).setScale(0.6);			
 			const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			this.sound.removeByKey("bark");
+			this.sound.add("2mixedEmotionAudio", {volume: 1.5}).play();	
+					
+			setTimeout(() => {
+				this.sound.add("2endTextAudio", {volume: 1.5}).play();
+			}, 3000);
 			replaybutton.on("pointerdown", () => {
+				this.game.sound.removeByKey("2mixedEmotionAudio");
+						this.game.sound.removeByKey("2endTextAudio");	
 				this.scene.restart();
 			})
 		}, 3000);
