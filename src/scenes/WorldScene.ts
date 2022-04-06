@@ -1,10 +1,11 @@
 import worldTiles from "@assets/tilesheets/world_tiles.png";
 import mainSceneTileData from "@assets/tilemaps/main_scene.json";
 import poiCloudSheet from "@assets/spritesheets/pointOfInterest/cloud/poi_cloud.png";
-import door from "@assets/images/scenario_3/door.png";
+import doorScene3 from "@assets/images/scenario_3/door.png";
 import poiCloudData from "@assets/spritesheets/pointOfInterest/cloud/poi_cloud.json";
-import fence from "@assets/images/scenario_2/fence.png";
-import dog from "@assets/images/scenario_2/dog1.png";
+import fenceScene2 from "@assets/images/scenario_2/fence.png";
+import dogScene2 from "@assets/images/scenario_2/dog1.png";
+import stickScene2 from "@assets/images/scenario_2/stick.png";
 import huskyImage from "@assets/spritesheets/husky/husky.png";
 import huskyJson from "@assets/spritesheets/husky/husky.json";
 import huskyWaitImage from "@assets/images/world/husky_wait.png";
@@ -55,11 +56,13 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 	private poiCloud!: string;
 
-	private door!: string;
+	private doorScene3!: string;
 
-	private fence!: string;
+	private fenceScene2!: string;
 
-	private dog!: string;
+	private dogScene2!: string;
+
+	private stickScene2!: string;
 
 	private dogInCar!: string;
 
@@ -98,9 +101,10 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.tilemapKey = "main_scene";
 
 		this.poiCloud = "poi_cloud";
-		this.fence = "fence";
-		this.dog = "dog";
-		this.door = "door";
+		this.fenceScene2 = "fence";
+		this.dogScene2 = "dogScene2";
+		this.stickScene2 = "stickScene2";
+		this.doorScene3 = "doorScene3";
 		this.dogInCar = "dogInCar";
 		this.husky = "husky";
 		this.huskyWait = "huskywait"
@@ -122,9 +126,10 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	public preload(): void {
 		// Point of Interests
 		this.load.aseprite(this.poiCloud, poiCloudSheet, poiCloudData);
-		this.load.image(this.fence, fence);
-		this.load.image(this.dog, dog);
-		this.load.image(this.door, door);
+		this.load.image(this.fenceScene2, fenceScene2);
+		this.load.image(this.dogScene2, dogScene2);
+		this.load.image(this.stickScene2, stickScene2);
+		this.load.image(this.doorScene3, doorScene3);
 		this.load.aseprite(this.dogInCar,DogInCarSheet,DogInCarData);
 		this.load.aseprite(this.scene1Dog,Scene1DogSheet,Scene1DogData);
 
@@ -530,52 +535,45 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	): void {
 		const poiCloudAnimTags = this.anims.createFromAseprite("poi_cloud");
 
-		const dog = new MovableEntity(scene, x, y, this.husky).setScale(0.4);
+		this.add.image(x,y-150,this.dogScene2).setDepth(DepthLayers.Roofs).setScale(0.4);
+		this.add.image(x-100,y+75,this.stickScene2).setDepth(DepthLayers.PLAYER).setScale(0.4);
 
-		const dogTalkBubble = this.add.sprite(
-			dog.x + 64,
-			dog.y - 84,
+		const fenceCollidable = new MovableEntity(scene, x, y-50, this.fenceScene2).setScale(0.4);
+
+		const fenceTalkBubble = this.add.sprite(
+			fenceCollidable.x + 100,
+			fenceCollidable.y - 200,
 			this.poiCloud
 		);
 
-		this.depthSorter.addSortable(dog, DepthLayers.PLAYER);
+		this.depthSorter.addSortable(fenceCollidable, DepthLayers.PLAYER);
 
-		this.dogAnimTags = this.anims.createFromAseprite(this.husky);
-
-		dog.setBodySize(dog.width, dog.height / 5)
-			.setOffset(0, (dog.height * 4) / 5)
-			.play({ key: this.dogAnimTags[1].key, repeat: -1 }, true)
+		fenceCollidable.setBodySize(500, 500)
 			.setImmovable(true)
 			.setFlipX(true)
 			.setDepth(DepthLayers.PLAYER)
-			.setInteractive({ useHandCursor: true })
-			.on("pointerdown", () => {
-				if (dogTalkBubble.visible && !WorldScene.scenario2Fininshed) {
-					this.switchScene(target_scene);
-				}
-			});
+			.setInteractive({ useHandCursor: true });
 
-		dogTalkBubble
+		fenceTalkBubble
 			.setDepth(DepthLayers.Roofs)
 			.play({ key: poiCloudAnimTags[0].key, repeat: -1 }, true)
 			.setVisible(false)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {if(!WorldScene.scenario2Fininshed){this.switchScene(target_scene)}});
 
-		collidables.push(dog);
+		collidables.push(fenceCollidable);
 
 		const radius = this.add.zone(
-			dog.x,
-			dog.y,
-			dog.displayWidth,
-			dog.displayHeight
+			x,
+			y-100,
+			500,
+			100
 		);
 
 		this.physics.world.enable(radius); // enable the zone's physics body
 
 		(radius.body as Phaser.Physics.Arcade.Body)
-			.setOffset(-radius.displayWidth * 0.5, -radius.displayHeight * 0.5)
-			.setCircle(dog.displayWidth);
+			.setOffset(0, 200);
 
 		overlappables.push(radius);
 
@@ -585,11 +583,11 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		);
 
 		dispatcher.setDispatchCallback((isOverlapping) => {
-			if (dogTalkBubble.visible !== isOverlapping) {
+			if (fenceTalkBubble.visible !== isOverlapping) {
 				if (WorldScene.scenario2Fininshed){
-					dogTalkBubble.setVisible(false);
+					fenceTalkBubble.setVisible(false);
 				}else{
-					dogTalkBubble.setVisible(isOverlapping);
+					fenceTalkBubble.setVisible(isOverlapping);
 				}	
 			}
 
@@ -606,22 +604,14 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		y: number,
 		target_scene: string
 	): void {
-		const openDoor = this.add.sprite(x,y+18,"door")
-			.setDepth(DepthLayers.PLAYER)
-			.setVisible(false)
-			.setInteractive({ useHandCursor: true })
-			.on("pointerdown", () => {
-				if (!WorldScene.scenario3Fininshed) {
-					this.switchScene(target_scene);
-			}
-		});
+		const doorCollidable = new MovableEntity(scene, x, y+18, this.doorScene3).setVisible(false);
 
-		const hitbox = new MovableEntity(scene, x, y, this.husky).setVisible(false);
-
-		hitbox.setBodySize(100,200)
+		doorCollidable.setBodySize(100,200)
 			.setImmovable(true)
+			.setDepth(DepthLayers.Collision_houses)
+			.setInteractive({ useHandCursor: true });
 
-		collidables.push(hitbox);
+		collidables.push(doorCollidable);
 
 		const radius = this.add.zone(
 			x,
@@ -643,9 +633,9 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 		dispatcher.setDispatchCallback((isOverlapping) => {
 				if (WorldScene.scenario3Fininshed){
-					openDoor.setVisible(false);
+					doorCollidable.setVisible(false);
 				}else{
-					openDoor.setVisible(isOverlapping);
+					doorCollidable.setVisible(isOverlapping);
 				}	
 			
 
