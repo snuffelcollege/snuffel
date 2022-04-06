@@ -606,21 +606,22 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		y: number,
 		target_scene: string
 	): void {
-		const openDoor = this.add.sprite(x,y+18,"door").setDepth(DepthLayers.PLAYER).setVisible(false);
-
-		const dog = new MovableEntity(scene, x, y, this.husky).setVisible(false);
-
-		dog.setBodySize(100,200)
-			.setImmovable(true)
+		const openDoor = this.add.sprite(x,y+18,"door")
 			.setDepth(DepthLayers.PLAYER)
+			.setVisible(false)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
-				if (openDoor.visible && !WorldScene.scenario3Fininshed) {
+				if (!WorldScene.scenario3Fininshed) {
 					this.switchScene(target_scene);
-				}
-			});
+			}
+		});
 
-		collidables.push(dog);
+		const hitbox = new MovableEntity(scene, x, y, this.husky).setVisible(false);
+
+		hitbox.setBodySize(100,200)
+			.setImmovable(true)
+
+		collidables.push(hitbox);
 
 		const radius = this.add.zone(
 			x,
