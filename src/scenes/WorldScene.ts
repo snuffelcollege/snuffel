@@ -552,7 +552,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			.setImmovable(true)
 			.setFlipX(true)
 			.setDepth(DepthLayers.PLAYER)
-			.setInteractive({ useHandCursor: true });
+			.setInteractive({ useHandCursor: true })
+			.on("pointerdown", () => {if(!WorldScene.scenario2Fininshed && fenceTalkBubble.visible){this.switchScene(target_scene)}});
 
 		fenceTalkBubble
 			.setDepth(DepthLayers.Roofs)
