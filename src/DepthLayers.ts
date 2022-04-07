@@ -5,6 +5,7 @@
 const enum DepthLayers {
 	Water,
 	Grass,
+	Bushes,
 	Treeline_1,
 	Treeline_2,
 	Treeline_3,
