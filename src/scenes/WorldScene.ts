@@ -743,7 +743,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	): void {
 		const poiCloudAnimTags = this.anims.createFromAseprite("poi_cloud");
 
-		const rayCollidable = new MovableEntity(scene, x, y, this.rayScene5).setScale(1);
+		const rayCollidable = new MovableEntity(scene, x, y+25, this.rayScene5).setScale(1);
 
 		const dogTalkBubble = this.add.sprite(
 			x + 64,
