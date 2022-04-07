@@ -230,7 +230,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 
 	public create(): void {
 		this.game.sound.pauseAll();
-		var song = this.sound.add("sceneSong", {volume: 0.3});
+		var song = this.sound.add("sceneSong", {volume: 0.1});
 		song.play({
 			loop: true
 		});
