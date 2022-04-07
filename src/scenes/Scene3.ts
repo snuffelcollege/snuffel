@@ -261,7 +261,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 		this.load.image(this.option3Img, Option3Texture);
 
 		this.load.audio("sceneSong", sceneSong);
-		this.load.audio("bark", bark);
+		this.load.audio("bark3", bark);
 		this.load.audio("badgeBling", BadgeBling);
 	}
 
@@ -533,7 +533,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 
 				// dog starts barking
 				motherDogAnimator.loop(0);
-				var bark = this.sound.add("bark");
+				var bark = this.sound.add("bark3");
 				bark.play({
 					loop: true
 				});
@@ -614,7 +614,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 							cloud.destroy();
 
 							motherDogAnimator.loop(0);
-							var bark = this.sound.add("bark");
+							var bark = this.sound.add("bark3");
 							bark.play({
 								loop: true
 							});
@@ -838,7 +838,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 			this.scene.start("UIScene");
 		});
 		this.game.sound.removeByKey("sceneSong");
-		this.game.sound.removeByKey("bark");
+		this.game.sound.removeByKey("bark3");
 		this.game.sound.resumeAll();
 	}
 }

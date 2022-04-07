@@ -261,7 +261,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		)
 
 		this.load.audio("sceneSong", sceneSong);
-		this.load.audio("bark", bark);
+		this.load.audio("bark2", bark);
 		this.load.audio("badgeBling", BadgeBling);
 		this.load.audio("2fallenStick",stickAudio);
 		this.load.audio("2startTextAudio",StartTextAudio);
@@ -553,7 +553,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			});
 
 			this.shepherdEntity.play(this.shepherdSheet);
-			var bark = this.sound.add("bark");
+			var bark = this.sound.add("bark2");
 			bark.play({
 				loop: true
 			});
@@ -573,7 +573,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 					this.add.image(600,130,this.badEmotion).setScale(0.6);
 					this.add.image(600,300,this.endText).setScale(0.6);					
 					const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
-					this.sound.removeByKey("bark");
+					this.sound.removeByKey("bark2");
 					this.sound.removeByKey("2fallenStick");
 					this.sound.add("2badEmotionAudio", {volume: 1.5}).play();	
 					
@@ -699,7 +699,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 		this.shepherdEntity.play(this.shepherdSheet).setScale(1);
 
-		var bark = this.sound.add("bark");
+		var bark = this.sound.add("bark2");
 		bark.play({
 			loop: true
 		});
@@ -708,7 +708,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			this.add.image(600,130,this.mixedEmotion).setScale(0.6);
 			this.add.image(600,300,this.endText).setScale(0.6);			
 			const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
-			this.sound.removeByKey("bark");
+			this.sound.removeByKey("bark2");
 			this.sound.add("2mixedEmotionAudio", {volume: 1.5}).play();	
 					
 			setTimeout(() => {
