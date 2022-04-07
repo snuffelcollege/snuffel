@@ -544,7 +544,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		const poiCloudAnimTags = this.anims.createFromAseprite("poi_cloud");
 
 		this.add.image(x,y-150,this.dogScene2).setDepth(DepthLayers.Roofs).setScale(0.4);
-		this.add.image(x-100,y+75,this.stickScene2).setDepth(DepthLayers.PLAYER).setScale(0.4);
+		this.add.image(x-100,y+100,this.stickScene2).setDepth(DepthLayers.PLAYER).setScale(0.4);
 
 		const fenceCollidable = new MovableEntity(scene, x, y-50, this.fenceScene2).setScale(0.4);
 
