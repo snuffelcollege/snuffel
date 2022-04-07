@@ -1,11 +1,13 @@
 import worldTiles from "@assets/tilesheets/world_tiles.png";
 import mainSceneTileData from "@assets/tilemaps/main_scene.json";
 import poiCloudSheet from "@assets/spritesheets/pointOfInterest/cloud/poi_cloud.png";
-import doorScene3 from "@assets/images/scenario_3/door.png";
 import poiCloudData from "@assets/spritesheets/pointOfInterest/cloud/poi_cloud.json";
 import fenceScene2 from "@assets/images/scenario_2/fence.png";
 import dogScene2 from "@assets/images/scenario_2/dog1.png";
 import stickScene2 from "@assets/images/scenario_2/stick.png";
+import doorScene3 from "@assets/images/scenario_3/door.png";
+import rayScene5 from "@assets/spritesheets/scenario_5/ray.png";
+import rayDataScene5 from "@assets/spritesheets/scenario_5/ray.json";
 import huskyImage from "@assets/spritesheets/husky/husky.png";
 import huskyJson from "@assets/spritesheets/husky/husky.json";
 import huskyWaitImage from "@assets/images/world/husky_wait.png";
@@ -64,6 +66,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 	private stickScene2!: string;
 
+	private rayScene5!: string;
+
 	private dogInCar!: string;
 
 	private scene1Dog!: string;
@@ -105,6 +109,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.dogScene2 = "dogScene2";
 		this.stickScene2 = "stickScene2";
 		this.doorScene3 = "doorScene3";
+		this.rayScene5 = "rayScene5";
 		this.dogInCar = "dogInCar";
 		this.husky = "husky";
 		this.huskyWait = "huskywait"
@@ -130,6 +135,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.load.image(this.dogScene2, dogScene2);
 		this.load.image(this.stickScene2, stickScene2);
 		this.load.image(this.doorScene3, doorScene3);
+		this.load.aseprite(this.rayScene5, rayScene5, rayDataScene5);
 		this.load.aseprite(this.dogInCar,DogInCarSheet,DogInCarData);
 		this.load.aseprite(this.scene1Dog,Scene1DogSheet,Scene1DogData);
 
@@ -737,23 +743,21 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	): void {
 		const poiCloudAnimTags = this.anims.createFromAseprite("poi_cloud");
 
-		const dog = new MovableEntity(scene, x, y, this.husky).setScale(0.4);
+		const rayCollidable = new MovableEntity(scene, x, y+25, this.rayScene5).setScale(1);
 
 		const dogTalkBubble = this.add.sprite(
-			dog.x + 64,
-			dog.y - 84,
+			x + 64,
+			y - 84,
 			this.poiCloud
 		);
 
-		this.depthSorter.addSortable(dog, DepthLayers.PLAYER);
+		this.depthSorter.addSortable(rayCollidable, DepthLayers.PLAYER);
 
-		this.dogAnimTags = this.anims.createFromAseprite(this.husky);
+		this.dogAnimTags = this.anims.createFromAseprite("rayScene5");
 
-		dog.setBodySize(dog.width, dog.height / 5)
-			.setOffset(0, (dog.height * 4) / 5)
-			.play({ key: this.dogAnimTags[1].key, repeat: -1 }, true)
+		rayCollidable.setBodySize(rayCollidable.width, rayCollidable.height)
+			.play({ key: this.dogAnimTags[0].key, repeat: -1, frameRate: 2 }, true)
 			.setImmovable(true)
-			.setFlipX(true)
 			.setDepth(DepthLayers.PLAYER)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
@@ -769,20 +773,20 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {if(!WorldScene.scenario5Fininshed){this.switchScene(target_scene)}});
 
-		collidables.push(dog);
+		collidables.push(rayCollidable);
 
 		const radius = this.add.zone(
-			dog.x,
-			dog.y,
-			dog.displayWidth,
-			dog.displayHeight
+			x,
+			y,
+			rayCollidable.displayWidth,
+			rayCollidable.displayHeight
 		);
 
 		this.physics.world.enable(radius); // enable the zone's physics body
 
 		(radius.body as Phaser.Physics.Arcade.Body)
 			.setOffset(-radius.displayWidth * 0.5, -radius.displayHeight * 0.5)
-			.setCircle(dog.displayWidth);
+			.setCircle(rayCollidable.displayWidth);
 
 		overlappables.push(radius);
 
