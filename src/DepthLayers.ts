@@ -16,9 +16,9 @@ const enum DepthLayers {
 	Collision_houses,
 	Bushes,
 	Road,
-	Road_lines,
-	Lanterns,	
+	Road_lines,		
 	PLAYER,
+	Lanterns,
 	Roofs
 }
 
