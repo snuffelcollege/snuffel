@@ -4,20 +4,19 @@
  */
 const enum DepthLayers {
 	Water,
-	Grass,
-	
-	Treeline_1,
-	Treeline_2,
-	Treeline_3,
-	Treeline_4,
-	Treeline_5,
+	Grass,	
 	Concrete,	
 	Fences,
-	Collision_houses,
-	Bushes,
 	Road,
-	Road_lines,		
-	PLAYER,
+	Road_lines,	
+	Collision_houses,
+	Bushes,	
+	Treeline_1,
+	Treeline_2,	
+	Treeline_3,
+	Treeline_4,
+	Treeline_5,	
+	PLAYER,		
 	Lanterns,
 	Roofs
 }
