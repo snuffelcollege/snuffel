@@ -670,6 +670,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			this.sound.add("1endDialog1Audio", {volume: 1.5}).play();	
 			const continuebutton = this.add.image(1200,350,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 			continuebutton.on("pointerdown", () => {	
+				continuebutton.disableInteractive();
 				this.game.sound.removeByKey("1endDialog1Audio");	
 				WorldScene.scenario1Fininshed = true;	
 				

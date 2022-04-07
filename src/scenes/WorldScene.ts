@@ -189,6 +189,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		const Lanterns = tilemap.createLayer("Lanterns", tileset);
 		const Collision_houses = tilemap.createLayer("Collision_houses", tileset);
 		const Roofs = tilemap.createLayer("Roofs", tileset);
+		const Bushes = tilemap.createLayer("Bushes", tileset);
 
 		// add collision to the layers which have collision specified inside tiled
 		Water.setCollisionByProperty({ collision: true });
@@ -423,6 +424,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		// sort z indices
 		Water.setDepth(DepthLayers.Water);
 		Grass.setDepth(DepthLayers.Grass);
+		Bushes.setDepth(DepthLayers.Bushes)
 		Treeline_1.setDepth(DepthLayers.Treeline_1);
 		Treeline_2.setDepth(DepthLayers.Treeline_2);
 		Treeline_3.setDepth(DepthLayers.Treeline_3);

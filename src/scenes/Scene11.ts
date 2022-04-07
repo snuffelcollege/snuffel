@@ -534,6 +534,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			this.add.image(600,300,this.endText).setScale(0.6);								
 			const continuebutton = this.add.image(1090,420,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 			continuebutton.on("pointerdown", () => {
+				continuebutton.disableInteractive();
 				this.moveScene();
 			});			
 		}, 5000);

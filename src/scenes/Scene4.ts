@@ -595,6 +595,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 			this.add.image(600,300,this.endText).setScale(0.6);				
 			const continuebutton = this.add.image(1090,420,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 			continuebutton.on("pointerdown", () => {
+				continuebutton.disableInteractive();
 				WorldScene.scenario4Fininshed = true;		
 				const badgeCaseImage = this.add.sprite(1000,550, this.badgeCase).setScale(0.4).setVisible(true).setAlpha(0).setDepth(5);
 				const badgeS1Image = this.add.sprite(680,450, this.badgeS1).setScale(0.4).setVisible(WorldScene.scenario1Fininshed).setAlpha(0).setDepth(5);
