@@ -200,7 +200,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		this.load.image(this.mixedEmotion,MixedEmotion);
 		this.load.image(this.badEmotion,BadEmotion);	
 		this.load.audio("sceneSong", sceneSong);
-		this.load.audio("bark", bark);
+		this.load.audio("bark4", bark);
 		this.load.audio("badgeBling", BadgeBling);
 
 		this.load.aseprite(
@@ -526,7 +526,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 				key: this.huskyJumpAnims[0].key,
 				repeat: -1,
 			});
-			var bark = this.sound.add("bark");
+			var bark = this.sound.add("bark4");
 			bark.play({
 				loop: true
 			});
@@ -641,7 +641,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 
 	private createResult3() {
 		this.huskyEntity.play({ key: this.huskyJumpAnims[0].key, repeat: -1 });
-		var bark = this.sound.add("bark");
+		var bark = this.sound.add("bark4");
 		bark.play({
 			loop: true
 		});
@@ -700,7 +700,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 			this.scene.start("UIScene");
 		});
 		this.game.sound.removeByKey("sceneSong");
-		this.game.sound.removeByKey("bark");
+		this.game.sound.removeByKey("bark4");
 		this.game.sound.resumeAll();
 	}
 }

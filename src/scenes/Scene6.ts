@@ -221,7 +221,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.image(this.mixedEmotion,MixedEmotion);
 		this.load.image(this.badEmotion,BadEmotion);
 		this.load.audio("sceneSong", sceneSong);
-		this.load.audio("bark", bark);
+		this.load.audio("bark6", bark);
 		this.load.audio("badgeBling", BadgeBling);
 		this.load.aseprite(
 			this.characterWalk,
@@ -547,7 +547,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				});
 				this.DogEntity.setFrame(this.dogBiteAnimation);//overwrites old frame
 				this.DogEntity.play(this.dogBiteAnimation).setScale(.8);
-				var bark = this.sound.add("bark");
+				var bark = this.sound.add("bark6");
 					bark.play({
 						loop: true
 					});
@@ -619,7 +619,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				});
 				this.DogEntity.setFrame(this.dogBiteAnimation);//overwrites old frame
 				this.DogEntity.play(this.dogBiteAnimation).setScale(.8);
-				var bark = this.sound.add("bark");
+				var bark = this.sound.add("bark6");
 					bark.play({
 						loop: true
 					});
@@ -722,7 +722,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			this.scene.start("UIScene");
 		});
 		this.game.sound.removeByKey("sceneSong");
-		this.game.sound.removeByKey("bark");
+		this.game.sound.removeByKey("bark6");
 		this.game.sound.resumeAll();
 	}
 }
