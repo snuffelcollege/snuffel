@@ -47,7 +47,7 @@ import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
 import sceneSong from "@assets/audio/scene.mp3";
-import growl from "@assets/audio/dog/long_growl_1.mp3";
+import growl from "@assets/audio/dog/long_growl_2.mp3";
 import meow from "@assets/audio/cat/cat_meow_1.mp3";
 import BadgeBling from "@assets/audio/UI/badge_bling.mp3";
 
