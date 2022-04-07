@@ -19,8 +19,8 @@ import CharacterIdleSheet from "@assets/spritesheets/player/scenario/idle/charac
 import CharacterIdleData from "@assets/spritesheets/player/scenario/idle/character_idle.json";
 import IceCreamConeImage from "@assets/images/scenario_8/icecream_cone.png";
 import FallenIceCreamConeImage from "@assets/images/scenario_8/Fallenicecream.png";
-import HuskyJson from "@assets/spritesheets/husky/husky.json";
-import HuskySheet from "@assets/spritesheets/husky/husky.png";
+import HuskyJson from "@assets/spritesheets/scenario_8/dogrun.json";
+import HuskySheet from "@assets/spritesheets/scenario_8/dogrun.png";
 import { GameObjects, Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
@@ -128,7 +128,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	}
 
 	public init(): void {
-		this.husky = "husky";
+		this.husky = "dog8";
 		this.option1 = "option18";
 		this.option2 = "option28";
 		this.option3 = "option38";
