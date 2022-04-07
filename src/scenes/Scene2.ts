@@ -628,6 +628,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 				this.sound.add("2endTextAudio", {volume: 1.5}).play();
 			}, 3000);
 			continuebutton.on("pointerdown", () => {
+				continuebutton.disableInteractive();
 				this.game.sound.removeByKey("2goodEmotionAudio");
 				this.game.sound.removeByKey("2endTextAudio");	
 				WorldScene.scenario2Fininshed = true;		
@@ -727,7 +728,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			this.scene.start("UIScene");
 		});
 		this.game.sound.removeByKey("sceneSong");
-		this.game.sound.removeByKey("bark");
 		this.game.sound.resumeAll();
 	}
 }

@@ -653,7 +653,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 	) {
 		Scene3.disableOptions(options);
 
-		// display wrong choice effect
+		// display correct choice effect
 		//optionEffect(this, true);
 
 		// load npc on right side of the scene
@@ -772,6 +772,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 												this.add.image(600,300,this.endText).setScale(0.6);
 												const continuebutton = this.add.image(1090,420,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 												continuebutton.on("pointerdown", () => {
+													continuebutton.disableInteractive();
 													WorldScene.scenario3Fininshed = true;		
 													const badgeCaseImage = this.add.sprite(1000,550, this.badgeCase).setScale(0.4).setVisible(true).setAlpha(0).setDepth(5);
 													const badgeS1Image = this.add.sprite(680,450, this.badgeS1).setScale(0.4).setVisible(WorldScene.scenario1Fininshed).setAlpha(0).setDepth(5);
