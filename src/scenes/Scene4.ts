@@ -526,7 +526,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 				key: this.huskyJumpAnims[0].key,
 				repeat: -1,
 			});
-			var bark = this.sound.add("bark4");
+			var bark = this.sound.add("bark4", {volume: 0.8});
 			bark.play({
 				loop: true
 			});
@@ -641,7 +641,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 
 	private createResult3() {
 		this.huskyEntity.play({ key: this.huskyJumpAnims[0].key, repeat: -1 });
-		var bark = this.sound.add("bark4");
+		var bark = this.sound.add("bark4", {volume: 0.8});
 		bark.play({
 			loop: true
 		});

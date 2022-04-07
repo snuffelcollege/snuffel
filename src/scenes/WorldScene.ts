@@ -755,7 +755,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 		this.dogAnimTags = this.anims.createFromAseprite("rayScene5");
 
-		rayCollidable.setBodySize(rayCollidable.width, rayCollidable.height)
+		rayCollidable.setBodySize(rayCollidable.width, rayCollidable.height/2)
 			.play({ key: this.dogAnimTags[0].key, repeat: -1, frameRate: 2 }, true)
 			.setImmovable(true)
 			.setDepth(DepthLayers.PLAYER)
