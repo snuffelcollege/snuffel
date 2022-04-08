@@ -1,4 +1,6 @@
-import BackgroundImage from "@assets/images/scenario_11/BG.png";
+import BackgroundImage from "@assets/images/scenario_1/BG.png";
+import CongratsBadge from "@assets/images/congrats.png";
+import CongratsText from "@assets/images/congrats.png";
 import { GameObjects, Scene, Time } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
@@ -76,6 +78,8 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 	// A key has to be unique for the entire project, not just this scene.
 	public preload(): void {
 		this.load.image("backgroundEnd", BackgroundImage);
+		this.load.image("congratsBadge",CongratsBadge);
+		this.load.image("congratsText",CongratsText);
 		this.load.audio("sceneSong", SceneSong);
 		this.load.audio("congrats", CongratsAudio);		
 	}

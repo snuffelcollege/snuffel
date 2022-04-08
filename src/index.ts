@@ -10,7 +10,7 @@ import Scene5 from "./scenes/Scene5";
 import Scene6 from "./scenes/Scene6";
 import Scene8 from "./scenes/Scene8";
 import Scene11 from "./scenes/Scene11";
-import EndScene from "./scenes/end-scene";
+import EndScene from "./scenes/EndScene";
 
 // import MoveToTest from "../test/MoveToTest";
 
