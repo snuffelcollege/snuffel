@@ -80,6 +80,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 	private dogAnimTags!: Phaser.Animations.Animation[];
 
+	private switch_to_end!: boolean;
+
 	private components!: ComponentService;
 
 	private depthSorter!: DepthSorter;
@@ -94,12 +96,12 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	 * Initialise "constant" strings and properties.
 	 */
 	public init(): void {
-		WorldScene.scenario1Fininshed = false;
-		WorldScene.scenario2Fininshed = false;
-		WorldScene.scenario3Fininshed = false;
-		WorldScene.scenario4Fininshed = false;
-		WorldScene.scenario5Fininshed = false;
-		WorldScene.scenario6Fininshed = false;
+		WorldScene.scenario1Fininshed = true;
+		WorldScene.scenario2Fininshed = true;
+		WorldScene.scenario3Fininshed = true;
+		WorldScene.scenario4Fininshed = true;
+		WorldScene.scenario5Fininshed = true;
+		WorldScene.scenario6Fininshed = true;
 
 		this.tilesetKey = "world_tiles";
 		this.tilemapKey = "main_scene";
@@ -117,6 +119,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.scene1Dog = "scene1dog";
 
 		this.dogAnimTags = [];
+
+		this.switch_to_end = false;
 
 		this.components = new ComponentService();
 		this.depthSorter = new DepthSorter();
@@ -442,8 +446,15 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	}
 
 	public update(time: number, delta: number): void {
+		if (!this.switch_to_end){
+			if (WorldScene.scenario1Fininshed, WorldScene.scenario2Fininshed, WorldScene.scenario3Fininshed, WorldScene.scenario4Fininshed, WorldScene.scenario5Fininshed, WorldScene.scenario6Fininshed){
+				this.switch_to_end = true;
+				this.switchScene("end-scene");			
+			}
+		}	
 		super.update(time, delta);
 		this.depthSorter.sort(time, delta);
+		
 	}
 
 	private switchScene(newScene: string) {	
