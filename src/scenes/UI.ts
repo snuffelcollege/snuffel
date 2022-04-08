@@ -8,17 +8,20 @@ import BadgeS4 from "@assets/images/UI/badges/badge_s4.png";
 import BadgeS5 from "@assets/images/UI/badges/badge_s5.png";
 import BadgeS6 from "@assets/images/UI/badges/badge_s6.png";
 import ControlsIcon from "@assets/images/UI/controls_icon.png";
-import ControlKeys from "@assets/images/UI/tutorial_buttons.png";
-import ControlKeysData from "@assets/images/UI/tutorial_buttons.json";
+import ControlKeys from "@assets/spritesheets/UI/tutorial_buttons.png";
+import ControlKeysData from "@assets/spritesheets/UI/tutorial_buttons.json";
 import ControlSpacebar from "@assets/images/UI/spacebar.png";
 import ControlClick from "@assets/images/UI/mouse_click.png";
 import ControlRegular from "@assets/images/UI/mouse_regular.png";
 import UnmutedSoundIcon from "@assets/images/UI/unmuted.png";
 import MutedSoundIcon from "@assets/images/UI/muted.png";
+import controlArrow from "@assets/spritesheets/UI/pointing_arrow.png";
+import controlArrowData from "@assets/spritesheets/UI/pointing_arrow.json";
 import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import Sprite = Phaser.GameObjects.Sprite;
 import WorldScene from "./WorldScene";
+import { World } from "matter";
 
 export default class UI extends Scene implements SceneLifecycle {
 
@@ -35,7 +38,6 @@ export default class UI extends Scene implements SceneLifecycle {
     private badgeState!: boolean;
 
     private controls_icon!: string;
-
     private controlKeys!: string;
     private controlSpacebar!: string;
     private controlClick!: string;
@@ -44,6 +46,8 @@ export default class UI extends Scene implements SceneLifecycle {
     private controlSpacebarEntity!: Sprite;
     private controlClickEntity!: Sprite;
     private controlRegularEntity!: Sprite;
+    private controlArrow!: string;
+    private controlArrowEntity!: Sprite;
 	private muted!: string;
 	private unmuted!: string;
     private controlState!: boolean;
@@ -64,6 +68,7 @@ export default class UI extends Scene implements SceneLifecycle {
         this.controlSpacebar = "spacebar";
         this.controlClick = "click";
         this.controlRegular = "regular";
+        this.controlArrow = "controlArrow";
 		this.muted = "muted";
 		this.unmuted = "unmuted";
         this.controlState = false;
@@ -91,6 +96,7 @@ export default class UI extends Scene implements SceneLifecycle {
 		this.load.image(this.muted, MutedSoundIcon);
 		this.load.image(this.unmuted,UnmutedSoundIcon);
         this.load.aseprite(this.controlKeys, ControlKeys, ControlKeysData);
+        this.load.aseprite(this.controlArrow, controlArrow, controlArrowData);
     }
 
     create ()
@@ -131,12 +137,44 @@ export default class UI extends Scene implements SceneLifecycle {
                 repeat: -1,
             });	
 
+            this.anims.create({
+                key: this.controlArrow,
+                frameRate: 1,
+                frames: this.anims.generateFrameNumbers(
+                    this.controlArrow,
+                    {
+                        start: 0,
+                        end: 1,
+                    }
+                ),
+                repeat: -1,
+            });	
+
             this.controlKeysEntity = this.add.sprite(950, 600, this.controlKeys).setScale(0.5).setVisible(false);
             this.controlKeysEntity.play(this.controlKeys);
             this.controlSpacebarEntity = this.add.sprite(400, 600, this.controlSpacebar).setScale(0.5).setVisible(false);
             this.controlRegularEntity = this.add.sprite(1350, 600, this.controlRegular).setScale(0.5).setVisible(false);
             this.controlClickEntity = this.add.sprite(1600, 600, this.controlClick).setScale(0.5).setVisible(false);
+            this.controlArrowEntity = this.add.sprite(1700, 170, this.controlArrow).setScale(0.5).setVisible(false);
+            this.controlArrowEntity.play(this.controlArrow);
             
+            if(WorldScene.scenario1Fininshed == false && this.game.scene.isVisible("world-scene")){
+                setTimeout(() => {
+                    this.controlKeysEntity.setVisible(true);
+                    this.controlSpacebarEntity.setVisible(true);
+                    this.controlRegularEntity.setVisible(true);
+                    this.controlClickEntity.setVisible(true);
+                    this.controlArrowEntity.setVisible(true);
+                    setTimeout(() => {
+                        this.controlKeysEntity.setVisible(false);
+                        this.controlSpacebarEntity.setVisible(false);
+                        this.controlRegularEntity.setVisible(false);
+                        this.controlClickEntity.setVisible(false);
+                        this.controlArrowEntity.setVisible(false);
+                    }, 10000);
+                }, 1000);
+            }
+
             const controls = this.add
                 .image(1850,170,this.controls_icon)
                 .setScale(0.4)
@@ -167,6 +205,8 @@ export default class UI extends Scene implements SceneLifecycle {
             const badgeS4Image = this.add.sprite(690,755, this.badgeS4).setScale(0.4).setVisible(false);
             const badgeS5Image = this.add.sprite(1010,765, this.badgeS5).setScale(0.4).setVisible(false);
             const badgeS6Image = this.add.sprite(1310,750, this.badgeS6).setScale(0.4).setVisible(false);
+
+            this.registry
 
             const badge = this.add
                 .image(1850,270,this.badge_icon)
