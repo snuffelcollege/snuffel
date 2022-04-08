@@ -1,8 +1,8 @@
 import BackgroundImage from "@assets/images/scenario_5/BG.png";
 import RayIdle from "@assets/spritesheets/scenario_5/dogidle.png";
 import RayData from "@assets/spritesheets/scenario_5/dogidle.json";
-import RayAngry from "@assets/spritesheets/scenario_5/dogangry.png";
-import RayAngryData from "@assets/spritesheets/scenario_5/dogangry.json";
+import RayWag from "@assets/spritesheets/scenario_5/dogwag.png";
+import RayWagData from "@assets/spritesheets/scenario_5/dogwag.json";
 import AbyIdle from "@assets/spritesheets/scenario_5/abyidle.png";
 import AbyData from "@assets/spritesheets/scenario_5/abyidle.json";
 import AbyAngry from "@assets/spritesheets/scenario_5/abyangry.png";
@@ -49,7 +49,7 @@ import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
 import sceneSong from "@assets/audio/scene.mp3";
-import growl from "@assets/audio/dog/long_growl_2.mp3";
+import squeal from "@assets/audio/dog/squeal_1.mp3";
 import meow from "@assets/audio/cat/cat_meow_1.mp3";
 import BadgeBling from "@assets/audio/UI/badge_bling.mp3";
 
@@ -107,7 +107,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	private rayIdle!: string;
 
-	private rayAngry!: string;
+	private rayWag!: string;
 
 	private abyIdle!: string;
 	
@@ -196,7 +196,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.abyIdle = "abyIdle";
 		this.boyBark = "boyBark";
 		this.boyPet = "boyPet";
-		this.rayAngry = "rayAngry";
+		this.rayWag = "rayWag";
 		this.abyAngry = "abyAngry";
 		this.catMeow = "catMeow";
 		this.sparkles = "sparkles5";
@@ -238,7 +238,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.image(this.mixedEmotion,MixedEmotion);
 		this.load.image(this.badEmotion,BadEmotion);
 		this.load.audio("sceneSong", sceneSong);
-		this.load.audio("growl5", growl);
+		this.load.audio("squeal5", squeal);
 		this.load.audio("meow", meow);
 		this.load.audio("badgeBling", BadgeBling);
 		this.load.aseprite(
@@ -267,9 +267,9 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			RayData
 		);
 		this.load.aseprite(
-			this.rayAngry,
-			RayAngry,
-			RayAngryData
+			this.rayWag,
+			RayWag,
+			RayWagData
 		);
 		this.load.aseprite(
 			this.abyIdle,
@@ -585,7 +585,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		});
 		this.characterEntity.play(this.boyBark).setScale(1).toggleFlipX();
 
-
 		this.anims.create({
 			key: this.abyAngry,
 			frameRate: 2,
@@ -598,25 +597,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			),
 			repeat: -1,
 		});
-		this.AbyEntity.play(this.abyAngry).setScale(1);
-	
-		this.anims.create({
-			key: this.rayAngry,
-			frameRate: 2,
-			frames: this.anims.generateFrameNumbers(
-				this.rayAngry,
-				{
-					start: 1,
-					end: 0,
-				}
-			),
-			repeat: -1,
-		});
-		this.DogEntity.play(this.rayAngry).setScale(1);
-		var growl = this.sound.add("growl5");
-		growl.play({
-			loop: true
-		});
+		this.AbyEntity.play(this.abyAngry).setScale(1);		
 	
 		//fade to black and back to overworld after 5 seconds
 		setTimeout(() => {
@@ -629,6 +610,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		}, 4000);
 	}
 
+	//walk away (correct)
 	private createResult2(): void {
 		this.anims.create({
 			key: this.characterWalk,
@@ -724,6 +706,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		}
 	}
 
+	//pet (maybe)
 	private createResult3(): void {
 		this.anims.create({
 			key: this.characterWalk,
@@ -781,6 +764,22 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				repeat: -1,
 			});
 			this.AbyEntity.play(this.abyAngry).setScale(1).setDepth(0);
+
+			
+			this.anims.create({
+				key: this.rayWag,
+				frameRate: 2,
+				frames: this.anims.generateFrameNumbers(
+					this.rayWag,
+					{
+						start: 1,
+						end: 0,
+					}
+				),
+				repeat: -1,
+			});
+			this.DogEntity.play(this.rayWag).setScale(1);
+			this.sound.add("squeal5").play();
 			
 			//fade to black and back to overworld after 5 seconds
 			setTimeout(() => {
@@ -801,7 +800,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			this.scene.start("UIScene");
 		});
 		this.game.sound.removeByKey("sceneSong");
-		this.game.sound.removeByKey("growl5");
+		this.game.sound.removeByKey("squeal5");
 		this.game.sound.removeByKey("meow");
 		this.game.sound.resumeAll();
 	}
