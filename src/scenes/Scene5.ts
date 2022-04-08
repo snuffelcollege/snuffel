@@ -35,6 +35,8 @@ import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/characte
 import CharacterRunData from "@assets/spritesheets/player/scenario/run/character_run.json";
 import CharacterIdleSheet from "@assets/spritesheets/player/scenario/idle/character_idle.png";
 import CharacterIdleData from "@assets/spritesheets/player/scenario/idle/character_idle.json";
+import SparkleSheet from "@assets/spritesheets/UI/Sparkles.png";
+import SparkleData from "@assets/spritesheets/UI/Sparkles.json";
 import CatSheet from "@assets/spritesheets/scenario_5/collin.png";
 import CatData from "@assets/spritesheets/scenario_5/collin.json";
 import { GameObjects, Scene } from "phaser";
@@ -88,6 +90,10 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	private components!: ComponentService;
 
 	private characterEntity!: Sprite; //embodiement of character, uses walk and idle animations
+
+	private sparkleEntity!: Sprite;
+
+	private sparkles!: string;
 
 	private characterWalkAnims!: Phaser.Animations.Animation[]; // push character walk
 
@@ -193,6 +199,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.rayAngry = "rayAngry";
 		this.abyAngry = "abyAngry";
 		this.catMeow = "catMeow";
+		this.sparkles = "sparkles5";
 
 		if (!WorldSceneConfig.key) {
 			throw Error("Exit scene key is undefined");
@@ -234,6 +241,11 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.audio("growl5", growl);
 		this.load.audio("meow", meow);
 		this.load.audio("badgeBling", BadgeBling);
+		this.load.aseprite(
+			this.sparkles,
+			 SparkleSheet,
+			 SparkleData
+		);
 		this.load.aseprite(
 			this.characterWalk,
 			CharacterWalkSheet,
@@ -685,6 +697,25 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 					}		
 				  });
 				  this.sound.add("badgeBling", {volume: 0.5}).play();
+				  this.anims.create({
+					key: this.sparkles,
+					frameRate: 4,
+					frames: this.anims.generateFrameNumbers(
+						this.sparkles,
+						{
+							start: 0,
+							end: 1,
+						}
+					),
+					repeat: -1,
+				});
+				this.sparkleEntity = this.add.sprite(
+					1020,
+					740,
+					this.sparkles
+				)
+				
+				this.sparkleEntity.play(this.sparkles).setScale(0.7).setDepth(6);
 			  	    
 				  setTimeout(() => {
 						this.moveScene();

@@ -37,6 +37,8 @@ import BullyIdleSheet from "@assets/spritesheets/scenario_1/johnnyidle.png";
 import BullyIdleData from "@assets/spritesheets/scenario_1/johnnyidle.json";
 import BullyWalkSheet from "@assets/spritesheets/scenario_1/johnnywalk.png";
 import BullyWalkData from "@assets/spritesheets/scenario_1/johnnywalk.json";
+import SparkleSheet from "@assets/spritesheets/UI/Sparkles.png";
+import SparkleData from "@assets/spritesheets/UI/Sparkles.json";
 import { GameObjects, Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
@@ -99,6 +101,10 @@ export default class Scene1 extends Scene implements SceneLifecycle {
     private bullyEntity!: Sprite;
 
     private dogEntity!: Sprite;
+
+	private sparkleEntity!: Sprite;
+
+	private sparkles!: string;
 
 	private playerIdle1!: string;
 
@@ -199,6 +205,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.continueButton = "continuebutton1";
 		this.replayButton = "replaybutton1";
 		this.playground = "playground1";
+		this.sparkles = "sparkles1";
 
 		if (!WorldSceneConfig.key) {
 			throw Error("Exit scene key is undefined");
@@ -245,6 +252,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
         this.load.aseprite(this.bullyAndDog,BullyAndDogSheet,BullyAndDogData);
         this.load.aseprite(this.bullyIdle,BullyIdleSheet,BullyIdleData);
         this.load.aseprite(this.bullyWalk,BullyWalkSheet,BullyWalkData);
+		this.load.aseprite(this.sparkles, SparkleSheet,SparkleData);
 		this.load.audio("sceneSong", sceneSong);
 		this.load.audio("badgeBling", BadgeBling);
 		this.load.audio("1startDialog1Audio", StartDialog1Audio);
@@ -707,6 +715,26 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 					}		
 				  });
 				  this.sound.add("badgeBling", {volume: 0.5}).play();
+				  this.anims.create({
+					key: this.sparkles,
+					frameRate: 4,
+					frames: this.anims.generateFrameNumbers(
+						this.sparkles,
+						{
+							start: 0,
+							end: 1,
+						}
+					),
+					repeat: -1,
+				});
+		
+				this.sparkleEntity = this.add.sprite(
+					670,
+					450,
+					this.sparkles
+				)
+				
+				this.sparkleEntity.play(this.sparkles).setScale(0.7).setDepth(6);
 			  	    
 				  setTimeout(() => {
 						this.moveScene();

@@ -39,6 +39,8 @@ import MixedEmotion from "@assets/images/world/almost_option.png";
 import BadEmotion from "@assets/images/world/incorrect_option.png";
 import ContinueButton from "@assets/images/UI/continue_button.png";
 import ReplayButton from "@assets/images/UI/replay_button.png";
+import SparkleSheet from "@assets/spritesheets/UI/Sparkles.png";
+import SparkleData from "@assets/spritesheets/UI/Sparkles.json";
 
 import WorldScene, { WorldSceneConfig } from "./WorldScene";
 
@@ -56,6 +58,7 @@ import { waitFor } from "../Utilities/Scene/SceneUtil";
 import FixedHeightAnimator from "../Components/FixedHeightAnimator";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import GameObject = Phaser.GameObjects.GameObject;
+import Sprite = Phaser.GameObjects.Sprite;
 import sceneSong from "@assets/audio/scene.mp3";
 import bark from "@assets/audio/dog/small_bark_1.mp3";
 import BadgeBling from "@assets/audio/UI/badge_bling.mp3";
@@ -74,6 +77,11 @@ export const config: SettingsConfig = {
 };
 
 export default class Scene3 extends Scene implements SceneLifecycle {
+
+	private sparkleEntity!: Sprite;
+
+	private sparkles!: string;
+
 	private option1Img!: string;
 
 	private option2Img!: string;
@@ -135,6 +143,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 	private approvalChatIcon!: string;
 
 	private questionChatIcon!: string;
+	
 
 	constructor(cfg: SettingsConfig = config) {
 		super(cfg);
@@ -187,6 +196,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 		this.badEmotion = "bademotion3";
 		this.continueButton = "continuebutton3";
 		this.replayButton = "replaybutton3";
+		this.sparkles = "sparkles3";
 
 		addFadeIn(this);
 	}
@@ -210,6 +220,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 		this.load.image(this.mixedEmotion,MixedEmotion);
 		this.load.image(this.badEmotion,BadEmotion);
 		this.load.aseprite(this.motherDog, MotherDogTexture, MotherDogConfig);
+		this.load.aseprite(this.sparkles, SparkleSheet,SparkleData);
 		this.load.aseprite(
 			this.characterHoldPup,
 			CharacterPupHoldTexture,
@@ -806,6 +817,25 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 														}		
 													});
 													this.sound.add("badgeBling", {volume: 0.5}).play();
+													this.anims.create({
+														key: this.sparkles,
+														frameRate: 4,
+														frames: this.anims.generateFrameNumbers(
+															this.sparkles,
+															{
+																start: 0,
+																end: 1,
+															}
+														),
+														repeat: -1,
+													});
+													this.sparkleEntity = this.add.sprite(
+														1320,
+														450,
+														this.sparkles
+													)
+													
+													this.sparkleEntity.play(this.sparkles).setScale(0.7).setDepth(6);
 													
 													setTimeout(() => {
 														this.moveScene();

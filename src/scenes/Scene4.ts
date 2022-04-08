@@ -26,6 +26,8 @@ import HuskyIdleLamppostData from "@assets/spritesheets/husky/husky_idle_lamppos
 import HuskyIdleLamppostSheet from "@assets/spritesheets/husky/husky_idle_lamppost.png";
 import HuskyJumpLamppostData from "@assets/spritesheets/husky/husky_jump_lamppost.json";
 import HuskyJumpLamppostSheet from "@assets/spritesheets/husky/husky_jump_lamppost.png";
+import SparkleSheet from "@assets/spritesheets/UI/Sparkles.png";
+import SparkleData from "@assets/spritesheets/UI/Sparkles.json";
 import Ball from "@assets/images/scenario_4/ball.png";
 import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
@@ -65,6 +67,10 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 	private components!: ComponentService;
 
 	private characterEntity!: Sprite;
+
+	private sparkleEntity!: Sprite;
+
+	private sparkles!: string;
 
 	private optionStick!: string;
 
@@ -156,6 +162,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		this.continueButton = "continuebutton4";
 		this.replayButton = "replaybutton4";
 		this.shrubbery = "shrubbery"
+		this.sparkles = "sparkles4";
 
 		this.characterWalkAnims = [];
 		this.characterRunAnims = [];
@@ -202,7 +209,11 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		this.load.audio("sceneSong", sceneSong);
 		this.load.audio("bark4", bark);
 		this.load.audio("badgeBling", BadgeBling);
-
+		this.load.aseprite(
+			this.sparkles,
+			 SparkleSheet,
+			 SparkleData
+		);
 		this.load.aseprite(
 			this.characterRun,
 			CharacterRunSheet,
@@ -630,6 +641,25 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 					}		
 				  });
 				  this.sound.add("badgeBling", {volume: 0.5}).play();
+				  this.anims.create({
+					key: this.sparkles,
+					frameRate: 4,
+					frames: this.anims.generateFrameNumbers(
+						this.sparkles,
+						{
+							start: 0,
+							end: 1,
+						}
+					),
+					repeat: -1,
+				});
+				this.sparkleEntity = this.add.sprite(
+					670,
+					770,
+					this.sparkles
+				)
+				
+				this.sparkleEntity.play(this.sparkles).setScale(0.7).setDepth(6);
 			  	    
 				  setTimeout(() => {
 						this.moveScene();
