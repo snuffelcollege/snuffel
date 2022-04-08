@@ -80,6 +80,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 	private dogAnimTags!: Phaser.Animations.Animation[];
 
+	private switch_to_end!: boolean;
+
 	private components!: ComponentService;
 
 	private depthSorter!: DepthSorter;
@@ -117,6 +119,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.scene1Dog = "scene1dog";
 
 		this.dogAnimTags = [];
+
+		this.switch_to_end = false;
 
 		this.components = new ComponentService();
 		this.depthSorter = new DepthSorter();
@@ -442,8 +446,15 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	}
 
 	public update(time: number, delta: number): void {
+		
+		if (!this.switch_to_end && WorldScene.scenario1Fininshed && WorldScene.scenario2Fininshed && WorldScene.scenario3Fininshed && WorldScene.scenario4Fininshed && WorldScene.scenario5Fininshed && WorldScene.scenario6Fininshed){
+			this.switch_to_end = true;
+			this.switchScene("end-scene");			
+		}
+			
 		super.update(time, delta);
 		this.depthSorter.sort(time, delta);
+		
 	}
 
 	private switchScene(newScene: string) {	
