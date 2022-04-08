@@ -1,14 +1,14 @@
 import BackgroundImage from "@assets/images/scenario_1/BG.png";
 import CongratsImage from "@assets/images/UI/congrats.png";
-import Option1 from "@assets/images/scenario_1/option_1.png";
-import Option2 from "@assets/images/scenario_1/option_2.png";
+import Option1 from "@assets/images/world/restart_sign.png";
+import Option2 from "@assets/images/world/continue_sign.png";
 import OptionStick from "@assets/images/world/option_stick.png";
 import { GameObjects, Scene, Time } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
 import ComponentService from "../Services/ComponentService";
 import MakeFullscreen from "../Components/MakeFullscreen";
-import { WorldSceneConfig } from "./WorldScene";
+import WorldScene, { WorldSceneConfig } from "./WorldScene";
 import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
@@ -117,6 +117,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			loop: true
 		});
 		this.sound.add("congrats", {volume: 0.5}).play();
+		this.createChoice();
 	}
 	
 
@@ -132,14 +133,11 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			y: stick1.y - 300,
 		});		
 		stick1move.velocity = 280;
-		const button1 = this.add.image(500, 1200, this.option1);
+		const button1 = this.add.image(500, 1230, this.option1).setScale(0.5);
 		button1.on("pointerover", () => {
-			this.game.sound.removeByKey("1startDialog2Audio");	
-			this.sound.add("1option1Audio", {volume: 1.5}).play();	
 			button1.angle = 5;			
 		});
 		button1.on('pointerout',() => {
-			this.game.sound.removeByKey("1option1Audio");	
 			button1.angle = 0;
 		})
 		const button1move = this.components.addComponent(
@@ -151,7 +149,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			y: button1.y - 300,
 		});		
 		button1move.velocity = 280;
-		const stick2 = this.add.image(1000,1280, this.optionStick);
+		const stick2 = this.add.image(1500,1280, this.optionStick);
 		const stick2move = this.components.addComponent(
 			stick2,
 			MoveTo
@@ -163,14 +161,11 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			y: stick2.y - 300,
 		});		
 		stick2move.velocity = 280;
-		const button2 = this.add.image(1000, 1200, this.option2);
+		const button2 = this.add.image(1500, 1230, this.option2).setScale(0.5);
 		button2.on("pointerover", () => {
-			button2.angle = 5;	
-			this.game.sound.removeByKey("1startDialog2Audio");	
-			this.sound.add("1option2Audio", {volume: 1.5}).play();		
+			button2.angle = 5;		
 		});
 		button2.on('pointerout',() => {
-			this.game.sound.removeByKey("1option2Audio");	
 			button2.angle = 0;
 		})
 		const button2move = this.components.addComponent(
@@ -200,6 +195,8 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 				});		
 				stick2move.velocity = 280;
 				
+				//basically reloads page
+				location.reload()
 			});
 
 		//continue
@@ -217,7 +214,9 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 					y: button1.y + 300,
 				});		
 				button1move.velocity = 280;
-				button2.disableInteractive()		
+				button2.disableInteractive()
+				
+				//back to worldscene
 				this.moveScene();
 			});
 	}
