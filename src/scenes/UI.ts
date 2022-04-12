@@ -17,6 +17,7 @@ import UnmutedSoundIcon from "@assets/images/UI/unmuted.png";
 import MutedSoundIcon from "@assets/images/UI/muted.png";
 import controlArrow from "@assets/spritesheets/UI/pointing_arrow.png";
 import controlArrowData from "@assets/spritesheets/UI/pointing_arrow.json";
+import menuSound from "@assets/audio/UI/menu_button.mp3";
 import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import Sprite = Phaser.GameObjects.Sprite;
@@ -97,10 +98,13 @@ export default class UI extends Scene implements SceneLifecycle {
 		this.load.image(this.unmuted,UnmutedSoundIcon);
         this.load.aseprite(this.controlKeys, ControlKeys, ControlKeysData);
         this.load.aseprite(this.controlArrow, controlArrow, controlArrowData);
+        this.load.audio("menuSound", menuSound);
     }
 
     create ()
     {
+        var menuSound = this.sound.add("menuSound");
+		
         if(this.game.scene.isVisible("start-scene")==false){
             
             const togglesound = this.add
@@ -164,6 +168,9 @@ export default class UI extends Scene implements SceneLifecycle {
                 .setScale(0.4)
                 .setInteractive({useHandCursor: true})
                 .on("pointerdown",() => {
+                    menuSound.play({
+                        loop: false
+                    });
                     switch(this.controlState){
                     case false:
                             this.controlKeysEntity.setVisible(true);
@@ -211,6 +218,9 @@ export default class UI extends Scene implements SceneLifecycle {
                 .setScale(0.4)
                 .setInteractive({useHandCursor: true})
                 .on("pointerdown",() => {
+                    menuSound.play({
+                        loop: false
+                    });
                     switch(this.badgeState){
                         case false:
                             badgeCaseImage.setVisible(true).setAlpha(0);
