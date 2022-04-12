@@ -190,7 +190,7 @@ export default class UI extends Scene implements SceneLifecycle {
                     }
                 });
             
-            if(WorldScene.scenario1Fininshed == false && this.game.scene.isVisible("world-scene")){
+            if(!WorldScene.scenario1Fininshed && this.game.scene.isVisible("world-scene")){
                 setTimeout(() => {
                     this.controlState = true;
                     this.controlKeysEntity.setVisible(true);
