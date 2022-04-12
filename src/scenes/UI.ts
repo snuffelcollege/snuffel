@@ -260,6 +260,7 @@ export default class UI extends Scene implements SceneLifecycle {
                 });
             const map = this.add
                 .image(1850,370,this.map_icon)
+                .setVisible(false)
                 .setScale(0.4)
                 .setInteractive({useHandCursor: true})
                 .on("pointerdown",() => {
