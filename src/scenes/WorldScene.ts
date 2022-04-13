@@ -495,8 +495,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		WorldScene.GateFence = new MovableEntity(this,2500,3450,this.gateFence);
 			
 		WorldScene.GateFence
-			.setBodySize(WorldScene.GateFence.width, WorldScene.GateFence.height/4)
-			.setOffset(0,200)
+			.setBodySize(WorldScene.GateFence.width, 25)
+			.setOffset(0,250)
 			.setDepth(DepthLayers.Roofs)
 			.setImmovable(true)
 			.setVisible(false);
@@ -667,13 +667,13 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			x,
 			y-100,
 			500,
-			100
+			125
 		);
 
 		this.physics.world.enable(radius); // enable the zone's physics body
 
 		(radius.body as Phaser.Physics.Arcade.Body)
-			.setOffset(0, 200);
+			.setOffset(0, 225);
 
 		overlappables.push(radius);
 
