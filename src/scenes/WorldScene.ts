@@ -11,6 +11,9 @@ import rayDataScene5 from "@assets/spritesheets/scenario_5/ray.json";
 import huskyImage from "@assets/spritesheets/husky/husky.png";
 import huskyJson from "@assets/spritesheets/husky/husky.json";
 import huskyWaitImage from "@assets/images/world/husky_wait.png";
+import GateClosed from "@assets/images/world/schoolgate.png";
+import GatePillar from "@assets/images/world/schoolgatepillar.png";
+import GateFence from "@assets/images/world/schoolgatefence.png";
 import Car from "@assets/images/scenario_6/car.png";
 import Truck from "@assets/images/world/truck.png";
 import DogInCarSheet from "@assets/spritesheets/scenario_6/dog_neutral.png";
@@ -56,10 +59,15 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	public static scenario4Fininshed: boolean;
 	public static scenario5Fininshed: boolean;
 	public static scenario6Fininshed: boolean;
+	public static gateOpen: boolean;
+	public static truckGone: boolean;
 
-	public static truckGone: boolean = false;
+	public static GateClosed: MovableEntity;
+	public static GatePilar: MovableEntity;
+	public static GateFence: MovableEntity;
+
+	public static Truck: MovableEntity;
 	
-
 	private poiCloud!: string;
 
 	private doorScene3!: string;
@@ -79,6 +87,10 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	private husky!: string;
 
 	private huskyWait!: string;
+	
+	private gateClosed!: string;
+	private gatePillar!: string;
+	private gateFence!: string;
 
 	private car!: string;
 
@@ -108,6 +120,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		WorldScene.scenario4Fininshed = false;
 		WorldScene.scenario5Fininshed = false;
 		WorldScene.scenario6Fininshed = false;
+		WorldScene.gateOpen = false;
+		WorldScene.truckGone = false;
 
 		this.tilesetKey = "world_tiles";
 		this.tilemapKey = "main_scene";
@@ -121,6 +135,9 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.dogInCar = "dogInCar";
 		this.husky = "husky";
 		this.huskyWait = "huskywait"
+		this.gateClosed = "gateClosed";
+		this.gatePillar = "gatePillar";
+		this.gateFence = "gateFence";
 		this.car = "car";
 		this.truck = "truck";
 		this.scene1Dog = "scene1dog";
@@ -147,6 +164,9 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.load.image(this.stickScene2, stickScene2);
 		this.load.image(this.doorScene3, doorScene3);
 		this.load.aseprite(this.rayScene5, rayScene5, rayDataScene5);
+		this.load.image(this.gateClosed, GateClosed);
+		this.load.image(this.gatePillar, GatePillar);
+		this.load.image(this.gateFence, GateFence);
 		this.load.image(this.car,Car)
 		this.load.image(this.truck, Truck);
 		this.load.aseprite(this.dogInCar,DogInCarSheet,DogInCarData);
@@ -452,31 +472,63 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 		this.depthSorter.setRatio(tilemap.heightInPixels * 1.1);
 
-		const truck = new MovableEntity(this,7200,3175,this.truck);
+		WorldScene.GateClosed = new MovableEntity(this,2775,3175,this.gateClosed);
 			
-		truck
-			.setBodySize(truck.width, truck.height)
+		WorldScene.GateClosed
+			.setBodySize(WorldScene.GateClosed.width, WorldScene.GateClosed.height)
 			.setDepth(DepthLayers.PLAYER)
 			.setImmovable(true);
 
-		collidables.push(truck);
+		collidables.push(WorldScene.GateClosed);
+
+		WorldScene.GatePilar = new MovableEntity(this,2775,2900,this.gatePillar);
+			
+		WorldScene.GatePilar
+			.setBodySize(WorldScene.GatePilar.width, WorldScene.GatePilar.height)
+			.setDepth(DepthLayers.PLAYER)
+			.setImmovable(true)
+			.setVisible(false);
+
+		collidables.push(WorldScene.GatePilar);
+
+		WorldScene.GateFence = new MovableEntity(this,2500,3450,this.gateFence);
+			
+		WorldScene.GateFence
+			.setBodySize(WorldScene.GateFence.width, WorldScene.GateFence.height/4)
+			.setOffset(0,200)
+			.setDepth(DepthLayers.Roofs)
+			.setImmovable(true)
+			.setVisible(false);
+
+		collidables.push(WorldScene.GateFence);
+
+		WorldScene.Truck = new MovableEntity(this,7200,3175,this.truck);
+			
+		WorldScene.Truck
+			.setBodySize(WorldScene.Truck.width, WorldScene.Truck.height)
+			.setDepth(DepthLayers.PLAYER)
+			.setImmovable(true);
+
+		collidables.push(WorldScene.Truck);
 	}
 
 	public update(time: number, delta: number): void {
+		if(!WorldScene.gateOpen && WorldScene.scenario1Fininshed){
+			WorldScene.gateOpen = true;
+			WorldScene.GateClosed.destroy();
+			WorldScene.GatePilar.setVisible(true);
+			WorldScene.GateFence.setVisible(true);
+		}
 		
+
+		if(!WorldScene.truckGone && WorldScene.scenario2Fininshed && WorldScene.scenario3Fininshed){
+			WorldScene.truckGone = true;
+			WorldScene.Truck.destroy();
+		}
+
 		if (!this.switch_to_end && WorldScene.scenario1Fininshed && WorldScene.scenario2Fininshed && WorldScene.scenario3Fininshed && WorldScene.scenario4Fininshed && WorldScene.scenario5Fininshed && WorldScene.scenario6Fininshed){
 			this.switch_to_end = true;
 			this.switchScene("end-scene");			
-		}
-
-		// if(!WorldScene.truckGone && WorldScene.scenario2Fininshed && WorldScene.scenario3Fininshed){
-		// 	WorldScene.truckGone = true;
-		// 	this.truck = "";
-		// }
-
-		if(!WorldScene.truckGone && WorldScene.scenario2Fininshed){
-			WorldScene.truckGone = true;
-			this.truck = "";
 		}
 			
 		super.update(time, delta);

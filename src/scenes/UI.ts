@@ -196,10 +196,8 @@ export default class UI extends Scene implements SceneLifecycle {
                     this.controlKeysEntity.setVisible(true);
                     this.controlSpacebarEntity.setVisible(true);
                     this.controlRegularEntity.setVisible(true);
-                    this.controlClickEntity.setVisible(true);
-                    setTimeout(() => {                        
-                        this.controlArrowEntity.setVisible(true);
-                    }, 1000);
+                    this.controlClickEntity.setVisible(true);            
+                    this.controlArrowEntity.setVisible(true);
                 }, 1000);
             }    
 
@@ -210,8 +208,6 @@ export default class UI extends Scene implements SceneLifecycle {
             const badgeS4Image = this.add.sprite(690,755, this.badgeS4).setScale(0.4).setVisible(false);
             const badgeS5Image = this.add.sprite(1010,765, this.badgeS5).setScale(0.4).setVisible(false);
             const badgeS6Image = this.add.sprite(1310,750, this.badgeS6).setScale(0.4).setVisible(false);
-
-            this.registry
 
             const badge = this.add
                 .image(1850,270,this.badge_icon)
