@@ -62,6 +62,15 @@ import Sprite = Phaser.GameObjects.Sprite;
 import sceneSong from "@assets/audio/scene.mp3";
 import bark from "@assets/audio/dog/small_bark_1.mp3";
 import BadgeBling from "@assets/audio/UI/badge_bling.mp3";
+import StartTextAudio from "@assets/audio/scenario_3/start_text.mp3";
+import EndTextAudio from "@assets/audio/scenario_3/end_text.mp3";
+import Option1Audio from "@assets/audio/scenario_3/option_1.mp3";
+import Option2Audio from "@assets/audio/scenario_3/option_2.mp3";
+import Option3Audio from "@assets/audio/scenario_3/option_3.mp3";
+import GoodEmotionAudio from "@assets/audio/correct.mp3";
+import MixedEmotionAudio from "@assets/audio/almost.mp3";
+import BadEmotionAudio from "@assets/audio/incorrect.mp3";
+
 
 
 export const config: SettingsConfig = {
@@ -274,6 +283,14 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 		this.load.audio("sceneSong", sceneSong);
 		this.load.audio("bark3", bark);
 		this.load.audio("badgeBling", BadgeBling);
+		this.load.audio("3starttextaudio",StartTextAudio);
+		this.load.audio("3endtextaudio", EndTextAudio);
+		this.load.audio("3option1audio", Option1Audio);
+		this.load.audio("3option2audio", Option2Audio);
+		this.load.audio("3option3audio", Option3Audio);
+		this.load.audio("3goodemotionaudio", GoodEmotionAudio);
+		this.load.audio("3mixedemotionaudio", MixedEmotionAudio);
+		this.load.audio("3bademotionaudio", BadEmotionAudio);
 	}
 
 	public create(): void {
@@ -398,24 +415,34 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 			});		
 			button3move.velocity = 280;
 
-			const startTextImage = this.add.image(600,200,this.startText).setScale(0.6);
+			const startTextImage = this.add.image(600,200,this.startText).setScale(0.6);			
+			this.sound.add("3starttextaudio", {volume: 1}).play();
 
 			options[0].on("pointerover", () => {
+				this.game.sound.removeByKey("3starttextaudio");
+				this.sound.add("3option1audio", {volume: 1}).play();
 				options[0].angle = 5;			
 			});
 			options[0].on('pointerout',() => {
+				this.game.sound.removeByKey("3option1audio");
 				options[0].angle = 0;
 			})
 			options[1].on("pointerover", () => {
+				this.game.sound.removeByKey("3starttextaudio");
+			this.sound.add("3option2audio", {volume: 1}).play();
 				options[1].angle = 5;			
 			});
 			options[1].on('pointerout',() => {
+				this.game.sound.removeByKey("3option2audio");
 				options[1].angle = 0;
 			})
 			options[2].on("pointerover", () => {
+				this.game.sound.removeByKey("3starttextaudio");
+				this.sound.add("3option3audio", {volume: 1}).play();
 				options[2].angle = 5;			
 			});
 			options[2].on('pointerout',() => {
+				this.game.sound.removeByKey("3option3audio");
 				options[2].angle = 0;
 			})
 
@@ -560,7 +587,15 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 						this.add.image(600,130,this.badEmotion).setScale(0.6);
 						this.add.image(600,300,this.endText).setScale(0.6);					
 						const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+						this.game.sound.removeByKey("bark3");
+						this.sound.add("3bademotionaudio", {volume: 1}).play();	
+					
+						setTimeout(() => {
+							this.sound.add("3endtextaudio", {volume: 1}).play();
+						}, 2500);
 						replaybutton.on("pointerdown", () => {
+							this.game.sound.removeByKey("3bademotionaudio");
+							this.game.sound.removeByKey("3endtextaudio");	
 							this.scene.restart();
 							});
 						};
@@ -635,7 +670,14 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 								this.add.image(600,130,this.mixedEmotion).setScale(0.6);
 								this.add.image(600,300,this.endText).setScale(0.6);					
 								const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+								this.sound.add("3mixedemotionaudio", {volume: 1}).play();	
+					
+								setTimeout(() => {
+									this.sound.add("3endtextaudio", {volume: 1}).play();
+								}, 3000);
 								replaybutton.on("pointerdown", () => {
+									this.game.sound.removeByKey("3mixedemotionaudio");
+									this.game.sound.removeByKey("3endtextaudio");	
 									this.scene.restart();
 								});
 							characterMover.setTarget({
@@ -782,7 +824,14 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 												this.add.image(600,130,this.goodEmotion).setScale(0.6);
 												this.add.image(600,300,this.endText).setScale(0.6);
 												const continuebutton = this.add.image(1090,420,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+												this.sound.add("3goodemotionaudio", {volume: 1}).play();	
+					
+												setTimeout(() => {
+													this.sound.add("3endtextaudio", {volume: 1}).play();
+												}, 3000);//good & mixed = 3000
 												continuebutton.on("pointerdown", () => {
+													this.game.sound.removeByKey("3goodemotionaudio");
+													this.game.sound.removeByKey("3endtextaudio");	
 													continuebutton.disableInteractive();
 													WorldScene.scenario3Fininshed = true;		
 													const badgeCaseImage = this.add.sprite(1000,550, this.badgeCase).setScale(0.4).setVisible(true).setAlpha(0).setDepth(5);
