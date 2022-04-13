@@ -43,6 +43,14 @@ import Sprite = Phaser.GameObjects.Sprite;
 import sceneSong from "@assets/audio/scene.mp3";
 import bark from "@assets/audio/dog/regular_bark_4.mp3";
 import BadgeBling from "@assets/audio/UI/badge_bling.mp3";
+import StartTextAudio from "@assets/audio/scenario_4/start_text.mp3";
+import EndTextAudio from "@assets/audio/scenario_4/end_text.mp3";
+import Option1Audio from "@assets/audio/scenario_4/option_1.mp3";
+import Option2Audio from "@assets/audio/scenario_4/option_2.mp3";
+import Option3Audio from "@assets/audio/scenario_4/option_3.mp3";
+import GoodEmotionAudio from "@assets/audio/correct.mp3";
+import MixedEmotionAudio from "@assets/audio/almost.mp3";
+import BadEmotionAudio from "@assets/audio/incorrect.mp3";
 
 export const config: SettingsConfig = {
 	active: false,
@@ -209,6 +217,15 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		this.load.audio("sceneSong", sceneSong);
 		this.load.audio("bark4", bark);
 		this.load.audio("badgeBling", BadgeBling);
+		this.load.audio("4starttextaudio",StartTextAudio);
+		this.load.audio("4endtextaudio", EndTextAudio);
+		this.load.audio("4option1audio", Option1Audio);
+		this.load.audio("4option2audio", Option2Audio);
+		this.load.audio("4option3audio", Option3Audio);
+		this.load.audio("4goodemotionaudio", GoodEmotionAudio);
+		this.load.audio("4mixedemotionaudio", MixedEmotionAudio);
+		this.load.audio("4bademotionaudio", BadEmotionAudio);
+
 		this.load.aseprite(
 			this.sparkles,
 			 SparkleSheet,
@@ -263,8 +280,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		);
 		this.huskyIdleAnims = this.anims.createFromAseprite(
 			this.huskyIdleLamppost
-		);
-
+		);		
 		this.createSituation();
 	}
 
@@ -344,6 +360,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 
 	private createChoice(): void {
 		const startTextImage = this.add.image(600,200,this.startText).setScale(0.6);
+		this.sound.add("4starttextaudio", {volume: 1}).play();
 		//create stick 1 and sign 1, add movecomponents
 		const stick1 = this.add.image(500,1280, this.optionStick).setDepth(3);
 		const stick1move = this.components.addComponent(
@@ -357,9 +374,12 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		stick1move.velocity = 280;
 		const button1 = this.add.image(500, 1200, this.option1).setDepth(3);
 		button1.on("pointerover", () => {
+			this.game.sound.removeByKey("4starttextaudio");
+			this.sound.add("4option1audio", {volume: 1}).play();
 			button1.angle = 5;			
 		});
 		button1.on('pointerout',() => {
+			this.game.sound.removeByKey("4option1audio");
 			button1.angle = 0;
 		})
 		const button1move = this.components.addComponent(
@@ -385,9 +405,12 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		stick2move.velocity = 280;
 		const button2 = this.add.image(1000, 1200, this.option2).setDepth(3);
 		button2.on("pointerover", () => {
+			this.game.sound.removeByKey("4starttextaudio");
+			this.sound.add("4option2audio", {volume: 1}).play();
 			button2.angle = 5;			
 		});
 		button2.on('pointerout',() => {
+			this.game.sound.removeByKey("4option2audio");
 			button2.angle = 0;
 		})
 		const button2move = this.components.addComponent(
@@ -413,9 +436,12 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		stick3move.velocity = 280;
 		const button3 = this.add.image(1500, 1200, this.option3);
 		button3.on("pointerover", () => {
+			this.game.sound.removeByKey("4starttextaudio");
+			this.sound.add("4option3audio", {volume: 1}).play();
 			button3.angle = 5;			
 		});
 		button3.on('pointerout',() => {
+			this.game.sound.removeByKey("4option3audio");
 			button3.angle = 0;
 		})
 		const button3move = this.components.addComponent(
@@ -559,7 +585,15 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 				this.add.image(600,130,this.badEmotion).setScale(0.6);
 				this.add.image(600,300,this.endText).setScale(0.6);					
 				const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+				this.game.sound.removeByKey("bark4");
+				this.sound.add("4bademotionaudio", {volume: 1}).play();	
+					
+					setTimeout(() => {
+						this.sound.add("4endtextaudio", {volume: 1}).play();
+					}, 2500);
 				replaybutton.on("pointerdown", () => {
+					this.game.sound.removeByKey("4bademotionaudio");
+					this.game.sound.removeByKey("4endtextaudio");	
 					this.scene.restart();
 				});		
 			};
@@ -605,7 +639,14 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 			this.add.image(600,130,this.goodEmotion).setScale(0.6);
 			this.add.image(600,300,this.endText).setScale(0.6);				
 			const continuebutton = this.add.image(1090,420,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			this.sound.add("4goodemotionaudio", {volume: 1}).play();	
+					
+					setTimeout(() => {
+						this.sound.add("4endtextaudio", {volume: 1}).play();
+					}, 3000);//good & mixed = 3000
 			continuebutton.on("pointerdown", () => {
+				this.game.sound.removeByKey("4goodemotionaudio");
+				this.game.sound.removeByKey("4endtextaudio");	
 				continuebutton.disableInteractive();
 				WorldScene.scenario4Fininshed = true;		
 				const badgeCaseImage = this.add.sprite(1000,550, this.badgeCase).setScale(0.4).setVisible(true).setAlpha(0).setDepth(5);
@@ -716,7 +757,14 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 			this.add.image(600,130,this.mixedEmotion).setScale(0.6);
 			this.add.image(600,300,this.endText).setScale(0.6);					
 			const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			this.game.sound.removeByKey("bark4");
+			this.sound.add("4mixedemotionaudio", {volume: 1}).play();						
+			setTimeout(() => {
+				this.sound.add("4endtextaudio", {volume: 1}).play();
+			}, 3000);
 			replaybutton.on("pointerdown", () => {
+				this.game.sound.removeByKey("4mixedemotionaudio");
+				this.game.sound.removeByKey("4endtextaudio");	
 				this.scene.restart();
 			});
 		};

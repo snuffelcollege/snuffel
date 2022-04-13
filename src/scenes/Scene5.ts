@@ -52,6 +52,14 @@ import sceneSong from "@assets/audio/scene.mp3";
 import squeal from "@assets/audio/dog/squeal_1.mp3";
 import meow from "@assets/audio/cat/cat_meow_1.mp3";
 import BadgeBling from "@assets/audio/UI/badge_bling.mp3";
+import StartTextAudio from "@assets/audio/scenario_5/start_text.mp3";
+import EndTextAudio from "@assets/audio/scenario_5/end_text.mp3";
+import Option1Audio from "@assets/audio/scenario_5/option_1.mp3";
+import Option2Audio from "@assets/audio/scenario_5/option_2.mp3";
+import Option3Audio from "@assets/audio/scenario_5/option_3.mp3";
+import GoodEmotionAudio from "@assets/audio/correct.mp3";
+import MixedEmotionAudio from "@assets/audio/almost.mp3";
+import BadEmotionAudio from "@assets/audio/incorrect.mp3";
 
 // Config for the scene defining gravity and debug settings.
 export const config: SettingsConfig = {
@@ -241,6 +249,14 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.audio("squeal5", squeal);
 		this.load.audio("meow", meow);
 		this.load.audio("badgeBling", BadgeBling);
+		this.load.audio("5starttextaudio",StartTextAudio);
+		this.load.audio("5endtextaudio", EndTextAudio);
+		this.load.audio("5option1audio", Option1Audio);
+		this.load.audio("5option2audio", Option2Audio);
+		this.load.audio("5option3audio", Option3Audio);
+		this.load.audio("5goodemotionaudio", GoodEmotionAudio);
+		this.load.audio("5mixedemotionaudio", MixedEmotionAudio);
+		this.load.audio("5bademotionaudio", BadEmotionAudio);
 		this.load.aseprite(
 			this.sparkles,
 			 SparkleSheet,
@@ -400,6 +416,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	private createChoice(): void {
 		const startTextImage = this.add.image(600,200,this.startText).setScale(0.6);
+		this.sound.add("5starttextaudio", {volume: 1}).play();
+
 		//create stick 1 and sign 1, add movecomponents
 		const stick1 = this.add.image(500,1280, this.optionStick);
 		const stick1move = this.components.addComponent(
@@ -412,10 +430,13 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		});		
 		stick1move.velocity = 280;
 		const button1 = this.add.image(500, 1200, this.option1).setScale(0.5);
-		button1.on("pointerover", () => {
+		button1.on("pointerover", () => {			
+			this.game.sound.removeByKey("5starttextaudio");
+			this.sound.add("5option1audio", {volume: 1}).play();
 			button1.angle = 5;			
 		});
 		button1.on('pointerout',() => {
+			this.game.sound.removeByKey("5option1audio");
 			button1.angle = 0;
 		})
 		const button1move = this.components.addComponent(
@@ -441,9 +462,12 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		stick2move.velocity = 280;
 		const button2 = this.add.image(1000, 1200, this.option2).setScale(0.5);
 		button2.on("pointerover", () => {
+			this.game.sound.removeByKey("5starttextaudio");
+			this.sound.add("5option2audio", {volume: 1}).play();
 			button2.angle = 5;			
 		});
 		button2.on('pointerout',() => {
+			this.game.sound.removeByKey("5option2audio");
 			button2.angle = 0;
 		})
 		const button2move = this.components.addComponent(
@@ -469,9 +493,12 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		stick3move.velocity = 280;
 		const button3 = this.add.image(1500, 1200, this.option3).setScale(0.5);
 		button3.on("pointerover", () => {
+			this.game.sound.removeByKey("5starttextaudio");
+			this.sound.add("5option3audio", {volume: 1}).play();
 			button3.angle = 5;			
 		});
 		button3.on('pointerout',() => {
+			this.game.sound.removeByKey("5option3audio");
 			button3.angle = 0;
 		})
 		const button3move = this.components.addComponent(
@@ -604,9 +631,16 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			this.add.image(600,130,this.mixedEmotion).setScale(0.6);
 			this.add.image(600,300,this.endText).setScale(0.6);					
 			const replaybutton = this.add.image(900,370,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
-					replaybutton.on("pointerdown", () => {
-						this.scene.restart();
-					});
+			this.sound.add("5mixedemotionaudio", {volume: 1}).play();	
+					
+			setTimeout(() => {
+				this.sound.add("5endtextaudio", {volume: 1}).play();
+			}, 3000);//good & mixed = 3000
+			replaybutton.on("pointerdown", () => {
+				this.game.sound.removeByKey("5mixedemotionaudio");
+				this.game.sound.removeByKey("5endtextaudio");
+				this.scene.restart();
+			});
 		}, 4000);
 	}
 
@@ -643,7 +677,14 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			this.add.image(600,130,this.goodEmotion).setScale(0.6);
 			this.add.image(600,300,this.endText).setScale(0.6);
 			const continuebutton = this.add.image(900,370,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			this.sound.add("5goodemotionaudio", {volume: 1}).play();	
+					
+			setTimeout(() => {
+				this.sound.add("5endtextaudio", {volume: 1}).play();
+			}, 3000);//good & mixed = 3000
 			continuebutton.on("pointerdown", () => {
+				this.game.sound.removeByKey("5goodemotionaudio");
+				this.game.sound.removeByKey("5endtextaudio");	
 				continuebutton.disableInteractive();
 				WorldScene.scenario5Fininshed = true;		
 				const badgeCaseImage = this.add.sprite(1000,550, this.badgeCase).setScale(0.4).setVisible(true).setAlpha(0).setDepth(5);
@@ -786,7 +827,14 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				this.add.image(600,130,this.badEmotion).setScale(0.6);
 					this.add.image(600,300,this.endText).setScale(0.6);					
 					const replaybutton = this.add.image(900,370,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+					this.sound.add("5bademotionaudio", {volume: 1}).play();	
+					
+					setTimeout(() => {
+						this.sound.add("5endtextaudio", {volume: 1}).play();
+					}, 2500);
 					replaybutton.on("pointerdown", () => {
+						this.game.sound.removeByKey("5bademotionaudio");
+						this.game.sound.removeByKey("5endtextaudio");	
 						this.scene.restart();
 					});
 			}, 3000);
