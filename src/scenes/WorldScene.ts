@@ -12,6 +12,7 @@ import huskyImage from "@assets/spritesheets/husky/husky.png";
 import huskyJson from "@assets/spritesheets/husky/husky.json";
 import huskyWaitImage from "@assets/images/world/husky_wait.png";
 import Car from "@assets/images/scenario_6/car.png";
+import Truck from "@assets/images/world/truck.png";
 import DogInCarSheet from "@assets/spritesheets/scenario_6/dog_neutral.png";
 import DogInCarData from "@assets/spritesheets/scenario_6/dog_neutral.json";
 import Scene1DogSheet from "@assets/spritesheets/scenario_1/snuffelidle.png";
@@ -31,6 +32,7 @@ import SceneLifecycle from "../SceneLifecycle";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Keys = Phaser.Input.Keyboard.KeyCodes;
 import GameObject = Phaser.GameObjects.GameObject;
+import { World } from "matter";
 
 export const WorldSceneConfig: SettingsConfig = {
 	key: "world-scene",
@@ -54,6 +56,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	public static scenario4Fininshed: boolean;
 	public static scenario5Fininshed: boolean;
 	public static scenario6Fininshed: boolean;
+
+	public static truckGone: boolean = false;
 	
 
 	private poiCloud!: string;
@@ -77,6 +81,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	private huskyWait!: string;
 
 	private car!: string;
+
+	private truck!: string;
 
 	private dogAnimTags!: Phaser.Animations.Animation[];
 
@@ -116,6 +122,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.husky = "husky";
 		this.huskyWait = "huskywait"
 		this.car = "car";
+		this.truck = "truck";
 		this.scene1Dog = "scene1dog";
 
 		this.dogAnimTags = [];
@@ -140,6 +147,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.load.image(this.stickScene2, stickScene2);
 		this.load.image(this.doorScene3, doorScene3);
 		this.load.aseprite(this.rayScene5, rayScene5, rayDataScene5);
+		this.load.image(this.car,Car)
+		this.load.image(this.truck, Truck);
 		this.load.aseprite(this.dogInCar,DogInCarSheet,DogInCarData);
 		this.load.aseprite(this.scene1Dog,Scene1DogSheet,Scene1DogData);
 
@@ -153,7 +162,6 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 		// Husky idle & moving animations
 		this.load.aseprite(this.husky, huskyImage, huskyJson);
-		this.load.image(this.car,Car)
 		this.load.image(this.tilesetKey, worldTiles);
 		this.load.image(this.huskyWait, huskyWaitImage);
 		this.load.tilemapTiledJSON({
@@ -443,6 +451,15 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		Roofs.setDepth(DepthLayers.Roofs);
 
 		this.depthSorter.setRatio(tilemap.heightInPixels * 1.1);
+
+		const truck = new MovableEntity(this,7200,3175,this.truck);
+			
+		truck
+			.setBodySize(truck.width, truck.height)
+			.setDepth(DepthLayers.PLAYER)
+			.setImmovable(true);
+
+		collidables.push(truck);
 	}
 
 	public update(time: number, delta: number): void {
@@ -450,6 +467,16 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		if (!this.switch_to_end && WorldScene.scenario1Fininshed && WorldScene.scenario2Fininshed && WorldScene.scenario3Fininshed && WorldScene.scenario4Fininshed && WorldScene.scenario5Fininshed && WorldScene.scenario6Fininshed){
 			this.switch_to_end = true;
 			this.switchScene("end-scene");			
+		}
+
+		// if(!WorldScene.truckGone && WorldScene.scenario2Fininshed && WorldScene.scenario3Fininshed){
+		// 	WorldScene.truckGone = true;
+		// 	this.truck = "";
+		// }
+
+		if(!WorldScene.truckGone && WorldScene.scenario2Fininshed){
+			WorldScene.truckGone = true;
+			this.truck = "";
 		}
 			
 		super.update(time, delta);
@@ -673,7 +700,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		x: number,
 		y: number,
 		target_scene: string
-	): void {
+	): void {		
 		const poiCloudAnimTags = this.anims.createFromAseprite("poi_cloud");
 
 		const dogLamppost = new MovableEntity(scene, x, y, this.huskyWait).setScale(

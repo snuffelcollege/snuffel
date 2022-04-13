@@ -17,6 +17,7 @@ import UnmutedSoundIcon from "@assets/images/UI/unmuted.png";
 import MutedSoundIcon from "@assets/images/UI/muted.png";
 import controlArrow from "@assets/spritesheets/UI/pointing_arrow.png";
 import controlArrowData from "@assets/spritesheets/UI/pointing_arrow.json";
+import menuSound from "@assets/audio/UI/menu_button.mp3";
 import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import Sprite = Phaser.GameObjects.Sprite;
@@ -97,10 +98,13 @@ export default class UI extends Scene implements SceneLifecycle {
 		this.load.image(this.unmuted,UnmutedSoundIcon);
         this.load.aseprite(this.controlKeys, ControlKeys, ControlKeysData);
         this.load.aseprite(this.controlArrow, controlArrow, controlArrowData);
+        this.load.audio("menuSound", menuSound);
     }
 
     create ()
     {
+        var menuSound = this.sound.add("menuSound");
+		
         if(this.game.scene.isVisible("start-scene")==false){
             
             const togglesound = this.add
@@ -156,30 +160,17 @@ export default class UI extends Scene implements SceneLifecycle {
             this.controlRegularEntity = this.add.sprite(1350, 600, this.controlRegular).setScale(0.5).setVisible(false);
             this.controlClickEntity = this.add.sprite(1600, 600, this.controlClick).setScale(0.5).setVisible(false);
             this.controlArrowEntity = this.add.sprite(1700, 170, this.controlArrow).setScale(0.5).setVisible(false);
-            this.controlArrowEntity.play(this.controlArrow);
+            this.controlArrowEntity.play(this.controlArrow);           
             
-            if(WorldScene.scenario1Fininshed == false && this.game.scene.isVisible("world-scene")){
-                setTimeout(() => {
-                    this.controlKeysEntity.setVisible(true);
-                    this.controlSpacebarEntity.setVisible(true);
-                    this.controlRegularEntity.setVisible(true);
-                    this.controlClickEntity.setVisible(true);
-                    this.controlArrowEntity.setVisible(true);
-                    setTimeout(() => {
-                        this.controlKeysEntity.setVisible(false);
-                        this.controlSpacebarEntity.setVisible(false);
-                        this.controlRegularEntity.setVisible(false);
-                        this.controlClickEntity.setVisible(false);
-                        this.controlArrowEntity.setVisible(false);
-                    }, 10000);
-                }, 1000);
-            }
 
             const controls = this.add
                 .image(1850,170,this.controls_icon)
                 .setScale(0.4)
                 .setInteractive({useHandCursor: true})
                 .on("pointerdown",() => {
+                    menuSound.play({
+                        loop: false
+                    });
                     switch(this.controlState){
                     case false:
                             this.controlKeysEntity.setVisible(true);
@@ -193,11 +184,25 @@ export default class UI extends Scene implements SceneLifecycle {
                             this.controlSpacebarEntity.setVisible(false);
                             this.controlRegularEntity.setVisible(false);
                             this.controlClickEntity.setVisible(false);
+                            this.controlArrowEntity.setVisible(false);
                             this.controlState = false;
                             break;       
                     }
                 });
             
+            if(!WorldScene.scenario1Fininshed && this.game.scene.isVisible("world-scene")){
+                setTimeout(() => {
+                    this.controlState = true;
+                    this.controlKeysEntity.setVisible(true);
+                    this.controlSpacebarEntity.setVisible(true);
+                    this.controlRegularEntity.setVisible(true);
+                    this.controlClickEntity.setVisible(true);
+                    setTimeout(() => {                        
+                        this.controlArrowEntity.setVisible(true);
+                    }, 1000);
+                }, 1000);
+            }    
+
             const badgeCaseImage = this.add.sprite(1000,550, this.badgeCase).setScale(0.4).setVisible(false);
             const badgeS1Image = this.add.sprite(680,450, this.badgeS1).setScale(0.4).setVisible(false);
             const badgeS2Image = this.add.sprite(1010,445, this.badgeS2).setScale(0.4).setVisible(false);
@@ -213,6 +218,9 @@ export default class UI extends Scene implements SceneLifecycle {
                 .setScale(0.4)
                 .setInteractive({useHandCursor: true})
                 .on("pointerdown",() => {
+                    menuSound.play({
+                        loop: false
+                    });
                     switch(this.badgeState){
                         case false:
                             badgeCaseImage.setVisible(true).setAlpha(0);
@@ -262,6 +270,7 @@ export default class UI extends Scene implements SceneLifecycle {
                 });
             const map = this.add
                 .image(1850,370,this.map_icon)
+                .setVisible(false)
                 .setScale(0.4)
                 .setInteractive({useHandCursor: true})
                 .on("pointerdown",() => {
