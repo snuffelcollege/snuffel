@@ -24,8 +24,6 @@ import BullyIdleSheet from "@assets/spritesheets/scenario_1/johnnyidle.png";
 import BullyIdleData from "@assets/spritesheets/scenario_1/johnnyidle.json";
 import BullyWalkSheet from "@assets/spritesheets/scenario_1/johnnywalk.png";
 import BullyWalkData from "@assets/spritesheets/scenario_1/johnnywalk.json";
-import SparkleSheet from "@assets/spritesheets/UI/Sparkles.png";
-import SparkleData from "@assets/spritesheets/UI/Sparkles.json";
 import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
@@ -107,7 +105,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
         this.load.aseprite("bullyanddog1",BullyAndDogSheet,BullyAndDogData);
         this.load.aseprite("bullyidle1",BullyIdleSheet,BullyIdleData);
         this.load.aseprite("bullywalk1",BullyWalkSheet,BullyWalkData);
-		this.load.aseprite("sparkles1", SparkleSheet,SparkleData);
 		this.load.audio("1startdialog1audio", StartDialog1Audio);
 		this.load.audio("1startdialog2audio", StartDialog2Audio);
 		this.load.audio("1enddialog1audio", EndDialog1Audio);
@@ -566,10 +563,10 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				  });
 				  this.sound.add("badgebling", {volume: 0.5}).play();
 				  this.anims.create({
-					key: "sparkles1",
+					key: "sparkles",
 					frameRate: 4,
 					frames: this.anims.generateFrameNumbers(
-						"sparkles1",
+						"sparkles",
 						{
 							start: 0,
 							end: 1,
@@ -581,10 +578,10 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				this.sparkleEntity = this.add.sprite(
 					670,
 					450,
-					"sparkles1"
+					"sparkles"
 				)
 				
-				this.sparkleEntity.play("sparkles1").setScale(0.7).setDepth(6);
+				this.sparkleEntity.play("sparkles").setScale(0.7).setDepth(6);
 			  	    
 				  setTimeout(() => {
 						this.moveScene();

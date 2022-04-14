@@ -13,8 +13,6 @@ import HuskyIdleLamppostData from "@assets/spritesheets/husky/husky_idle_lamppos
 import HuskyIdleLamppostSheet from "@assets/spritesheets/husky/husky_idle_lamppost.png";
 import HuskyJumpLamppostData from "@assets/spritesheets/husky/husky_jump_lamppost.json";
 import HuskyJumpLamppostSheet from "@assets/spritesheets/husky/husky_jump_lamppost.png";
-import SparkleSheet from "@assets/spritesheets/UI/Sparkles.png";
-import SparkleData from "@assets/spritesheets/UI/Sparkles.json";
 import Ball from "@assets/images/scenario_4/ball.png";
 import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
@@ -57,8 +55,6 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 	private characterEntity!: Sprite;
 
 	private sparkleEntity!: Sprite;
-
-	private sparkles!: string;
 
 	private startText!: string;
 
@@ -110,8 +106,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		this.option3 = "option34";
 		this.startText = "starttext4";
 		this.endText = "endtext4";
-		this.shrubbery = "shrubbery"
-		this.sparkles = "sparkles4";
+		this.shrubbery = "shrubbery";
 
 		this.characterWalkAnims = [];
 		this.characterRunAnims = [];
@@ -148,12 +143,6 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		this.load.audio("4option1audio", Option1Audio);
 		this.load.audio("4option2audio", Option2Audio);
 		this.load.audio("4option3audio", Option3Audio);
-
-		this.load.aseprite(
-			this.sparkles,
-			 SparkleSheet,
-			 SparkleData
-		);
 		this.load.aseprite(
 			this.characterRun,
 			CharacterRunSheet,
@@ -606,10 +595,10 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 				  });
 				  this.sound.add("badgebling", {volume: 0.5}).play();
 				  this.anims.create({
-					key: this.sparkles,
+					key: "sparkles",
 					frameRate: 4,
 					frames: this.anims.generateFrameNumbers(
-						this.sparkles,
+						"sparkles",
 						{
 							start: 0,
 							end: 1,
@@ -620,10 +609,10 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 				this.sparkleEntity = this.add.sprite(
 					670,
 					770,
-					this.sparkles
+					"sparkles"
 				)
 				
-				this.sparkleEntity.play(this.sparkles).setScale(0.7).setDepth(6);
+				this.sparkleEntity.play("sparkles").setScale(0.7).setDepth(6);
 			  	    
 				  setTimeout(() => {
 						this.moveScene();

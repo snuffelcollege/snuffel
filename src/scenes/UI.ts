@@ -23,12 +23,13 @@ import UnmutedSoundIcon from "@assets/images/UI/unmuted.png";
 import MutedSoundIcon from "@assets/images/UI/muted.png";
 import controlArrow from "@assets/spritesheets/UI/pointing_arrow.png";
 import controlArrowData from "@assets/spritesheets/UI/pointing_arrow.json";
+import SparkleSheet from "@assets/spritesheets/UI/Sparkles.png";
+import SparkleData from "@assets/spritesheets/UI/Sparkles.json";
 import menuSound from "@assets/audio/UI/menu_button.mp3";
 import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import Sprite = Phaser.GameObjects.Sprite;
 import WorldScene from "./WorldScene";
-import { World } from "matter";
 
 export default class UI extends Scene implements SceneLifecycle {
 
@@ -96,6 +97,7 @@ export default class UI extends Scene implements SceneLifecycle {
 		this.load.image(this.unmuted,UnmutedSoundIcon);
         this.load.aseprite(this.controlKeys, ControlKeys, ControlKeysData);
         this.load.aseprite(this.controlArrow, controlArrow, controlArrowData);
+        this.load.aseprite("sparkles", SparkleSheet, SparkleData);
         this.load.audio("menuSound", menuSound);
     }
 

@@ -9,8 +9,6 @@ import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/charac
 import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/character_walk.json";
 import CharacterIdleSheet from "@assets/spritesheets/player/scenario/idle/character_idle.png";
 import CharacterIdleData from "@assets/spritesheets/player/scenario/idle/character_idle.json";
-import SparkleSheet from "@assets/spritesheets/UI/Sparkles.png";
-import SparkleData from "@assets/spritesheets/UI/Sparkles.json";
 import shepherdSheet from "@assets/spritesheets/scenario_2/dog.png";
 import shepherdData from "@assets/spritesheets/scenario_2/dog.json";
 import PokingSheet from "@assets/spritesheets/scenario_2/boystick.png";
@@ -83,8 +81,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private sparkleEntity!: Sprite;
 
-	private sparkles!: string;
-
 	private option1!: string;
 
 	private option2!: string;
@@ -139,7 +135,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.characterRun = "CharacterRun2";
 		this.characterWalk = "characterWalk2";
 		this.characterIdle = "characterIdle2";
-		this.sparkles = "sparkles2";
 
 		if (!WorldSceneConfig.key) {
 			throw Error("Exit scene key is undefined");
@@ -166,11 +161,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.load.image(this.option3, Option3);
 		this.load.image(this.startText,StartText);
 		this.load.image(this.endText, EndText);
-		this.load.aseprite(
-			this.sparkles,
-			 SparkleSheet,
-			 SparkleData
-		);
+		
 		this.load.aseprite(
 			this.characterWalk,
 			CharacterWalkSheet,
@@ -604,10 +595,10 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 				  this.sound.add("badgebling", {volume: 0.5}).play();
 
 				  this.anims.create({
-					key: this.sparkles,
+					key: "sparkles",
 					frameRate: 4,
 					frames: this.anims.generateFrameNumbers(
-						this.sparkles,
+						"sparkles",
 						{
 							start: 0,
 							end: 1,
@@ -618,10 +609,10 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 				  this.sparkleEntity = this.add.sprite(
 					1020,
 					450,
-					this.sparkles
+					"sparkles"
 				)
 				
-				this.sparkleEntity.play(this.sparkles).setScale(0.7).setDepth(6);
+				this.sparkleEntity.play("sparkles").setScale(0.7).setDepth(6);
 			  	    
 				  setTimeout(() => {
 						this.moveScene();

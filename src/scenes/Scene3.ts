@@ -26,8 +26,6 @@ import Option2Texture from "@assets/images/scenario_3/option_2.png";
 import Option3Texture from "@assets/images/scenario_3/option_3.png";
 import StartText from "@assets/images/scenario_3/start_text.png";
 import EndText from "@assets/images/scenario_3/end_text.png";
-import SparkleSheet from "@assets/spritesheets/UI/Sparkles.png";
-import SparkleData from "@assets/spritesheets/UI/Sparkles.json";
 
 import WorldScene, { WorldSceneConfig } from "./WorldScene";
 
@@ -69,8 +67,6 @@ export const config: SettingsConfig = {
 export default class Scene3 extends Scene implements SceneLifecycle {
 
 	private sparkleEntity!: Sprite;
-
-	private sparkles!: string;
 
 	private option1Img!: string;
 
@@ -147,7 +143,6 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 		this.option3Img = "scene3Option33";
 		this.startText = "starttext3";
 		this.endText = "endtext3";
-		this.sparkles = "sparkles3";
 
 		addFadeIn(this);
 	}
@@ -158,7 +153,6 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 		this.load.image(this.startText,StartText);
 		this.load.image(this.endText, EndText);
 		this.load.aseprite(this.motherDog, MotherDogTexture, MotherDogConfig);
-		this.load.aseprite(this.sparkles, SparkleSheet,SparkleData);
 		this.load.aseprite(
 			this.characterHoldPup,
 			CharacterPupHoldTexture,
@@ -791,10 +785,10 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 													});
 													this.sound.add("badgebling", {volume: 0.5}).play();
 													this.anims.create({
-														key: this.sparkles,
+														key: "sparkles",
 														frameRate: 4,
 														frames: this.anims.generateFrameNumbers(
-															this.sparkles,
+															"sparkles",
 															{
 																start: 0,
 																end: 1,
@@ -805,10 +799,10 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 													this.sparkleEntity = this.add.sprite(
 														1320,
 														450,
-														this.sparkles
+														"sparkles"
 													)
 													
-													this.sparkleEntity.play(this.sparkles).setScale(0.7).setDepth(6);
+													this.sparkleEntity.play("sparkles").setScale(0.7).setDepth(6);
 													
 													setTimeout(() => {
 														this.moveScene();

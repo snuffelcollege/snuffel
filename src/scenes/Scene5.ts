@@ -22,8 +22,6 @@ import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/characte
 import CharacterRunData from "@assets/spritesheets/player/scenario/run/character_run.json";
 import CharacterIdleSheet from "@assets/spritesheets/player/scenario/idle/character_idle.png";
 import CharacterIdleData from "@assets/spritesheets/player/scenario/idle/character_idle.json";
-import SparkleSheet from "@assets/spritesheets/UI/Sparkles.png";
-import SparkleData from "@assets/spritesheets/UI/Sparkles.json";
 import CatSheet from "@assets/spritesheets/scenario_5/collin.png";
 import CatData from "@assets/spritesheets/scenario_5/collin.json";
 import { Scene } from "phaser";
@@ -82,8 +80,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	private characterEntity!: Sprite; //embodiement of character, uses walk and idle animations
 
 	private sparkleEntity!: Sprite;
-
-	private sparkles!: string;
 
 	private characterWalkAnims!: Phaser.Animations.Animation[]; // push character walk
 
@@ -150,7 +146,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.rayWag = "rayWag";
 		this.abyAngry = "abyAngry";
 		this.catMeow = "catMeow";
-		this.sparkles = "sparkles5";
 
 		if (!WorldSceneConfig.key) {
 			throw Error("Exit scene key is undefined");
@@ -182,11 +177,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.audio("5option1audio", Option1Audio);
 		this.load.audio("5option2audio", Option2Audio);
 		this.load.audio("5option3audio", Option3Audio);
-		this.load.aseprite(
-			this.sparkles,
-			 SparkleSheet,
-			 SparkleData
-		);
 		this.load.aseprite(
 			this.characterWalk,
 			CharacterWalkSheet,
@@ -646,10 +636,10 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				  });
 				  this.sound.add("badgebling", {volume: 0.5}).play();
 				  this.anims.create({
-					key: this.sparkles,
+					key: "sparkles",
 					frameRate: 4,
 					frames: this.anims.generateFrameNumbers(
-						this.sparkles,
+						"sparkles",
 						{
 							start: 0,
 							end: 1,
@@ -660,10 +650,10 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				this.sparkleEntity = this.add.sprite(
 					1020,
 					740,
-					this.sparkles
+					"sparkles"
 				)
 				
-				this.sparkleEntity.play(this.sparkles).setScale(0.7).setDepth(6);
+				this.sparkleEntity.play("sparkles").setScale(0.7).setDepth(6);
 			  	    
 				  setTimeout(() => {
 						this.moveScene();
