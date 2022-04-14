@@ -3,22 +3,10 @@ import Option1 from "@assets/images/scenario_1/option_1.png";
 import Option2 from "@assets/images/scenario_1/option_2.png";
 import Option3 from "@assets/images/scenario_1/option_3.png";
 import OptionStick from "@assets/images/world/option_stick.png";
-import BadgeCase from "@assets/images/UI/badges/badge_case.png";
-import BadgeS1 from "@assets/images/UI/badges/badge_s1.png";
-import BadgeS2 from "@assets/images/UI/badges/badge_s2.png";
-import BadgeS3 from "@assets/images/UI/badges/badge_s3.png";
-import BadgeS4 from "@assets/images/UI/badges/badge_s4.png";
-import BadgeS5 from "@assets/images/UI/badges/badge_s5.png";
-import BadgeS6 from "@assets/images/UI/badges/badge_s6.png";
 import StartDialog1 from "@assets/images/scenario_1/start_dialog_1.png";
 import StartDialog2 from "@assets/images/scenario_1/start_dialog_2.png";
 import EndText from "@assets/images/scenario_1/end_text.png";
 import EndDialog1 from "@assets/images/scenario_1/end_dialog.png";
-import GoodEmotion from "@assets/images/world/correct_option.png";
-import MixedEmotion from "@assets/images/world/almost_option.png";
-import BadEmotion from "@assets/images/world/incorrect_option.png";
-import ContinueButton from "@assets/images/UI/continue_button.png";
-import ReplayButton from "@assets/images/UI/replay_button.png";
 import Playground from "@assets/images/scenario_1/playground.png";
 import PlayerIdle1Sheet from "@assets/spritesheets/player/scenario/idle/character_idle.png";
 import PlayerIdle2Sheet from "@assets/spritesheets/player/scenario/idle/character_idle2.png";
@@ -46,8 +34,6 @@ import ComponentService from "../Services/ComponentService";
 import MakeFullscreen from "../Components/MakeFullscreen";
 import WorldScene, { WorldSceneConfig } from "./WorldScene";
 import MoveTo from "../Components/MoveTo";
-import scenesong from "@assets/audio/scene.mp3";
-import BadgeBling from "@assets/audio/UI/badge_bling.mp3";
 import StartDialog1Audio from "@assets/audio/scenario_1/start_dialog_1.mp3";
 import StartDialog2Audio from "@assets/audio/scenario_1/start_dialog_2.mp3";
 import EndDialog1Audio from "@assets/audio/scenario_1/end_dialog.mp3";
@@ -55,8 +41,6 @@ import EndTextAudio from "@assets/audio/scenario_1/end_text.mp3";
 import Option1Audio from "@assets/audio/scenario_1/option_1.mp3";
 import Option2Audio from "@assets/audio/scenario_1/option_2.mp3";
 import Option3Audio from "@assets/audio/scenario_1/option_3.mp3";
-import MixedEmotionAudio from "@assets/audio/almost.mp3";
-import BadEmotionAudio from "@assets/audio/incorrect.mp3";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
 
@@ -112,22 +96,10 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.image("option21", Option2);
 		this.load.image("option31", Option3);
 		this.load.image("stick1", OptionStick);	
-		this.load.image("badgecase1", BadgeCase);
-        this.load.image("badges11",BadgeS1);
-        this.load.image("badges21",BadgeS2);
-        this.load.image("badges31",BadgeS3);
-        this.load.image("badges41",BadgeS4);
-        this.load.image("badges51",BadgeS5);
-        this.load.image("badges61",BadgeS6);
-		this.load.image("continuebutton1",ContinueButton);
-		this.load.image("replaybutton1",ReplayButton);
 		this.load.image("startdialog11", StartDialog1);
 		this.load.image("startdialog21", StartDialog2);
 		this.load.image("endtext1", EndText);
-		this.load.image("enddialog11", EndDialog1);
-		this.load.image("goodemotion1",GoodEmotion);
-		this.load.image("mixedemotion1",MixedEmotion);
-		this.load.image("bademotion1",BadEmotion);
+		this.load.image("enddialog11", EndDialog1);		
         this.load.aseprite("playeridle11", PlayerIdle1Sheet, PlayerIdleData);
 		this.load.aseprite("playeridle21", PlayerIdle2Sheet, PlayerIdleData);
 		this.load.aseprite("playerWalk1", PlayerWalkSheet, PlayerWalkData);
@@ -138,8 +110,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
         this.load.aseprite("bullyidle1",BullyIdleSheet,BullyIdleData);
         this.load.aseprite("bullywalk1",BullyWalkSheet,BullyWalkData);
 		this.load.aseprite("sparkles1", SparkleSheet,SparkleData);
-		this.load.audio("scenesong", scenesong);
-		this.load.audio("badgebling", BadgeBling);
 		this.load.audio("1startdialog1audio", StartDialog1Audio);
 		this.load.audio("1startdialog2audio", StartDialog2Audio);
 		this.load.audio("1enddialog1audio", EndDialog1Audio);
@@ -147,8 +117,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.audio("1option1audio", Option1Audio);
 		this.load.audio("1option2audio", Option2Audio);
 		this.load.audio("1option3audio", Option3Audio);
-		this.load.audio("1mixedemotionaudio",MixedEmotionAudio);
-		this.load.audio("1bademotionaudio",BadEmotionAudio);
 	}
 
 	public create(): void {
@@ -225,7 +193,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		//first textbox with continue button
 		const startDialogImage1 = this.add.image(700,300,"startdialog11").setScale(0.6);
 		this.sound.add("1startdialog1audio", {volume: 1}).play();		
-		const continuebutton1 = this.add.image(1200,300,"continuebutton1").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+		const continuebutton1 = this.add.image(1200,300,"continuebutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 		continuebutton1.on("pointerdown", () => {
 			this.game.sound.removeByKey("1startdialog1audio");
 			startDialogImage1.destroy();
@@ -561,18 +529,18 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		setTimeout(() => {
 			this.add.image(700,350,"enddialog11").setScale(0.6);			
 			this.sound.add("1enddialog1audio", {volume: 1}).play();	
-			const continuebutton = this.add.image(1200,350,"continuebutton1").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			const continuebutton = this.add.image(1200,350,"continuebutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 			continuebutton.on("pointerdown", () => {	
 				continuebutton.disableInteractive();
 				this.game.sound.removeByKey("1enddialog1audio");	
 				WorldScene.scenario1Fininshed = true;					
-				const badgeCaseImage = this.add.sprite(1000,550, "badgecase1").setScale(0.4).setVisible(true).setAlpha(0).setDepth(5);
-				const badgeS1Image = this.add.sprite(680,450, "badges11").setScale(0.4).setVisible(WorldScene.scenario1Fininshed).setAlpha(0).setDepth(5);
-				const badgeS2Image = this.add.sprite(1010,445, "badges21").setScale(0.4).setVisible(WorldScene.scenario2Fininshed).setAlpha(0).setDepth(5);
-				const badgeS3Image = this.add.sprite(1320,455, "badges31").setScale(0.4).setVisible(WorldScene.scenario3Fininshed).setAlpha(0).setDepth(5);
-				const badgeS4Image = this.add.sprite(690,755, "badges41").setScale(0.4).setVisible(WorldScene.scenario4Fininshed).setAlpha(0).setDepth(5);
-				const badgeS5Image = this.add.sprite(1010,765, "badges51").setScale(0.4).setVisible(WorldScene.scenario5Fininshed).setAlpha(0).setDepth(5);
-				const badgeS6Image = this.add.sprite(1310,750, "badges61").setScale(0.4).setVisible(WorldScene.scenario6Fininshed).setAlpha(0).setDepth(5);
+				const badgeCaseImage = this.add.sprite(1000,550, "badgecase").setScale(0.4).setVisible(true).setAlpha(0).setDepth(5);
+				const badgeS1Image = this.add.sprite(680,450, "badge1").setScale(0.4).setVisible(WorldScene.scenario1Fininshed).setAlpha(0).setDepth(5);
+				const badgeS2Image = this.add.sprite(1010,445, "badge2").setScale(0.4).setVisible(WorldScene.scenario2Fininshed).setAlpha(0).setDepth(5);
+				const badgeS3Image = this.add.sprite(1320,455, "badge3").setScale(0.4).setVisible(WorldScene.scenario3Fininshed).setAlpha(0).setDepth(5);
+				const badgeS4Image = this.add.sprite(690,755, "badge4").setScale(0.4).setVisible(WorldScene.scenario4Fininshed).setAlpha(0).setDepth(5);
+				const badgeS5Image = this.add.sprite(1010,765, "badge5").setScale(0.4).setVisible(WorldScene.scenario5Fininshed).setAlpha(0).setDepth(5);
+				const badgeS6Image = this.add.sprite(1310,750, "badge6").setScale(0.4).setVisible(WorldScene.scenario6Fininshed).setAlpha(0).setDepth(5);
 				//fade in effect
 				this.add.tween({
 					targets: [badgeCaseImage,badgeS2Image,badgeS3Image,badgeS4Image,badgeS5Image,badgeS6Image],
@@ -664,16 +632,16 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				y: this.playerEntity.y,
 			});		
 			playerMove.movingDone = () => {
-					this.add.image(600,130,"bademotion1").setScale(0.6);
+					this.add.image(600,130,"bademotion").setScale(0.6);
 					this.add.image(600,300,"endtext1").setScale(0.6);					
-					this.sound.add("1bademotionaudio", {volume: 1}).play();	
+					this.sound.add("bademotionaudio", {volume: 1}).play();	
 					
 					setTimeout(() => {
 						this.sound.add("1endtextaudio", {volume: 1}).play();
 					}, 2500);
-					const replaybutton = this.add.image(1090,420,"replaybutton1").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+					const replaybutton = this.add.image(1090,380,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 					replaybutton.on("pointerdown", () => {
-						this.game.sound.removeByKey("1bademotionaudio");
+						this.game.sound.removeByKey("bademotionaudio");
 						this.game.sound.removeByKey("1endtextaudio");						
 						this.scene.restart();
 					})					
@@ -705,15 +673,15 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			.setScale(1);
 		
 			setTimeout(() => {
-				this.add.image(600,130,"mixedemotion1").setScale(0.6);
+				this.add.image(600,130,"mixedemotion").setScale(0.6);
 				this.add.image(600,300,"endtext1").setScale(0.6);									
-				this.sound.add("1mixedemotionaudio", {volume: 1}).play();	
+				this.sound.add("mixedemotionaudio", {volume: 1}).play();	
 				setTimeout(() => {
 					this.sound.add("1endtextaudio", {volume: 1}).play();
 				}, 3000);
-				const replaybutton = this.add.image(1090,420,"replaybutton1").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+				const replaybutton = this.add.image(1090,360,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 				replaybutton.on("pointerdown", () => {
-					this.game.sound.removeByKey("1mixedemotionaudio");
+					this.game.sound.removeByKey("mixedemotionaudio");
 					this.game.sound.removeByKey("1endtextaudio");
 					this.scene.restart();
 				})

@@ -3,18 +3,16 @@ import CongratsImage from "@assets/images/UI/congrats.png";
 import Option1 from "@assets/images/world/restart_sign.png";
 import Option2 from "@assets/images/world/continue_sign.png";
 import OptionStick from "@assets/images/world/option_stick.png";
-import { GameObjects, Scene, Time } from "phaser";
+import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
 import ComponentService from "../Services/ComponentService";
 import MakeFullscreen from "../Components/MakeFullscreen";
-import WorldScene, { WorldSceneConfig } from "./WorldScene";
+import { WorldSceneConfig } from "./WorldScene";
 import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
-import SceneSong from "@assets/audio/scene.mp3";
 import CongratsAudio from "@assets/audio/congrats.mp3";
-import { Game } from "../Game";
 
 // Config for the scene defining gravity and debug settings.
 export const config: SettingsConfig = {
@@ -94,7 +92,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.load.image(this.optionStick, OptionStick);	
 		this.load.image("backgroundEnd", BackgroundImage);
 		this.load.image("congratsImage",CongratsImage);
-		this.load.audio("sceneSong", SceneSong);
 		this.load.audio("congrats", CongratsAudio);		
 	}
 
@@ -113,7 +110,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private createSituation(): void {
 		this.game.sound.pauseAll();
-		this.sound.add("sceneSong", {volume: 0.3}).play({
+		this.sound.add("scenesong", {volume: 0.3}).play({
 			loop: true
 		});
 		this.sound.add("congrats", {volume: 0.5}).play();
@@ -226,7 +223,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			this.scene.stop(this.scene.key).wake(this.exitSceneKey);
 			this.scene.start("UIScene");
 		});
-		this.game.sound.removeByKey("sceneSong");
+		this.game.sound.removeByKey("scenesong");
 		this.game.sound.resumeAll();
 	}
 }

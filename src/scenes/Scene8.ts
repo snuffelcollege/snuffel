@@ -5,11 +5,6 @@ import Option3 from "@assets/images/scenario_8/option_3.png";
 import OptionStick from "@assets/images/world/option_stick.png";
 import StartText from "@assets/images/scenario_8/start_text.png";
 import EndText from "@assets/images/scenario_8/end_text.png";
-import GoodEmotion from "@assets/images/world/correct_option.png";
-import MixedEmotion from "@assets/images/world/almost_option.png";
-import BadEmotion from "@assets/images/world/incorrect_option.png";
-import ContinueButton from "@assets/images/UI/continue_button.png";
-import ReplayButton from "@assets/images/UI/replay_button.png";
 import PlayerCharacterSheet from "@assets/spritesheets/player/scenario/icecreamidle/icecream_idle.png";
 import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/character_run.png";
 import CharacterRunData from "@assets/spritesheets/player/scenario/run/character_run.json";
@@ -30,7 +25,6 @@ import { WorldSceneConfig } from "./WorldScene";
 import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
-import sceneSong from "@assets/audio/scene.mp3";
 import splash from "@assets/audio/objects/fallen_icecream.mp3";
 
 // Config for the scene defining gravity and debug settings.
@@ -91,16 +85,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	private endText!: string;
 
-	private goodEmotion!: string;
-
-	private mixedEmotion!: string;
-
-	private badEmotion!: string;
-
-	private continueButton!: string;
-
-	private replayButton!: string;
-
 	private imageIceCreamCone!: string;
 
 	private fallenIceCreamConeImage!: string;
@@ -135,11 +119,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.optionStick = "stick8"
 		this.startText = "starttext8";
 		this.endText = "endtext8";
-		this.goodEmotion = "goodemotion8";
-		this.mixedEmotion = "mixedemotion8"
-		this.badEmotion = "bademotion8";
-		this.continueButton = "continuebutton8";
-		this.replayButton = "replaybutton8";
 		this.imageIceCreamCone = "imageIceCreamCone";
 		this.fallenIceCreamConeImage = "fallenIceCreamCone"
 		this.spriteSheetPlayerCharacter = "spriteSheetPlayerCharacter8";
@@ -170,17 +149,11 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.image(this.option1, Option1);
 		this.load.image(this.option2, Option2);
 		this.load.image(this.option3, Option3);
-		this.load.image(this.continueButton,ContinueButton);
-		this.load.image(this.replayButton,ReplayButton);
 		this.load.image(this.startText,StartText);
 		this.load.image(this.endText, EndText);
-		this.load.image(this.goodEmotion,GoodEmotion);
-		this.load.image(this.mixedEmotion,MixedEmotion);
-		this.load.image(this.badEmotion,BadEmotion);
 		this.load.image(this.imageIceCreamCone, IceCreamConeImage);
 		this.load.image(this.fallenIceCreamConeImage, FallenIceCreamConeImage);
 		this.load.image(this.optionStick, OptionStick);
-		this.load.audio("sceneSong", sceneSong);
 		this.load.audio("splash", splash);
 		this.load.spritesheet(
 			this.spriteSheetPlayerCharacter,
@@ -208,7 +181,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	public create(): void {
 		this.game.sound.pauseAll();
-		var song = this.sound.add("sceneSong", {volume: 0.1});
+		var song = this.sound.add("scenesong", {volume: 0.1});
 		song.play({
 			loop: true
 		});
@@ -512,9 +485,9 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.moveIcecreamConeAway = true;
 
 		setTimeout(() => {
-			this.add.image(600,130,this.goodEmotion).setScale(0.6);
+			this.add.image(600,130,"goodemotion").setScale(0.6);
 			this.add.image(600,300,this.endText).setScale(0.6);	
-			const continuebutton = this.add.image(1090,420,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			const continuebutton = this.add.image(1090,360,"continuebutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 			continuebutton.on("pointerdown", () => {
 				continuebutton.disableInteractive();
 				this.moveScene();
@@ -558,9 +531,9 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.moveIcecreamConeAway = true;
 
 		setTimeout(() => {
-			this.add.image(600,130,this.mixedEmotion).setScale(0.6);
+			this.add.image(600,130,"mixedemotion").setScale(0.6);
 			this.add.image(600,300,this.endText).setScale(0.6);					
-			const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			const replaybutton = this.add.image(1090,360,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 			replaybutton.on("pointerdown", () => {
 				this.scene.restart();
 			})
@@ -610,9 +583,9 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 		this.moveIcecreamConeAway = true;
 		setTimeout(() => {
-			this.add.image(600,130,this.badEmotion).setScale(0.6);
+			this.add.image(600,130,"bademotion").setScale(0.6);
 			this.add.image(600,300,this.endText).setScale(0.6);					
-			const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			const replaybutton = this.add.image(1090,360,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 			replaybutton.on("pointerdown", () => {
 				this.scene.restart();
 			})			
@@ -626,7 +599,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			this.scene.stop(this.scene.key).wake(this.exitSceneKey);
 			this.scene.start("UIScene");
 		});
-		this.game.sound.removeByKey("sceneSong");
+		this.game.sound.removeByKey("scenesong");
 		this.game.sound.removeByKey("splash");
 		this.game.sound.resumeAll();
 	}

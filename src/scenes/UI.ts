@@ -7,6 +7,11 @@ import BadgeS3 from "@assets/images/UI/badges/badge_s3.png";
 import BadgeS4 from "@assets/images/UI/badges/badge_s4.png";
 import BadgeS5 from "@assets/images/UI/badges/badge_s5.png";
 import BadgeS6 from "@assets/images/UI/badges/badge_s6.png";
+import GoodEmotion from "@assets/images/world/correct_option.png";
+import MixedEmotion from "@assets/images/world/almost_option.png";
+import BadEmotion from "@assets/images/world/incorrect_option.png";
+import ContinueButton from "@assets/images/UI/continue_button.png";
+import ReplayButton from "@assets/images/UI/replay_button.png";
 import ControlsIcon from "@assets/images/UI/controls_icon.png";
 import ControlKeys from "@assets/spritesheets/UI/tutorial_buttons.png";
 import ControlKeysData from "@assets/spritesheets/UI/tutorial_buttons.json";
@@ -29,13 +34,6 @@ export default class UI extends Scene implements SceneLifecycle {
     private map_icon!: string;
 
     private badge_icon!: string;
-    private badgeCase!: string;
-    private badgeS1!: string;
-    private badgeS2!: string;
-    private badgeS3!: string;
-    private badgeS4!: string;
-    private badgeS5!: string;
-    private badgeS6!: string;
     private badgeState!: boolean;
 
     private controls_icon!: string;
@@ -58,13 +56,6 @@ export default class UI extends Scene implements SceneLifecycle {
     public init(): void {
         this.map_icon = "map";
         this.badge_icon = "badge";
-        this.badgeCase = "badgecase";
-        this.badgeS1 = "badges1";
-        this.badgeS2 = "badges2";
-        this.badgeS3 = "badges3";
-        this.badgeS4 = "badges4";
-        this.badgeS5 = "badges5";
-        this.badgeS6 = "badges6";
         this.badgeState = false;
         this.controls_icon = "controls";
         this.controlKeys = "controlKeys";
@@ -87,13 +78,18 @@ export default class UI extends Scene implements SceneLifecycle {
     public preload(): void {
         this.load.image(this.map_icon, MapIcon);
         this.load.image(this.badge_icon,BadgeIcon);
-        this.load.image(this.badgeCase, BadgeCase);
-        this.load.image(this.badgeS1,BadgeS1);
-        this.load.image(this.badgeS2,BadgeS2);
-        this.load.image(this.badgeS3,BadgeS3);
-        this.load.image(this.badgeS4,BadgeS4);
-        this.load.image(this.badgeS5,BadgeS5);
-        this.load.image(this.badgeS6,BadgeS6);
+        this.load.image("badgecase", BadgeCase);
+        this.load.image("badge1",BadgeS1);
+        this.load.image("badge2",BadgeS2);
+        this.load.image("badge3",BadgeS3);
+        this.load.image("badge4",BadgeS4);
+        this.load.image("badge5",BadgeS5);
+        this.load.image("badge6",BadgeS6);
+		this.load.image("continuebutton",ContinueButton);
+		this.load.image("replaybutton",ReplayButton);
+		this.load.image("goodemotion",GoodEmotion);
+		this.load.image("mixedemotion",MixedEmotion);
+		this.load.image("bademotion",BadEmotion);
         this.load.image(this.controls_icon, ControlsIcon);
         this.load.image(this.controlSpacebar, ControlSpacebar);
         this.load.image(this.controlClick, ControlClick);
@@ -226,13 +222,13 @@ export default class UI extends Scene implements SceneLifecycle {
                 }, 1000);
             }    
 
-            const badgeCaseImage = this.add.sprite(1000,550, this.badgeCase).setScale(0.4).setVisible(false);
-            const badgeS1Image = this.add.sprite(680,450, this.badgeS1).setScale(0.4).setVisible(false);
-            const badgeS2Image = this.add.sprite(1010,445, this.badgeS2).setScale(0.4).setVisible(false);
-            const badgeS3Image = this.add.sprite(1320,455, this.badgeS3).setScale(0.4).setVisible(false);
-            const badgeS4Image = this.add.sprite(690,755, this.badgeS4).setScale(0.4).setVisible(false);
-            const badgeS5Image = this.add.sprite(1010,765, this.badgeS5).setScale(0.4).setVisible(false);
-            const badgeS6Image = this.add.sprite(1310,750, this.badgeS6).setScale(0.4).setVisible(false);
+            const badgeCaseImage = this.add.sprite(1000,550, "badgecase").setScale(0.4).setVisible(false);
+            const badgeS1Image = this.add.sprite(680,450, "badge1").setScale(0.4).setVisible(false);
+            const badgeS2Image = this.add.sprite(1010,445, "badge2").setScale(0.4).setVisible(false);
+            const badgeS3Image = this.add.sprite(1320,455, "badge3").setScale(0.4).setVisible(false);
+            const badgeS4Image = this.add.sprite(690,755, "badge4").setScale(0.4).setVisible(false);
+            const badgeS5Image = this.add.sprite(1010,765, "badge5").setScale(0.4).setVisible(false);
+            const badgeS6Image = this.add.sprite(1310,750, "badge6").setScale(0.4).setVisible(false);
 
             const badge = this.add
                 .image(1850,370,this.badge_icon)

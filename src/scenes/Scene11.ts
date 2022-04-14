@@ -13,17 +13,12 @@ import Option3 from "@assets/images/scenario_11/option_3.png";
 import OptionStick from "@assets/images/world/option_stick.png";
 import StartText from "@assets/images/scenario_11/start_text.png";
 import EndText from "@assets/images/scenario_11/end_text.png";
-import GoodEmotion from "@assets/images/world/correct_option.png";
-import MixedEmotion from "@assets/images/world/almost_option.png";
-import BadEmotion from "@assets/images/world/incorrect_option.png";
-import ContinueButton from "@assets/images/UI/continue_button.png";
-import ReplayButton from "@assets/images/UI/replay_button.png";
 import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/character_run_.png";
 import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/character_walk.png";
 import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/character_walk.json";
 import CharacterIdleSheet from "@assets/spritesheets/player/scenario/idle/character_idle.png";
 import CharacterIdleData from "@assets/spritesheets/player/scenario/idle/character_idle.json";
-import { GameObjects, Scene, Time } from "phaser";
+import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
 import ComponentService from "../Services/ComponentService";
@@ -32,7 +27,6 @@ import { WorldSceneConfig } from "./WorldScene";
 import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
-import SceneSong from "@assets/audio/scene.mp3";
 import squeal from "@assets/audio/dog/squeal_1.mp3";
 
 // Config for the scene defining gravity and debug settings.
@@ -94,16 +88,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private endText!: string;
 
-	private goodEmotion!: string;
-
-	private mixedEmotion!: string;
-
-	private badEmotion!: string;
-
-	private continueButton!: string;
-
-	private replayButton!: string;
-
 	private characterRun!: string;
 
 	private exitSceneKey!: string;
@@ -133,11 +117,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.optionStick = "stick11"
 		this.startText = "starttext11";
 		this.endText = "endtext11";
-		this.goodEmotion = "goodemotion11";
-		this.mixedEmotion = "mixedemotion11"
-		this.badEmotion = "bademotion11";
-		this.continueButton = "continuebutton11";
-		this.replayButton = "replaybutton11";
 		this.characterRun = "spriteSheetPlayerCharacterRun11";
 		this.characterWalk = "characterWalk11";
 		this.characterIdle = "characterIdle11";
@@ -168,14 +147,8 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.load.image(this.option2, Option2);
 		this.load.image(this.option3, Option3);
 		this.load.image(this.optionStick, OptionStick);
-		this.load.image(this.continueButton,ContinueButton);
-		this.load.image(this.replayButton,ReplayButton);
 		this.load.image(this.startText,StartText);
 		this.load.image(this.endText, EndText);
-		this.load.image(this.goodEmotion,GoodEmotion);
-		this.load.image(this.mixedEmotion,MixedEmotion);
-		this.load.image(this.badEmotion,BadEmotion);
-		this.load.audio("sceneSong", SceneSong);
 		this.load.audio("squeal", squeal);
 		this.load.aseprite(
 			this.characterWalk,
@@ -231,7 +204,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private createSituation(): void {
 		this.game.sound.pauseAll();
-		var song = this.sound.add("sceneSong", {volume: 0.1});
+		var song = this.sound.add("scenesong", {volume: 0.1});
 		song.play({
 			loop: true
 		});
@@ -530,9 +503,9 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		moveTo.velocity = 250;
 
 		setTimeout(() => {
-			this.add.image(600,130,this.goodEmotion).setScale(0.6);
+			this.add.image(600,130,"goodemotion").setScale(0.6);
 			this.add.image(600,300,this.endText).setScale(0.6);								
-			const continuebutton = this.add.image(1090,420,this.continueButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			const continuebutton = this.add.image(1090,360,"continuebutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 			continuebutton.on("pointerdown", () => {
 				continuebutton.disableInteractive();
 				this.moveScene();
@@ -559,9 +532,9 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		});	
 
 		setTimeout(() => {
-			this.add.image(600,130,this.badEmotion).setScale(0.6);
+			this.add.image(600,130,"bademotion").setScale(0.6);
 			this.add.image(600,300,this.endText).setScale(0.6);					
-			const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			const replaybutton = this.add.image(1090,360,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 			replaybutton.on("pointerdown", () => {
 				this.scene.restart();
 			});			
@@ -583,9 +556,9 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.dogAndBoyEntity.play(this.petDog);
 
 		setTimeout(() => {
-			this.add.image(600,130,this.mixedEmotion).setScale(0.6);
+			this.add.image(600,130,"mixedemotion").setScale(0.6);
 			this.add.image(600,300,this.endText).setScale(0.6);					
-			const replaybutton = this.add.image(1090,420,this.replayButton).setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			const replaybutton = this.add.image(1090,360,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 			replaybutton.on("pointerdown", () => {
 				this.scene.restart();
 			});
@@ -597,7 +570,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			this.scene.stop(this.scene.key).wake(this.exitSceneKey);
 			this.scene.start("UIScene");
 		});
-		this.game.sound.removeByKey("sceneSong");
+		this.game.sound.removeByKey("scenesong");
 		this.game.sound.removeByKey("squeal");
 		this.game.sound.resumeAll();
 	}
