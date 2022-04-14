@@ -2,7 +2,6 @@ import BackgroundImage from "@assets/images/scenario_1/BG.png";
 import CongratsImage from "@assets/images/UI/congrats.png";
 import Option1 from "@assets/images/world/restart_sign.png";
 import Option2 from "@assets/images/world/continue_sign.png";
-import OptionStick from "@assets/images/world/option_stick.png";
 import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
@@ -62,8 +61,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private option2!: string;
 
-	private optionStick!: string;
-
 	constructor(cfg: SettingsConfig = config) {
 		super(cfg);
 	}
@@ -72,7 +69,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		
 		this.option1 = "option1end";
 		this.option2 = "option2end";
-		this.optionStick = "stickend";
 
 		if (!WorldSceneConfig.key) {
 			throw Error("Exit scene key is undefined");
@@ -89,7 +85,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 	public preload(): void {
 		this.load.image(this.option1, Option1);
 		this.load.image(this.option2, Option2);
-		this.load.image(this.optionStick, OptionStick);	
 		this.load.image("backgroundEnd", BackgroundImage);
 		this.load.image("congratsImage",CongratsImage);
 		this.load.audio("congrats", CongratsAudio);		
@@ -120,7 +115,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private createChoice(): void {			
 		//create stick 1 and sign 1, add movecomponents
-		const stick1 = this.add.image(500,1280, this.optionStick);
+		const stick1 = this.add.image(500,1280, "stick");
 		const stick1move = this.components.addComponent(
 			stick1,
 			MoveTo
@@ -146,7 +141,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			y: button1.y - 300,
 		});		
 		button1move.velocity = 280;
-		const stick2 = this.add.image(1500,1280, this.optionStick);
+		const stick2 = this.add.image(1500,1280, "stick");
 		const stick2move = this.components.addComponent(
 			stick2,
 			MoveTo

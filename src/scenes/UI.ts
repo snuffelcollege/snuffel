@@ -12,6 +12,7 @@ import MixedEmotion from "@assets/images/world/almost_option.png";
 import BadEmotion from "@assets/images/world/incorrect_option.png";
 import ContinueButton from "@assets/images/UI/continue_button.png";
 import ReplayButton from "@assets/images/UI/replay_button.png";
+import OptionStick from "@assets/images/world/option_stick.png";
 import ControlsIcon from "@assets/images/UI/controls_icon.png";
 import ControlKeys from "@assets/spritesheets/UI/tutorial_buttons.png";
 import ControlKeysData from "@assets/spritesheets/UI/tutorial_buttons.json";
@@ -85,7 +86,8 @@ export default class UI extends Scene implements SceneLifecycle {
 		this.load.image("replaybutton",ReplayButton);
 		this.load.image("goodemotion",GoodEmotion);
 		this.load.image("mixedemotion",MixedEmotion);
-		this.load.image("bademotion",BadEmotion);
+		this.load.image("bademotion",BadEmotion);       
+		this.load.image("stick", OptionStick);
         this.load.image(this.controls_icon, ControlsIcon);
         this.load.image(this.controlSpacebar, ControlSpacebar);
         this.load.image(this.controlClick, ControlClick);

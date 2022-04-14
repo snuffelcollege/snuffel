@@ -2,7 +2,6 @@ import BackgroundImage from "@assets/images/scenario_1/BG.png";
 import Option1 from "@assets/images/scenario_1/option_1.png";
 import Option2 from "@assets/images/scenario_1/option_2.png";
 import Option3 from "@assets/images/scenario_1/option_3.png";
-import OptionStick from "@assets/images/world/option_stick.png";
 import StartDialog1 from "@assets/images/scenario_1/start_dialog_1.png";
 import StartDialog2 from "@assets/images/scenario_1/start_dialog_2.png";
 import EndText from "@assets/images/scenario_1/end_text.png";
@@ -95,7 +94,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.image("option11", Option1);
 		this.load.image("option21", Option2);
 		this.load.image("option31", Option3);
-		this.load.image("stick1", OptionStick);	
 		this.load.image("startdialog11", StartDialog1);
 		this.load.image("startdialog21", StartDialog2);
 		this.load.image("endtext1", EndText);
@@ -280,7 +278,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			.setScale(1);			
 		
 		//create stick 1 and sign 1, add movecomponents
-		const stick1 = this.add.image(500,1280, "stick1");
+		const stick1 = this.add.image(500,1280, "stick");
 		const stick1move = this.components.addComponent(
 			stick1,
 			MoveTo
@@ -309,7 +307,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			y: button1.y - 300,
 		});		
 		button1move.velocity = 280;
-		const stick2 = this.add.image(1000,1280, "stick1");
+		const stick2 = this.add.image(1000,1280, "stick");
 		const stick2move = this.components.addComponent(
 			stick2,
 			MoveTo
@@ -342,7 +340,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		button2move.velocity = 280;
 		
 		//create stick 3 and sign 3, add movecomponents
-		const stick3 = this.add.image(1500,1280, "stick1");
+		const stick3 = this.add.image(1500,1280, "stick");
 		const stick3move = this.components.addComponent(
 			stick3,
 			MoveTo

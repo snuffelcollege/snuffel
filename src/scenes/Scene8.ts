@@ -2,7 +2,6 @@ import BackgroundImage from "@assets/images/scenario_8/BG.png";
 import Option1 from "@assets/images/scenario_8/option_1.png";
 import Option2 from "@assets/images/scenario_8/option_2.png";
 import Option3 from "@assets/images/scenario_8/option_3.png";
-import OptionStick from "@assets/images/world/option_stick.png";
 import StartText from "@assets/images/scenario_8/start_text.png";
 import EndText from "@assets/images/scenario_8/end_text.png";
 import PlayerCharacterSheet from "@assets/spritesheets/player/scenario/icecreamidle/icecream_idle.png";
@@ -78,8 +77,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	private option2!: string;
 
 	private option3!: string;
-
-	private optionStick!: string;
 	
 	private startText!: string;
 
@@ -116,7 +113,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.option1 = "option18";
 		this.option2 = "option28";
 		this.option3 = "option38";
-		this.optionStick = "stick8"
 		this.startText = "starttext8";
 		this.endText = "endtext8";
 		this.imageIceCreamCone = "imageIceCreamCone";
@@ -153,7 +149,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.image(this.endText, EndText);
 		this.load.image(this.imageIceCreamCone, IceCreamConeImage);
 		this.load.image(this.fallenIceCreamConeImage, FallenIceCreamConeImage);
-		this.load.image(this.optionStick, OptionStick);
 		this.load.audio("splash", splash);
 		this.load.spritesheet(
 			this.spriteSheetPlayerCharacter,
@@ -276,7 +271,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	private createChoice(): void {
 		const startTextImage = this.add.image(600,200,this.startText).setScale(0.6);
 		//create stick 1 and sign 1, add movecomponents
-		const stick1 = this.add.image(500,1280, this.optionStick);
+		const stick1 = this.add.image(500,1280, "stick");
 		const stick1move = this.components.addComponent(
 			stick1,
 			MoveTo
@@ -302,7 +297,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			y: button1.y - 300,
 		});		
 		button1move.velocity = 280;
-		const stick2 = this.add.image(1000,1280, this.optionStick);
+		const stick2 = this.add.image(1000,1280, "stick");
 		const stick2move = this.components.addComponent(
 			stick2,
 			MoveTo
@@ -332,7 +327,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		button2move.velocity = 280;
 		
 		//create stick 3 and sign 3, add movecomponents
-		const stick3 = this.add.image(1500,1280, this.optionStick);
+		const stick3 = this.add.image(1500,1280, "stick");
 		const stick3move = this.components.addComponent(
 			stick3,
 			MoveTo
