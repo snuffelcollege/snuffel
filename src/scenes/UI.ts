@@ -51,6 +51,8 @@ export default class UI extends Scene implements SceneLifecycle {
     private controlArrowEntity!: Sprite;
 	private muted!: string;
 	private unmuted!: string;
+    private musicMuted!: boolean;
+    private voiceMuted!: boolean;
     private controlState!: boolean;
 
     public init(): void {
@@ -72,6 +74,8 @@ export default class UI extends Scene implements SceneLifecycle {
         this.controlArrow = "controlArrow";
 		this.muted = "muted";
 		this.unmuted = "unmuted";
+        this.musicMuted = false;
+        this.voiceMuted = false;
         this.controlState = false;
     }
 
@@ -112,7 +116,7 @@ export default class UI extends Scene implements SceneLifecycle {
             .setScale(0.4)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
-                switch(this.game.sound.mute){
+                switch(this.musicMuted){
                     case false:
                         togglesound.setTexture(this.muted);
                         this.game.sound.mute = true;
@@ -124,7 +128,28 @@ export default class UI extends Scene implements SceneLifecycle {
                 }
 			});
 
-            if(this.game.sound.mute){
+            if(this.musicMuted){
+                togglesound.setTexture(this.muted);
+            }
+
+            const togglevoice = this.add
+			.image(1850,170, this.unmuted)
+            .setScale(0.4)
+			.setInteractive({ useHandCursor: true })
+			.on("pointerdown", () => {
+                switch(this.voiceMuted){
+                    case false:
+                        togglesound.setTexture(this.muted);
+                        this.game.sound.mute = true;
+                        break;
+                    case true:
+                        togglesound.setTexture(this.unmuted);
+                        this.game.sound.mute = false;
+                        break;
+                }
+			});
+
+            if(this.voiceMuted){
                 togglesound.setTexture(this.muted);
             }
 
@@ -164,7 +189,7 @@ export default class UI extends Scene implements SceneLifecycle {
             
 
             const controls = this.add
-                .image(1850,170,this.controls_icon)
+                .image(1850,270,this.controls_icon)
                 .setScale(0.4)
                 .setInteractive({useHandCursor: true})
                 .on("pointerdown",() => {
@@ -210,7 +235,7 @@ export default class UI extends Scene implements SceneLifecycle {
             const badgeS6Image = this.add.sprite(1310,750, this.badgeS6).setScale(0.4).setVisible(false);
 
             const badge = this.add
-                .image(1850,270,this.badge_icon)
+                .image(1850,370,this.badge_icon)
                 .setScale(0.4)
                 .setInteractive({useHandCursor: true})
                 .on("pointerdown",() => {
