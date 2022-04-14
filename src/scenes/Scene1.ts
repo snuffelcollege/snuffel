@@ -86,7 +86,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	// A key has to be unique for the entire project, not just this scene.
 	public preload(): void {
-		//assigns background to 'background4' string
+		
+		//image files
 		this.load.image("background1", BackgroundImage);
 		this.load.image("playground1", Playground);
 		this.load.image("option11", Option1);
@@ -96,7 +97,9 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.image("startdialog21", StartDialog2);
 		this.load.image("endtext1", EndText);
 		this.load.image("enddialog11", EndDialog1);		
-        this.load.aseprite("playeridle11", PlayerIdle1Sheet, PlayerIdleData);
+        
+		//aseprite files
+		this.load.aseprite("playeridle11", PlayerIdle1Sheet, PlayerIdleData);
 		this.load.aseprite("playeridle21", PlayerIdle2Sheet, PlayerIdleData);
 		this.load.aseprite("playerWalk1", PlayerWalkSheet, PlayerWalkData);
         this.load.aseprite( "playerpoint1", PlayerPointSheet, PlayerPointData);	
@@ -105,6 +108,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
         this.load.aseprite("bullyanddog1",BullyAndDogSheet,BullyAndDogData);
         this.load.aseprite("bullyidle1",BullyIdleSheet,BullyIdleData);
         this.load.aseprite("bullywalk1",BullyWalkSheet,BullyWalkData);
+		
+		//audio files
 		this.load.audio("1startdialog1audio", StartDialog1Audio);
 		this.load.audio("1startdialog2audio", StartDialog2Audio);
 		this.load.audio("1enddialog1audio", EndDialog1Audio);
@@ -118,7 +123,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		const centerX = this.scale.displaySize.width * 0.5;
 		const centerY = this.scale.displaySize.height * 0.5;
 		
-		//loads background from 'background1' string. this isn't stored in a local variable because of a bug where the wrong background was loaded in certain scenes.
+		//loads and sets background and playground obstacle
 		const img = this.add.image(centerX, centerY, "background1");
 		this.components.addComponent(img, MakeFullscreen);
 		this.add.image(190, 775, "playground1").setDepth(2).setScale(1);
@@ -137,7 +142,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			loop: true
 		});
 
-		//player entity
+		//player idle animation
         this.anims.create({
 			key: "playeridle11",
 			frameRate: 2,
@@ -162,7 +167,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			.toggleFlipX()
 			.setScale(1);
 
-		//dog animation	
+		//dog idle animation	
 		this.anims.create({
 			key: "dogidle1",
 			frameRate: 2,
@@ -528,7 +533,11 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			continuebutton.on("pointerdown", () => {	
 				continuebutton.disableInteractive();
 				this.game.sound.removeByKey("1enddialog1audio");	
-				WorldScene.scenario1Fininshed = true;					
+				
+				//used for keeping badge progress
+				WorldScene.scenario1Fininshed = true;
+				
+				//show new badge, variables are initialized in UI class
 				const badgeCaseImage = this.add.sprite(1000,550, "badgecase").setScale(0.4).setVisible(true).setAlpha(0).setDepth(5);
 				const badgeS1Image = this.add.sprite(680,450, "badge1").setScale(0.4).setVisible(WorldScene.scenario1Fininshed).setAlpha(0).setDepth(5);
 				const badgeS2Image = this.add.sprite(1010,445, "badge2").setScale(0.4).setVisible(WorldScene.scenario2Fininshed).setAlpha(0).setDepth(5);
@@ -536,6 +545,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				const badgeS4Image = this.add.sprite(690,755, "badge4").setScale(0.4).setVisible(WorldScene.scenario4Fininshed).setAlpha(0).setDepth(5);
 				const badgeS5Image = this.add.sprite(1010,765, "badge5").setScale(0.4).setVisible(WorldScene.scenario5Fininshed).setAlpha(0).setDepth(5);
 				const badgeS6Image = this.add.sprite(1310,750, "badge6").setScale(0.4).setVisible(WorldScene.scenario6Fininshed).setAlpha(0).setDepth(5);
+				
 				//fade in effect
 				this.add.tween({
 					targets: [badgeCaseImage,badgeS2Image,badgeS3Image,badgeS4Image,badgeS5Image,badgeS6Image],

@@ -47,26 +47,6 @@ export const config: SettingsConfig = {
 	},
 };
 
-// Config for the text style.
-export const textStyle: Phaser.Types.GameObjects.Text.TextStyle = {
-	color: "#ffe500",
-	fontFamily: "Trebuchet MS",
-	fontSize: "48px",
-	padding: {
-		x: 15,
-		y: 15,
-	},
-	align: "center",
-	stroke: "#ffe500",
-	strokeThickness: 2,
-	shadow: {
-		offsetY: 1,
-		offsetX: 1,
-		stroke: true,
-		color: "#000",
-	},
-};
-
 export const CharacterRunData = {
 	frameHeight: 256,
 	frameWidth: 256,
@@ -76,8 +56,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 	private components!: ComponentService;
 
 	private characterEntity!: Sprite;
-
-	private husky!: string;
 
 	private sparkleEntity!: Sprite;
 
@@ -113,10 +91,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private pokingSheet!: string;
 
-	private dogWalkAnims!: Phaser.Animations.Animation[];
-
-	private characterWalkAnims!: Phaser.Animations.Animation[];
-
 	constructor(cfg: SettingsConfig = config) {
 		super(cfg);
 	}
@@ -143,9 +117,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.exitSceneKey = WorldSceneConfig.key;
 
 		this.components = new ComponentService();
-
-		this.characterWalkAnims = [];
-		this.dogWalkAnims = [];
 
 		// The moment the scene renders, a fade from black is started using this function.
 		addFadeIn(this);
@@ -209,13 +180,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		const img = this.add.image(centerX, centerY, "background2");
 
 		this.components.addComponent(img, MakeFullscreen);
-
-		// todo; make into a component
-		this.dogWalkAnims.push(...this.anims.createFromAseprite(this.husky));
-		this.characterWalkAnims.push(
-			...this.anims.createFromAseprite(this.characterWalk)
-		);
-
 		this.createSituation();
 	}
 
