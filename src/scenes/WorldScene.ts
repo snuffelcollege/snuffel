@@ -876,8 +876,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.physics.world.enable(radius); // enable the zone's physics body
 
 		(radius.body as Phaser.Physics.Arcade.Body)
-			.setOffset(-radius.displayWidth * 0.5, -radius.displayHeight * 0.5)
-			.setCircle(rayCollidable.displayWidth);
+			.setOffset(-75, -75)
+			.setCircle(225);
 
 		overlappables.push(radius);
 
