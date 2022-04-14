@@ -15,7 +15,6 @@ import PokingSheet from "@assets/spritesheets/scenario_2/boystick.png";
 import PokingData from "@assets/spritesheets/scenario_2/boystick.json";
 import BarkingSheet from "@assets/spritesheets/scenario_2/boybark.png";
 import BarkingData from "@assets/spritesheets/scenario_2/boybark.json";
-import shepherdImage from "@assets/images/scenario_2/dog1.png";
 import stickImage from "@assets/images/scenario_2/stick.png";
 import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
@@ -77,8 +76,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private characterIdle!: string;
 
-	private shepherdImage!: string;
-
 	private shepherdSheet!: string;
 
 	private barkingSheet!: string;
@@ -101,7 +98,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.option3 = "option32";
 		this.startText = "starttext2";
 		this.endText = "endtext2";
-		this.shepherdImage = "shepherdImage2";
 		this.shepherdSheet = "shepherdSheet2";
 		this.barkingSheet = "barkingSheet2";
 		this.stickImage = "stickImage2";
@@ -125,7 +121,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 	// A key has to be unique for the entire project, not just this scene.
 	public preload(): void {
 		this.load.image("background2", BackgroundImage);
-		this.load.image(this.shepherdImage, shepherdImage);
 		this.load.image(this.stickImage, stickImage);
 		this.load.image(this.option1, Option1);
 		this.load.image(this.option2, Option2);
