@@ -9,8 +9,8 @@ import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/charac
 import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/character_walk.json";
 import CharacterIdleSheet from "@assets/spritesheets/player/scenario/idle/character_idle.png";
 import CharacterIdleData from "@assets/spritesheets/player/scenario/idle/character_idle.json";
-import shepherdSheet from "@assets/spritesheets/scenario_2/dog.png";
-import shepherdData from "@assets/spritesheets/scenario_2/dog.json";
+import ShepherdSheet from "@assets/spritesheets/scenario_2/dog.png";
+import ShepherdData from "@assets/spritesheets/scenario_2/dog.json";
 import PokingSheet from "@assets/spritesheets/scenario_2/boystick.png";
 import PokingData from "@assets/spritesheets/scenario_2/boystick.json";
 import BarkingSheet from "@assets/spritesheets/scenario_2/boybark.png";
@@ -140,8 +140,8 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		);
 		this.load.aseprite(
 			this.shepherdSheet,
-			shepherdSheet,
-			shepherdData
+			ShepherdSheet,
+			ShepherdData
 		);
 		this.load.spritesheet(
 			this.characterRun,
