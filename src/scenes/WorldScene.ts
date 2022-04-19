@@ -204,6 +204,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	 * Create game objects and components
 	 */
 	public create(): void {
+		this.events.on(Phaser.Scenes.Events.WAKE, this.wake);
 		this.sceneSwitchKey = this.input.keyboard.addKey(Keys.SPACE);
 
 		// load the tilemap from tiled.
@@ -523,7 +524,13 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		collidables.push(WorldScene.Truck);
 	}
 
-	public update(time: number, delta: number): void {
+	public update(time: number, delta: number): void {			
+		super.update(time, delta);
+		this.depthSorter.sort(time, delta);		
+	}
+	
+	//this is called on wake
+	public wake(){
 		if(!WorldScene.gateOpen && WorldScene.scenario1Fininshed){
 			WorldScene.gateOpen = true;
 			WorldScene.GateClosed.destroy();
@@ -541,10 +548,6 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			this.switch_to_end = true;
 			this.switchScene("end-scene");			
 		}
-			
-		super.update(time, delta);
-		this.depthSorter.sort(time, delta);
-		
 	}
 
 	private switchScene(newScene: string) {	

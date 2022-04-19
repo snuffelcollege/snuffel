@@ -2,7 +2,6 @@ import BackgroundImage from "@assets/images/scenario_1/BG.png";
 import Option1 from "@assets/images/scenario_1/option_1.png";
 import Option2 from "@assets/images/scenario_1/option_2.png";
 import Option3 from "@assets/images/scenario_1/option_3.png";
-import OptionStick from "@assets/images/world/option_stick.png";
 import StartDialog1 from "@assets/images/scenario_1/start_dialog_1.png";
 import StartDialog2 from "@assets/images/scenario_1/start_dialog_2.png";
 import EndText from "@assets/images/scenario_1/end_text.png";
@@ -25,8 +24,6 @@ import BullyIdleSheet from "@assets/spritesheets/scenario_1/johnnyidle.png";
 import BullyIdleData from "@assets/spritesheets/scenario_1/johnnyidle.json";
 import BullyWalkSheet from "@assets/spritesheets/scenario_1/johnnywalk.png";
 import BullyWalkData from "@assets/spritesheets/scenario_1/johnnywalk.json";
-import SparkleSheet from "@assets/spritesheets/UI/Sparkles.png";
-import SparkleData from "@assets/spritesheets/UI/Sparkles.json";
 import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
@@ -89,18 +86,20 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	// A key has to be unique for the entire project, not just this scene.
 	public preload(): void {
-		//assigns background to 'background4' string
+		
+		//image files
 		this.load.image("background1", BackgroundImage);
 		this.load.image("playground1", Playground);
 		this.load.image("option11", Option1);
 		this.load.image("option21", Option2);
 		this.load.image("option31", Option3);
-		this.load.image("stick1", OptionStick);	
 		this.load.image("startdialog11", StartDialog1);
 		this.load.image("startdialog21", StartDialog2);
 		this.load.image("endtext1", EndText);
 		this.load.image("enddialog11", EndDialog1);		
-        this.load.aseprite("playeridle11", PlayerIdle1Sheet, PlayerIdleData);
+        
+		//aseprite files
+		this.load.aseprite("playeridle11", PlayerIdle1Sheet, PlayerIdleData);
 		this.load.aseprite("playeridle21", PlayerIdle2Sheet, PlayerIdleData);
 		this.load.aseprite("playerWalk1", PlayerWalkSheet, PlayerWalkData);
         this.load.aseprite( "playerpoint1", PlayerPointSheet, PlayerPointData);	
@@ -109,7 +108,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
         this.load.aseprite("bullyanddog1",BullyAndDogSheet,BullyAndDogData);
         this.load.aseprite("bullyidle1",BullyIdleSheet,BullyIdleData);
         this.load.aseprite("bullywalk1",BullyWalkSheet,BullyWalkData);
-		this.load.aseprite("sparkles1", SparkleSheet,SparkleData);
+		
+		//audio files
 		this.load.audio("1startdialog1audio", StartDialog1Audio);
 		this.load.audio("1startdialog2audio", StartDialog2Audio);
 		this.load.audio("1enddialog1audio", EndDialog1Audio);
@@ -123,7 +123,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		const centerX = this.scale.displaySize.width * 0.5;
 		const centerY = this.scale.displaySize.height * 0.5;
 		
-		//loads background from 'background1' string. this isn't stored in a local variable because of a bug where the wrong background was loaded in certain scenes.
+		//loads and sets background and playground obstacle
 		const img = this.add.image(centerX, centerY, "background1");
 		this.components.addComponent(img, MakeFullscreen);
 		this.add.image(190, 775, "playground1").setDepth(2).setScale(1);
@@ -142,7 +142,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			loop: true
 		});
 
-		//player entity
+		//player idle animation
         this.anims.create({
 			key: "playeridle11",
 			frameRate: 2,
@@ -167,7 +167,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			.toggleFlipX()
 			.setScale(1);
 
-		//dog animation	
+		//dog idle animation	
 		this.anims.create({
 			key: "dogidle1",
 			frameRate: 2,
@@ -280,7 +280,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			.setScale(1);			
 		
 		//create stick 1 and sign 1, add movecomponents
-		const stick1 = this.add.image(500,1280, "stick1");
+		const stick1 = this.add.image(500,1280, "stick");
 		const stick1move = this.components.addComponent(
 			stick1,
 			MoveTo
@@ -309,7 +309,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			y: button1.y - 300,
 		});		
 		button1move.velocity = 280;
-		const stick2 = this.add.image(1000,1280, "stick1");
+		const stick2 = this.add.image(1000,1280, "stick");
 		const stick2move = this.components.addComponent(
 			stick2,
 			MoveTo
@@ -342,7 +342,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		button2move.velocity = 280;
 		
 		//create stick 3 and sign 3, add movecomponents
-		const stick3 = this.add.image(1500,1280, "stick1");
+		const stick3 = this.add.image(1500,1280, "stick");
 		const stick3move = this.components.addComponent(
 			stick3,
 			MoveTo
@@ -533,7 +533,11 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			continuebutton.on("pointerdown", () => {	
 				continuebutton.disableInteractive();
 				this.game.sound.removeByKey("1enddialog1audio");	
-				WorldScene.scenario1Fininshed = true;					
+				
+				//used for keeping badge progress
+				WorldScene.scenario1Fininshed = true;
+				
+				//show new badge, variables are initialized in UI class
 				const badgeCaseImage = this.add.sprite(1000,550, "badgecase").setScale(0.4).setVisible(true).setAlpha(0).setDepth(5);
 				const badgeS1Image = this.add.sprite(680,450, "badge1").setScale(0.4).setVisible(WorldScene.scenario1Fininshed).setAlpha(0).setDepth(5);
 				const badgeS2Image = this.add.sprite(1010,445, "badge2").setScale(0.4).setVisible(WorldScene.scenario2Fininshed).setAlpha(0).setDepth(5);
@@ -541,6 +545,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				const badgeS4Image = this.add.sprite(690,755, "badge4").setScale(0.4).setVisible(WorldScene.scenario4Fininshed).setAlpha(0).setDepth(5);
 				const badgeS5Image = this.add.sprite(1010,765, "badge5").setScale(0.4).setVisible(WorldScene.scenario5Fininshed).setAlpha(0).setDepth(5);
 				const badgeS6Image = this.add.sprite(1310,750, "badge6").setScale(0.4).setVisible(WorldScene.scenario6Fininshed).setAlpha(0).setDepth(5);
+				
 				//fade in effect
 				this.add.tween({
 					targets: [badgeCaseImage,badgeS2Image,badgeS3Image,badgeS4Image,badgeS5Image,badgeS6Image],
@@ -568,10 +573,10 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				  });
 				  this.sound.add("badgebling", {volume: 0.5}).play();
 				  this.anims.create({
-					key: "sparkles1",
+					key: "sparkles",
 					frameRate: 4,
 					frames: this.anims.generateFrameNumbers(
-						"sparkles1",
+						"sparkles",
 						{
 							start: 0,
 							end: 1,
@@ -583,10 +588,10 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				this.sparkleEntity = this.add.sprite(
 					670,
 					450,
-					"sparkles1"
+					"sparkles"
 				)
 				
-				this.sparkleEntity.play("sparkles1").setScale(0.7).setDepth(6);
+				this.sparkleEntity.play("sparkles").setScale(0.7).setDepth(6);
 			  	    
 				  setTimeout(() => {
 						this.moveScene();

@@ -3,7 +3,6 @@ import Car from "@assets/images/scenario_6/car.png";
 import Option1 from "@assets/images/scenario_6/option_1.png";
 import Option2 from "@assets/images/scenario_6/option_2.png";
 import Option3 from "@assets/images/scenario_6/option_3.png";
-import OptionStick from "@assets/images/world/option_stick.png";
 import StartText from "@assets/images/scenario_6/start_text.png";
 import EndText from "@assets/images/scenario_6/end_text.png";
 import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/character_walk.png";
@@ -20,8 +19,6 @@ import DogNeutralImage from "@assets/spritesheets/scenario_6/dog_neutral.png";
 import DogNeutralData from "@assets/spritesheets/scenario_6/dog_neutral.json";
 import DogBiteImage from "@assets/spritesheets/scenario_6/dog_bite.png";
 import DogBiteData from "@assets/spritesheets/scenario_6/dog_bite.json";
-import SparkleSheet from "@assets/spritesheets/UI/Sparkles.png";
-import SparkleData from "@assets/spritesheets/UI/Sparkles.json";
 import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
@@ -51,34 +48,12 @@ export const config: SettingsConfig = {
 	},
 };
 
-// Config for the text style.
-export const textStyle: Phaser.Types.GameObjects.Text.TextStyle = {
-	color: "#ffe500",
-	fontFamily: "Trebuchet MS",
-	fontSize: "48px",
-	padding: {
-		x: 15,
-		y: 15,
-	},
-	align: "center",
-	stroke: "#ffe500",
-	strokeThickness: 2,
-	shadow: {
-		offsetY: 1,
-		offsetX: 1,
-		stroke: true,
-		color: "#000",
-	},
-};
-
 export default class Scene1 extends Scene implements SceneLifecycle {
 	private components!: ComponentService;
 
 	private characterEntity!: Sprite; //embodiement of character, uses walk and idle animations
 	
 	private sparkleEntity!: Sprite;
-
-	private sparkles!: string;
 
 	private characterWalkAnims!: Phaser.Animations.Animation[]; // push character walk
 
@@ -112,8 +87,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	private option3!: string;
 
-	private optionStick!: string;
-
 	private startText!: string;
 
 	private endText!: string;
@@ -131,7 +104,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.option1 = "option16";
 		this.option2 = "option26";
 		this.option3 = "option36";
-		this.optionStick = "stick6";
 		this.startText = "starttext6";
 		this.endText = "endtext6";
 		this.characterWalk = "characterWalk6";
@@ -141,7 +113,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.characterArm = "characterArm6";
 		this.dogIdleAnimation = "dogidleanimation6";
 		this.dogBiteAnimation = "dogbiteanimation6";
-		this.sparkles = "sparkles6";
 
 		if (!WorldSceneConfig.key) {
 			throw Error("Exit scene key is undefined");
@@ -167,7 +138,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.image(this.option1, Option1);
 		this.load.image(this.option2, Option2);
 		this.load.image(this.option3, Option3);
-		this.load.image(this.optionStick, OptionStick);
 		this.load.image(this.startText,StartText);
 		this.load.image(this.endText, EndText);
 		this.load.audio("bark6", bark);
@@ -176,11 +146,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.audio("6option1audio", Option1Audio);
 		this.load.audio("6option2audio", Option2Audio);
 		this.load.audio("6option3audio", Option3Audio);
-		this.load.aseprite(
-			this.sparkles,
-			 SparkleSheet,
-			 SparkleData
-		);
 		this.load.aseprite(
 			this.characterWalk,
 			CharacterWalkSheet,
@@ -293,7 +258,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		const startTextImage = this.add.image(600,200,this.startText).setScale(0.6);
 		this.sound.add("6starttextaudio", {volume: 1}).play();
 		//create stick 1 and sign 1, add movecomponents
-		const stick1 = this.add.image(500,1280, this.optionStick);
+		const stick1 = this.add.image(500,1280, "stick");
 		const stick1move = this.components.addComponent(
 			stick1,
 			MoveTo
@@ -322,7 +287,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			y: button1.y - 300,
 		});		
 		button1move.velocity = 280;
-		const stick2 = this.add.image(1000,1280, this.optionStick);
+		const stick2 = this.add.image(1000,1280, "stick");
 		const stick2move = this.components.addComponent(
 			stick2,
 			MoveTo
@@ -355,7 +320,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		button2move.velocity = 280;
 		
 		//create stick 3 and sign 3, add movecomponents
-		const stick3 = this.add.image(1500,1280, this.optionStick);
+		const stick3 = this.add.image(1500,1280, "stick");
 		const stick3move = this.components.addComponent(
 			stick3,
 			MoveTo
@@ -697,10 +662,10 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				  });
 				  this.sound.add("badgebling", {volume: 0.5}).play();
 				  this.anims.create({
-					key: this.sparkles,
+					key: "sparkles",
 					frameRate: 4,
 					frames: this.anims.generateFrameNumbers(
-						this.sparkles,
+						"sparkles",
 						{
 							start: 0,
 							end: 1,
@@ -711,10 +676,10 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				this.sparkleEntity = this.add.sprite(
 					1320,
 					740,
-					this.sparkles
+					"sparkles"
 				)
 				
-				this.sparkleEntity.play(this.sparkles).setScale(0.7).setDepth(6);
+				this.sparkleEntity.play("sparkles").setScale(0.7).setDepth(6);
 				  setTimeout(() => {
 						this.moveScene();
 				  }, 4000);  

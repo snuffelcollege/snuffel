@@ -10,7 +10,6 @@ import PetDogData from "@assets/spritesheets/scenario_11/boy+dogpet.json";
 import Option1 from "@assets/images/scenario_11/option_1.png";
 import Option2 from "@assets/images/scenario_11/option_2.png";
 import Option3 from "@assets/images/scenario_11/option_3.png";
-import OptionStick from "@assets/images/world/option_stick.png";
 import StartText from "@assets/images/scenario_11/start_text.png";
 import EndText from "@assets/images/scenario_11/end_text.png";
 import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/character_run_.png";
@@ -42,26 +41,6 @@ export const config: SettingsConfig = {
 	},
 };
 
-// Config for the text style.
-export const textStyle: Phaser.Types.GameObjects.Text.TextStyle = {
-	color: "#ffe500",
-	fontFamily: "Trebuchet MS",
-	fontSize: "48px",
-	padding: {
-		x: 15,
-		y: 15,
-	},
-	align: "center",
-	stroke: "#ffe500",
-	strokeThickness: 2,
-	shadow: {
-		offsetY: 1,
-		offsetX: 1,
-		stroke: true,
-		color: "#000",
-	},
-};
-
 export const CharacterRunData = {
 	frameHeight: 256,
 	frameWidth: 256,
@@ -81,8 +60,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 	private option2!: string;
 
 	private option3!: string;
-
-	private optionStick!: string;
 
 	private startText!: string;
 
@@ -114,7 +91,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.option1 = "option111";
 		this.option2 = "option211";
 		this.option3 = "option311";
-		this.optionStick = "stick11"
 		this.startText = "starttext11";
 		this.endText = "endtext11";
 		this.characterRun = "spriteSheetPlayerCharacterRun11";
@@ -146,7 +122,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.load.image(this.option1, Option1);
 		this.load.image(this.option2, Option2);
 		this.load.image(this.option3, Option3);
-		this.load.image(this.optionStick, OptionStick);
 		this.load.image(this.startText,StartText);
 		this.load.image(this.endText, EndText);
 		this.load.audio("squeal", squeal);
@@ -298,7 +273,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 	private createChoice(): void {
 		const startTextImage = this.add.image(600,200,this.startText).setScale(0.6);
 		//create stick 1 and sign 1, add movecomponents
-		const stick1 = this.add.image(500,1280, this.optionStick);
+		const stick1 = this.add.image(500,1280, "stick");
 		const stick1move = this.components.addComponent(
 			stick1,
 			MoveTo
@@ -324,7 +299,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			y: button1.y - 300,
 		});		
 		button1move.velocity = 280;
-		const stick2 = this.add.image(1000,1280, this.optionStick);
+		const stick2 = this.add.image(1000,1280, "stick");
 		const stick2move = this.components.addComponent(
 			stick2,
 			MoveTo
@@ -354,7 +329,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		button2move.velocity = 280;
 		
 		//create stick 3 and sign 3, add movecomponents
-		const stick3 = this.add.image(1500,1280, this.optionStick);
+		const stick3 = this.add.image(1500,1280, "stick");
 		const stick3move = this.components.addComponent(
 			stick3,
 			MoveTo

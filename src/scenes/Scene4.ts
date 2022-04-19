@@ -6,7 +6,6 @@ import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/charact
 import Option1 from "@assets/images/scenario_4/option_1.png";
 import Option2 from "@assets/images/scenario_4/option_2.png";
 import Option3 from "@assets/images/scenario_4/option_3.png";
-import OptionStick from "@assets/images/world/option_stick.png";
 import StartText from "@assets/images/scenario_4/start_text.png";
 import EndText from "@assets/images/scenario_4/end_text.png";
 import Shrubbery from  "@assets/images/scenario_4/shrubbery.png";
@@ -14,8 +13,6 @@ import HuskyIdleLamppostData from "@assets/spritesheets/husky/husky_idle_lamppos
 import HuskyIdleLamppostSheet from "@assets/spritesheets/husky/husky_idle_lamppost.png";
 import HuskyJumpLamppostData from "@assets/spritesheets/husky/husky_jump_lamppost.json";
 import HuskyJumpLamppostSheet from "@assets/spritesheets/husky/husky_jump_lamppost.png";
-import SparkleSheet from "@assets/spritesheets/UI/Sparkles.png";
-import SparkleData from "@assets/spritesheets/UI/Sparkles.json";
 import Ball from "@assets/images/scenario_4/ball.png";
 import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
@@ -58,10 +55,6 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 	private characterEntity!: Sprite;
 
 	private sparkleEntity!: Sprite;
-
-	private sparkles!: string;
-
-	private optionStick!: string;
 
 	private startText!: string;
 
@@ -111,11 +104,9 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		this.option1 = "option14";
 		this.option2 = "option24";
 		this.option3 = "option34";
-		this.optionStick = "stick4";
 		this.startText = "starttext4";
 		this.endText = "endtext4";
-		this.shrubbery = "shrubbery"
-		this.sparkles = "sparkles4";
+		this.shrubbery = "shrubbery";
 
 		this.characterWalkAnims = [];
 		this.characterRunAnims = [];
@@ -144,7 +135,6 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		this.load.image(this.option1, Option1);
 		this.load.image(this.option2, Option2);
 		this.load.image(this.option3, Option3);
-		this.load.image(this.optionStick, OptionStick);
 		this.load.image(this.startText,StartText);
 		this.load.image(this.endText, EndText);	
 		this.load.audio("bark4", bark);
@@ -153,12 +143,6 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		this.load.audio("4option1audio", Option1Audio);
 		this.load.audio("4option2audio", Option2Audio);
 		this.load.audio("4option3audio", Option3Audio);
-
-		this.load.aseprite(
-			this.sparkles,
-			 SparkleSheet,
-			 SparkleData
-		);
 		this.load.aseprite(
 			this.characterRun,
 			CharacterRunSheet,
@@ -290,7 +274,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		const startTextImage = this.add.image(600,200,this.startText).setScale(0.6);
 		this.sound.add("4starttextaudio", {volume: 1}).play();
 		//create stick 1 and sign 1, add movecomponents
-		const stick1 = this.add.image(500,1280, this.optionStick).setDepth(3);
+		const stick1 = this.add.image(500,1280, "stick").setDepth(3);
 		const stick1move = this.components.addComponent(
 			stick1,
 			MoveTo
@@ -319,7 +303,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 			y: button1.y - 300,
 		});		
 		button1move.velocity = 280;
-		const stick2 = this.add.image(1000,1280, this.optionStick).setDepth(3);
+		const stick2 = this.add.image(1000,1280, "stick").setDepth(3);
 		const stick2move = this.components.addComponent(
 			stick2,
 			MoveTo
@@ -352,7 +336,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		button2move.velocity = 280;
 		
 		//create stick 3 and sign 3, add movecomponents
-		const stick3 = this.add.image(1500,1280, this.optionStick);
+		const stick3 = this.add.image(1500,1280, "stick");
 		const stick3move = this.components.addComponent(
 			stick3,
 			MoveTo
@@ -611,10 +595,10 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 				  });
 				  this.sound.add("badgebling", {volume: 0.5}).play();
 				  this.anims.create({
-					key: this.sparkles,
+					key: "sparkles",
 					frameRate: 4,
 					frames: this.anims.generateFrameNumbers(
-						this.sparkles,
+						"sparkles",
 						{
 							start: 0,
 							end: 1,
@@ -625,10 +609,10 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 				this.sparkleEntity = this.add.sprite(
 					670,
 					770,
-					this.sparkles
+					"sparkles"
 				)
 				
-				this.sparkleEntity.play(this.sparkles).setScale(0.7).setDepth(6);
+				this.sparkleEntity.play("sparkles").setScale(0.7).setDepth(6);
 			  	    
 				  setTimeout(() => {
 						this.moveScene();

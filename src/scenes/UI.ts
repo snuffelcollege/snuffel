@@ -12,6 +12,7 @@ import MixedEmotion from "@assets/images/world/almost_option.png";
 import BadEmotion from "@assets/images/world/incorrect_option.png";
 import ContinueButton from "@assets/images/UI/continue_button.png";
 import ReplayButton from "@assets/images/UI/replay_button.png";
+import OptionStick from "@assets/images/world/option_stick.png";
 import ControlsIcon from "@assets/images/UI/controls_icon.png";
 import ControlKeys from "@assets/spritesheets/UI/tutorial_buttons.png";
 import ControlKeysData from "@assets/spritesheets/UI/tutorial_buttons.json";
@@ -22,12 +23,13 @@ import UnmutedSoundIcon from "@assets/images/UI/unmuted.png";
 import MutedSoundIcon from "@assets/images/UI/muted.png";
 import controlArrow from "@assets/spritesheets/UI/pointing_arrow.png";
 import controlArrowData from "@assets/spritesheets/UI/pointing_arrow.json";
+import SparkleSheet from "@assets/spritesheets/UI/Sparkles.png";
+import SparkleData from "@assets/spritesheets/UI/Sparkles.json";
 import menuSound from "@assets/audio/UI/menu_button.mp3";
 import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import Sprite = Phaser.GameObjects.Sprite;
 import WorldScene from "./WorldScene";
-import { World } from "matter";
 
 export default class UI extends Scene implements SceneLifecycle {
 
@@ -89,7 +91,8 @@ export default class UI extends Scene implements SceneLifecycle {
 		this.load.image("replaybutton",ReplayButton);
 		this.load.image("goodemotion",GoodEmotion);
 		this.load.image("mixedemotion",MixedEmotion);
-		this.load.image("bademotion",BadEmotion);
+		this.load.image("bademotion",BadEmotion);       
+		this.load.image("stick", OptionStick);
         this.load.image(this.controls_icon, ControlsIcon);
         this.load.image(this.controlSpacebar, ControlSpacebar);
         this.load.image(this.controlClick, ControlClick);
@@ -98,6 +101,7 @@ export default class UI extends Scene implements SceneLifecycle {
 		this.load.image(this.unmuted,UnmutedSoundIcon);
         this.load.aseprite(this.controlKeys, ControlKeys, ControlKeysData);
         this.load.aseprite(this.controlArrow, controlArrow, controlArrowData);
+        this.load.aseprite("sparkles", SparkleSheet, SparkleData);
         this.load.audio("menuSound", menuSound);
     }
 

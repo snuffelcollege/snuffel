@@ -24,11 +24,8 @@ import QuestionChatConfig from "@assets/spritesheets/scenario_3/question_chat_ic
 import Option1Texture from "@assets/images/scenario_3/option_1.png";
 import Option2Texture from "@assets/images/scenario_3/option_2.png";
 import Option3Texture from "@assets/images/scenario_3/option_3.png";
-import OptionStick from "@assets/images/world/option_stick.png";
 import StartText from "@assets/images/scenario_3/start_text.png";
 import EndText from "@assets/images/scenario_3/end_text.png";
-import SparkleSheet from "@assets/spritesheets/UI/Sparkles.png";
-import SparkleData from "@assets/spritesheets/UI/Sparkles.json";
 
 import WorldScene, { WorldSceneConfig } from "./WorldScene";
 
@@ -71,15 +68,11 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 
 	private sparkleEntity!: Sprite;
 
-	private sparkles!: string;
-
 	private option1Img!: string;
 
 	private option2Img!: string;
 
 	private option3Img!: string;
-
-	private optionStick!: string;
 
 	private startText!: string;
 
@@ -148,10 +141,8 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 		this.option1Img = "scene3Option13";
 		this.option2Img = "scene3Option23";
 		this.option3Img = "scene3Option33";
-		this.optionStick = "stick3";
 		this.startText = "starttext3";
 		this.endText = "endtext3";
-		this.sparkles = "sparkles3";
 
 		addFadeIn(this);
 	}
@@ -159,11 +150,9 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 	// A key has to be unique for the entire project, not just this scene.
 	public preload(): void {
 		this.load.image("background3", BackgroundImage);
-		this.load.image(this.optionStick, OptionStick);
 		this.load.image(this.startText,StartText);
 		this.load.image(this.endText, EndText);
 		this.load.aseprite(this.motherDog, MotherDogTexture, MotherDogConfig);
-		this.load.aseprite(this.sparkles, SparkleSheet,SparkleData);
 		this.load.aseprite(
 			this.characterHoldPup,
 			CharacterPupHoldTexture,
@@ -280,7 +269,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 			characterAnimator.loop(1);
 			character.toggleFlipX();
 
-			const stick1 = this.add.image(420,1260, this.optionStick);
+			const stick1 = this.add.image(420,1260, "stick");
 			const stick1move = this.components.addComponent(
 				stick1,
 				MoveTo
@@ -290,7 +279,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 				y: stick1.y - 300,
 			});		
 			stick1move.velocity = 280;
-			const stick2 = this.add.image(970,1260, this.optionStick);
+			const stick2 = this.add.image(970,1260, "stick");
 			const stick2move = this.components.addComponent(
 				stick2,
 				MoveTo
@@ -300,7 +289,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 				y: stick2.y - 300,
 			});		
 			stick2move.velocity = 280;
-			const stick3 = this.add.image(1510,1260, this.optionStick);
+			const stick3 = this.add.image(1510,1260, "stick");
 			const stick3move = this.components.addComponent(
 				stick3,
 				MoveTo
@@ -796,10 +785,10 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 													});
 													this.sound.add("badgebling", {volume: 0.5}).play();
 													this.anims.create({
-														key: this.sparkles,
+														key: "sparkles",
 														frameRate: 4,
 														frames: this.anims.generateFrameNumbers(
-															this.sparkles,
+															"sparkles",
 															{
 																start: 0,
 																end: 1,
@@ -810,10 +799,10 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 													this.sparkleEntity = this.add.sprite(
 														1320,
 														450,
-														this.sparkles
+														"sparkles"
 													)
 													
-													this.sparkleEntity.play(this.sparkles).setScale(0.7).setDepth(6);
+													this.sparkleEntity.play("sparkles").setScale(0.7).setDepth(6);
 													
 													setTimeout(() => {
 														this.moveScene();
