@@ -184,11 +184,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	}
 
 	public create(): void {
-		this.game.sound.pauseAll();
-		var song = this.sound.add("scenesong", {volume: 0.1});
-		song.play({
-			loop: true
-		});
 		const centerX = this.scale.displaySize.width * 0.5;
 		const centerY = this.scale.displaySize.height * 0.5;
 		
@@ -694,8 +689,5 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			this.scene.stop(this.scene.key).wake(this.exitSceneKey);
 			this.scene.start("UIScene");
 		});
-		this.game.sound.removeByKey("scenesong");
-		this.game.sound.removeByKey("bark6");
-		this.game.sound.resumeAll();
 	}
 }

@@ -212,11 +212,6 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 	}
 
 	public create(): void {
-		this.game.sound.pauseAll();
-		var song = this.sound.add("scenesong", {volume: 0.1});
-		song.play({
-			loop: true
-		});
 		
 		const background = this.add.image(0, 0, "background3");
 		this.components.addComponent(background, MakeFullscreen);
@@ -834,8 +829,5 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 			this.scene.stop(this.scene.key).wake(this.exitSceneKey);
 			this.scene.start("UIScene");
 		});
-		this.game.sound.removeByKey("scenesong");
-		this.game.sound.removeByKey("bark3");
-		this.game.sound.resumeAll();
 	}
 }

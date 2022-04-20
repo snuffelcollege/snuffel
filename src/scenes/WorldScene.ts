@@ -35,7 +35,6 @@ import SceneLifecycle from "../SceneLifecycle";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Keys = Phaser.Input.Keyboard.KeyCodes;
 import GameObject = Phaser.GameObjects.GameObject;
-import SceneSong from "@assets/audio/scene.mp3";
 import GoodEmotionAudio from "@assets/audio/correct.mp3";
 import MixedEmotionAudio from "@assets/audio/almost.mp3";
 import BadEmotionAudio from "@assets/audio/incorrect.mp3";
@@ -177,7 +176,6 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.load.aseprite(this.scene1Dog,Scene1DogSheet,Scene1DogData);
 
 		//audio
-		this.load.audio("scenesong", SceneSong);
 		this.load.audio("goodemotionaudio", GoodEmotionAudio);
 		this.load.audio("mixedemotionaudio", MixedEmotionAudio);
 		this.load.audio("bademotionaudio", BadEmotionAudio);

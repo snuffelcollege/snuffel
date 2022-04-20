@@ -12,6 +12,7 @@ import { WorldSceneConfig } from "./WorldScene";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import PhaserText = Phaser.GameObjects.Text;
 import BackgroundSongMP3 from "@assets/audio/overworld.mp3";
+import SceneSong from "@assets/audio/scene.mp3";
 
 export const config: SettingsConfig = {
 	active: false,
@@ -72,6 +73,7 @@ export default class StartScene extends Scene {
 		this.load.image("logo", Logo);
 		this.load.image("title", Title);
 		this.load.audio("backgroundSong", BackgroundSongMP3);
+		this.load.audio("scenesong", SceneSong);
 	}
 
 	public create(): void {
@@ -99,10 +101,11 @@ export default class StartScene extends Scene {
 				fadeToBlack(this, () => {
 					this.scene.start(WorldSceneConfig.key);
 					var song = this.sound.add("backgroundSong");
-						song.play({
-							loop: true,
-							volume: 0.3
-						});
+					this.sound.add("scenesong");
+					song.play({
+						loop: true,
+						volume: 0.3
+					});
 					this.scene.stop("UIScene");
 					this.scene.start("UIScene");
 				});

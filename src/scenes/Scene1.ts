@@ -136,11 +136,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	}
 
 	private createSituation(): void {
-        this.game.sound.pauseAll();
-		var song = this.sound.add("scenesong", {volume: 0.1});
-		song.play({
-			loop: true
-		});
 
 		//player idle animation
         this.anims.create({
@@ -700,7 +695,5 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			this.scene.stop(this.scene.key).wake(this.exitSceneKey);
 			this.scene.start("UIScene");
 		});
-		this.game.sound.removeByKey("scenesong");
-		this.game.sound.resumeAll();
 	}
 }

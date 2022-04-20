@@ -148,25 +148,27 @@ export default class UI extends Scene implements SceneLifecycle {
             }
 
             var music = "";
-            if(this.scene.isSleeping("world-scene")){
+            if(this.scene.isSleeping("world-scene")){   //player zit in een scene
                 try{
-                    if(this.sound.get("scenesong").isPlaying){
-                        music = this.musicunmuted;
-                    } else {
-                        music = this.musicmuted;
-                    }
-                } catch {
+                    this.sound.get("backgroundSong").duration;
+                    this.sound.removeByKey("backgroundSong");
+                    music = this.musicunmuted;
+                    this.musicMuted = false;
+                    this.sound.play("scenesong", {volume:0.2, loop:true});
+                } catch {   //player had in overworld gemute dus in scene moet je ook mute
                     music = this.musicmuted;
-                }  
-            } else {
+                    this.musicMuted = true;
+                } 
+            } else {    //player zit in overworld
                 try{
-                    if(this.sound.get("backgroundSong").isPlaying){
-                        music = this.musicunmuted;
-                    } else {
-                        music = this.musicmuted;
-                    }
-                } catch {
+                    this.sound.get("scenesong").duration;
+                    this.sound.removeByKey("scenesong");
+                    music = this.musicunmuted;
+                    this.musicMuted = false;
+                    this.sound.play("backgroundSong", {volume:0.3, loop:true});
+                } catch {   //player had in scene gemute dus in overwold moet je ook mute
                     music = this.musicmuted;
+                    this.musicMuted = true;
                 }
             }
 
@@ -175,92 +177,31 @@ export default class UI extends Scene implements SceneLifecycle {
             .setScale(0.4)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
-                if(this.scene.isSleeping("world-scene")){
-                    try{
-                        if(this.sound.get("scenesong").isPlaying){
-                            this.sound.removeByKey("scenesong");
-                            togglemusic.setTexture(this.musicmuted);
-                        } else {
-                            this.sound.play("scenesong", {volume:0.2, loop:true});
-                            togglemusic.setTexture(this.musicunmuted);
-                        }
-                    } catch {
-                        this.sound.play("scenesong", {volume:0.2, loop:true});
+                menuSound.play({
+                    loop: false
+                });
+                if(this.scene.isSleeping("world-scene")){   //scene
+                    if(this.musicMuted){    //mute
                         togglemusic.setTexture(this.musicunmuted);
-                    }  
-                } else {
-                    try{
-                        if(this.sound.get("backgroundSong").isPlaying){
-                            this.sound.removeByKey("backgroundSong");
-                            togglemusic.setTexture(this.musicmuted);
-                        } else {
-                            this.sound.play("backgroundSong", {volume:0.3, loop:true});
-                            togglemusic.setTexture(this.musicunmuted)
-                        }
-                    } catch {
-                        this.sound.play("backgroundSong", {volume:0.3, loop:true});
-                        togglemusic.setTexture(this.musicunmuted)
+                        this.sound.play("scenesong", {volume:0.2, loop:true});
+                        this.musicMuted = false;
+                    } else {    //unmute
+                        togglemusic.setTexture(this.musicmuted);
+                        this.sound.removeByKey("scenesong");
+                        this.musicMuted = true;
                     }
-                }   
-
-
-
-                // if(this.sound.get("backgroundSong").isPlaying){
-                //     this.sound.stopByKey("backgroundSong");
-                //     console.log(this.sound.get("backgroundSong"))
-                //     togglemusic.setTexture(this.musicmuted);
-                // } else if(this.sound.get("scenesong").isPlaying){
-                //     this.sound.stopByKey("scenesong");
-                //     console.log(this.sound.get("scenesong"))
-                //     togglemusic.setTexture(this.musicmuted);
-                // } else {
-                //     if(this.scene.isVisible("world-scene")){
-                //         this.sound.play("backgroundSong", {volume:0.3, loop:true});
-                //     } else{
-                //         this.sound.play("scenesong", {volume:0.2, loop:true});
-                //     }
-                //     togglemusic.setTexture(this.musicunmuted);
-                // }
-                // try{
-                //     console.log(this.sound.get("backgroundSong").isPlaying);
-                //     console.log(this.sound.get("scenesong").isPlaying);
-                //     this.sound.get("backgroundSong").isPlaying;
-                //     this.sound.get("scenesong").isPlaying;
-                //     togglemusic.setTexture(this.musicmuted);
-                //     this.sound.stopByKey("backgroundSong");
-                //     this.sound.stopByKey("scenesong");
-                // }
-                // catch{
-                //     console.log("catched");
-                //     togglemusic.setTexture(this.musicunmuted);
-                //     if(this.scene.isVisible("world-scene")){
-                //         this.sound.play("backgroundSong", {volume:0.3, loop:true});
-                //         this.sound.add("scenesong");
-                //     } else{
-                //         this.sound.play("scenesong", {volume:0.2, loop:true});
-                //         this.sound.add("backgroundSong");
-                //     }
-                // }
-                // switch(this.soundMuted){
-                //     case false:
-                //         togglemusic.setTexture(this.musicmuted);
-                //         this.sound.removeByKey("backgroundSong");
-                //         this.sound.removeByKey("scenesong");
-                //         break;
-                //     case true:
-                //         togglemusic.setTexture(this.musicunmuted);
-                //         if(this.scene.isVisible("world-scene")){
-                //             this.sound.play("backgroundSong", {volume:0.3, loop:true});
-                //         } else{
-                //             this.sound.play("scenesong", {volume:0.2, loop:true});
-                //         }
-                //         break;
-                // }
+                } else {    //overworld
+                    if(this.musicMuted){    //mute
+                        togglemusic.setTexture(this.musicunmuted);
+                        this.sound.play("backgroundSong", {volume:0.3, loop:true});
+                        this.musicMuted = false;
+                    } else {    //unmute
+                        togglemusic.setTexture(this.musicmuted);
+                        this.sound.removeByKey("backgroundSong");
+                        this.musicMuted = true;
+                    }
+                }
 			});
-
-            if(this.musicMuted){
-                togglemusic.setTexture(this.musicmuted);
-            }
 
             this.anims.create({
                 key: this.controlKeys,
