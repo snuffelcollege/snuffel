@@ -19,8 +19,10 @@ import ControlKeysData from "@assets/spritesheets/UI/tutorial_buttons.json";
 import ControlSpacebar from "@assets/images/UI/spacebar.png";
 import ControlClick from "@assets/images/UI/mouse_click.png";
 import ControlRegular from "@assets/images/UI/mouse_regular.png";
-import UnmutedSoundIcon from "@assets/images/UI/unmuted.png";
-import MutedSoundIcon from "@assets/images/UI/muted.png";
+import UnmutedSoundIcon from "@assets/images/UI/soundunmuted.png";
+import MutedSoundIcon from "@assets/images/UI/musicmuted.png";
+import UnmutedMusicIcon from "@assets/images/UI/musicunmuted.png";
+import MutedMusicIcon from "@assets/images/UI/musicmuted.png";
 import controlArrow from "@assets/spritesheets/UI/pointing_arrow.png";
 import controlArrowData from "@assets/spritesheets/UI/pointing_arrow.json";
 import SparkleSheet from "@assets/spritesheets/UI/Sparkles.png";
@@ -49,10 +51,12 @@ export default class UI extends Scene implements SceneLifecycle {
     private controlRegularEntity!: Sprite;
     private controlArrow!: string;
     private controlArrowEntity!: Sprite;
-	private muted!: string;
-	private unmuted!: string;
+	private soundmuted!: string;
+	private soundunmuted!: string;
+	private musicmuted!: string;
+	private musicunmuted!: string;
+    private soundMuted!: boolean;
     private musicMuted!: boolean;
-    private voiceMuted!: boolean;
     private controlState!: boolean;
 
     public init(): void {
@@ -65,10 +69,12 @@ export default class UI extends Scene implements SceneLifecycle {
         this.controlClick = "click";
         this.controlRegular = "regular";
         this.controlArrow = "controlArrow";
-		this.muted = "muted";
-		this.unmuted = "unmuted";
+		this.soundmuted = "soundmuted";
+		this.soundunmuted = "soundunmuted";
+		this.musicmuted = "musicmuted";
+		this.musicunmuted = "musicunmuted";
+        this.soundMuted = false;
         this.musicMuted = false;
-        this.voiceMuted = false;
         this.controlState = false;
     }
 
@@ -97,8 +103,10 @@ export default class UI extends Scene implements SceneLifecycle {
         this.load.image(this.controlSpacebar, ControlSpacebar);
         this.load.image(this.controlClick, ControlClick);
         this.load.image(this.controlRegular, ControlRegular);
-		this.load.image(this.muted, MutedSoundIcon);
-		this.load.image(this.unmuted,UnmutedSoundIcon);
+		this.load.image(this.soundmuted, MutedSoundIcon);
+		this.load.image(this.soundunmuted,UnmutedSoundIcon);
+		this.load.image(this.musicmuted, MutedMusicIcon);
+		this.load.image(this.musicunmuted,UnmutedMusicIcon);
         this.load.aseprite(this.controlKeys, ControlKeys, ControlKeysData);
         this.load.aseprite(this.controlArrow, controlArrow, controlArrowData);
         this.load.aseprite("sparkles", SparkleSheet, SparkleData);
@@ -109,48 +117,149 @@ export default class UI extends Scene implements SceneLifecycle {
     {
         var menuSound = this.sound.add("menuSound");
 		
-        if(this.game.scene.isVisible("start-scene")==false){
+        if(this.scene.isVisible("start-scene")==false){
             
+            var sound = "";
+            if(this.sound.mute){
+                sound = this.soundmuted;
+            } else{
+                sound = this.soundunmuted;
+            }
+
             const togglesound = this.add
-			.image(1850,70, this.unmuted)
+			.image(1850,70, sound)
             .setScale(0.4)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
-                switch(this.musicMuted){
+                switch(this.sound.mute){
                     case false:
-                        togglesound.setTexture(this.muted);
-                        this.game.sound.mute = true;
+                        togglesound.setTexture(this.soundmuted);
+                        this.sound.mute = true;
                         break;
                     case true:
-                        togglesound.setTexture(this.unmuted);
-                        this.game.sound.mute = false;
+                        togglesound.setTexture(this.soundunmuted);
+                        this.sound.mute = false;
                         break;
                 }
+			});
+
+            if(this.soundMuted){
+                togglesound.setTexture(this.soundmuted);
+            }
+
+            var music = "";
+            if(this.scene.isSleeping("world-scene")){
+                try{
+                    if(this.sound.get("scenesong").isPlaying){
+                        music = this.musicunmuted;
+                    } else {
+                        music = this.musicmuted;
+                    }
+                } catch {
+                    music = this.musicmuted;
+                }  
+            } else {
+                try{
+                    if(this.sound.get("backgroundSong").isPlaying){
+                        music = this.musicunmuted;
+                    } else {
+                        music = this.musicmuted;
+                    }
+                } catch {
+                    music = this.musicmuted;
+                }
+            }
+
+            const togglemusic = this.add
+			.image(1850,170, music)
+            .setScale(0.4)
+			.setInteractive({ useHandCursor: true })
+			.on("pointerdown", () => {
+                if(this.scene.isSleeping("world-scene")){
+                    try{
+                        if(this.sound.get("scenesong").isPlaying){
+                            this.sound.removeByKey("scenesong");
+                            togglemusic.setTexture(this.musicmuted);
+                        } else {
+                            this.sound.play("scenesong", {volume:0.2, loop:true});
+                            togglemusic.setTexture(this.musicunmuted);
+                        }
+                    } catch {
+                        this.sound.play("scenesong", {volume:0.2, loop:true});
+                        togglemusic.setTexture(this.musicunmuted);
+                    }  
+                } else {
+                    try{
+                        if(this.sound.get("backgroundSong").isPlaying){
+                            this.sound.removeByKey("backgroundSong");
+                            togglemusic.setTexture(this.musicmuted);
+                        } else {
+                            this.sound.play("backgroundSong", {volume:0.3, loop:true});
+                            togglemusic.setTexture(this.musicunmuted)
+                        }
+                    } catch {
+                        this.sound.play("backgroundSong", {volume:0.3, loop:true});
+                        togglemusic.setTexture(this.musicunmuted)
+                    }
+                }   
+
+
+
+                // if(this.sound.get("backgroundSong").isPlaying){
+                //     this.sound.stopByKey("backgroundSong");
+                //     console.log(this.sound.get("backgroundSong"))
+                //     togglemusic.setTexture(this.musicmuted);
+                // } else if(this.sound.get("scenesong").isPlaying){
+                //     this.sound.stopByKey("scenesong");
+                //     console.log(this.sound.get("scenesong"))
+                //     togglemusic.setTexture(this.musicmuted);
+                // } else {
+                //     if(this.scene.isVisible("world-scene")){
+                //         this.sound.play("backgroundSong", {volume:0.3, loop:true});
+                //     } else{
+                //         this.sound.play("scenesong", {volume:0.2, loop:true});
+                //     }
+                //     togglemusic.setTexture(this.musicunmuted);
+                // }
+                // try{
+                //     console.log(this.sound.get("backgroundSong").isPlaying);
+                //     console.log(this.sound.get("scenesong").isPlaying);
+                //     this.sound.get("backgroundSong").isPlaying;
+                //     this.sound.get("scenesong").isPlaying;
+                //     togglemusic.setTexture(this.musicmuted);
+                //     this.sound.stopByKey("backgroundSong");
+                //     this.sound.stopByKey("scenesong");
+                // }
+                // catch{
+                //     console.log("catched");
+                //     togglemusic.setTexture(this.musicunmuted);
+                //     if(this.scene.isVisible("world-scene")){
+                //         this.sound.play("backgroundSong", {volume:0.3, loop:true});
+                //         this.sound.add("scenesong");
+                //     } else{
+                //         this.sound.play("scenesong", {volume:0.2, loop:true});
+                //         this.sound.add("backgroundSong");
+                //     }
+                // }
+                // switch(this.soundMuted){
+                //     case false:
+                //         togglemusic.setTexture(this.musicmuted);
+                //         this.sound.removeByKey("backgroundSong");
+                //         this.sound.removeByKey("scenesong");
+                //         break;
+                //     case true:
+                //         togglemusic.setTexture(this.musicunmuted);
+                //         if(this.scene.isVisible("world-scene")){
+                //             this.sound.play("backgroundSong", {volume:0.3, loop:true});
+                //         } else{
+                //             this.sound.play("scenesong", {volume:0.2, loop:true});
+                //         }
+                //         break;
+                // }
 			});
 
             if(this.musicMuted){
-                togglesound.setTexture(this.muted);
-            }
-
-            const togglevoice = this.add
-			.image(1850,170, this.unmuted)
-            .setScale(0.4)
-			.setInteractive({ useHandCursor: true })
-			.on("pointerdown", () => {
-                switch(this.voiceMuted){
-                    case false:
-                        togglesound.setTexture(this.muted);
-                        this.game.sound.mute = true;
-                        break;
-                    case true:
-                        togglesound.setTexture(this.unmuted);
-                        this.game.sound.mute = false;
-                        break;
-                }
-			});
-
-            if(this.voiceMuted){
-                togglesound.setTexture(this.muted);
+                togglemusic.setTexture(this.musicmuted);
             }
 
             this.anims.create({
@@ -184,7 +293,7 @@ export default class UI extends Scene implements SceneLifecycle {
             this.controlSpacebarEntity = this.add.sprite(400, 600, this.controlSpacebar).setScale(0.5).setVisible(false);
             this.controlRegularEntity = this.add.sprite(1350, 600, this.controlRegular).setScale(0.5).setVisible(false);
             this.controlClickEntity = this.add.sprite(1600, 600, this.controlClick).setScale(0.5).setVisible(false);
-            this.controlArrowEntity = this.add.sprite(1700, 170, this.controlArrow).setScale(0.5).setVisible(false);
+            this.controlArrowEntity = this.add.sprite(1700, 270, this.controlArrow).setScale(0.5).setVisible(false);
             this.controlArrowEntity.play(this.controlArrow);           
             
 
