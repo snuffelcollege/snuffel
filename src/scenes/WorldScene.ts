@@ -531,15 +531,14 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			this.GatePilar.setVisible(true);
 			this.GateFence.setVisible(true);
 			this.sound.play("fenceopen", {volume:0.5})
-		}
-		
+		}		
 
 		if(this.Truck.visible && WorldScene.scenario2Fininshed && WorldScene.scenario3Fininshed){
 			this.Truck.destroy();
 			this.sound.play("truckmove", {volume:0.5})
 		}
 
-		if (!this.switch_to_end && WorldScene.scenario1Fininshed && WorldScene.scenario2Fininshed && WorldScene.scenario3Fininshed && WorldScene.scenario4Fininshed && WorldScene.scenario5Fininshed && WorldScene.scenario6Fininshed){
+		if (!this.switch_to_end && WorldScene.scenario4Fininshed && WorldScene.scenario5Fininshed && WorldScene.scenario6Fininshed){
 			this.switch_to_end = true;
 			this.switchScene("end-scene");			
 		}
