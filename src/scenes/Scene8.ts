@@ -17,6 +17,8 @@ import HuskyRunJson from "@assets/spritesheets/scenario_8/dogrun.json";
 import HuskyRunSheet from "@assets/spritesheets/scenario_8/dogrun.png";
 import HuskyIdleJson from "@assets/spritesheets/scenario_8/dogidle.json";
 import HuskyIdleSheet from "@assets/spritesheets/scenario_8/dogidle.png";
+import HuskyLickJson from "@assets/spritesheets/scenario_8/doglick.json";
+import HuskyLickSheet from "@assets/spritesheets/scenario_8/doglick.png";
 import { GameObjects, Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
@@ -27,6 +29,7 @@ import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
 import splash from "@assets/audio/objects/fallen_icecream.mp3";
+import DepthLayers from "../DepthLayers";
 
 // Config for the scene defining gravity and debug settings.
 export const config: SettingsConfig = {
@@ -55,6 +58,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	private huskyRun!: string;
 	private huskyIdle!: string;
+	private huskyLick!: string;
 
 	private option1!: string;
 
@@ -86,6 +90,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	private dogWalkAnims!: Phaser.Animations.Animation[];
 	private dogIdleAnims!: Phaser.Animations.Animation[];
+	private dogLickAnims!: Phaser.Animations.Animation[];
 
 	private characterWalkAnims!: Phaser.Animations.Animation[];
 
@@ -96,6 +101,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	public init(): void {
 		this.huskyRun = "huskyRun8";
 		this.huskyIdle = "huskyIdle8";
+		this.huskyLick = "huskyLick8";
 		this.option1 = "option18";
 		this.option2 = "option28";
 		this.option3 = "option38";
@@ -119,6 +125,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.characterWalkAnims = [];
 		this.dogWalkAnims = [];
 		this.dogIdleAnims = [];
+		this.dogLickAnims = [];
 
 		this.moveIcecreamConeAway = false;
 
@@ -160,6 +167,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 		this.load.aseprite(this.huskyRun, HuskyRunSheet, HuskyRunJson);
 		this.load.aseprite(this.huskyIdle, HuskyIdleSheet, HuskyIdleJson);
+		this.load.aseprite(this.huskyLick, HuskyLickSheet, HuskyLickJson);
 	}
 
 	public create(): void {
@@ -173,6 +181,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		// todo; make into a component
 		this.dogWalkAnims.push(...this.anims.createFromAseprite(this.huskyRun));
 		this.dogIdleAnims.push(...this.anims.createFromAseprite(this.huskyIdle));
+		this.dogLickAnims.push(...this.anims.createFromAseprite(this.huskyLick));
 		this.characterWalkAnims.push(...this.anims.createFromAseprite(this.characterWalk));
 
 		this.createSituation();
@@ -224,7 +233,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 		this.huskyEntity = this.add.sprite(
 			0,
-			this.characterEntity.y + 40,
+			this.characterEntity.y + 100,
 			this.huskyRun
 		);
 		this.huskyEntity
@@ -449,18 +458,22 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 		this.characterEntity.setScale(0.74).play(this.characterIdle);
 
-		this.huskyEntity.setFlipX(true).play({ key: "husky_walk", repeat: -1 });
+		this.huskyEntity.play({ key: this.dogWalkAnims[0].key, repeat: -1 }).setDepth(DepthLayers.PLAYER);
 
 		const moveTo = this.components.addComponent(this.huskyEntity, MoveTo);
 
 		moveTo.setTarget({
-			x: this.huskyEntity.x - 1200,
-			y: this.huskyEntity.y,
+			x: this.characterEntity.x-100,
+			y: this.characterEntity.y+175,
 		});
 
 		moveTo.velocity = 100;
 
 		this.moveIcecreamConeAway = true;
+
+		moveTo.movingDone = () => {
+			this.huskyEntity.play({key: this.dogLickAnims[0].key, frameRate: 2, repeat: -1});
+		}
 
 		setTimeout(() => {
 			this.add.image(600,130,"goodemotion").setScale(0.6);
