@@ -489,7 +489,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	
 	//walk away (maybe)
 	private createResult2(): void {
-		this.huskyEntity.play({ key: "husky_walk", repeat: -1 });
+		this.huskyEntity.play({ key: this.dogWalkAnims[0].key, repeat: -1 });
 
 		const moveToHusky = this.components.addComponent(
 			this.huskyEntity,
@@ -534,7 +534,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	//run away (wrong)
 	private createResult3(): void {
-		this.huskyEntity.play({ key: "husky_walk", repeat: -1 });
+		this.huskyEntity.play({ key: this.dogWalkAnims[0].key, repeat: -1 });
 
 		const moveToHusky = this.components.addComponent(
 			this.huskyEntity,
