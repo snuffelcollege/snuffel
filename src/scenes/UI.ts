@@ -20,7 +20,7 @@ import ControlSpacebar from "@assets/images/UI/spacebar.png";
 import ControlClick from "@assets/images/UI/mouse_click.png";
 import ControlRegular from "@assets/images/UI/mouse_regular.png";
 import UnmutedSoundIcon from "@assets/images/UI/soundunmuted.png";
-import MutedSoundIcon from "@assets/images/UI/musicmuted.png";
+import MutedSoundIcon from "@assets/images/UI/soundmuted.png";
 import UnmutedMusicIcon from "@assets/images/UI/musicunmuted.png";
 import MutedMusicIcon from "@assets/images/UI/musicmuted.png";
 import controlArrow from "@assets/spritesheets/UI/pointing_arrow.png";
