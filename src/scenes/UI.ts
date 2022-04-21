@@ -28,6 +28,8 @@ import controlArrowData from "@assets/spritesheets/UI/pointing_arrow.json";
 import SparkleSheet from "@assets/spritesheets/UI/Sparkles.png";
 import SparkleData from "@assets/spritesheets/UI/Sparkles.json";
 import menuSound from "@assets/audio/UI/menu_button.mp3";
+import FenceOpen from "@assets/audio/fence_open.mp3";
+import TruckMove from "@assets/audio/truck_move.mp3";
 import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import Sprite = Phaser.GameObjects.Sprite;
@@ -110,7 +112,10 @@ export default class UI extends Scene implements SceneLifecycle {
         this.load.aseprite(this.controlKeys, ControlKeys, ControlKeysData);
         this.load.aseprite(this.controlArrow, controlArrow, controlArrowData);
         this.load.aseprite("sparkles", SparkleSheet, SparkleData);
-        this.load.audio("menuSound", menuSound);
+        this.load.audio("menuSound", menuSound);        
+		this.load.audio("fenceopen", FenceOpen);
+		this.load.audio("truckmove",TruckMove);
+
     }
 
     create ()

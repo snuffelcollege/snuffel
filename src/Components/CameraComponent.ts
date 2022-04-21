@@ -18,7 +18,7 @@ export default class CameraComponent extends AbstractComponent {
 	}
 
 	public start(): void {
-		this.scene.cameras.main.setZoom(1); // using zoom factor 1 seems to fix most issues relating to texture clipping
+		this.scene.cameras.main.setZoom(.88);
 		this.scene.cameras.main.startFollow(this.gameObject, true, 0.1, 0.1);
 	}
 

@@ -40,6 +40,7 @@ import MixedEmotionAudio from "@assets/audio/almost.mp3";
 import BadEmotionAudio from "@assets/audio/incorrect.mp3";
 import BadgeBling from "@assets/audio/UI/badge_bling.mp3";
 
+
 export const WorldSceneConfig: SettingsConfig = {
 	key: "world-scene",
 	physics: {
@@ -62,14 +63,12 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	public static scenario4Fininshed: boolean;
 	public static scenario5Fininshed: boolean;
 	public static scenario6Fininshed: boolean;
-	public static gateOpen: boolean;
-	public static truckGone: boolean;
 
-	public static GateClosed: MovableEntity;
-	public static GatePilar: MovableEntity;
-	public static GateFence: MovableEntity;
+	private GateClosed!: MovableEntity;
+	private GatePilar!: MovableEntity;
+	private GateFence!: MovableEntity;
 
-	public static Truck: MovableEntity;
+	private Truck!: MovableEntity;
 	
 	private poiCloud!: string;
 
@@ -123,8 +122,6 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		WorldScene.scenario4Fininshed = false;
 		WorldScene.scenario5Fininshed = false;
 		WorldScene.scenario6Fininshed = false;
-		WorldScene.gateOpen = false;
-		WorldScene.truckGone = false;
 
 		this.tilesetKey = "world_tiles";
 		this.tilemapKey = "main_scene";
@@ -180,7 +177,6 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.load.audio("mixedemotionaudio", MixedEmotionAudio);
 		this.load.audio("bademotionaudio", BadEmotionAudio);
 		this.load.audio("badgebling",BadgeBling);
-
 		// Player Idle & Move Animations
 		this.load.aseprite(
 			PlayerEntity.spriteKey,
@@ -202,7 +198,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	 * Create game objects and components
 	 */
 	public create(): void {
-		this.events.on(Phaser.Scenes.Events.WAKE, this.wake);
+		//this.events.on(Phaser.Scenes.Events.WAKE, this.updateBlockades);, was used for updateblockades, but we had problems trying to play audio.
 		this.sceneSwitchKey = this.input.keyboard.addKey(Keys.SPACE);
 
 		// load the tilemap from tiled.
@@ -482,64 +478,65 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 		this.depthSorter.setRatio(tilemap.heightInPixels * 1.1);
 
-		WorldScene.GateClosed = new MovableEntity(this,2775,3175,this.gateClosed);
+		this.GateClosed = new MovableEntity(this,2775,3175,this.gateClosed);
 			
-		WorldScene.GateClosed
-			.setBodySize(WorldScene.GateClosed.width, WorldScene.GateClosed.height)
+		this.GateClosed
+			.setBodySize(this.GateClosed.width, this.GateClosed.height)
 			.setDepth(DepthLayers.PLAYER)
 			.setImmovable(true);
 
-		collidables.push(WorldScene.GateClosed);
+		collidables.push(this.GateClosed);
 
-		WorldScene.GatePilar = new MovableEntity(this,2775,2900,this.gatePillar);
+		this.GatePilar = new MovableEntity(this,2775,2900,this.gatePillar);
 			
-		WorldScene.GatePilar
-			.setBodySize(WorldScene.GatePilar.width, WorldScene.GatePilar.height)
+		this.GatePilar
+			.setBodySize(this.GatePilar.width, this.GatePilar.height)
 			.setDepth(DepthLayers.PLAYER)
 			.setImmovable(true)
 			.setVisible(false);
 
-		collidables.push(WorldScene.GatePilar);
+		collidables.push(this.GatePilar);
 
-		WorldScene.GateFence = new MovableEntity(this,2500,3450,this.gateFence);
+		this.GateFence = new MovableEntity(this,2500,3450,this.gateFence);
 			
-		WorldScene.GateFence
-			.setBodySize(WorldScene.GateFence.width, 25)
+		this.GateFence
+			.setBodySize(this.GateFence.width, 25)
 			.setOffset(0,250)
 			.setDepth(DepthLayers.Roofs)
 			.setImmovable(true)
 			.setVisible(false);
 
-		collidables.push(WorldScene.GateFence);
+		collidables.push(this.GateFence);
 
-		WorldScene.Truck = new MovableEntity(this,7200,3175,this.truck);
+		this.Truck = new MovableEntity(this,7200,3175,this.truck);
 			
-		WorldScene.Truck
-			.setBodySize(WorldScene.Truck.width, WorldScene.Truck.height)
+		this.Truck
+			.setBodySize(this.Truck.width, this.Truck.height)
 			.setDepth(DepthLayers.PLAYER)
 			.setImmovable(true);
 
-		collidables.push(WorldScene.Truck);
+		collidables.push(this.Truck);		
 	}
 
 	public update(time: number, delta: number): void {			
 		super.update(time, delta);
 		this.depthSorter.sort(time, delta);		
+		this.updateBlockades()
 	}
 	
 	//this is called on wake
-	public wake(){
-		if(!WorldScene.gateOpen && WorldScene.scenario1Fininshed){
-			WorldScene.gateOpen = true;
-			WorldScene.GateClosed.destroy();
-			WorldScene.GatePilar.setVisible(true);
-			WorldScene.GateFence.setVisible(true);
+	public updateBlockades(){
+		if(this.GateClosed.visible && WorldScene.scenario1Fininshed){
+			this.GateClosed.destroy();
+			this.GatePilar.setVisible(true);
+			this.GateFence.setVisible(true);
+			this.sound.play("fenceopen", {volume:0.5})
 		}
 		
 
-		if(!WorldScene.truckGone && WorldScene.scenario2Fininshed && WorldScene.scenario3Fininshed){
-			WorldScene.truckGone = true;
-			WorldScene.Truck.destroy();
+		if(this.Truck.visible && WorldScene.scenario2Fininshed && WorldScene.scenario3Fininshed){
+			this.Truck.destroy();
+			this.sound.play("truckmove", {volume:0.5})
 		}
 
 		if (!this.switch_to_end && WorldScene.scenario1Fininshed && WorldScene.scenario2Fininshed && WorldScene.scenario3Fininshed && WorldScene.scenario4Fininshed && WorldScene.scenario5Fininshed && WorldScene.scenario6Fininshed){
