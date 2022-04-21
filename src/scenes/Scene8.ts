@@ -13,8 +13,10 @@ import CharacterIdleSheet from "@assets/spritesheets/player/scenario/idle/charac
 import CharacterIdleData from "@assets/spritesheets/player/scenario/idle/character_idle.json";
 import IceCreamConeImage from "@assets/images/scenario_8/icecream_cone.png";
 import FallenIceCreamConeImage from "@assets/images/scenario_8/Fallenicecream.png";
-import HuskyJson from "@assets/spritesheets/scenario_8/dogrun.json";
-import HuskySheet from "@assets/spritesheets/scenario_8/dogrun.png";
+import HuskyRunJson from "@assets/spritesheets/scenario_8/dogrun.json";
+import HuskyRunSheet from "@assets/spritesheets/scenario_8/dogrun.png";
+import HuskyIdleJson from "@assets/spritesheets/scenario_8/dogidle.json";
+import HuskyIdleSheet from "@assets/spritesheets/scenario_8/dogidle.png";
 import { GameObjects, Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
@@ -51,7 +53,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	private huskyEntity!: Sprite;
 
-	private husky!: string;
+	private huskyRun!: string;
+	private huskyIdle!: string;
 
 	private option1!: string;
 
@@ -82,6 +85,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	private icecreamCone!: GameObjects.Image;
 
 	private dogWalkAnims!: Phaser.Animations.Animation[];
+	private dogIdleAnims!: Phaser.Animations.Animation[];
 
 	private characterWalkAnims!: Phaser.Animations.Animation[];
 
@@ -90,7 +94,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	}
 
 	public init(): void {
-		this.husky = "dog8";
+		this.huskyRun = "huskyRun8";
+		this.huskyIdle = "huskyIdle8";
 		this.option1 = "option18";
 		this.option2 = "option28";
 		this.option3 = "option38";
@@ -113,6 +118,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 		this.characterWalkAnims = [];
 		this.dogWalkAnims = [];
+		this.dogIdleAnims = [];
 
 		this.moveIcecreamConeAway = false;
 
@@ -152,7 +158,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			CharacterIdleData
 		);
 
-		this.load.aseprite(this.husky, HuskySheet, HuskyJson);
+		this.load.aseprite(this.huskyRun, HuskyRunSheet, HuskyRunJson);
+		this.load.aseprite(this.huskyIdle, HuskyIdleSheet, HuskyIdleJson);
 	}
 
 	public create(): void {
@@ -164,10 +171,9 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.components.addComponent(img, MakeFullscreen);
 
 		// todo; make into a component
-		this.dogWalkAnims.push(...this.anims.createFromAseprite(this.husky));
-		this.characterWalkAnims.push(
-			...this.anims.createFromAseprite(this.characterWalk)
-		);
+		this.dogWalkAnims.push(...this.anims.createFromAseprite(this.huskyRun));
+		this.dogIdleAnims.push(...this.anims.createFromAseprite(this.huskyIdle));
+		this.characterWalkAnims.push(...this.anims.createFromAseprite(this.characterWalk));
 
 		this.createSituation();
 	}
@@ -219,7 +225,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.huskyEntity = this.add.sprite(
 			0,
 			this.characterEntity.y + 40,
-			this.husky
+			this.huskyRun
 		);
 		this.huskyEntity
 			.setScale(0.6)
@@ -236,8 +242,9 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 		moveTo.movingDone = () => {
 			this.huskyEntity.play({
-				key: this.dogWalkAnims[1].key,
+				key: this.dogIdleAnims[0].key,
 				repeat: -1,
+				frameRate: 2
 			});
 
 			this.createChoice();
