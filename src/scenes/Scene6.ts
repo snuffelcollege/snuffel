@@ -497,6 +497,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			this.add.image(600,130,"mixedemotion").setScale(0.6);
 			this.add.image(600,300,this.endText).setScale(0.6);					
 			const replaybutton = this.add.image(1090,360,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			this.sound.removeByKey("bark6");
 			this.sound.add("mixedemotionaudio", {volume: 1}).play();	
 					
 			setTimeout(() => {
@@ -575,6 +576,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 					this.add.image(600,130,"bademotion").setScale(0.6);
 					this.add.image(600,300,this.endText).setScale(0.6);					
 					const replaybutton = this.add.image(1090,360,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+					this.sound.removeByKey("bark6");
 					this.sound.add("bademotionaudio", {volume: 1}).play();	
 					
 					setTimeout(() => {

@@ -178,6 +178,18 @@
                 {
                  "height":0,
                  "id":8,
+                 "name":"ManOnBench",
+                 "point":true,
+                 "rotation":0,
+                 "type":"Objective",
+                 "visible":true,
+                 "width":0,
+                 "x":800,
+                 "y":7218
+                },
+                {
+                 "height":0,
+                 "id":8,
                  "name":"HuskyIcecream",
                  "point":true,
                  "rotation":0,
