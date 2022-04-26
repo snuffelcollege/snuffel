@@ -237,14 +237,14 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			this.huskyRun
 		);
 		this.huskyEntity
-			.setScale(0.6)
+			.setScale(1)
 			.play({ key: this.dogWalkAnims[0].key, repeat: -1 });
 
 		const moveTo = this.components.addComponent(this.huskyEntity, MoveTo);
 
 		moveTo.setTarget({
 			x: this.characterEntity.x - 300,
-			y: this.huskyEntity.y,
+			y: this.huskyEntity.y-100,
 		});
 
 		moveTo.velocity = 200;
@@ -463,7 +463,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		const moveTo = this.components.addComponent(this.huskyEntity, MoveTo);
 
 		moveTo.setTarget({
-			x: this.characterEntity.x-100,
+			x: this.characterEntity.x-175,
 			y: this.characterEntity.y+175,
 		});
 
@@ -497,7 +497,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		);
 
 		moveToHusky.setTarget({
-			x: this.huskyEntity.x + 1300,
+			x: 2300,
 			y: this.huskyEntity.y,
 		});
 
@@ -513,7 +513,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		);
 
 		moveToCharacter.setTarget({
-			x: this.characterEntity.x + 1000,
+			x: 2100,
 			y: this.characterEntity.y,
 		});
 
@@ -542,7 +542,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		);
 
 		moveToHusky.setTarget({
-			x: this.huskyEntity.x + 1300,
+			x: 2300,
 			y: this.huskyEntity.y,
 		});
 
@@ -566,7 +566,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		);
 
 		moveToCharacter.setTarget({
-			x: this.characterEntity.x + 1000,
+			x: 2100,
 			y: this.characterEntity.y,
 		});
 
