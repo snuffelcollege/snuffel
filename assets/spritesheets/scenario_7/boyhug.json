@@ -1,0 +1,35 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 296, "y": 1, "w": 286, "h": 408 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 6, "y": 7, "w": 284, "h": 406 },
+    "sourceSize": { "w": 314, "h": 417 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 1, "y": 1, "w": 294, "h": 402 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 7, "y": 13, "w": 292, "h": 400 },
+    "sourceSize": { "w": 314, "h": 417 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "boyhug1-sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 582, "h": 409 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Huggo", "from": 0, "to": 1, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
