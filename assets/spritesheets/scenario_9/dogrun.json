@@ -1,0 +1,51 @@
+{ "frames": {
+   "0.png": {
+    "frame": { "x": 1, "y": 292, "w": 262, "h": 220 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 133, "y": 72, "w": 260, "h": 218 },
+    "sourceSize": { "w": 456, "h": 295 },
+    "duration": 100
+   },
+   "1.png": {
+    "frame": { "x": 1, "y": 1, "w": 358, "h": 290 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 57, "y": 3, "w": 356, "h": 288 },
+    "sourceSize": { "w": 456, "h": 295 },
+    "duration": 100
+   },
+   "2.png": {
+    "frame": { "x": 360, "y": 1, "w": 432, "h": 197 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 14, "y": 47, "w": 430, "h": 195 },
+    "sourceSize": { "w": 456, "h": 295 },
+    "duration": 100
+   },
+   "3.png": {
+    "frame": { "x": 360, "y": 199, "w": 314, "h": 231 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 115, "y": 63, "w": 312, "h": 229 },
+    "sourceSize": { "w": 456, "h": 295 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "dogrun1-sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 792, "h": 512 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Shibrun", "from": 0, "to": 3, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
