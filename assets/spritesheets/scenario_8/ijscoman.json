@@ -1,0 +1,35 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 1, "y": 1, "w": 349, "h": 497 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 347, "h": 495 },
+    "sourceSize": { "w": 347, "h": 495 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 351, "y": 1, "w": 349, "h": 497 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 347, "h": 495 },
+    "sourceSize": { "w": 347, "h": 495 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "ijscoman1-sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 700, "h": 498 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Icey", "from": 0, "to": 1, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
