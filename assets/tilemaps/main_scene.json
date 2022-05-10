@@ -177,7 +177,7 @@
                 }, 
                 {
                  "height":0,
-                 "id":8,
+                 "id":7,
                  "name":"ManOnBench",
                  "point":true,
                  "rotation":0,
@@ -198,7 +198,19 @@
                  "width":0,
                  "x":1232,
                  "y":7218
-                }, 
+                },
+                {
+                     "height":0,
+                     "id":9,
+                     "name":"Frisbee",
+                     "point":true,
+                     "rotation":0,
+                     "type":"Objective",
+                     "visible":true,
+                     "width":0,
+                     "x":1544,
+                     "y":2448
+                    },  
                 {
                  "height":0,
                  "id":11,
