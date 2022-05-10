@@ -1,37 +1,39 @@
-import BackgroundImage from "@assets/images/scenario_11/BG.png";
-import Dog from "@assets/spritesheets/scenario_11/dog.png";
-import DogData from "@assets/spritesheets/scenario_11/dog.json";
-import DogAndBoy from "@assets/spritesheets/scenario_11/boy+dog.png";
-import DogAndBoyData from "@assets/spritesheets/scenario_11/boy+dog.json";
-import ContinueHug from "@assets/spritesheets/scenario_11/boy+dogheadtilt.png";
-import ContinueHugData from "@assets/spritesheets/scenario_11/boy+dogheadtilt.json";
-import PetDog from "@assets/spritesheets/scenario_11/boy+dogpet.png";
-import PetDogData from "@assets/spritesheets/scenario_11/boy+dogpet.json";
-import Option1 from "@assets/images/scenario_11/option_1.png";
-import Option2 from "@assets/images/scenario_11/option_2.png";
-import Option3 from "@assets/images/scenario_11/option_3.png";
-import StartText from "@assets/images/scenario_11/start_text.png";
-import EndText from "@assets/images/scenario_11/end_text.png";
-import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/character_run_.png";
-import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/character_walk.png";
-import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/character_walk.json";
+import BackgroundImage from "@assets/images/scenario_9/BG.png";
+import Frisbee from "@assets/images/scenario_9/Frisbee.png";
+import Frisbee2 from "@assets/images/scenario_9/Frisbee2.png";
+import Option1 from "@assets/images/scenario_9/option_1.png";
+import Option2 from "@assets/images/scenario_9/option_2.png";
+import Option3 from "@assets/images/scenario_9/option_3.png";
+import StartText from "@assets/images/scenario_9/start_text.png";
+import EndText from "@assets/images/scenario_9/end_text.png";
+import CharacterRunSheet from "@assets/spritesheets/scenario_9/boyrunf.png";
+import CharacterRunData from "@assets/spritesheets/scenario_9/boyrunf.json";
+import CharacterYellSheet from "@assets/spritesheets/scenario_9/boyyell.png";
+import CharacterYellData from "@assets/spritesheets/scenario_9/boyyell.json";
 import CharacterIdleSheet from "@assets/spritesheets/player/scenario/idle/character_idle.png";
 import CharacterIdleData from "@assets/spritesheets/player/scenario/idle/character_idle.json";
-import { Scene } from "phaser";
+import DogRunJson from "@assets/spritesheets/scenario_9/dogrun.json";
+import DogRunSheet from "@assets/spritesheets/scenario_9/dogrun.png";
+import DogJumpJson from "@assets/spritesheets/scenario_9/doggjump.json";
+import DogJumpSheet from "@assets/spritesheets/scenario_9/doggjump.png";
+import DogFrisbeeJson from "@assets/spritesheets/scenario_9/dogfrisbee.json";
+import DogFrisbeeSheet from "@assets/spritesheets/scenario_9/dogfrisbee.png";
+import { GameObjects, Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
 import ComponentService from "../Services/ComponentService";
 import MakeFullscreen from "../Components/MakeFullscreen";
-import WorldScene, { WorldSceneConfig } from "./WorldScene";
+import { WorldSceneConfig } from "./WorldScene";
 import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
-import squeal from "@assets/audio/dog/squeal_1.mp3";
+import splash from "@assets/audio/objects/fallen_icecream.mp3";
+import DepthLayers from "../DepthLayers";
 
 // Config for the scene defining gravity and debug settings.
 export const config: SettingsConfig = {
 	active: false,
-	key: "scene-11",
+	key: "scene-9",
 	physics: {
 		default: "arcade",
 		arcade: {
@@ -41,29 +43,36 @@ export const config: SettingsConfig = {
 	},
 };
 
-export const CharacterRunData = {
+// Frame size for a character who is running.
+export const IceCreamIdleData = {
 	frameHeight: 256,
 	frameWidth: 256,
 };
-
-export default class Scene5 extends Scene implements SceneLifecycle {
+export default class Scene1 extends Scene implements SceneLifecycle {
 	private components!: ComponentService;
 
 	private characterEntity!: Sprite;
 
+	private frisbeeEntity!: Sprite;
+
 	private dogEntity!: Sprite;
 
-	private dogAndBoyEntity!: Sprite;
+	private dogRun!: string;
+	private dogJump!: string;
+	private dogFrisbee!: string;
 
 	private option1!: string;
 
 	private option2!: string;
 
 	private option3!: string;
-
+	
 	private startText!: string;
 
 	private endText!: string;
+
+	private frisbee!: string;
+	private frisbee2!: string;
 
 	private characterRun!: string;
 
@@ -72,35 +81,33 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 	private characterWalk!: string;
 
 	private characterIdle!: string;
+	
+	private characterYell!: string;
 
-	private dog!: string;
+	private dogRunAnims!: Phaser.Animations.Animation[];
+	private dogJumpAnims!: Phaser.Animations.Animation[];
 
-	private dogAndBoy!: string
-
-	private continueHug!: string
-
-	private petDog!: string
-
-	private characterWalkAnims!: Phaser.Animations.Animation[];
+	private characterRunAnims!: Phaser.Animations.Animation[];
 
 	constructor(cfg: SettingsConfig = config) {
 		super(cfg);
 	}
 
 	public init(): void {
-		this.option1 = "option111";
-		this.option2 = "option211";
-		this.option3 = "option311";
-		this.startText = "starttext11";
-		this.endText = "endtext11";
-		this.characterRun = "spriteSheetPlayerCharacterRun11";
-		this.characterWalk = "characterWalk11";
-		this.characterIdle = "characterIdle11";
-		this.dog = "dog11";
-		this.dogAndBoy = "dogAndBoy11";
-		this.continueHug = "continueHug11";
-		this.petDog = "petDog11";
-		
+		this.dogRun = "dogRun9";
+		this.dogJump = "dogJump9";
+		this.dogFrisbee = "dogFrisbee9";
+		this.option1 = "option19";
+		this.option2 = "option29";
+		this.option3 = "option39";
+		this.startText = "starttext9";
+		this.endText = "endtext9";
+		this.frisbee = "frisbee";
+		this.frisbee2 = "frisbee2";
+		this.characterRun = "boyRun9";
+		this.characterWalk = "boyWalk9";
+		this.characterIdle = "boyIdle9";
+		this.characterYell = "boyYell9";
 
 		if (!WorldSceneConfig.key) {
 			throw Error("Exit scene key is undefined");
@@ -110,7 +117,9 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 		this.components = new ComponentService();
 
-		this.characterWalkAnims = [];
+		this.characterRunAnims = [];
+		this.dogRunAnims = [];
+		this.dogJumpAnims = [];
 
 		// The moment the scene renders, a fade from black is started using this function.
 		addFadeIn(this);
@@ -118,67 +127,58 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	// A key has to be unique for the entire project, not just this scene.
 	public preload(): void {
-		this.load.image("background11", BackgroundImage);
+		this.load.image("background9", BackgroundImage);
 		this.load.image(this.option1, Option1);
 		this.load.image(this.option2, Option2);
 		this.load.image(this.option3, Option3);
 		this.load.image(this.startText,StartText);
 		this.load.image(this.endText, EndText);
-		this.load.audio("squeal", squeal);
+		this.load.image(this.frisbee, Frisbee);
+		this.load.image(this.frisbee2, Frisbee2);
+		this.load.audio("splash", splash);
+		this.load.aseprite(
+			this.characterRun,
+			CharacterRunSheet,
+			CharacterRunData
+		);
 		this.load.aseprite(
 			this.characterWalk,
-			CharacterWalkSheet,
-			CharacterWalkData
+			CharacterYellSheet,
+			CharacterYellData
 		);
 		this.load.aseprite(
 			this.characterIdle,
 			CharacterIdleSheet,
 			CharacterIdleData
 		);
-		this.load.spritesheet(
-			this.characterRun,
-			CharacterRunSheet,
-			CharacterRunData
-		);
-		this.load.aseprite(
-			this.dog,
-			Dog,
-			DogData
-		);
-		this.load.aseprite(
-			this.dogAndBoy,
-			DogAndBoy,
-			DogAndBoyData
-		);
-		this.load.aseprite(
-			this.continueHug,
-			ContinueHug,
-			ContinueHugData
-		);
-		this.load.aseprite(
-			this.petDog,
-			PetDog,
-			PetDogData
-		);		
+
+		this.load.aseprite(this.dogRun, DogRunSheet, DogRunJson);
+		this.load.aseprite(this.dogJump, DogJumpSheet, DogJumpJson);
+		this.load.aseprite(this.dogFrisbee, DogFrisbeeSheet, DogFrisbeeJson);
+		this.load.aseprite(this.characterYell, CharacterYellSheet, CharacterYellData);
 	}
 
 	public create(): void {
 		const centerX = this.scale.displaySize.width * 0.5;
 		const centerY = this.scale.displaySize.height * 0.5;
 
-		const img = this.add.image(centerX, centerY, "background11");
+		const img = this.add.image(centerX, centerY, "background9");
 
 		this.components.addComponent(img, MakeFullscreen);
 
-		this.characterWalkAnims.push(
-			...this.anims.createFromAseprite(this.characterWalk)
-		);
+		// todo; make into a component
+		this.dogRunAnims.push(...this.anims.createFromAseprite(this.dogRun));
+		this.dogJumpAnims.push(...this.anims.createFromAseprite(this.dogJump));
+		this.characterRunAnims.push(...this.anims.createFromAseprite(this.characterRun));
 
 		this.createSituation();
 	}
 
+	public update(time: number, delta: number): void {
+		super.update(time, delta);
+	}
+
 	private createSituation(): void {
-		
 		// Add child.
 		this.anims.create({
 			key: this.characterIdle,
@@ -192,77 +192,46 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			),
 			repeat: -1,
 		});
-
+		
 		this.characterEntity = this.add.sprite(
-			100,
-			720,
+			1100,
+			700,
 			this.characterIdle
 		);
+		
 		this.characterEntity
-			.play({ key: this.characterWalkAnims[0].key, repeat: -1 })
-			;
+			.play(this.characterIdle)
+			.setScale(0.7)
+			.setDepth(DepthLayers.PLAYER);
 
-		const moveToCharacter = this.components.addComponent(
-			this.characterEntity,
-			MoveTo
-		);
-
-		moveToCharacter.setTarget({
-			x: this.characterEntity.x + 680,
-			y: this.characterEntity.y,
-		});
-
-		moveToCharacter.velocity = 200;
-
-
-		this.anims.create({
-			key: this.dog,
-			frameRate: 2,
-			frames: this.anims.generateFrameNumbers(
-				this.dog,
-				{
-					start: 0,
-					end: 1,
-				}
-			),
-			repeat: -1,
-		});
+		this.frisbeeEntity = this.add.sprite(1070, 740, this.frisbee2).setScale(0.7).setDepth(DepthLayers.Grass);
+		
 		this.dogEntity = this.add.sprite(
-			1100,
-			720,
-			this.dog
+			0,
+			this.characterEntity.y + 100,
+			this.dogRun
 		);
 		this.dogEntity
-			.play(this.dog)
-			;		
+			.setScale(1)
+			.play({ key: this.dogRunAnims[0].key, repeat: -1, frameRate: 8 });
 
+		const moveTo = this.components.addComponent(this.dogEntity, MoveTo);
 
-		setTimeout(() => {
-			this.cameras.main.flash(2000, 0, 0, 0);
-			this.characterEntity.setVisible(false);
-			this.dogEntity.setVisible(false);
-			this.anims.create({
-				key: this.dogAndBoy,
-				frameRate: 2,
-				frames: this.anims.generateFrameNumbers(
-					this.dogAndBoy,
-					{
-						start: 0,
-						end: 1,
-					}
-				),
+		moveTo.setTarget({
+			x: this.characterEntity.x - 300,
+			y: this.dogEntity.y-100,
+		});
+
+		moveTo.velocity = 200;
+
+		moveTo.movingDone = () => {
+			this.dogEntity.play({
+				key: this.dogJumpAnims[0].key,
 				repeat: -1,
+				frameRate: 2
 			});
-			this.dogAndBoyEntity = this.add.sprite(
-				1100,
-				720,
-				this.dogAndBoy
-			);
-			this.dogAndBoyEntity
-				.play(this.dogAndBoy);
-			
 			this.createChoice();
-		}, 3500);		
+		};
 	}
 
 	private createChoice(): void {
@@ -434,73 +403,71 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 				button3.disableInteractive();
 				startTextImage.destroy();
 				this.createResult3();
-			});	
+			});		
 	}
 
-	//walk away (correct)
+	//stand still (correct)
 	private createResult1(): void {
-		this.dogAndBoyEntity.destroy();
 		this.anims.create({
-			key: this.characterWalk,
+			key: this.characterYell,
 			frameRate: 2,
-			frames: this.anims.generateFrameNumbers(this.characterWalk, {
+			frames: this.anims.generateFrameNumbers(this.characterYell, {
 				start: 0,
 				end: 1,
 			}),
 			repeat: -1,
 		});
 
-		this.anims.create({
-			key: this.dog,
-			frameRate: 8,
-			frames: this.anims.generateFrameNumbers(this.dog, {
-				start: 0,
-				end: 1,
-			}),
-			repeat: -1,
-		});
+		this.characterEntity.setScale(0.74).play(this.characterYell);
 
-		this.characterEntity.setVisible(true).play(this.characterWalk).toggleFlipX();
-		this.dogEntity.setVisible(true).play(this.dog);
+		this.frisbeeEntity.destroy();
 
-		const moveTo = this.components.addComponent(this.characterEntity, MoveTo);
-
-		moveTo.setTarget({
-			x: this.characterEntity.x - 1000,
-			y: this.characterEntity.y,
-		});
-
-		moveTo.velocity = 250;
+		this.dogEntity.play({ key: this.dogJumpAnims[0].key, repeat: -1, frameRate: 2}).setDepth(DepthLayers.PLAYER);
 
 		setTimeout(() => {
-			this.add.image(600,130,"goodemotion").setScale(0.6);
-			this.add.image(600,300,this.endText).setScale(0.6);								
-			const continuebutton = this.add.image(1090,360,"continuebutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
-			continuebutton.on("pointerdown", () => {
-				continuebutton.disableInteractive();
-				WorldScene.scenario11Fininshed = true;
-				this.moveScene();
-			});			
+			this.add.image(600,130,"mixedemotion").setScale(0.6);
+			this.add.image(600,300,this.endText).setScale(0.6);	
+			const replaybutton = this.add.image(1090,360,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			replaybutton.on("pointerdown", () => {
+				this.scene.restart();
+			});
+			
 		}, 5000);
 	}
-
-	//continue hug (wrong)
+	
+	//walk away (maybe)
 	private createResult2(): void {
-		this.anims.create({
-			key: this.continueHug,
-			frameRate: 2,
-			frames: this.anims.generateFrameNumbers(this.continueHug, {
-				start: 0,
-				end: 1,
-			}),
-			repeat: -1,
+		this.dogEntity.play({ key: this.dogRunAnims[0].key, repeat: -1 });
+
+		const moveToHusky = this.components.addComponent(
+			this.dogEntity,
+			MoveTo
+		);
+
+		moveToHusky.setTarget({
+			x: 2300,
+			y: this.dogEntity.y-200,
 		});
 
-		this.dogAndBoyEntity.play(this.continueHug);
-		var squeal = this.sound.add("squeal");
-		squeal.play({
-			loop: true
-		});	
+		moveToHusky.velocity = 200;
+
+		this.characterEntity
+			.play({ key: this.characterRunAnims[0].key, repeat: -1 })
+			.setScale(0.7);
+
+		const moveToCharacter = this.components.addComponent(
+			this.characterEntity,
+			MoveTo
+		);
+
+		moveToCharacter.setTarget({
+			x: 2100,
+			y: this.characterEntity.y-200,
+		});
+
+		moveToCharacter.velocity = 200;
+
+		this.frisbeeEntity.destroy();
 
 		setTimeout(() => {
 			this.add.image(600,130,"bademotion").setScale(0.6);
@@ -508,33 +475,39 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			const replaybutton = this.add.image(1090,360,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 			replaybutton.on("pointerdown", () => {
 				this.scene.restart();
-			});			
+			})
+			
 		}, 5000);
 	}
-	
-	//pet dog (maybe)
+
+	//run away (wrong)
 	private createResult3(): void {
 		this.anims.create({
-			key: this.petDog,
+			key: this.dogFrisbee,
 			frameRate: 2,
-			frames: this.anims.generateFrameNumbers(this.petDog, {
+			frames: this.anims.generateFrameNumbers(this.dogFrisbee, {
 				start: 0,
 				end: 1,
 			}),
 			repeat: -1,
 		});
+		
+		this.dogEntity.play(this.dogFrisbee).setY(750);
 
-		this.dogAndBoyEntity.play(this.petDog);
+		this.frisbeeEntity.destroy();
 
 		setTimeout(() => {
-			this.add.image(600,130,"mixedemotion").setScale(0.6);
+			this.add.image(600,130,"goodemotion").setScale(0.6);
 			this.add.image(600,300,this.endText).setScale(0.6);					
-			const replaybutton = this.add.image(1090,360,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			const replaybutton = this.add.image(1090,360,"continuebutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 			replaybutton.on("pointerdown", () => {
-				this.scene.restart();
-			});
-		}, 4000);
+				replaybutton.disableInteractive();
+				this.moveScene();
+			})			
+		}, 5000);
 	}
+
+	
 
 	private moveScene() {
 		fadeToBlack(this, () => {

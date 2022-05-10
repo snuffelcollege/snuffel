@@ -597,7 +597,7 @@
                 }, 
                 {
                  "height":0,
-                 "id":8,
+                 "id":7,
                  "name":"ManOnBench",
                  "point":true,
                  "rotation":0,
@@ -616,8 +616,20 @@
                  "type":"Objective",
                  "visible":true,
                  "width":0,
-                 "x":8056,
-                 "y":4530
+                 "x":8112,
+                 "y":4522
+                }, 
+                {
+                 "height":0,
+                 "id":9,
+                 "name":"Frisbee",
+                 "point":true,
+                 "rotation":0,
+                 "type":"Objective",
+                 "visible":true,
+                 "width":0,
+                 "x":7756,
+                 "y":6246
                 }, 
                 {
                  "height":0,
@@ -628,8 +640,8 @@
                  "type":"Objective",
                  "visible":true,
                  "width":0,
-                 "x":5396,
-                 "y":6034
+                 "x":4802,
+                 "y":5836
                 }],
          "opacity":1,
          "type":"objectgroup",

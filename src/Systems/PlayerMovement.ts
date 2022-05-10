@@ -23,7 +23,7 @@ enum MovementState {
  * adds player controls (WASD, Mouse clicks) to a scene.
  */
 export default class PlayerMovement {
-	protected static readonly maxVelocity = 2048;
+	protected static readonly maxVelocity = 1024;
 
 	private static northWestRad = PlayerMovement.degToRad(225);
 

@@ -201,7 +201,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		);
 		this.characterEntity
 			.play(this.characterIdle)
-			.setScale(1)
+			
 			.toggleFlipX()
 			.setDepth(1);
 		
@@ -420,7 +420,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		});
 
 		this.stickEntity.destroy();
-		this.characterEntity.play(this.pokingSheet).setScale(1);
+		this.characterEntity.play(this.pokingSheet);
 
 		setTimeout(() => {
 			this.characterEntity.stop();
@@ -486,7 +486,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			repeat: -1,
 		});
 
-		this.characterEntity.setScale(1).play(this.characterWalk).toggleFlipX();
+		this.characterEntity.play(this.characterWalk).toggleFlipX();
 
 		const moveToCharacter = this.components.addComponent(
 			this.characterEntity,
@@ -587,7 +587,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			repeat: -1,
 		});
 		
-		this.characterEntity.play(this.barkingSheet).setScale(1).toggleFlipX();
+		this.characterEntity.play(this.barkingSheet).toggleFlipX();
 
 		this.anims.create({
 			key: this.shepherdSheet,
@@ -599,7 +599,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			repeat: -1,
 		});
 
-		this.shepherdEntity.play(this.shepherdSheet).setScale(1);
+		this.shepherdEntity.play(this.shepherdSheet);
 
 		var bark = this.sound.add("bark2");
 		bark.play({

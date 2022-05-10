@@ -36,7 +36,7 @@
 		"eslint-plugin-unicorn": "^39.0.0",
 		"file-loader": "^6.2.0",
 		"html-webpack-plugin": "^5.5.0",
-		"image-webpack-loader": "^8.0.1",
+		"image-webpack-loader": "^1.8.0",
 		"jest": "^27.4.4",
 		"prettier": "^2.5.1",
 		"style-loader": "^3.3.1",
@@ -52,7 +52,8 @@
 	},
 	"dependencies": {
 		"core-js": "^3.19.3",
-		"phaser": "^3.55.2"
+		"phaser": "^3.55.2",
+		"uuid": "^7.0.3"
 	},
 	"browserslist": [
 		"defaults",

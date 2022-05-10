@@ -247,7 +247,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			repeat: -1,
 		});
 		this.characterEntity = this.add.sprite(650,700,this.characterIdle).toggleFlipX();
-		this.characterEntity.play(this.characterIdle).setScale(1);
+		this.characterEntity.play(this.characterIdle);
 
 		//dog animation
 		this.anims.create({
@@ -263,7 +263,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			repeat: -1,
 		});
 		this.DogEntity = this.add.sprite(1200,750,this.rayIdle);
-		this.DogEntity.play(this.rayIdle).setScale(1);
+		this.DogEntity.play(this.rayIdle);
 
 		this.anims.create({
 			key: this.abyIdle,
@@ -278,7 +278,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			repeat: -1,
 		});
 		this.AbyEntity = this.add.sprite(1050,580,this.abyIdle);
-		this.AbyEntity.play(this.abyIdle).setScale(1);
+		this.AbyEntity.play(this.abyIdle);
 
 		this.anims.create({
 			key: this.catMeow,
@@ -500,7 +500,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			),
 			repeat: -1,
 		});
-		this.characterEntity.play(this.boyBark).setScale(1).toggleFlipX();
+		this.characterEntity.play(this.boyBark).toggleFlipX();
 
 		this.anims.create({
 			key: this.abyAngry,
@@ -514,7 +514,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			),
 			repeat: -1,
 		});
-		this.AbyEntity.play(this.abyAngry).setScale(1);		
+		this.AbyEntity.play(this.abyAngry);		
 	
 		//fade to black and back to overworld after 5 seconds
 		setTimeout(() => {
@@ -549,7 +549,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			repeat: -1,
 		});
 
-		this.characterEntity.play(this.characterWalk).setScale(1).setDepth(1);
+		this.characterEntity.play(this.characterWalk).setDepth(1);
 
 		const movePast = this.components.addComponent(
 			this.characterEntity,
@@ -652,7 +652,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			repeat: -1,
 		});
 
-		this.characterEntity.play(this.characterWalk).setScale(1).toggleFlipX().setDepth(1);
+		this.characterEntity.play(this.characterWalk).toggleFlipX().setDepth(1);
 		
 		const movetoRay = this.components.addComponent(
 			this.characterEntity,
@@ -679,7 +679,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				),
 				repeat: -1,
 			});
-			this.characterEntity.play(this.boyPet).setScale(1).setDepth(0);
+			this.characterEntity.play(this.boyPet).setDepth(0);
 	
 	
 			this.anims.create({
@@ -694,7 +694,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				),
 				repeat: -1,
 			});
-			this.AbyEntity.play(this.abyAngry).setScale(1).setDepth(0);
+			this.AbyEntity.play(this.abyAngry).setDepth(0);
 
 			
 			this.anims.create({
@@ -709,7 +709,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				),
 				repeat: -1,
 			});
-			this.DogEntity.play(this.rayWag).setScale(1);
+			this.DogEntity.play(this.rayWag);
 			this.sound.add("squeal5").play();
 			
 			//fade to black and back to overworld after 5 seconds

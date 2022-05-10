@@ -1,5 +1,5 @@
 { "frames": {
-   "0.png": {
+   "0": {
     "frame": { "x": 1, "y": 292, "w": 262, "h": 220 },
     "rotated": false,
     "trimmed": true,
@@ -7,7 +7,7 @@
     "sourceSize": { "w": 456, "h": 295 },
     "duration": 100
    },
-   "1.png": {
+   "1": {
     "frame": { "x": 1, "y": 1, "w": 358, "h": 290 },
     "rotated": false,
     "trimmed": true,
@@ -15,7 +15,7 @@
     "sourceSize": { "w": 456, "h": 295 },
     "duration": 100
    },
-   "2.png": {
+   "2": {
     "frame": { "x": 360, "y": 1, "w": 432, "h": 197 },
     "rotated": false,
     "trimmed": true,
@@ -23,7 +23,7 @@
     "sourceSize": { "w": 456, "h": 295 },
     "duration": 100
    },
-   "3.png": {
+   "3": {
     "frame": { "x": 360, "y": 199, "w": 314, "h": 231 },
     "rotated": false,
     "trimmed": true,

@@ -24,7 +24,7 @@ import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
 import ComponentService from "../Services/ComponentService";
 import MakeFullscreen from "../Components/MakeFullscreen";
-import { WorldSceneConfig } from "./WorldScene";
+import WorldScene, { WorldSceneConfig } from "./WorldScene";
 import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
@@ -237,7 +237,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			this.huskyRun
 		);
 		this.huskyEntity
-			.setScale(1)
+			
 			.play({ key: this.dogWalkAnims[0].key, repeat: -1 });
 
 		const moveTo = this.components.addComponent(this.huskyEntity, MoveTo);
@@ -481,6 +481,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			const continuebutton = this.add.image(1090,360,"continuebutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 			continuebutton.on("pointerdown", () => {
 				continuebutton.disableInteractive();
+				WorldScene.scenario8Fininshed = true;
 				this.moveScene();
 			});
 			
