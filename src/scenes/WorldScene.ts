@@ -8,6 +8,8 @@ import stickScene2 from "@assets/images/scenario_2/stick.png";
 import doorScene3 from "@assets/images/scenario_3/door.png";
 import rayScene5 from "@assets/spritesheets/scenario_5/ray.png";
 import rayDataScene5 from "@assets/spritesheets/scenario_5/ray.json";
+import spencerScene7Sheet from "@assets/spritesheets/scenario_7/spencer.png";
+import spencerScene7Data from "@assets/spritesheets/scenario_7/spencer.json";
 import huskyImage from "@assets/spritesheets/husky/husky.png";
 import huskyJson from "@assets/spritesheets/husky/husky.json";
 import huskyWaitImage from "@assets/images/world/husky_wait.png";
@@ -86,6 +88,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 	private rayScene5!: string;
 
+	private spencerScene7!: string;
+
 	private dogInCar!: string;
 
 	private scene1Dog!: string;
@@ -140,6 +144,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.stickScene2 = "stickScene2";
 		this.doorScene3 = "doorScene3";
 		this.rayScene5 = "rayScene5";
+		this.spencerScene7 = "spencerScene7"
 		this.dogInCar = "dogInCar";
 		this.husky = "husky";
 		this.huskyWait = "huskywait"
@@ -172,6 +177,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.load.image(this.stickScene2, stickScene2);
 		this.load.image(this.doorScene3, doorScene3);
 		this.load.aseprite(this.rayScene5, rayScene5, rayDataScene5);
+		this.load.aseprite(this.spencerScene7,spencerScene7Sheet,spencerScene7Data);
 		this.load.image(this.gateClosed, GateClosed);
 		this.load.image(this.gatePillar, GatePillar);
 		this.load.image(this.gateFence, GateFence);
@@ -997,27 +1003,26 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	): void {
 		const poiCloudAnimTags = this.anims.createFromAseprite("poi_cloud");
 
-		const dog = new MovableEntity(scene, x, y, this.husky).setScale(0.4);
+		const spencerCollidable = new MovableEntity(scene, x, y+25, this.spencerScene7).setScale(1);
 
 		const dogTalkBubble = this.add.sprite(
-			dog.x + 64,
-			dog.y - 84,
+			x - 90,
+			y - 84,
 			this.poiCloud
 		);
 
-		this.depthSorter.addSortable(dog, DepthLayers.PLAYER);
+		this.depthSorter.addSortable(spencerCollidable, DepthLayers.PLAYER);
 
-		this.dogAnimTags = this.anims.createFromAseprite(this.husky);
+		this.dogAnimTags = this.anims.createFromAseprite("spencerScene7");
 
-		dog.setBodySize(dog.width, dog.height / 5)
-			.setOffset(0, (dog.height * 4) / 5)
-			.play({ key: this.dogAnimTags[1].key, repeat: -1 }, true)
+		spencerCollidable.setBodySize(spencerCollidable.width, spencerCollidable.height/1.5)
+			.play({ key: this.dogAnimTags[0].key, repeat: -1, frameRate: 2 }, true)
+			.setOffset(0,75)
 			.setImmovable(true)
-			.setFlipX(true)
 			.setDepth(DepthLayers.PLAYER)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
-				if (dogTalkBubble.visible) {
+				if (dogTalkBubble.visible && !WorldScene.scenario5Fininshed) {
 					this.switchScene(target_scene);
 				}
 			});
@@ -1026,23 +1031,24 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			.setDepth(DepthLayers.Roofs)
 			.play({ key: poiCloudAnimTags[0].key, repeat: -1 }, true)
 			.setVisible(false)
+			.setFlipX(true)
 			.setInteractive({ useHandCursor: true })
-			.on("pointerdown", () => this.switchScene(target_scene));
+			.on("pointerdown", () => {if(!WorldScene.scenario5Fininshed){this.switchScene(target_scene)}});
 
-		collidables.push(dog);
+		collidables.push(spencerCollidable);
 
 		const radius = this.add.zone(
-			dog.x,
-			dog.y,
-			dog.displayWidth,
-			dog.displayHeight
+			x,
+			y,
+			spencerCollidable.displayWidth,
+			spencerCollidable.displayHeight
 		);
 
 		this.physics.world.enable(radius); // enable the zone's physics body
 
 		(radius.body as Phaser.Physics.Arcade.Body)
-			.setOffset(-radius.displayWidth * 0.5, -radius.displayHeight * 0.5)
-			.setCircle(dog.displayWidth);
+			.setOffset(-220, -160)
+			.setCircle(350);
 
 		overlappables.push(radius);
 
@@ -1052,11 +1058,14 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		);
 
 		dispatcher.setDispatchCallback((isOverlapping) => {
-			if (dogTalkBubble.visible !== isOverlapping) {
-				dogTalkBubble.setVisible(isOverlapping);
-			}
+				if (WorldScene.scenario5Fininshed){
+					dogTalkBubble.setVisible(false);
+				}else{
+					dogTalkBubble.setVisible(isOverlapping);
+				}	
+			
 
-			if (isOverlapping && this.sceneSwitchKey.isDown) {
+			if (isOverlapping && this.sceneSwitchKey.isDown && !WorldScene.scenario5Fininshed) {
 				this.switchScene(target_scene);
 			}
 		});
