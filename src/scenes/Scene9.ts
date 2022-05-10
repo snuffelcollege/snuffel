@@ -420,6 +420,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 		this.characterEntity.setScale(0.74).play(this.characterYell);
 
+		this.frisbeeEntity.destroy();
+
 		this.dogEntity.play({ key: this.dogJumpAnims[0].key, repeat: -1, frameRate: 2}).setDepth(DepthLayers.PLAYER);
 
 		setTimeout(() => {

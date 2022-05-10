@@ -22,6 +22,8 @@ import Car from "@assets/images/scenario_6/car.png";
 import Truck from "@assets/images/world/truck.png";
 import DogInCarSheet from "@assets/spritesheets/scenario_6/dog_neutral.png";
 import DogInCarData from "@assets/spritesheets/scenario_6/dog_neutral.json";
+import DogeSheet from "@assets/spritesheets/scenario_9/doge.png";
+import DogeData from "@assets/spritesheets/scenario_9/doge.json";
 import Scene1DogSheet from "@assets/spritesheets/scenario_1/snuffelidle.png";
 import Scene1DogData from "@assets/spritesheets/scenario_1/snuffelidle.json";
 import { Scene } from "phaser";
@@ -96,6 +98,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 	private dogInCar!: string;
 
+	private doge!: string;
+
 	private scene1Dog!: string;
 
 	private husky!: string;
@@ -158,6 +162,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.gateFence = "gateFence";
 		this.car = "car";
 		this.truck = "truck";
+		this.doge = "doge";
 		this.scene1Dog = "scene1dog";
 
 		this.dogAnimTags = [];
@@ -190,6 +195,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.load.image(this.car,Car)
 		this.load.image(this.truck, Truck);
 		this.load.aseprite(this.dogInCar,DogInCarSheet,DogInCarData);
+		this.load.aseprite(this.doge,DogeSheet,DogeData);
 		this.load.aseprite(this.scene1Dog,Scene1DogSheet,Scene1DogData);
 
 		//audio
@@ -1181,7 +1187,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	): void {
 		const poiCloudAnimTags = this.anims.createFromAseprite("poi_cloud");
 
-		const dog = new MovableEntity(scene, x, y, this.husky).setScale(0.4);
+		const dog = new MovableEntity(scene, x, y, this.doge);
 
 		const dogTalkBubble = this.add.sprite(
 			dog.x + 64,
@@ -1191,11 +1197,10 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 		this.depthSorter.addSortable(dog, DepthLayers.PLAYER);
 
-		this.dogAnimTags = this.anims.createFromAseprite(this.husky);
+		this.dogAnimTags = this.anims.createFromAseprite(this.doge);
 
-		dog.setBodySize(dog.width, dog.height / 5)
-			.setOffset(0, (dog.height * 4) / 5)
-			.play({ key: this.dogAnimTags[1].key, repeat: -1 }, true)
+		dog.setBodySize(dog.width, dog.height)
+			.play({ key: this.dogAnimTags[0].key, repeat: -1, frameRate: 2 }, true)
 			.setImmovable(true)
 			.setFlipX(true)
 			.setDepth(DepthLayers.PLAYER)
