@@ -126,7 +126,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		//loads and sets background and playground obstacle
 		const img = this.add.image(centerX, centerY, "background1");
 		this.components.addComponent(img, MakeFullscreen);
-		this.add.image(190, 775, "playground1").setDepth(2).setScale(1);
+		this.add.image(190, 775, "playground1").setDepth(2);
 
 		this.createSituation();
 	}
@@ -160,7 +160,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.playerEntity
 			.play("playeridle11")
 			.toggleFlipX()
-			.setScale(1);
+			;
 
 		//dog idle animation	
 		this.anims.create({
@@ -183,7 +183,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		)
 		this.dogEntity
 			.play("dogidle1")
-			.setScale(1);
+			;
 		
 		//first textbox with continue button
 		const startDialogImage1 = this.add.image(700,300,"startdialog11").setScale(0.6);
@@ -213,7 +213,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				"bullywalk1"
 			)
 			
-			this.bullyEntity.play("bullywalk1").setScale(1);
+			this.bullyEntity.play("bullywalk1");
 	
 			const bullyMove = this.components.addComponent(
 				this.bullyEntity,
@@ -272,7 +272,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.playerEntity.setDepth(1);
 		this.playerEntity
 			.play("playeridle21")
-			.setScale(1);			
+			;			
 		
 		//create stick 1 and sign 1, add movecomponents
 		const stick1 = this.add.image(500,1280, "stick");
@@ -474,7 +474,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.playerEntity
 			.play( "playerpoint1")
 			.toggleFlipX()
-			.setScale(1);
+			;
 
 		setTimeout(() => {
 			//set bully idle animation
@@ -497,7 +497,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			);
 			this.bullyEntity
 				.play("bullyidle1")
-				.setScale(1);
+				;
 
 			//set dog idle animation
 			this.anims.create({
@@ -518,7 +518,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				.setX(1200)
 				.setY(700)
 				.play("dogidle1")
-				.setScale(1);		
+				;		
 		}, 1000);
 		
 		setTimeout(() => {
@@ -615,7 +615,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		);
 		this.playerEntity
 			.play("playerWalk1")
-			.setScale(1);
+			;
 		
 		const playerMove = this.components.addComponent(
 			this.playerEntity,
@@ -670,7 +670,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.playerEntity
 			.play( "playershout1")
 			.toggleFlipX()
-			.setScale(1);
+			;
 		
 			setTimeout(() => {
 				this.add.image(600,130,"mixedemotion").setScale(0.6);

@@ -22,7 +22,7 @@ import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
 import ComponentService from "../Services/ComponentService";
 import MakeFullscreen from "../Components/MakeFullscreen";
-import { WorldSceneConfig } from "./WorldScene";
+import WorldScene, { WorldSceneConfig } from "./WorldScene";
 import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
@@ -200,7 +200,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		);
 		this.characterEntity
 			.play({ key: this.characterWalkAnims[0].key, repeat: -1 })
-			.setScale(1);
+			;
 
 		const moveToCharacter = this.components.addComponent(
 			this.characterEntity,
@@ -234,7 +234,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		);
 		this.dogEntity
 			.play(this.dog)
-			.setScale(1);		
+			;		
 
 
 		setTimeout(() => {
@@ -478,6 +478,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			const continuebutton = this.add.image(1090,360,"continuebutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 			continuebutton.on("pointerdown", () => {
 				continuebutton.disableInteractive();
+				WorldScene.scenario11Fininshed = true;
 				this.moveScene();
 			});			
 		}, 5000);
@@ -495,7 +496,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			repeat: -1,
 		});
 
-		this.dogAndBoyEntity.setScale(1).play(this.continueHug);
+		this.dogAndBoyEntity.play(this.continueHug);
 		var squeal = this.sound.add("squeal");
 		squeal.play({
 			loop: true

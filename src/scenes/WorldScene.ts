@@ -63,6 +63,10 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	public static scenario4Fininshed: boolean;
 	public static scenario5Fininshed: boolean;
 	public static scenario6Fininshed: boolean;
+	public static scenario7Fininshed: boolean;
+	public static scenario8Fininshed: boolean;
+	public static scenario9Fininshed: boolean;
+	public static scenario11Fininshed: boolean;
 
 	private GateClosed!: MovableEntity;
 	private GatePilar!: MovableEntity;
@@ -122,6 +126,10 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		WorldScene.scenario4Fininshed = false;
 		WorldScene.scenario5Fininshed = false;
 		WorldScene.scenario6Fininshed = false;
+		WorldScene.scenario7Fininshed = false;
+		WorldScene.scenario8Fininshed = false;
+		WorldScene.scenario9Fininshed = false;
+		WorldScene.scenario11Fininshed = false;		
 
 		this.tilesetKey = "world_tiles";
 		this.tilemapKey = "main_scene";
