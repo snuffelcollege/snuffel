@@ -218,15 +218,14 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		const Treeline_2 = tilemap.createLayer("Treeline_2", tileset);
 		const Treeline_3 = tilemap.createLayer("Treeline_3", tileset);
 		const Treeline_4 = tilemap.createLayer("Treeline_4", tileset);
-		const Concrete = tilemap.createLayer("Concrete", tileset);
+		const Concrete_dirt = tilemap.createLayer("Concrete_dirt", tileset);
 		const Fences = tilemap.createLayer("Fences", tileset);
 		const Road = tilemap.createLayer("Road", tileset);
 		const Road_lines = tilemap.createLayer("Road_lines", tileset);
 		const Lanterns = tilemap.createLayer("Lanterns", tileset);
 		const Collision_houses = tilemap.createLayer("Collision_houses", tileset);
 		const Roofs = tilemap.createLayer("Roofs", tileset);
-		const Bushes = tilemap.createLayer("Bushes", tileset);
-		const Flowers = tilemap.createLayer("Flowers", tileset);
+		const Flowers_bushes = tilemap.createLayer("Flowers_bushes", tileset);
 
 		// add collision to the layers which have collision specified inside tiled
 		Water.setCollisionByProperty({ collision: true });
@@ -235,12 +234,11 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		Treeline_2.setCollisionByProperty({ collision: true });
 		Treeline_3.setCollisionByProperty({ collision: true });
 		Treeline_4.setCollisionByProperty({ collision: true });
-		Concrete.setCollisionByProperty({ collision: true });
+		Concrete_dirt.setCollisionByProperty({ collision: true });
 		Fences.setCollisionByProperty({ collision: true });
 		Lanterns.setCollisionByProperty({ collision: true });
 		Collision_houses.setCollisionByProperty({ collision: true });
-		Bushes.setCollisionByProperty({ collision: true });
-		Flowers.setCollisionByProperty({ collision: true });
+		Flowers_bushes.setCollisionByProperty({ collision: true });
 
 		const collidables: GameObject[] = [];
 		const overlappables: GameObject[] = [];
@@ -286,13 +284,13 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 						this.physics.add.collider(p, Treeline_2);
 						this.physics.add.collider(p, Treeline_3);
 						this.physics.add.collider(p, Treeline_4);
-						this.physics.add.collider(p, Concrete);
+						this.physics.add.collider(p, Concrete_dirt);
 						this.physics.add.collider(p, Fences);
 						this.physics.add.collider(p, Road);
 						this.physics.add.collider(p, Road_lines);
 						this.physics.add.collider(p, Lanterns);
 						this.physics.add.collider(p, Collision_houses);
-						this.physics.add.collider(p, Bushes);
+						this.physics.add.collider(p, Flowers_bushes);
 
 						this.depthSorter.addSortable(p, DepthLayers.PLAYER);
 
@@ -471,19 +469,18 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		// sort z indices
 		Water.setDepth(DepthLayers.Water);
 		Grass.setDepth(DepthLayers.Grass);
-		Bushes.setDepth(DepthLayers.Bushes)
+		Flowers_bushes.setDepth(DepthLayers.Flowers_bushes)
 		Treeline_1.setDepth(DepthLayers.Treeline_1);
 		Treeline_2.setDepth(DepthLayers.Treeline_2);
 		Treeline_3.setDepth(DepthLayers.Treeline_3);
 		Treeline_4.setDepth(DepthLayers.Treeline_4);
-		Concrete.setDepth(DepthLayers.Concrete);
+		Concrete_dirt.setDepth(DepthLayers.Concrete_dirt);
 		Fences.setDepth(DepthLayers.Fences);
 		Road.setDepth(DepthLayers.Road);
 		Road_lines.setDepth(DepthLayers.Road_lines);
 		Lanterns.setDepth(DepthLayers.Lanterns);
 		Collision_houses.setDepth(DepthLayers.Collision_houses);
 		Roofs.setDepth(DepthLayers.Roofs);
-		Flowers.setDepth(DepthLayers.Flowers);
 
 		this.depthSorter.setRatio(tilemap.heightInPixels * 1.1);
 
