@@ -492,9 +492,14 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			repeat: -1,
 		});
 		
-		this.dogEntity.play(this.dogFrisbee).setY(750);
+		this.frisbeeEntity.setY(this.frisbeeEntity.y+75).setX(this.frisbeeEntity.x-50);
 
-		this.frisbeeEntity.destroy();
+		setTimeout(() => {
+			this.dogEntity.play(this.dogFrisbee).setY(750);
+			this.frisbeeEntity.destroy();
+		}, 500);
+
+		
 
 		setTimeout(() => {
 			this.add.image(600,130,"goodemotion").setScale(0.6);
