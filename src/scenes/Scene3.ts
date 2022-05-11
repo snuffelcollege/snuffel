@@ -579,7 +579,8 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 							});
 
 							characterMover.velocity = 325;
-							characterMover.movingDone = () =>
+							characterMover.movingDone = () => 
+								console.log("done");
 								this.add.image(600,130,"mixedemotion").setScale(0.6);
 								this.add.image(600,300,this.endText).setScale(0.6);					
 								const replaybutton = this.add.image(1090,360,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
@@ -587,12 +588,17 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 					
 								setTimeout(() => {
 									this.sound.add("3endtextaudio", {volume: 1}).play();
+									replaybutton.on("pointerdown", () => {
+										this.game.sound.stopByKey("mixedemotionaudio");
+										this.game.sound.removeByKey("mixedemotionaudio");
+										this.game.sound.stopByKey("3endtextaudio");	
+										this.game.sound.removeByKey("3endtextaudio");	
+										this.game.sound.stopByKey("bark3");	
+										this.game.sound.removeByKey("bark3");	
+										this.scene.restart();
+									});
 								}, 3000);
-								replaybutton.on("pointerdown", () => {
-									this.game.sound.removeByKey("mixedemotionaudio");
-									this.game.sound.removeByKey("3endtextaudio");	
-									this.scene.restart();
-								});
+								
 							characterMover.setTarget({
 								x: this.scale.width,
 								y: originalY,
