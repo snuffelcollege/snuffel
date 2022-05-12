@@ -467,7 +467,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			y: this.characterEntity.y+175,
 		});
 
-		moveTo.velocity = 100;
+		moveTo.velocity = 150;
 
 		this.moveIcecreamConeAway = true;
 

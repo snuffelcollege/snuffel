@@ -1124,8 +1124,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		const dog = new MovableEntity(scene, x, y, this.iceCreamStand);
 
 		const dogTalkBubble = this.add.sprite(
-			dog.x + 64,
-			dog.y - 84,
+			dog.x + 150,
+			dog.y - 10,
 			this.poiCloud
 		);
 
@@ -1135,7 +1135,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			.setOffset(30,400)
 			.play(this.iceCreamStand)
 			.setImmovable(true)
-			.setFlipX(true)
+			.setFlipX(false)
 			.setDepth(DepthLayers.PLAYER)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
