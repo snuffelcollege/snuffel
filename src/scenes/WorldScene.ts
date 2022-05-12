@@ -26,6 +26,7 @@ import DogeSheet from "@assets/spritesheets/scenario_9/doge.png";
 import DogeData from "@assets/spritesheets/scenario_9/doge.json";
 import Scene1DogSheet from "@assets/spritesheets/scenario_1/snuffelidle.png";
 import Scene1DogData from "@assets/spritesheets/scenario_1/snuffelidle.json";
+import Scene1TextCloud from "@assets/images/scenario_1/text_cloud.png";
 import { Scene } from "phaser";
 import PlayerEntity from "../GameObjects/Entities/PlayerEntity";
 import DepthSorter from "../Services/DepthSorter";
@@ -79,6 +80,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	private GateFence!: MovableEntity;
 
 	private Truck!: MovableEntity;
+
+	private scene1Cloud!: string;
 	
 	private poiCloud!: string;
 
@@ -164,6 +167,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.truck = "truck";
 		this.doge = "doge";
 		this.scene1Dog = "scene1dog";
+		this.scene1Cloud = "scene1Cloud";
 
 		this.dogAnimTags = [];
 
@@ -194,6 +198,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.load.image(this.gateFence, GateFence);
 		this.load.image(this.car,Car)
 		this.load.image(this.truck, Truck);
+		this.load.image(this.scene1Cloud, Scene1TextCloud);
 		this.load.aseprite(this.dogInCar,DogInCarSheet,DogInCarData);
 		this.load.aseprite(this.doge,DogeSheet,DogeData);
 		this.load.aseprite(this.scene1Dog,Scene1DogSheet,Scene1DogData);
@@ -601,14 +606,14 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		y: number,
 		target_scene: string
 	): void {
-		const poiCloudAnimTags = this.anims.createFromAseprite("poi_cloud");
+		
 
 		const dog = new MovableEntity(scene, x, y, this.scene1Dog).setScale(0.6);
 
-		const dogTalkBubble = this.add.sprite(
-			dog.x - 150,
+		const dogTalkBubble = this.add.image(
+			dog.x - 170,
 			dog.y - 130,
-			this.poiCloud
+			this.scene1Cloud
 		);
 
 		this.depthSorter.addSortable(dog, DepthLayers.PLAYER);
@@ -629,9 +634,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			});
 
 		dogTalkBubble
+			.setScale(0.5)
 			.setDepth(DepthLayers.Roofs)
-			.setFlipX(true)
-			.play({ key: poiCloudAnimTags[0].key, repeat: -1 }, true)
 			.setVisible(false)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
@@ -643,15 +647,15 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		const radius = this.add.zone(
 			dog.x,
 			dog.y,
-			230,
-			230
+			350,
+			350
 		);
 
 		this.physics.world.enable(radius); // enable the zone's physics body
 
 		(radius.body as Phaser.Physics.Arcade.Body)
 			.setOffset(-radius.displayWidth * 0.5, -radius.displayHeight * 0.5)
-			.setCircle(230);
+			.setCircle(350);
 
 		overlappables.push(radius);
 
