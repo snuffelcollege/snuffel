@@ -580,7 +580,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 
 							characterMover.velocity = 325;
 							characterMover.movingDone = () => 
-								console.log("done");
+								console.log("");
 								this.add.image(600,130,"mixedemotion").setScale(0.6);
 								this.add.image(600,300,this.endText).setScale(0.6);					
 								const replaybutton = this.add.image(1090,360,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });

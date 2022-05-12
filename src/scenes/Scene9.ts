@@ -23,12 +23,13 @@ import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
 import ComponentService from "../Services/ComponentService";
 import MakeFullscreen from "../Components/MakeFullscreen";
-import { WorldSceneConfig } from "./WorldScene";
+import WorldScene, { WorldSceneConfig } from "./WorldScene";
 import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
 import splash from "@assets/audio/objects/fallen_icecream.mp3";
 import DepthLayers from "../DepthLayers";
+import { World } from "matter";
 
 // Config for the scene defining gravity and debug settings.
 export const config: SettingsConfig = {
@@ -492,14 +493,22 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			repeat: -1,
 		});
 		
-		this.frisbeeEntity.setY(this.frisbeeEntity.y+75).setX(this.frisbeeEntity.x-50);
+		const moveFrisbee = this.components.addComponent(
+			this.frisbeeEntity,
+			MoveTo
+		);
 
-		setTimeout(() => {
+		moveFrisbee.setTarget({
+			x: this.frisbeeEntity.x-75,
+			y: this.frisbeeEntity.y+75
+		});
+
+		moveFrisbee.velocity = 250;
+
+		moveFrisbee.movingDone = () => {
 			this.dogEntity.play(this.dogFrisbee).setY(750);
 			this.frisbeeEntity.destroy();
-		}, 500);
-
-		
+		};		
 
 		setTimeout(() => {
 			this.add.image(600,130,"goodemotion").setScale(0.6);
@@ -507,6 +516,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			const replaybutton = this.add.image(1090,360,"continuebutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 			replaybutton.on("pointerdown", () => {
 				replaybutton.disableInteractive();
+				WorldScene.scenario9Fininshed = true;
 				this.moveScene();
 			})			
 		}, 5000);
