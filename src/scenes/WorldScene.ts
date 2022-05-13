@@ -692,10 +692,10 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	): void {
 		const poiCloudAnimTags = this.anims.createFromAseprite("poi_cloud");
 
-		this.add.image(x,y-150,this.dogScene2).setDepth(DepthLayers.Roofs).setScale(0.4);
+		this.add.image(x,y-200,this.dogScene2).setDepth(DepthLayers.Roofs).setScale(0.5);
 		this.add.image(x-100,y+100,this.stickScene2).setDepth(DepthLayers.PLAYER).setScale(0.4);
 
-		const fenceCollidable = new MovableEntity(scene, x, y-50, this.fenceScene2).setScale(0.4);
+		const fenceCollidable = new MovableEntity(scene, x, y-50, "");
 
 		const fenceTalkBubble = this.add.sprite(
 			fenceCollidable.x + 100,
@@ -705,7 +705,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 		this.depthSorter.addSortable(fenceCollidable, DepthLayers.PLAYER);
 
-		fenceCollidable.setBodySize(500, 500)
+		fenceCollidable.setBodySize(250, 250)
 			.setImmovable(true)
 			.setFlipX(true)
 			.setDepth(DepthLayers.PLAYER)
@@ -1124,8 +1124,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		const dog = new MovableEntity(scene, x, y, this.iceCreamStand);
 
 		const dogTalkBubble = this.add.sprite(
-			dog.x + 64,
-			dog.y - 84,
+			dog.x + 150,
+			dog.y - 10,
 			this.poiCloud
 		);
 
@@ -1135,7 +1135,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			.setOffset(30,400)
 			.play(this.iceCreamStand)
 			.setImmovable(true)
-			.setFlipX(true)
+			.setFlipX(false)
 			.setDepth(DepthLayers.PLAYER)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
