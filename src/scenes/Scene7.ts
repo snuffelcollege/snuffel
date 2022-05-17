@@ -585,81 +585,79 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			this.dogEntity.setTexture(this.dogSniff)
 			this.dogEntity.play(this.dogSniff);
 			setTimeout(() => {
-				this.add.image(550,130,"goodemotion").setScale(0.6);
-				this.add.image(550,300,this.endText).setScale(0.6);				
-				const continuebutton = this.add.image(1040,360,"continuebutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
-				
-				this.sound.add("goodemotionaudio", {volume: 1}).play();	
-						
-				setTimeout(() => {
-					this.sound.add("7endtextaudio", {volume: 1}).play();
-				}, 3000);//good & mixed = 3000
-				continuebutton.on("pointerdown", () => {				
-					this.game.sound.removeByKey("goodemotionaudio");
-					this.game.sound.removeByKey("7endtextaudio");
+				this.add.image(600,130,"goodemotion").setScale(0.6);
+				this.add.image(600,300,this.endText).setScale(0.6);	
+				const continuebutton = this.add.image(1090,360,"continuebutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+				continuebutton.on("pointerdown", () => {
 					continuebutton.disableInteractive();
-					WorldScene.scenario7Fininshed = true;	
-					this.moveScene();	
-					// const badgeCaseImage = this.add.sprite(1000,550, "badgecase").setScale(0.4).setVisible(true).setAlpha(0).setDepth(5);
-					// const badgeS1Image = this.add.sprite(680,450, "badge1").setScale(0.4).setVisible(WorldScene.scenario1Fininshed).setAlpha(0).setDepth(5);
-					// const badgeS2Image = this.add.sprite(1010,445, "badge2").setScale(0.4).setVisible(WorldScene.scenario2Fininshed).setAlpha(0).setDepth(5);
-					// const badgeS3Image = this.add.sprite(1320,455, "badge3").setScale(0.4).setVisible(WorldScene.scenario3Fininshed).setAlpha(0).setDepth(5);
-					// const badgeS4Image = this.add.sprite(690,755, "badge4").setScale(0.4).setVisible(WorldScene.scenario4Fininshed).setAlpha(0).setDepth(5);
-					// const badgeS5Image = this.add.sprite(1010,765, "badge5").setScale(0.4).setVisible(WorldScene.scenario5Fininshed).setAlpha(0).setDepth(5);
-					// const badgeS6Image = this.add.sprite(1310,750, "badge6").setScale(0.4).setVisible(WorldScene.scenario6Fininshed).setAlpha(0).setDepth(5);
-					// //fade in effect
-					// this.add.tween({
-					// 	targets: [badgeCaseImage,badgeS1Image,badgeS2Image,badgeS3Image,badgeS4Image,badgeS5Image,badgeS6Image],
-					// 	ease: 'Sine.easeInOut',
-					// 	duration: 500,
-					// 	delay: 0,
-					// 	alpha: {
-					// 	  getStart: () => 0,
-					// 	  getEnd: () => 1					  
-					// 	}					
-					//   });
-					//   this.add.tween({
-					// 	targets: [],
-					// 	ease: 'Sine.easeInOut',
-					// 	duration: 500,
-					// 	delay: 0,
-					// 	alpha: {
-					// 		getStart: () => 0,
-					// 		getEnd: () => 1					  
-					// 	  },
-					// 	scale: {
-					// 	  getStart: () => 3,
-					// 	  getEnd: () => 0.4					  
-					// 	}		
-					//   });
-					//   this.sound.add("badgebling", {volume: 0.5}).play();
-					//   this.anims.create({
-					// 	key: "sparkles",
-					// 	frameRate: 4,
-					// 	frames: this.anims.generateFrameNumbers(
-					// 		"sparkles",
-					// 		{
-					// 			start: 0,
-					// 			end: 1,
-					// 		}
-					// 	),
-					// 	repeat: -1,
-					// });
-					// this.sparkleEntity = this.add.sprite(
-					// 	1320,
-					// 	740,
-					// 	"sparkles"
-					// )
+					WorldScene.scenario7Fininshed = true;
 					
-					// this.sparkleEntity.play("sparkles").setScale(0.7).setDepth(6);
-					//   setTimeout(() => {
-					// 		this.moveScene();
-					//   }, 4000);  
+					const badgeCaseImage = this.add.sprite(960,550, "badgecase").setScale(0.6).setVisible(true).setAlpha(0).setDepth(5);
+					const badgeS1Image = this.add.sprite(512,482, "badge1").setScale(0.6).setVisible(WorldScene.scenario1Fininshed).setAlpha(0).setDepth(5);
+					const badgeS2Image = this.add.sprite(736,481, "badge2").setScale(0.6).setVisible(WorldScene.scenario2Fininshed).setAlpha(0).setDepth(5);
+					const badgeS3Image = this.add.sprite(966,481, "badge3").setScale(0.6).setVisible(WorldScene.scenario3Fininshed).setAlpha(0).setDepth(5);
+					const badgeS4Image = this.add.sprite(1200,481, "badge4").setScale(0.6).setVisible(WorldScene.scenario4Fininshed).setAlpha(0).setDepth(5);
+					const badgeS5Image = this.add.sprite(1430,481, "badge5").setScale(0.6).setVisible(WorldScene.scenario5Fininshed).setAlpha(0).setDepth(5);
+					const badgeS6Image = this.add.sprite(512,690, "badge6").setScale(0.6).setVisible(WorldScene.scenario6Fininshed).setAlpha(0).setDepth(5);
+					const badgeS7Image = this.add.sprite(745,690, "badge7").setScale(0.6).setVisible(WorldScene.scenario7Fininshed).setAlpha(0).setDepth(5);
+					const badgeS8Image = this.add.sprite(970,690, "badge8").setScale(0.6).setVisible(WorldScene.scenario8Fininshed).setAlpha(0).setDepth(5);
+					const badgeS9Image = this.add.sprite(1205,690, "badge9").setScale(0.6).setVisible(WorldScene.scenario9Fininshed).setAlpha(0).setDepth(5);
+					const badgeS10Image = this.add.sprite(1430,690, "badge10").setScale(0.6).setVisible(WorldScene.scenario11Fininshed).setAlpha(0).setDepth(5);
+					
+					//fade in effect
+					this.add.tween({
+						targets: [badgeCaseImage,badgeS1Image,badgeS2Image,badgeS3Image,badgeS4Image,badgeS5Image,badgeS6Image,badgeS7Image,badgeS9Image,badgeS10Image],
+						ease: 'Sine.easeInOut',
+						duration: 500,
+						delay: 0,
+						alpha: {
+						  getStart: () => 0,
+						  getEnd: () => 1					  
+						}					
+					  });
+					  this.add.tween({
+						targets: [badgeS8Image],
+						ease: 'Sine.easeInOut',
+						duration: 500,
+						delay: 0,
+						alpha: {
+							getStart: () => 0,
+							getEnd: () => 1					  
+						  },
+						scale: {
+						  getStart: () => 3,
+						  getEnd: () => 0.6					  
+						}		
+					  });
+					  this.sound.add("badgebling", {volume: 0.5}).play();
+					  this.anims.create({
+						key: "sparkles",
+						frameRate: 4,
+						frames: this.anims.generateFrameNumbers(
+							"sparkles",
+							{
+								start: 0,
+								end: 1,
+							}
+						),
+						repeat: -1,
+					});
+			
+					this.sparkleEntity = this.add.sprite(
+						670,
+						450,
+						"sparkles"
+					)
+					
+					this.sparkleEntity.play("sparkles").setScale(0.7).setDepth(6);
+						  
+					  setTimeout(() => {
+							this.moveScene();
+					  }, 4000);
 				});
-				
-		}, 3000);
-		}
+			}, 5000);
 	}
+}
 
 	//pet (maybe)
 	private createResult3(): void {
