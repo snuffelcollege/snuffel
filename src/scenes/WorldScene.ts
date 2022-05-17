@@ -26,6 +26,8 @@ import DogeFrisbeeSheet from "@assets/spritesheets/scenario_9/doge2.png";
 import DogeFrisbeeData from "@assets/spritesheets/scenario_9/doge2.json";
 import DogeSheet from "@assets/spritesheets/scenario_9/doge1.png";
 import DogeData from "@assets/spritesheets/scenario_9/doge1.json";
+import ParkGateClosed from "@assets/images/world/parkgate.png";
+import ParkGateOpen from "@assets/images/world/parkgateopen.png";
 import Scene1DogSheet from "@assets/spritesheets/scenario_1/snuffelidle.png";
 import Scene1DogData from "@assets/spritesheets/scenario_1/snuffelidle.json";
 import Scene1TextCloud from "@assets/images/scenario_1/text_cloud.png";
@@ -83,6 +85,10 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 	private Truck!: MovableEntity;
 
+	private ParkGate!: MovableEntity;
+	private ParkGateLeft!: MovableEntity;
+	private ParkGateRight!: MovableEntity;
+
 	private scene1Cloud!: string;
 	
 	private poiCloud!: string;
@@ -116,6 +122,9 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	private gateClosed!: string;
 	private gatePillar!: string;
 	private gateFence!: string;
+	
+	private parkGate!: string;
+	private parkGatePillar!: string;
 
 	private car!: string;
 
@@ -167,6 +176,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.gateClosed = "gateClosed";
 		this.gatePillar = "gatePillar";
 		this.gateFence = "gateFence";
+		this.parkGate = "parkGate";
+		this.parkGatePillar = "parkGatePillar";
 		this.car = "car";
 		this.truck = "truck";
 		this.doge = "doge";
@@ -201,6 +212,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.load.image(this.gateClosed, GateClosed);
 		this.load.image(this.gatePillar, GatePillar);
 		this.load.image(this.gateFence, GateFence);
+		this.load.image(this.parkGate, ParkGateClosed);
+		this.load.image(this.parkGatePillar, ParkGateOpen);
 		this.load.image(this.car,Car)
 		this.load.image(this.truck, Truck);
 		this.load.image(this.scene1Cloud, Scene1TextCloud);
@@ -567,7 +580,39 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			.setDepth(DepthLayers.PLAYER)
 			.setImmovable(true);
 
-		collidables.push(this.Truck);		
+		collidables.push(this.Truck);
+		
+		this.ParkGate = new MovableEntity(this,9030,3125,this.parkGate);
+			
+		this.ParkGate
+			.setBodySize(this.ParkGate.width, this.ParkGate.height)
+			.setScale(1.5)
+			.setDepth(DepthLayers.PLAYER)
+			.setImmovable(true);
+
+		collidables.push(this.ParkGate);
+
+		this.ParkGateLeft = new MovableEntity(this,8825,3200,this.parkGatePillar);
+			
+		this.ParkGateLeft
+			.setBodySize(this.ParkGateLeft.width, this.ParkGateLeft.height)
+			.setScale(1.5)
+			.setDepth(DepthLayers.PLAYER)
+			.setVisible(false)
+			.setImmovable(true);
+
+		collidables.push(this.ParkGateLeft);
+
+		this.ParkGateRight = new MovableEntity(this,9235,3200,this.parkGatePillar);
+			
+		this.ParkGateRight
+			.setBodySize(this.ParkGateRight.width, this.ParkGateRight.height)
+			.setScale(1.5)
+			.setDepth(DepthLayers.PLAYER)
+			.setVisible(false)
+			.setImmovable(true);
+
+		collidables.push(this.ParkGateRight);
 	}
 
 	public update(time: number, delta: number): void {			
@@ -582,15 +627,22 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			this.GateClosed.destroy();
 			this.GatePilar.setVisible(true);
 			this.GateFence.setVisible(true);
-			this.sound.play("fenceopen", {volume:0.5})
+			this.sound.play("fenceopen", {volume:0.5});
 		}		
 
 		if(this.Truck.visible && WorldScene.scenario2Fininshed && WorldScene.scenario3Fininshed){
 			this.Truck.destroy();
-			this.sound.play("truckmove", {volume:0.5})
+			this.sound.play("truckmove", {volume:0.5});
 		}
 
-		if (!this.switch_to_end && WorldScene.scenario4Fininshed && WorldScene.scenario5Fininshed && WorldScene.scenario6Fininshed){
+		if(this.ParkGate.visible && WorldScene.scenario4Fininshed && WorldScene.scenario5Fininshed && WorldScene.scenario6Fininshed){
+			this.ParkGate.destroy();
+			this.ParkGateLeft.setVisible(true);
+			this.ParkGateRight.setVisible(true);
+			this.sound.play("fenceopen", {volume:0.5});
+		}
+
+		if (!this.switch_to_end && WorldScene.scenario7Fininshed && WorldScene.scenario8Fininshed && WorldScene.scenario9Fininshed && WorldScene.scenario11Fininshed){
 			this.switch_to_end = true;
 			this.switchScene("end-scene");			
 		}
