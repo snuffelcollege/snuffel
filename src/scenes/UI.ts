@@ -7,6 +7,10 @@ import BadgeS3 from "@assets/images/UI/badges/badge_s3.png";
 import BadgeS4 from "@assets/images/UI/badges/badge_s4.png";
 import BadgeS5 from "@assets/images/UI/badges/badge_s5.png";
 import BadgeS6 from "@assets/images/UI/badges/badge_s6.png";
+import BadgeS7 from "@assets/images/UI/badges/badge_s7.png";
+import BadgeS8 from "@assets/images/UI/badges/badge_s8.png";
+import BadgeS9 from "@assets/images/UI/badges/badge_s9.png";
+import BadgeS10 from "@assets/images/UI/badges/badge_s10.png";
 import GoodEmotion from "@assets/images/world/correct_option.png";
 import MixedEmotion from "@assets/images/world/almost_option.png";
 import BadEmotion from "@assets/images/world/incorrect_option.png";
@@ -95,6 +99,10 @@ export default class UI extends Scene implements SceneLifecycle {
         this.load.image("badge4",BadgeS4);
         this.load.image("badge5",BadgeS5);
         this.load.image("badge6",BadgeS6);
+        this.load.image("badge7",BadgeS7);
+        this.load.image("badge8",BadgeS8);
+        this.load.image("badge9",BadgeS9);
+        this.load.image("badge10",BadgeS10);
 		this.load.image("continuebutton",ContinueButton);
 		this.load.image("replaybutton",ReplayButton);
 		this.load.image("goodemotion",GoodEmotion);
@@ -281,13 +289,17 @@ export default class UI extends Scene implements SceneLifecycle {
             //     }, 1000);
             // }    
 
-            const badgeCaseImage = this.add.sprite(1000,550, "badgecase").setScale(0.4).setVisible(false);
-            const badgeS1Image = this.add.sprite(680,450, "badge1").setScale(0.4).setVisible(false);
-            const badgeS2Image = this.add.sprite(1010,445, "badge2").setScale(0.4).setVisible(false);
-            const badgeS3Image = this.add.sprite(1320,455, "badge3").setScale(0.4).setVisible(false);
-            const badgeS4Image = this.add.sprite(690,755, "badge4").setScale(0.4).setVisible(false);
-            const badgeS5Image = this.add.sprite(1010,765, "badge5").setScale(0.4).setVisible(false);
-            const badgeS6Image = this.add.sprite(1310,750, "badge6").setScale(0.4).setVisible(false);
+            const badgeCaseImage = this.add.sprite(960,550, "badgecase").setScale(0.6).setVisible(false);
+            const badgeS1Image = this.add.sprite(512,482, "badge1").setScale(0.6).setVisible(false);
+            const badgeS2Image = this.add.sprite(736,481, "badge2").setScale(0.6).setVisible(false);
+            const badgeS3Image = this.add.sprite(966,481, "badge3").setScale(0.6).setVisible(false);
+            const badgeS4Image = this.add.sprite(1200,481, "badge4").setScale(0.6).setVisible(false);
+            const badgeS5Image = this.add.sprite(1430,481, "badge5").setScale(0.6).setVisible(false);
+            const badgeS6Image = this.add.sprite(512,690, "badge6").setScale(0.6).setVisible(false);
+            const badgeS7Image = this.add.sprite(745,690, "badge7").setScale(0.6).setVisible(false);
+            const badgeS8Image = this.add.sprite(970,690, "badge8").setScale(0.6).setVisible(false);
+            const badgeS9Image = this.add.sprite(1205,690, "badge9").setScale(0.6).setVisible(false);
+            const badgeS10Image = this.add.sprite(1430,690, "badge10").setScale(0.6).setVisible(false);
 
             const badge = this.add
                 .image(1850,370,this.badge_icon)
@@ -306,9 +318,13 @@ export default class UI extends Scene implements SceneLifecycle {
                             badgeS4Image.setVisible(WorldScene.scenario4Fininshed).setAlpha(0);
                             badgeS5Image.setVisible(WorldScene.scenario5Fininshed).setAlpha(0);
                             badgeS6Image.setVisible(WorldScene.scenario6Fininshed).setAlpha(0);
+                            badgeS7Image.setVisible(WorldScene.scenario7Fininshed).setAlpha(0);
+                            badgeS8Image.setVisible(WorldScene.scenario8Fininshed).setAlpha(0);
+                            badgeS9Image.setVisible(WorldScene.scenario9Fininshed).setAlpha(0);
+                            badgeS10Image.setVisible(WorldScene.scenario11Fininshed).setAlpha(0);
                             //fade in effect
                             this.add.tween({
-                                targets: [badgeCaseImage,badgeS1Image,badgeS2Image,badgeS3Image,badgeS4Image,badgeS5Image,badgeS6Image],
+                                targets: [badgeCaseImage,badgeS1Image,badgeS2Image,badgeS3Image,badgeS4Image,badgeS5Image,badgeS6Image,badgeS7Image,badgeS8Image,badgeS9Image,badgeS10Image],
                                 ease: 'Sine.easeInOut',
                                 duration: 500,
                                 delay: 0,
@@ -322,7 +338,7 @@ export default class UI extends Scene implements SceneLifecycle {
                         case true:
                             //fadeout effect
                             this.add.tween({
-                                targets: [badgeCaseImage,badgeS1Image,badgeS2Image,badgeS3Image,badgeS4Image,badgeS5Image,badgeS6Image],
+                                targets: [badgeCaseImage,badgeS1Image,badgeS2Image,badgeS3Image,badgeS4Image,badgeS5Image,badgeS6Image,badgeS7Image,badgeS8Image,badgeS9Image,badgeS10Image],
                                 ease: 'Sine.easeInOut',
                                 duration: 500,
                                 delay: 0,
@@ -338,6 +354,10 @@ export default class UI extends Scene implements SceneLifecycle {
                                     badgeS4Image.setVisible(false);
                                     badgeS5Image.setVisible(false);
                                     badgeS6Image.setVisible(false);
+                                    badgeS7Image.setVisible(false);
+                                    badgeS8Image.setVisible(false);
+                                    badgeS9Image.setVisible(false);
+                                    badgeS10Image.setVisible(false);
                                     this.badgeState = false;
                                 }
                               });
