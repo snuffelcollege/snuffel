@@ -747,22 +747,11 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.add.image(x,y-200,this.dogScene2).setDepth(DepthLayers.Roofs).setScale(0.5);
 		this.add.image(x-100,y+100,this.stickScene2).setDepth(DepthLayers.PLAYER).setScale(0.4);
 
-		const fenceCollidable = new MovableEntity(scene, x, y-50, "");
-
 		const fenceTalkBubble = this.add.sprite(
-			fenceCollidable.x + 100,
-			fenceCollidable.y - 200,
+			x + 100,
+			y - 200,
 			this.poiCloud
 		);
-
-		this.depthSorter.addSortable(fenceCollidable, DepthLayers.PLAYER);
-
-		fenceCollidable.setBodySize(250, 250)
-			.setImmovable(true)
-			.setFlipX(true)
-			.setDepth(DepthLayers.PLAYER)
-			.setInteractive({ useHandCursor: true })
-			.on("pointerdown", () => {if(!WorldScene.scenario2Fininshed && fenceTalkBubble.visible){this.switchScene(target_scene)}});
 
 		fenceTalkBubble
 			.setDepth(DepthLayers.Roofs)
@@ -770,8 +759,6 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			.setVisible(false)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {if(!WorldScene.scenario2Fininshed){this.switchScene(target_scene)}});
-
-		collidables.push(fenceCollidable);
 
 		const radius = this.add.zone(
 			x,
