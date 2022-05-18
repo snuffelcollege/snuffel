@@ -805,8 +805,8 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 														repeat: -1,
 													});
 													this.sparkleEntity = this.add.sprite(
-														1320,
-														450,
+														966,
+														481,
 														"sparkles"
 													)
 													
