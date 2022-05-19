@@ -8,10 +8,10 @@ import stickScene2 from "@assets/images/scenario_2/stick.png";
 import doorScene3 from "@assets/images/scenario_3/door.png";
 import rayScene5 from "@assets/spritesheets/scenario_5/ray.png";
 import rayDataScene5 from "@assets/spritesheets/scenario_5/ray.json";
-import spencerScene7Sheet from "@assets/spritesheets/scenario_7/spencer.png";
-import spencerScene7Data from "@assets/spritesheets/scenario_7/spencer.json";
-import IceCreamStandSheet from "@assets/spritesheets/scenario_8/ijscoman.png";
-import IceCreamStandData from "@assets/spritesheets/scenario_8/ijscoman.json";
+import spencerScene8Sheet from "@assets/spritesheets/scenario_8/spencer.png";
+import spencerScene8Data from "@assets/spritesheets/scenario_8/spencer.json";
+import IceCreamStandSheet from "@assets/spritesheets/scenario_7/ijscoman.png";
+import IceCreamStandData from "@assets/spritesheets/scenario_7/ijscoman.json";
 import huskyImage from "@assets/spritesheets/husky/husky.png";
 import huskyJson from "@assets/spritesheets/husky/husky.json";
 import huskyWaitImage from "@assets/images/world/husky_wait.png";
@@ -103,7 +103,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 	private rayScene5!: string;
 
-	private spencerScene7!: string;
+	private spencerScene8!: string;
 
 	private iceCreamStand!: string;
 
@@ -168,8 +168,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.stickScene2 = "stickScene2";
 		this.doorScene3 = "doorScene3";
 		this.rayScene5 = "rayScene5";
-		this.spencerScene7 = "spencerScene7"
-		this.iceCreamStand = "iceCreamStand8"
+		this.spencerScene8 = "spencerScene8"
+		this.iceCreamStand = "iceCreamStand7"
 		this.dogInCar = "dogInCar";
 		this.husky = "husky";
 		this.huskyWait = "huskywait"
@@ -207,7 +207,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.load.image(this.stickScene2, stickScene2);
 		this.load.image(this.doorScene3, doorScene3);
 		this.load.aseprite(this.rayScene5, rayScene5, rayDataScene5);
-		this.load.aseprite(this.spencerScene7,spencerScene7Sheet,spencerScene7Data);
+		this.load.aseprite(this.spencerScene8,spencerScene8Sheet,spencerScene8Data);
 		this.load.aseprite(this.iceCreamStand,IceCreamStandSheet,IceCreamStandData)
 		this.load.image(this.gateClosed, GateClosed);
 		this.load.image(this.gatePillar, GatePillar);
@@ -404,15 +404,6 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 								"scene-6"
 							);	
 						}else if (obj.name === "ManOnBench") {
-							this.createScenario7(
-								this,
-								collidables,
-								overlappables,
-								obj.x as number,
-								obj.y as number,
-								"scene-7"
-							);					
-						}else if (obj.name === "HuskyIcecream") {
 							this.createScenario8(
 								this,
 								collidables,
@@ -420,6 +411,15 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 								obj.x as number,
 								obj.y as number,
 								"scene-8"
+							);					
+						}else if (obj.name === "HuskyIcecream") {
+							this.createScenario7(
+								this,
+								collidables,
+								overlappables,
+								obj.x as number,
+								obj.y as number,
+								"scene-7"
 							);
 						}else if (obj.name === "Frisbee") {
 							this.createScenario9(
@@ -1071,7 +1071,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		});
 	}
 
-	private createScenario7(
+	private createScenario8(
 		scene: Scene,
 		collidables: GameObject[],
 		overlappables: GameObject[],
@@ -1081,7 +1081,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	): void {
 		const poiCloudAnimTags = this.anims.createFromAseprite("poi_cloud");
 
-		const spencerCollidable = new MovableEntity(scene, x, y+25, this.spencerScene7).setScale(1);
+		const spencerCollidable = new MovableEntity(scene, x, y+25, this.spencerScene8).setScale(1);
 
 		const dogTalkBubble = this.add.sprite(
 			x - 90,
@@ -1091,7 +1091,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 		this.depthSorter.addSortable(spencerCollidable, DepthLayers.PLAYER);
 
-		this.dogAnimTags = this.anims.createFromAseprite("spencerScene7");
+		this.dogAnimTags = this.anims.createFromAseprite("spencerScene8");
 
 		spencerCollidable.setBodySize(spencerCollidable.width, spencerCollidable.height/1.5)
 			.play({ key: this.dogAnimTags[0].key, repeat: -1, frameRate: 2 }, true)
@@ -1100,7 +1100,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			.setDepth(DepthLayers.PLAYER)
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {
-				if (dogTalkBubble.visible && !WorldScene.scenario5Fininshed) {
+				if (dogTalkBubble.visible && !WorldScene.scenario8Fininshed) {
 					this.switchScene(target_scene);
 				}
 			});
@@ -1111,7 +1111,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			.setVisible(false)
 			.setFlipX(true)
 			.setInteractive({ useHandCursor: true })
-			.on("pointerdown", () => {if(!WorldScene.scenario5Fininshed){this.switchScene(target_scene)}});
+			.on("pointerdown", () => {if(!WorldScene.scenario8Fininshed){this.switchScene(target_scene)}});
 
 		collidables.push(spencerCollidable);
 
@@ -1136,20 +1136,20 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		);
 
 		dispatcher.setDispatchCallback((isOverlapping) => {
-				if (WorldScene.scenario5Fininshed){
+				if (WorldScene.scenario8Fininshed){
 					dogTalkBubble.setVisible(false);
 				}else{
 					dogTalkBubble.setVisible(isOverlapping);
 				}	
 			
 
-			if (isOverlapping && this.sceneSwitchKey.isDown && !WorldScene.scenario5Fininshed) {
+			if (isOverlapping && this.sceneSwitchKey.isDown && !WorldScene.scenario8Fininshed) {
 				this.switchScene(target_scene);
 			}
 		});
 	}
 
-	private createScenario8(
+	private createScenario7(
 		scene: Scene,
 		collidables: GameObject[],
 		overlappables: GameObject[],
@@ -1199,7 +1199,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			.play({ key: poiCloudAnimTags[0].key, repeat: -1 }, true)
 			.setVisible(false)
 			.setInteractive({ useHandCursor: true })
-			.on("pointerdown", () => this.switchScene(target_scene));
+			.on("pointerdown", () => {if(!WorldScene.scenario7Fininshed){this.switchScene(target_scene)}});
 
 		collidables.push(dog);
 
@@ -1224,14 +1224,17 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		);
 
 		dispatcher.setDispatchCallback((isOverlapping) => {
-			if (dogTalkBubble.visible !== isOverlapping) {
+			if (WorldScene.scenario7Fininshed){
+				dogTalkBubble.setVisible(false);
+			}else{
 				dogTalkBubble.setVisible(isOverlapping);
-			}
+			}	
+		
 
-			if (isOverlapping && this.sceneSwitchKey.isDown) {
-				this.switchScene(target_scene);
-			}
-		});
+		if (isOverlapping && this.sceneSwitchKey.isDown && !WorldScene.scenario7Fininshed) {
+			this.switchScene(target_scene);
+		}
+	});
 	}
 
 	private createScenario9(
@@ -1286,7 +1289,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			.play({ key: poiCloudAnimTags[0].key, repeat: -1 }, true)
 			.setVisible(false)
 			.setInteractive({ useHandCursor: true })
-			.on("pointerdown", () => this.switchScene(target_scene));
+			.on("pointerdown", () => {if(!WorldScene.scenario9Fininshed){this.switchScene(target_scene)}});
 
 		collidables.push(dog);
 
@@ -1343,7 +1346,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			.setImmovable(true)
 			.setDepth(DepthLayers.Collision_houses)
 			.setInteractive({ useHandCursor: true })
-			.on("pointerdown", () => {if(!WorldScene.scenario3Fininshed){this.switchScene(target_scene)}});
+			.on("pointerdown", () => {if(!WorldScene.scenario11Fininshed){this.switchScene(target_scene)}});
 
 		collidables.push(doorCollidable);
 
@@ -1366,14 +1369,14 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		);
 
 		dispatcher.setDispatchCallback((isOverlapping) => {
-				if (WorldScene.scenario3Fininshed){
+				if (WorldScene.scenario11Fininshed){
 					doorCollidable.setVisible(false);
 				}else{
 					doorCollidable.setVisible(isOverlapping);
 				}	
 			
 
-			if (isOverlapping && this.sceneSwitchKey.isDown && !WorldScene.scenario3Fininshed) {
+			if (isOverlapping && this.sceneSwitchKey.isDown && !WorldScene.scenario11Fininshed) {
 				this.switchScene(target_scene);
 			}
 		});
