@@ -747,6 +747,17 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.add.image(x,y-200,this.dogScene2).setDepth(DepthLayers.Roofs).setScale(0.5);
 		this.add.image(x-100,y+100,this.stickScene2).setDepth(DepthLayers.PLAYER).setScale(0.4);
 
+		const fenceCollidable = new MovableEntity(scene, x, y-70, this.fenceScene2).setVisible(true);
+
+		fenceCollidable
+			.setScale(0.5)
+			.setImmovable(true)
+			.setDepth(DepthLayers.Fences)
+			.setInteractive({ useHandCursor: true })
+			.on("pointerdown", () => {if(!WorldScene.scenario2Fininshed){this.switchScene(target_scene)}});
+
+		collidables.push(fenceCollidable);
+
 		const fenceTalkBubble = this.add.sprite(
 			x + 100,
 			y - 200,
