@@ -27,8 +27,8 @@ import UnmutedSoundIcon from "@assets/images/UI/soundunmuted.png";
 import MutedSoundIcon from "@assets/images/UI/soundmuted.png";
 import UnmutedMusicIcon from "@assets/images/UI/musicunmuted.png";
 import MutedMusicIcon from "@assets/images/UI/musicmuted.png";
-//import controlArrow from "@assets/spritesheets/UI/pointing_arrow.png";
-//import controlArrowData from "@assets/spritesheets/UI/pointing_arrow.json";
+import controlArrow from "@assets/spritesheets/UI/pointing_arrow.png";
+import controlArrowData from "@assets/spritesheets/UI/pointing_arrow.json";
 import SparkleSheet from "@assets/spritesheets/UI/Sparkles.png";
 import SparkleData from "@assets/spritesheets/UI/Sparkles.json";
 import menuSound from "@assets/audio/UI/menu_button.mp3";
@@ -55,8 +55,8 @@ export default class UI extends Scene implements SceneLifecycle {
     private controlSpacebarEntity!: Sprite;
     private controlClickEntity!: Sprite;
     private controlRegularEntity!: Sprite;
-    //private controlArrow!: string;
-    //private controlArrowEntity!: Sprite;
+    private controlArrow!: string;
+    private controlArrowEntity!: Sprite;
 	private soundmuted!: string;
 	private soundunmuted!: string;
 	private musicmuted!: string;
@@ -74,7 +74,7 @@ export default class UI extends Scene implements SceneLifecycle {
         this.controlSpacebar = "spacebar";
         this.controlClick = "click";
         this.controlRegular = "regular";
-        //this.controlArrow = "controlArrow";
+        this.controlArrow = "controlArrow";
 		this.soundmuted = "soundmuted";
 		this.soundunmuted = "soundunmuted";
 		this.musicmuted = "musicmuted";
@@ -118,7 +118,7 @@ export default class UI extends Scene implements SceneLifecycle {
 		this.load.image(this.musicmuted, MutedMusicIcon);
 		this.load.image(this.musicunmuted,UnmutedMusicIcon);
         this.load.aseprite(this.controlKeys, ControlKeys, ControlKeysData);
-        //this.load.aseprite(this.controlArrow, controlArrow, controlArrowData);
+        this.load.aseprite(this.controlArrow, controlArrow, controlArrowData);
         this.load.aseprite("sparkles", SparkleSheet, SparkleData);
         this.load.audio("menuSound", menuSound);        
 		this.load.audio("fenceopen", FenceOpen);
@@ -185,6 +185,7 @@ export default class UI extends Scene implements SceneLifecycle {
                 }
             }
 
+            
             const togglemusic = this.add
 			.image(1850,170, music)
             .setScale(0.4)
@@ -216,6 +217,7 @@ export default class UI extends Scene implements SceneLifecycle {
                 }
 			});
 
+            //creating animation for arrow
             this.anims.create({
                 key: this.controlKeys,
                 frameRate: 1,
@@ -229,28 +231,14 @@ export default class UI extends Scene implements SceneLifecycle {
                 repeat: -1,
             });	
 
-            // this.anims.create({
-            //     key: this.controlArrow,
-            //     frameRate: 1,
-            //     frames: this.anims.generateFrameNumbers(
-            //         this.controlArrow,
-            //         {
-            //             start: 0,
-            //             end: 1,
-            //         }
-            //     ),
-            //     repeat: -1,
-            // });	
-
+            //initializing controls
             this.controlKeysEntity = this.add.sprite(950, 600, this.controlKeys).setScale(0.5).setVisible(false);
             this.controlKeysEntity.play(this.controlKeys);
             this.controlSpacebarEntity = this.add.sprite(400, 600, this.controlSpacebar).setScale(0.5).setVisible(false);
             this.controlRegularEntity = this.add.sprite(1350, 600, this.controlRegular).setScale(0.5).setVisible(false);
-            this.controlClickEntity = this.add.sprite(1600, 600, this.controlClick).setScale(0.5).setVisible(false);
-            //this.controlArrowEntity = this.add.sprite(1700, 270, this.controlArrow).setScale(0.5).setVisible(false);
-            //this.controlArrowEntity.play(this.controlArrow);           
+            this.controlClickEntity = this.add.sprite(1600, 600, this.controlClick).setScale(0.5).setVisible(false);                   
             
-
+            //guide for controls
             const controls = this.add
                 .image(1850,270,this.controls_icon)
                 .setScale(0.4)
@@ -272,23 +260,38 @@ export default class UI extends Scene implements SceneLifecycle {
                             this.controlSpacebarEntity.setVisible(false);
                             this.controlRegularEntity.setVisible(false);
                             this.controlClickEntity.setVisible(false);
-                            //this.controlArrowEntity.setVisible(false);
                             this.controlState = false;
                             break;       
                     }
                 });
-            
-            // if(!WorldScene.scenario1Fininshed && this.game.scene.isVisible("world-scene")){
-            //     setTimeout(() => {
-            //         this.controlState = true;
-            //         this.controlKeysEntity.setVisible(true);
-            //         this.controlSpacebarEntity.setVisible(true);
-            //         this.controlRegularEntity.setVisible(true);
-            //         this.controlClickEntity.setVisible(true);            
-            //         //this.controlArrowEntity.setVisible(true);
-            //     }, 1000);
-            // }    
 
+            //creating animation for arrow    
+            this.anims.create({
+                key: this.controlArrow,
+                frameRate: 1,
+                frames: this.anims.generateFrameNumbers(
+                    this.controlArrow,
+                    {
+                        start: 0,
+                        end: 1,
+                    }
+                ),
+                repeat: -1,
+            });	    
+            
+            //loading arrow aseprite
+            this.controlArrowEntity = this.add.sprite(1700, 600, this.controlArrow).setScale(0.7).setVisible(false);
+            this.controlArrowEntity.play(this.controlArrow);    
+
+            //pointing arrow functionality
+            if(WorldScene.scenario1Fininshed && this.game.scene.isVisible("world-scene")){
+                this.controlArrowEntity.setVisible(true);
+                setTimeout(() => {       
+                    this.controlArrowEntity.setVisible(false);
+                }, 1000);
+            }    
+
+            //initializing badgecase and badge images
             const badgeCaseImage = this.add.sprite(960,550, "badgecase").setScale(0.6).setVisible(false);
             const badgeS1Image = this.add.sprite(512,482, "badge1").setScale(0.6).setVisible(false);
             const badgeS2Image = this.add.sprite(736,481, "badge2").setScale(0.6).setVisible(false);
@@ -301,6 +304,7 @@ export default class UI extends Scene implements SceneLifecycle {
             const badgeS9Image = this.add.sprite(1205,690, "badge9").setScale(0.6).setVisible(false);
             const badgeS10Image = this.add.sprite(1430,690, "badge10").setScale(0.6).setVisible(false);
 
+            //badge case functionality
             const badge = this.add
                 .image(1850,370,this.badge_icon)
                 .setScale(0.4)
@@ -311,7 +315,10 @@ export default class UI extends Scene implements SceneLifecycle {
                     });
                     switch(this.badgeState){
                         case false:
+                            //badgecase is visible if button is pressed
                             badgeCaseImage.setVisible(true).setAlpha(0);
+
+                            //sets badge to visible if scenario is finished
                             badgeS1Image.setVisible(WorldScene.scenario1Fininshed).setAlpha(0);
                             badgeS2Image.setVisible(WorldScene.scenario2Fininshed).setAlpha(0);
                             badgeS3Image.setVisible(WorldScene.scenario3Fininshed).setAlpha(0);
@@ -321,7 +328,7 @@ export default class UI extends Scene implements SceneLifecycle {
                             badgeS7Image.setVisible(WorldScene.scenario7Fininshed).setAlpha(0);
                             badgeS8Image.setVisible(WorldScene.scenario8Fininshed).setAlpha(0);
                             badgeS9Image.setVisible(WorldScene.scenario9Fininshed).setAlpha(0);
-                            badgeS10Image.setVisible(WorldScene.scenario11Fininshed).setAlpha(0);
+                            badgeS10Image.setVisible(WorldScene.scenario10Fininshed).setAlpha(0);
                             //fade in effect
                             this.add.tween({
                                 targets: [badgeCaseImage,badgeS1Image,badgeS2Image,badgeS3Image,badgeS4Image,badgeS5Image,badgeS6Image,badgeS7Image,badgeS8Image,badgeS9Image,badgeS10Image],
@@ -342,11 +349,12 @@ export default class UI extends Scene implements SceneLifecycle {
                                 ease: 'Sine.easeInOut',
                                 duration: 500,
                                 delay: 0,
-                                alpha: {
+                                alpha: {                                
                                   getStart: () => 1,
                                   getEnd: () => 0
                                 },
                                 onComplete: () => {
+                                    //hiding all badges and badgecase
                                     badgeCaseImage.setVisible(false);
                                     badgeS1Image.setVisible(false);
                                     badgeS2Image.setVisible(false);
@@ -372,6 +380,7 @@ export default class UI extends Scene implements SceneLifecycle {
                 .on("pointerdown",() => {
                     //show area map
             });
+
             if(this.scene.isSleeping("world-scene")){
                 badge.destroy();
                 map.destroy();
