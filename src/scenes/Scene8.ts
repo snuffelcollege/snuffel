@@ -33,13 +33,11 @@ import WorldScene, { WorldSceneConfig } from "./WorldScene";
 import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
-
-//TODO change to scenario 8 when available
-import StartTextAudio from "@assets/audio/scenario_6/start_text.mp3";
-import EndTextAudio from "@assets/audio/scenario_6/end_text.mp3";
-import Option1Audio from "@assets/audio/scenario_6/option_1.mp3";
-import Option2Audio from "@assets/audio/scenario_6/option_2.mp3";
-import Option3Audio from "@assets/audio/scenario_6/option_3.mp3";
+import StartTextAudio from "@assets/audio/scenario_8/start_text.mp3";
+import EndTextAudio from "@assets/audio/scenario_8/end_text.mp3";
+import Option1Audio from "@assets/audio/scenario_8/option_1.mp3";
+import Option2Audio from "@assets/audio/scenario_8/option_2.mp3";
+import Option3Audio from "@assets/audio/scenario_8/option_3.mp3";
 
 // Config for the scene defining gravity and debug settings.
 export const config: SettingsConfig = {
@@ -588,7 +586,14 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				this.add.image(600,130,"goodemotion").setScale(0.6);
 				this.add.image(600,300,this.endText).setScale(0.6);	
 				const continuebutton = this.add.image(1090,360,"continuebutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+				this.sound.add("goodemotionaudio", {volume: 1}).play();	
+					
+				setTimeout(() => {
+					this.sound.add("8endtextaudio", {volume: 1}).play();
+				}, 3000);
 				continuebutton.on("pointerdown", () => {
+					this.game.sound.removeByKey("goodemotionaudio");
+					this.game.sound.removeByKey("8endtextaudio");	
 					continuebutton.disableInteractive();
 					WorldScene.scenario8Fininshed = true;
 					
@@ -710,7 +715,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				this.sound.add("mixedemotionaudio", {volume: 1}).play();	
 				
 				setTimeout(() => {
-					this.sound.add("7endtextaudio", {volume: 1}).play();
+					this.sound.add("8endtextaudio", {volume: 1}).play();
 				}, 2500);//good & mixed = 3000
 				replaybutton.on("pointerdown", () => {
 					this.game.sound.removeByKey("mixedemotionaudio");
