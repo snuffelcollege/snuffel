@@ -77,7 +77,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	public static scenario7Fininshed: boolean;
 	public static scenario8Fininshed: boolean;
 	public static scenario9Fininshed: boolean;
-	public static scenario11Fininshed: boolean;
+	public static scenario10Fininshed: boolean;
 
 	private GateClosed!: MovableEntity;
 	private GatePilar!: MovableEntity;
@@ -157,7 +157,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		WorldScene.scenario7Fininshed = false;
 		WorldScene.scenario8Fininshed = false;
 		WorldScene.scenario9Fininshed = false;
-		WorldScene.scenario11Fininshed = false;		
+		WorldScene.scenario10Fininshed = false;		
 
 		this.tilesetKey = "world_tiles";
 		this.tilemapKey = "main_scene";
@@ -431,13 +431,13 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 								"scene-9"
 							);
 						}  else if (obj.name === "Cuddle") {
-							this.createScenario11(
+							this.createScenario10(
 								this,
 								collidables,
 								overlappables,
 								obj.x as number,
 								obj.y as number,
-								"scene-11"
+								"scene-10"
 							);
 						}
 					} else if (obj.ellipse) {
@@ -642,7 +642,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			this.sound.play("fenceopen", {volume:0.5});
 		}
 
-		if (!this.switch_to_end && WorldScene.scenario7Fininshed && WorldScene.scenario8Fininshed && WorldScene.scenario9Fininshed && WorldScene.scenario11Fininshed){
+		if (!this.switch_to_end && WorldScene.scenario7Fininshed && WorldScene.scenario8Fininshed && WorldScene.scenario9Fininshed && WorldScene.scenario10Fininshed){
 			this.switch_to_end = true;
 			this.switchScene("end-scene");			
 		}
@@ -1326,7 +1326,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		});
 	}
 
-	private createScenario11(
+	private createScenario10(
 		scene: Scene,
 		collidables: GameObject[],
 		overlappables: GameObject[],
@@ -1340,7 +1340,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			.setImmovable(true)
 			.setDepth(DepthLayers.Collision_houses)
 			.setInteractive({ useHandCursor: true })
-			.on("pointerdown", () => {if(!WorldScene.scenario11Fininshed){this.switchScene(target_scene)}});
+			.on("pointerdown", () => {if(!WorldScene.scenario10Fininshed){this.switchScene(target_scene)}});
 
 		collidables.push(doorCollidable);
 
@@ -1363,14 +1363,14 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		);
 
 		dispatcher.setDispatchCallback((isOverlapping) => {
-				if (WorldScene.scenario11Fininshed){
+				if (WorldScene.scenario10Fininshed){
 					doorCollidable.setVisible(false);
 				}else{
 					doorCollidable.setVisible(isOverlapping);
 				}	
 			
 
-			if (isOverlapping && this.sceneSwitchKey.isDown && !WorldScene.scenario11Fininshed) {
+			if (isOverlapping && this.sceneSwitchKey.isDown && !WorldScene.scenario10Fininshed) {
 				this.switchScene(target_scene);
 			}
 		});

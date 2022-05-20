@@ -1,17 +1,17 @@
-import BackgroundImage from "@assets/images/scenario_11/BG.png";
-import Dog from "@assets/spritesheets/scenario_11/dog.png";
-import DogData from "@assets/spritesheets/scenario_11/dog.json";
-import DogAndBoy from "@assets/spritesheets/scenario_11/boy+dog.png";
-import DogAndBoyData from "@assets/spritesheets/scenario_11/boy+dog.json";
-import ContinueHug from "@assets/spritesheets/scenario_11/boy+dogheadtilt.png";
-import ContinueHugData from "@assets/spritesheets/scenario_11/boy+dogheadtilt.json";
-import PetDog from "@assets/spritesheets/scenario_11/boy+dogpet.png";
-import PetDogData from "@assets/spritesheets/scenario_11/boy+dogpet.json";
-import Option1 from "@assets/images/scenario_11/option_1.png";
-import Option2 from "@assets/images/scenario_11/option_2.png";
-import Option3 from "@assets/images/scenario_11/option_3.png";
-import StartText from "@assets/images/scenario_11/start_text.png";
-import EndText from "@assets/images/scenario_11/end_text.png";
+import BackgroundImage from "@assets/images/scenario_10/BG.png";
+import Dog from "@assets/spritesheets/scenario_10/dog.png";
+import DogData from "@assets/spritesheets/scenario_10/dog.json";
+import DogAndBoy from "@assets/spritesheets/scenario_10/boy+dog.png";
+import DogAndBoyData from "@assets/spritesheets/scenario_10/boy+dog.json";
+import ContinueHug from "@assets/spritesheets/scenario_10/boy+dogheadtilt.png";
+import ContinueHugData from "@assets/spritesheets/scenario_10/boy+dogheadtilt.json";
+import PetDog from "@assets/spritesheets/scenario_10/boy+dogpet.png";
+import PetDogData from "@assets/spritesheets/scenario_10/boy+dogpet.json";
+import Option1 from "@assets/images/scenario_10/option_1.png";
+import Option2 from "@assets/images/scenario_10/option_2.png";
+import Option3 from "@assets/images/scenario_10/option_3.png";
+import StartText from "@assets/images/scenario_10/start_text.png";
+import EndText from "@assets/images/scenario_10/end_text.png";
 import CharacterRunSheet from "@assets/spritesheets/player/scenario/run/character_run_.png";
 import CharacterWalkSheet from "@assets/spritesheets/player/scenario/walk/character_walk.png";
 import CharacterWalkData from "@assets/spritesheets/player/scenario/walk/character_walk.json";
@@ -31,7 +31,7 @@ import squeal from "@assets/audio/dog/squeal_1.mp3";
 // Config for the scene defining gravity and debug settings.
 export const config: SettingsConfig = {
 	active: false,
-	key: "scene-11",
+	key: "scene-10",
 	physics: {
 		default: "arcade",
 		arcade: {
@@ -90,18 +90,18 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 	}
 
 	public init(): void {
-		this.option1 = "option111";
-		this.option2 = "option211";
-		this.option3 = "option311";
-		this.startText = "starttext11";
-		this.endText = "endtext11";
-		this.characterRun = "spriteSheetPlayerCharacterRun11";
-		this.characterWalk = "characterWalk11";
-		this.characterIdle = "characterIdle11";
-		this.dog = "dog11";
-		this.dogAndBoy = "dogAndBoy11";
-		this.continueHug = "continueHug11";
-		this.petDog = "petDog11";
+		this.option1 = "option110";
+		this.option2 = "option210";
+		this.option3 = "option310";
+		this.startText = "starttext10";
+		this.endText = "endtext10";
+		this.characterRun = "spriteSheetPlayerCharacterRun10";
+		this.characterWalk = "characterWalk10";
+		this.characterIdle = "characterIdle10";
+		this.dog = "dog10";
+		this.dogAndBoy = "dogAndBoy10";
+		this.continueHug = "continueHug10";
+		this.petDog = "petDog10";
 		
 
 		if (!WorldSceneConfig.key) {
@@ -120,7 +120,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	// A key has to be unique for the entire project, not just this scene.
 	public preload(): void {
-		this.load.image("background11", BackgroundImage);
+		this.load.image("background10", BackgroundImage);
 		this.load.image(this.option1, Option1);
 		this.load.image(this.option2, Option2);
 		this.load.image(this.option3, Option3);
@@ -168,7 +168,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		const centerX = this.scale.displaySize.width * 0.5;
 		const centerY = this.scale.displaySize.height * 0.5;
 
-		const img = this.add.image(centerX, centerY, "background11");
+		const img = this.add.image(centerX, centerY, "background10");
 
 		this.components.addComponent(img, MakeFullscreen);
 
@@ -240,7 +240,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 
 		setTimeout(() => {
-			this.cameras.main.flash(2000, 0, 0, 0);
+			// this.cameras.main.flash(2000, 0, 0, 0);
 			this.characterEntity.setVisible(false);
 			this.dogEntity.setVisible(false);
 			this.anims.create({
@@ -480,7 +480,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			const continuebutton = this.add.image(1090,360,"continuebutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
 			continuebutton.on("pointerdown", () => {
 				continuebutton.disableInteractive();
-				WorldScene.scenario11Fininshed = true;
+				WorldScene.scenario10Fininshed = true;
 				
 				const badgeCaseImage = this.add.sprite(960,550, "badgecase").setScale(0.6).setVisible(true).setAlpha(0).setDepth(1);
 				const badgeS1Image = this.add.sprite(512,482, "badge1").setScale(0.6).setVisible(WorldScene.scenario1Fininshed).setAlpha(0).setDepth(1);
@@ -492,7 +492,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 				const badgeS7Image = this.add.sprite(745,690, "badge7").setScale(0.6).setVisible(WorldScene.scenario7Fininshed).setAlpha(0).setDepth(1);
 				const badgeS8Image = this.add.sprite(970,690, "badge8").setScale(0.6).setVisible(WorldScene.scenario8Fininshed).setAlpha(0).setDepth(1);
 				const badgeS9Image = this.add.sprite(1205,690, "badge9").setScale(0.6).setVisible(WorldScene.scenario9Fininshed).setAlpha(0).setDepth(1);
-				const badgeS10Image = this.add.sprite(1430,690, "badge10").setScale(0.6).setVisible(WorldScene.scenario11Fininshed).setAlpha(0).setDepth(1);
+				const badgeS10Image = this.add.sprite(1430,690, "badge10").setScale(0.6).setVisible(WorldScene.scenario10Fininshed).setAlpha(0).setDepth(1);
 				
 				//fade in effect
 				this.add.tween({
