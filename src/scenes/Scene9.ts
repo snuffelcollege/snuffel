@@ -216,7 +216,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.characterEntity
 			.play(this.characterIdle)
 			.setScale(0.7)
-			.setDepth(DepthLayers.PLAYER);
+			.setDepth(2);
 
 		this.frisbeeEntity = this.add.sprite(1070, 740, this.frisbee2).setScale(0.7).setDepth(DepthLayers.Grass);
 		
