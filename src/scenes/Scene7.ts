@@ -237,7 +237,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			0,
 			this.characterEntity.y + 100,
 			this.huskyRun
-		);
+		).setDepth(1);
 		this.huskyEntity
 			
 			.play({ key: this.dogWalkAnims[0].key, repeat: -1 });
@@ -376,7 +376,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				this.icecreamCone = this.add
 				.image(1105, 710, this.imageIceCreamCone)
 				.setScale(0.65, 0.55)
-				.setDepth(100);
+				.setDepth(0);
 				startTextImage.destroy();
 				this.createResult1();
 			});
@@ -408,7 +408,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				this.icecreamCone = this.add
 				.image(1105, 710, this.imageIceCreamCone)
 				.setScale(0.65, 0.55)
-				.setDepth(100);
+				.setDepth(0);
 				startTextImage.destroy();
 				this.createResult2();
 			});
@@ -440,7 +440,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				this.icecreamCone = this.add
 				.image(1105, 710, this.imageIceCreamCone)
 				.setScale(0.65, 0.55)
-				.setDepth(100);
+				.setDepth(0);
 				startTextImage.destroy();
 				this.createResult3();
 			});		
@@ -460,7 +460,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 		this.characterEntity.setScale(0.74).play(this.characterIdle);
 
-		this.huskyEntity.play({ key: this.dogWalkAnims[0].key, repeat: -1 }).setDepth(DepthLayers.PLAYER);
+		this.huskyEntity.play({ key: this.dogWalkAnims[0].key, repeat: -1 });
 
 		const moveTo = this.components.addComponent(this.huskyEntity, MoveTo);
 
@@ -485,17 +485,17 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				continuebutton.disableInteractive();
 				WorldScene.scenario7Fininshed = true;
 				
-				const badgeCaseImage = this.add.sprite(960,550, "badgecase").setScale(0.6).setVisible(true).setAlpha(0).setDepth(5);
-				const badgeS1Image = this.add.sprite(512,482, "badge1").setScale(0.6).setVisible(WorldScene.scenario1Fininshed).setAlpha(0).setDepth(5);
-				const badgeS2Image = this.add.sprite(736,481, "badge2").setScale(0.6).setVisible(WorldScene.scenario2Fininshed).setAlpha(0).setDepth(5);
-				const badgeS3Image = this.add.sprite(966,481, "badge3").setScale(0.6).setVisible(WorldScene.scenario3Fininshed).setAlpha(0).setDepth(5);
-				const badgeS4Image = this.add.sprite(1200,481, "badge4").setScale(0.6).setVisible(WorldScene.scenario4Fininshed).setAlpha(0).setDepth(5);
-				const badgeS5Image = this.add.sprite(1430,481, "badge5").setScale(0.6).setVisible(WorldScene.scenario5Fininshed).setAlpha(0).setDepth(5);
-				const badgeS6Image = this.add.sprite(512,690, "badge6").setScale(0.6).setVisible(WorldScene.scenario6Fininshed).setAlpha(0).setDepth(5);
-				const badgeS7Image = this.add.sprite(745,690, "badge7").setScale(0.6).setVisible(WorldScene.scenario7Fininshed).setAlpha(0).setDepth(5);
-				const badgeS8Image = this.add.sprite(970,690, "badge8").setScale(0.6).setVisible(WorldScene.scenario8Fininshed).setAlpha(0).setDepth(5);
-				const badgeS9Image = this.add.sprite(1205,690, "badge9").setScale(0.6).setVisible(WorldScene.scenario9Fininshed).setAlpha(0).setDepth(5);
-				const badgeS10Image = this.add.sprite(1430,690, "badge10").setScale(0.6).setVisible(WorldScene.scenario11Fininshed).setAlpha(0).setDepth(5);
+				const badgeCaseImage = this.add.sprite(960,550, "badgecase").setScale(0.6).setVisible(true).setAlpha(0).setDepth(3);
+				const badgeS1Image = this.add.sprite(512,482, "badge1").setScale(0.6).setVisible(WorldScene.scenario1Fininshed).setAlpha(0).setDepth(4);
+				const badgeS2Image = this.add.sprite(736,481, "badge2").setScale(0.6).setVisible(WorldScene.scenario2Fininshed).setAlpha(0).setDepth(4);
+				const badgeS3Image = this.add.sprite(966,481, "badge3").setScale(0.6).setVisible(WorldScene.scenario3Fininshed).setAlpha(0).setDepth(4);
+				const badgeS4Image = this.add.sprite(1200,481, "badge4").setScale(0.6).setVisible(WorldScene.scenario4Fininshed).setAlpha(0).setDepth(4);
+				const badgeS5Image = this.add.sprite(1430,481, "badge5").setScale(0.6).setVisible(WorldScene.scenario5Fininshed).setAlpha(0).setDepth(4);
+				const badgeS6Image = this.add.sprite(512,690, "badge6").setScale(0.6).setVisible(WorldScene.scenario6Fininshed).setAlpha(0).setDepth(4);
+				const badgeS7Image = this.add.sprite(745,690, "badge7").setScale(0.6).setVisible(WorldScene.scenario7Fininshed).setAlpha(0).setDepth(4);
+				const badgeS8Image = this.add.sprite(970,690, "badge8").setScale(0.6).setVisible(WorldScene.scenario8Fininshed).setAlpha(0).setDepth(4);
+				const badgeS9Image = this.add.sprite(1205,690, "badge9").setScale(0.6).setVisible(WorldScene.scenario9Fininshed).setAlpha(0).setDepth(4);
+				const badgeS10Image = this.add.sprite(1430,690, "badge10").setScale(0.6).setVisible(WorldScene.scenario11Fininshed).setAlpha(0).setDepth(4);
 				
 				//fade in effect
 				this.add.tween({
