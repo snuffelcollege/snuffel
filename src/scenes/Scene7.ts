@@ -29,7 +29,11 @@ import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
 import splash from "@assets/audio/objects/fallen_icecream.mp3";
-import DepthLayers from "../DepthLayers";
+import StartTextAudio from "@assets/audio/scenario_7/start_text.mp3";
+import EndTextAudio from "@assets/audio/scenario_7/end_text.mp3";
+import Option1Audio from "@assets/audio/scenario_7/option_1.mp3";
+import Option2Audio from "@assets/audio/scenario_7/option_2.mp3";
+import Option3Audio from "@assets/audio/scenario_7/option_3.mp3";
 
 // Config for the scene defining gravity and debug settings.
 export const config: SettingsConfig = {
@@ -146,6 +150,11 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.image(this.imageIceCreamCone, IceCreamConeImage);
 		this.load.image(this.fallenIceCreamConeImage, FallenIceCreamConeImage);
 		this.load.audio("splash", splash);
+		this.load.audio("7starttextaudio",StartTextAudio);
+		this.load.audio("7endtextaudio", EndTextAudio);
+		this.load.audio("7option1audio", Option1Audio);
+		this.load.audio("7option2audio", Option2Audio);
+		this.load.audio("7option3audio", Option3Audio);
 		this.load.spritesheet(
 			this.spriteSheetPlayerCharacter,
 			PlayerCharacterSheet,
@@ -263,6 +272,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	}
 
 	private createChoice(): void {
+		this.sound.add("7starttextaudio", {volume: 1}).play();
 		const startTextImage = this.add.image(600,200,this.startText).setScale(0.6);
 		//create stick 1 and sign 1, add movecomponents
 		const stick1 = this.add.image(500,1280, "stick");
@@ -277,9 +287,12 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		stick1move.velocity = 280;
 		const button1 = this.add.image(500, 1200, this.option1);
 		button1.on("pointerover", () => {
+			this.game.sound.removeByKey("7starttextaudio");
+			this.sound.add("7option1audio", {volume: 1}).play();
 			button1.angle = 5;			
 		});
 		button1.on('pointerout',() => {
+			this.game.sound.removeByKey("7option1audio");
 			button1.angle = 0;
 		})
 		const button1move = this.components.addComponent(
@@ -305,9 +318,12 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		stick2move.velocity = 280;
 		const button2 = this.add.image(1000, 1200, this.option2);
 		button2.on("pointerover", () => {
+			this.game.sound.removeByKey("7starttextaudio");
+			this.sound.add("7option2audio", {volume: 1}).play();
 			button2.angle = 5;			
 		});
 		button2.on('pointerout',() => {
+			this.game.sound.removeByKey("7option2audio");
 			button2.angle = 0;
 		})
 		const button2move = this.components.addComponent(
@@ -333,9 +349,12 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		stick3move.velocity = 280;
 		const button3 = this.add.image(1500, 1200, this.option3);
 		button3.on("pointerover", () => {
+			this.game.sound.removeByKey("7starttextaudio");
+			this.sound.add("7option3audio", {volume: 1}).play();
 			button3.angle = 5;			
 		});
 		button3.on('pointerout',() => {
+			this.game.sound.removeByKey("7option2audio");
 			button3.angle = 0;
 		})
 		const button3move = this.components.addComponent(
@@ -481,7 +500,14 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			this.add.image(600,130,"goodemotion").setScale(0.6);
 			this.add.image(600,300,this.endText).setScale(0.6);	
 			const continuebutton = this.add.image(1090,360,"continuebutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			this.sound.add("goodemotionaudio", {volume: 1}).play();	
+					
+			setTimeout(() => {
+				this.sound.add("7endtextaudio", {volume: 1}).play();
+			}, 3000);
 			continuebutton.on("pointerdown", () => {
+				this.game.sound.removeByKey("goodemotionaudio");
+				this.game.sound.removeByKey("7endtextaudio");	
 				continuebutton.disableInteractive();
 				WorldScene.scenario7Fininshed = true;
 				
@@ -495,7 +521,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				const badgeS7Image = this.add.sprite(745,690, "badge7").setScale(0.6).setVisible(WorldScene.scenario7Fininshed).setAlpha(0).setDepth(4);
 				const badgeS8Image = this.add.sprite(970,690, "badge8").setScale(0.6).setVisible(WorldScene.scenario8Fininshed).setAlpha(0).setDepth(4);
 				const badgeS9Image = this.add.sprite(1205,690, "badge9").setScale(0.6).setVisible(WorldScene.scenario9Fininshed).setAlpha(0).setDepth(4);
-				const badgeS10Image = this.add.sprite(1430,690, "badge10").setScale(0.6).setVisible(WorldScene.scenario11Fininshed).setAlpha(0).setDepth(4);
+				const badgeS10Image = this.add.sprite(1430,690, "badge10").setScale(0.6).setVisible(WorldScene.scenario10Fininshed).setAlpha(0).setDepth(4);
 				
 				//fade in effect
 				this.add.tween({
@@ -589,7 +615,14 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			this.add.image(600,130,"mixedemotion").setScale(0.6);
 			this.add.image(600,300,this.endText).setScale(0.6);					
 			const replaybutton = this.add.image(1090,360,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			this.sound.add("mixedemotionaudio", {volume: 1}).play();	
+				
+			setTimeout(() => {
+				this.sound.add("7endtextaudio", {volume: 1}).play();
+			}, 2500);//good & mixed = 3000
 			replaybutton.on("pointerdown", () => {
+				this.game.sound.removeByKey("mixedemotionaudio");
+					this.game.sound.removeByKey("7endtextaudio");
 				this.scene.restart();
 			})
 			
@@ -641,7 +674,14 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			this.add.image(600,130,"bademotion").setScale(0.6);
 			this.add.image(600,300,this.endText).setScale(0.6);					
 			const replaybutton = this.add.image(1090,360,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			this.sound.add("bademotionaudio", {volume: 1}).play();	
+				
+			setTimeout(() => {
+				this.sound.add("7endtextaudio", {volume: 1}).play();
+			}, 2500);//good & mixed = 3000
 			replaybutton.on("pointerdown", () => {
+				this.game.sound.removeByKey("bademotionaudio");
+				this.game.sound.removeByKey("7endtextaudio");
 				this.scene.restart();
 			})			
 		}, 5000);

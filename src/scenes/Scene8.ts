@@ -33,13 +33,11 @@ import WorldScene, { WorldSceneConfig } from "./WorldScene";
 import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
-
-//TODO change to scenario 8 when available
-import StartTextAudio from "@assets/audio/scenario_6/start_text.mp3";
-import EndTextAudio from "@assets/audio/scenario_6/end_text.mp3";
-import Option1Audio from "@assets/audio/scenario_6/option_1.mp3";
-import Option2Audio from "@assets/audio/scenario_6/option_2.mp3";
-import Option3Audio from "@assets/audio/scenario_6/option_3.mp3";
+import StartTextAudio from "@assets/audio/scenario_8/start_text.mp3";
+import EndTextAudio from "@assets/audio/scenario_8/end_text.mp3";
+import Option1Audio from "@assets/audio/scenario_8/option_1.mp3";
+import Option2Audio from "@assets/audio/scenario_8/option_2.mp3";
+import Option3Audio from "@assets/audio/scenario_8/option_3.mp3";
 
 // Config for the scene defining gravity and debug settings.
 export const config: SettingsConfig = {
@@ -588,21 +586,28 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				this.add.image(600,130,"goodemotion").setScale(0.6);
 				this.add.image(600,300,this.endText).setScale(0.6);	
 				const continuebutton = this.add.image(1090,360,"continuebutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+				this.sound.add("goodemotionaudio", {volume: 1}).play();	
+					
+				setTimeout(() => {
+					this.sound.add("8endtextaudio", {volume: 1}).play();
+				}, 3000);
 				continuebutton.on("pointerdown", () => {
+					this.game.sound.removeByKey("goodemotionaudio");
+					this.game.sound.removeByKey("8endtextaudio");	
 					continuebutton.disableInteractive();
 					WorldScene.scenario8Fininshed = true;
 					
-					const badgeCaseImage = this.add.sprite(960,550, "badgecase").setScale(0.6).setVisible(true).setAlpha(0).setDepth(1);
-				const badgeS1Image = this.add.sprite(512,482, "badge1").setScale(0.6).setVisible(WorldScene.scenario1Fininshed).setAlpha(0).setDepth(1);
-				const badgeS2Image = this.add.sprite(736,481, "badge2").setScale(0.6).setVisible(WorldScene.scenario2Fininshed).setAlpha(0).setDepth(1);
-				const badgeS3Image = this.add.sprite(966,481, "badge3").setScale(0.6).setVisible(WorldScene.scenario3Fininshed).setAlpha(0).setDepth(1);
-				const badgeS4Image = this.add.sprite(1200,481, "badge4").setScale(0.6).setVisible(WorldScene.scenario4Fininshed).setAlpha(0).setDepth(1);
-				const badgeS5Image = this.add.sprite(1430,481, "badge5").setScale(0.6).setVisible(WorldScene.scenario5Fininshed).setAlpha(0).setDepth(1);
-				const badgeS6Image = this.add.sprite(512,690, "badge6").setScale(0.6).setVisible(WorldScene.scenario6Fininshed).setAlpha(0).setDepth(1);
-				const badgeS7Image = this.add.sprite(745,690, "badge7").setScale(0.6).setVisible(WorldScene.scenario7Fininshed).setAlpha(0).setDepth(1);
-				const badgeS8Image = this.add.sprite(970,690, "badge8").setScale(0.6).setVisible(WorldScene.scenario8Fininshed).setAlpha(0).setDepth(1);
-				const badgeS9Image = this.add.sprite(1205,690, "badge9").setScale(0.6).setVisible(WorldScene.scenario9Fininshed).setAlpha(0).setDepth(1);
-				const badgeS10Image = this.add.sprite(1430,690, "badge10").setScale(0.6).setVisible(WorldScene.scenario11Fininshed).setAlpha(0).setDepth(1);
+					const badgeCaseImage = this.add.sprite(960,550, "badgecase").setScale(0.6).setVisible(true).setAlpha(0).setDepth(3);
+				const badgeS1Image = this.add.sprite(512,482, "badge1").setScale(0.6).setVisible(WorldScene.scenario1Fininshed).setAlpha(0).setDepth(4);
+				const badgeS2Image = this.add.sprite(736,481, "badge2").setScale(0.6).setVisible(WorldScene.scenario2Fininshed).setAlpha(0).setDepth(4);
+				const badgeS3Image = this.add.sprite(966,481, "badge3").setScale(0.6).setVisible(WorldScene.scenario3Fininshed).setAlpha(0).setDepth(4);
+				const badgeS4Image = this.add.sprite(1200,481, "badge4").setScale(0.6).setVisible(WorldScene.scenario4Fininshed).setAlpha(0).setDepth(4);
+				const badgeS5Image = this.add.sprite(1430,481, "badge5").setScale(0.6).setVisible(WorldScene.scenario5Fininshed).setAlpha(0).setDepth(4);
+				const badgeS6Image = this.add.sprite(512,690, "badge6").setScale(0.6).setVisible(WorldScene.scenario6Fininshed).setAlpha(0).setDepth(4);
+				const badgeS7Image = this.add.sprite(745,690, "badge7").setScale(0.6).setVisible(WorldScene.scenario7Fininshed).setAlpha(0).setDepth(4);
+				const badgeS8Image = this.add.sprite(970,690, "badge8").setScale(0.6).setVisible(WorldScene.scenario8Fininshed).setAlpha(0).setDepth(4);
+				const badgeS9Image = this.add.sprite(1205,690, "badge9").setScale(0.6).setVisible(WorldScene.scenario9Fininshed).setAlpha(0).setDepth(4);
+				const badgeS10Image = this.add.sprite(1430,690, "badge10").setScale(0.6).setVisible(WorldScene.scenario10Fininshed).setAlpha(0).setDepth(4);
 					
 					//fade in effect
 					this.add.tween({
@@ -710,7 +715,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				this.sound.add("mixedemotionaudio", {volume: 1}).play();	
 				
 				setTimeout(() => {
-					this.sound.add("7endtextaudio", {volume: 1}).play();
+					this.sound.add("8endtextaudio", {volume: 1}).play();
 				}, 2500);//good & mixed = 3000
 				replaybutton.on("pointerdown", () => {
 					this.game.sound.removeByKey("mixedemotionaudio");
