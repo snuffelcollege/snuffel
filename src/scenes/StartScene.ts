@@ -57,7 +57,7 @@ export default class StartScene extends Scene {
 	}
 
 	public init(): void {
-		this.startButton = "start_button";
+		this.startButton = "startButton";
 		this.husky = "husky";
 
 		this.components = new ComponentService();
@@ -68,7 +68,7 @@ export default class StartScene extends Scene {
 	// A key has to be unique for the entire project, not just this scene.
 	public preload(): void {
 		this.load.aseprite(this.husky, HuskyImage, HuskyJson);
-		this.load.image(this.startButton, StartButton);
+		this.load.image("startButton", StartButton);
 		this.load.image("background", Background);
 		this.load.image("logo", Logo);
 		this.load.image("title", Title);

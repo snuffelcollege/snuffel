@@ -602,7 +602,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			.setBodySize(this.ParkGateLeft.width, this.ParkGateLeft.height)
 			.setScale(1.2)
 			.setDepth(DepthLayers.PLAYER)
-			.setVisible(true)
+			.setVisible(false)
 			.setImmovable(true);
 
 		collidables.push(this.ParkGateLeft);
@@ -613,7 +613,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			.setBodySize(this.ParkGateRight.width, this.ParkGateRight.height)
 			.setScale(1.2)
 			.setDepth(DepthLayers.PLAYER)
-			.setVisible(true)
+			.setVisible(false)
 			.setImmovable(true);
 
 		collidables.push(this.ParkGateRight);
@@ -650,6 +650,10 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			this.switch_to_end = true;
 			this.switchScene("end-scene");			
 		}
+		// if (!this.switch_to_end){
+		// 	this.switch_to_end = true;
+		// 	this.switchScene("end-scene");			
+		// }
 	}
 
 	private switchScene(newScene: string) {	
@@ -1374,8 +1378,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 				}else{
 					doorCollidable.setVisible(isOverlapping);
 				}	
-			
-
+		
 			if (isOverlapping && this.sceneSwitchKey.isDown && !WorldScene.scenario10Fininshed) {
 				this.switchScene(target_scene);
 			}
