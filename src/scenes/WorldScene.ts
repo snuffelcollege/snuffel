@@ -586,28 +586,28 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			
 		this.ParkGate
 			.setBodySize(this.ParkGate.width, this.ParkGate.height)
-			.setScale(1.5)
+			.setScale(1.1)
 			.setDepth(DepthLayers.PLAYER)
 			.setImmovable(true);
 
 		collidables.push(this.ParkGate);
 
-		this.ParkGateLeft = new MovableEntity(this,8825,3200,this.parkGatePillar);
+		this.ParkGateLeft = new MovableEntity(this,8880,3185,this.parkGatePillar);
 			
 		this.ParkGateLeft
 			.setBodySize(this.ParkGateLeft.width, this.ParkGateLeft.height)
-			.setScale(1.5)
+			.setScale(1.1)
 			.setDepth(DepthLayers.PLAYER)
 			.setVisible(false)
 			.setImmovable(true);
 
 		collidables.push(this.ParkGateLeft);
 
-		this.ParkGateRight = new MovableEntity(this,9235,3200,this.parkGatePillar);
+		this.ParkGateRight = new MovableEntity(this,9180,3185,this.parkGatePillar);
 			
 		this.ParkGateRight
 			.setBodySize(this.ParkGateRight.width, this.ParkGateRight.height)
-			.setScale(1.5)
+			.setScale(1.1)
 			.setDepth(DepthLayers.PLAYER)
 			.setVisible(false)
 			.setImmovable(true);
@@ -791,12 +791,10 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		);
 
 		dispatcher.setDispatchCallback((isOverlapping) => {
-			if (fenceTalkBubble.visible !== isOverlapping) {
-				if (WorldScene.scenario2Fininshed){
-					fenceTalkBubble.setVisible(false);
-				}else{
-					fenceTalkBubble.setVisible(isOverlapping);
-				}	
+			if (WorldScene.scenario2Fininshed){
+				fenceTalkBubble.setVisible(false);
+			}else{
+				fenceTalkBubble.setVisible(isOverlapping);
 			}
 
 			if (isOverlapping && this.sceneSwitchKey.isDown && !WorldScene.scenario2Fininshed) {
