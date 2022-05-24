@@ -586,34 +586,34 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 		collidables.push(this.Truck);
 		
-		this.ParkGate = new MovableEntity(this,9030,3125,this.parkGate);
+		this.ParkGate = new MovableEntity(this,9020,3125,this.parkGate);
 			
 		this.ParkGate
 			.setBodySize(this.ParkGate.width, this.ParkGate.height)
-			.setScale(1.5)
+			.setScale(1.2)
 			.setDepth(DepthLayers.PLAYER)
 			.setImmovable(true);
 
 		collidables.push(this.ParkGate);
 
-		this.ParkGateLeft = new MovableEntity(this,8825,3200,this.parkGatePillar);
+		this.ParkGateLeft = new MovableEntity(this,8855,3185,this.parkGatePillar);
 			
 		this.ParkGateLeft
 			.setBodySize(this.ParkGateLeft.width, this.ParkGateLeft.height)
-			.setScale(1.5)
+			.setScale(1.2)
 			.setDepth(DepthLayers.PLAYER)
-			.setVisible(false)
+			.setVisible(true)
 			.setImmovable(true);
 
 		collidables.push(this.ParkGateLeft);
 
-		this.ParkGateRight = new MovableEntity(this,9235,3200,this.parkGatePillar);
+		this.ParkGateRight = new MovableEntity(this,9185,3185,this.parkGatePillar);
 			
 		this.ParkGateRight
 			.setBodySize(this.ParkGateRight.width, this.ParkGateRight.height)
-			.setScale(1.5)
+			.setScale(1.2)
 			.setDepth(DepthLayers.PLAYER)
-			.setVisible(false)
+			.setVisible(true)
 			.setImmovable(true);
 
 		collidables.push(this.ParkGateRight);
@@ -795,12 +795,10 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		);
 
 		dispatcher.setDispatchCallback((isOverlapping) => {
-			if (fenceTalkBubble.visible !== isOverlapping) {
-				if (WorldScene.scenario2Fininshed){
-					fenceTalkBubble.setVisible(false);
-				}else{
-					fenceTalkBubble.setVisible(isOverlapping);
-				}	
+			if (WorldScene.scenario2Fininshed){
+				fenceTalkBubble.setVisible(false);
+			}else{
+				fenceTalkBubble.setVisible(isOverlapping);
 			}
 
 			if (isOverlapping && this.sceneSwitchKey.isDown && !WorldScene.scenario2Fininshed) {
@@ -1097,18 +1095,19 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		});	
 		const poiCloudAnimTags = this.anims.createFromAseprite("poi_cloud");
 
-		const dog = new MovableEntity(scene, x, y, this.iceCreamStand);
+		const stand = new MovableEntity(scene, x, y-100, this.iceCreamStand);
 
 		const dogTalkBubble = this.add.sprite(
-			dog.x + 150,
-			dog.y - 10,
+			stand.x + 150,
+			stand.y - 10,
 			this.poiCloud
 		);
 
-		this.depthSorter.addSortable(dog, DepthLayers.PLAYER);
+		this.depthSorter.addSortable(stand, DepthLayers.PLAYER);
 
-		dog.setBodySize(300,50)
+		stand.setBodySize(280,70)
 			.setOffset(30,400)
+			.setScale(1.3)
 			.play(this.iceCreamStand)
 			.setImmovable(true)
 			.setFlipX(false)
@@ -1127,20 +1126,20 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			.setInteractive({ useHandCursor: true })
 			.on("pointerdown", () => {if(!WorldScene.scenario7Fininshed){this.switchScene(target_scene)}});
 
-		collidables.push(dog);
+		collidables.push(stand);
 
 		const radius = this.add.zone(
-			dog.x,
-			dog.y,
-			dog.displayWidth,
-			dog.displayHeight
+			stand.x,
+			stand.y,
+			stand.displayWidth,
+			stand.displayHeight
 		);
 
 		this.physics.world.enable(radius); // enable the zone's physics body
 
 		(radius.body as Phaser.Physics.Arcade.Body)
 			.setOffset(-160,50)
-			.setCircle(dog.displayWidth);
+			.setCircle(stand.displayWidth);
 
 		overlappables.push(radius);
 
