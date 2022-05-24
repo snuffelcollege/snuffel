@@ -284,12 +284,12 @@ export default class UI extends Scene implements SceneLifecycle {
             this.controlArrowEntity.play(this.controlArrow);    
 
             //pointing arrow functionality
-            if(WorldScene.scenario1Fininshed && this.game.scene.isVisible("world-scene")){
-                this.controlArrowEntity.setVisible(true);
-                setTimeout(() => {       
-                    this.controlArrowEntity.setVisible(false);
-                }, 1000);
-            }    
+            // if(WorldScene.scenario1Fininshed && this.game.scene.isVisible("world-scene")){
+            //     this.controlArrowEntity.setVisible(true);
+            //     setTimeout(() => {       
+            //         this.controlArrowEntity.setVisible(false);
+            //     }, 1000);
+            // }    
 
             //initializing badgecase and badge images
             const badgeCaseImage = this.add.sprite(960,550, "badgecase").setScale(0.6).setVisible(false);
