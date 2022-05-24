@@ -286,8 +286,11 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		Treeline_4.setCollisionByProperty({ collision: true });
 		Concrete_dirt.setCollisionByProperty({ collision: true });
 		Fences.setCollisionByProperty({ collision: true });
+		Road.setCollisionByProperty({ collision: true });
+		Road_lines.setCollisionByProperty({ collision: true });
 		Lanterns.setCollisionByProperty({ collision: true });
 		Collision_houses.setCollisionByProperty({ collision: true });
+		Roofs.setCollisionByProperty({ collision: true });
 		Flowers_bushes.setCollisionByProperty({ collision: true });
 
 		const collidables: GameObject[] = [];
@@ -340,6 +343,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 						this.physics.add.collider(p, Road_lines);
 						this.physics.add.collider(p, Lanterns);
 						this.physics.add.collider(p, Collision_houses);
+						this.physics.add.collider(p, Roofs);
 						this.physics.add.collider(p, Flowers_bushes);
 
 						this.depthSorter.addSortable(p, DepthLayers.PLAYER);
