@@ -18,7 +18,7 @@ export default class CameraComponent extends AbstractComponent {
 	}
 
 	public start(): void {
-		this.scene.cameras.main.setZoom(.50); //.88 normal setting
+		this.scene.cameras.main.setZoom(.88); //.88 normal setting
 		this.scene.cameras.main.startFollow(this.gameObject, true, 0.1, 0.1);
 	}
 
