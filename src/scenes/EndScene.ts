@@ -127,7 +127,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			})
 			.setInteractive({ useHandCursor: true, pixelPerfect: true })
 			.on("pointerdown", () => {
-				window.open("https://www.sophia-vereeniging.nl/")
+				window.open("https://www.sophia-vereeniging.nl/campagnes/sophiasnuffelcollege/snuffelspel/goed-gedaan/")
 			})
 		
 		
