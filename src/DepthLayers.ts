@@ -17,6 +17,7 @@ const enum DepthLayers {
 	Flowers_bushes,	
 	PLAYER,		
 	Lanterns,
+	Overlay,
 	Roofs
 }
 
