@@ -78,6 +78,9 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	public static scenario8Fininshed: boolean;
 	public static scenario9Fininshed: boolean;
 	public static scenario10Fininshed: boolean;
+	public static arrow1: boolean;
+	public static arrow2: boolean;
+	public static arrow3: boolean;
 
 	private GateClosed!: MovableEntity;
 	private GatePilar!: MovableEntity;
@@ -157,7 +160,10 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		WorldScene.scenario7Fininshed = false;
 		WorldScene.scenario8Fininshed = false;
 		WorldScene.scenario9Fininshed = false;
-		WorldScene.scenario10Fininshed = false;		
+		WorldScene.scenario10Fininshed = false;
+		WorldScene.arrow1 = false;		
+		WorldScene.arrow2 = false;		
+		WorldScene.arrow3 = false;		
 
 		this.tilesetKey = "world_tiles";
 		this.tilemapKey = "main_scene";
@@ -264,18 +270,21 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		// todo; remove the 2nd tileset.
 		const Water = tilemap.createLayer("Water", tileset);
 		const Grass = tilemap.createLayer("Grass", tileset);
+		const Concrete_dirt = tilemap.createLayer("Concrete_dirt", tileset);
 		const Treeline_1 = tilemap.createLayer("Treeline_1", tileset);
 		const Treeline_2 = tilemap.createLayer("Treeline_2", tileset);
 		const Treeline_3 = tilemap.createLayer("Treeline_3", tileset);
-		const Treeline_4 = tilemap.createLayer("Treeline_4", tileset);
-		const Concrete_dirt = tilemap.createLayer("Concrete_dirt", tileset);
+		const Treeline_4 = tilemap.createLayer("Treeline_4", tileset);		
 		const Fences = tilemap.createLayer("Fences", tileset);
 		const Road = tilemap.createLayer("Road", tileset);
 		const Road_lines = tilemap.createLayer("Road_lines", tileset);
-		const Lanterns = tilemap.createLayer("Lanterns", tileset);
 		const Collision_houses = tilemap.createLayer("Collision_houses", tileset);
-		const Roofs = tilemap.createLayer("Roofs", tileset);
 		const Flowers_bushes = tilemap.createLayer("Flowers_bushes", tileset);
+		const Lanterns = tilemap.createLayer("Lanterns", tileset);
+		const Overlay = tilemap.createLayer("Overlay", tileset);		
+		const Roofs = tilemap.createLayer("Roofs", tileset);
+
+
 
 		// add collision to the layers which have collision specified inside tiled
 		Water.setCollisionByProperty({ collision: true });
@@ -291,6 +300,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		Lanterns.setCollisionByProperty({ collision: true });
 		Collision_houses.setCollisionByProperty({ collision: true });
 		Roofs.setCollisionByProperty({ collision: true });
+		Overlay.setCollisionByProperty({ collision: true });
 		Flowers_bushes.setCollisionByProperty({ collision: true });
 
 		const collidables: GameObject[] = [];
@@ -333,18 +343,19 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 						//adds collision
 						this.physics.add.collider(p, Water);
 						this.physics.add.collider(p, Grass);
+						this.physics.add.collider(p, Concrete_dirt);
 						this.physics.add.collider(p, Treeline_1);
 						this.physics.add.collider(p, Treeline_2);
 						this.physics.add.collider(p, Treeline_3);
-						this.physics.add.collider(p, Treeline_4);
-						this.physics.add.collider(p, Concrete_dirt);
+						this.physics.add.collider(p, Treeline_4);						
 						this.physics.add.collider(p, Fences);
 						this.physics.add.collider(p, Road);
 						this.physics.add.collider(p, Road_lines);
-						this.physics.add.collider(p, Lanterns);
 						this.physics.add.collider(p, Collision_houses);
-						this.physics.add.collider(p, Roofs);
 						this.physics.add.collider(p, Flowers_bushes);
+						this.physics.add.collider(p, Lanterns);
+						this.physics.add.collider(p,Overlay);
+						this.physics.add.collider(p, Roofs);						
 
 						this.depthSorter.addSortable(p, DepthLayers.PLAYER);
 
@@ -406,16 +417,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 								obj.x as number,
 								obj.y as number,
 								"scene-6"
-							);	
-						}else if (obj.name === "ManOnBench") {
-							this.createScenario8(
-								this,
-								collidables,
-								overlappables,
-								obj.x as number,
-								obj.y as number,
-								"scene-8"
-							);					
+							);											
 						}else if (obj.name === "HuskyIcecream") {
 							this.createScenario7(
 								this,
@@ -425,6 +427,15 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 								obj.y as number,
 								"scene-7"
 							);
+						}else if (obj.name === "ManOnBench") {
+							this.createScenario8(
+								this,
+								collidables,
+								overlappables,
+								obj.x as number,
+								obj.y as number,
+								"scene-8"
+							);	
 						}else if (obj.name === "Frisbee") {
 							this.createScenario9(
 								this,
@@ -532,17 +543,18 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		// sort z indices
 		Water.setDepth(DepthLayers.Water);
 		Grass.setDepth(DepthLayers.Grass);
-		Flowers_bushes.setDepth(DepthLayers.Flowers_bushes)
+		Concrete_dirt.setDepth(DepthLayers.Concrete_dirt);
 		Treeline_1.setDepth(DepthLayers.Treeline_1);
 		Treeline_2.setDepth(DepthLayers.Treeline_2);
 		Treeline_3.setDepth(DepthLayers.Treeline_3);
-		Treeline_4.setDepth(DepthLayers.Treeline_4);
-		Concrete_dirt.setDepth(DepthLayers.Concrete_dirt);
+		Treeline_4.setDepth(DepthLayers.Treeline_4);		
 		Fences.setDepth(DepthLayers.Fences);
 		Road.setDepth(DepthLayers.Road);
 		Road_lines.setDepth(DepthLayers.Road_lines);
-		Lanterns.setDepth(DepthLayers.Lanterns);
 		Collision_houses.setDepth(DepthLayers.Collision_houses);
+		Flowers_bushes.setDepth(DepthLayers.Flowers_bushes);
+		Lanterns.setDepth(DepthLayers.Lanterns);
+		Overlay.setDepth(DepthLayers.Overlay);
 		Roofs.setDepth(DepthLayers.Roofs);
 
 		this.depthSorter.setRatio(tilemap.heightInPixels * 1.1);
@@ -602,7 +614,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			.setBodySize(this.ParkGateLeft.width, this.ParkGateLeft.height)
 			.setScale(1.2)
 			.setDepth(DepthLayers.PLAYER)
-			.setVisible(true)
+			.setVisible(false)
 			.setImmovable(true);
 
 		collidables.push(this.ParkGateLeft);
@@ -613,7 +625,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			.setBodySize(this.ParkGateRight.width, this.ParkGateRight.height)
 			.setScale(1.2)
 			.setDepth(DepthLayers.PLAYER)
-			.setVisible(true)
+			.setVisible(false)
 			.setImmovable(true);
 
 		collidables.push(this.ParkGateRight);
@@ -1374,13 +1386,10 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 				}else{
 					doorCollidable.setVisible(isOverlapping);
 				}	
-			
-
+		
 			if (isOverlapping && this.sceneSwitchKey.isDown && !WorldScene.scenario10Fininshed) {
 				this.switchScene(target_scene);
 			}
 		});
-	}
-
-	
+	}	
 }

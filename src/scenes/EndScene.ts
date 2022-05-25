@@ -114,103 +114,120 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 	
 
 	private createChoice(): void {			
-		//create stick 1 and sign 1, add movecomponents
-		const stick1 = this.add.image(500,1280, "stick");
-		const stick1move = this.components.addComponent(
-			stick1,
-			MoveTo
-		);
-		stick1move.setTarget({
-			x: stick1.x,
-			y: stick1.y - 300,
-		});		
-		stick1move.velocity = 280;
-		const button1 = this.add.image(500, 1230, this.option1).setScale(0.5);
-		button1.on("pointerover", () => {
-			button1.angle = 5;			
-		});
-		button1.on('pointerout',() => {
-			button1.angle = 0;
-		})
-		const button1move = this.components.addComponent(
-			button1,
-			MoveTo
-		);
-		button1move.setTarget({
-			x: button1.x,
-			y: button1.y - 300,
-		});		
-		button1move.velocity = 280;
-		const stick2 = this.add.image(1500,1280, "stick");
-		const stick2move = this.components.addComponent(
-			stick2,
-			MoveTo
-		);
 		
-		//create stick 2 and sign 2, add movecomponents
-		stick2move.setTarget({
-			x: stick2.x,
-			y: stick2.y - 300,
-		});		
-		stick2move.velocity = 280;
-		const button2 = this.add.image(1500, 1230, this.option2).setScale(0.5);
-		button2.on("pointerover", () => {
-			button2.angle = 5;		
-		});
-		button2.on('pointerout',() => {
-			button2.angle = 0;
-		})
-		const button2move = this.components.addComponent(
-			button2,
-			MoveTo
-		);
-		button2move.setTarget({
-			x: button2.x,
-			y: button2.y - 300,
-		});		
-		button2move.velocity = 280;
+		const linkButton = this.add.image(1000,950,"startButton");
 
-		//restart
-		button1
+		linkButton
+			.setScale(0.5)
+			.on("pointerover", () => {
+				linkButton.setScale(0.6)
+			})
+			.on("pointerout", () => {
+				linkButton.setScale(0.5)
+			})
 			.setInteractive({ useHandCursor: true, pixelPerfect: true })
 			.on("pointerdown", () => {
-				//disables sign 1, moves signs and sticks of option 2 and 3 offscreen
-				button1.disableInteractive()				
-				button2move.setTarget({
-					x: button2.x,
-					y: button2.y + 300,
-				});		
-				button2move.velocity = 280;
-				stick2move.setTarget({
-					x: stick2.x,
-					y: stick2.y + 300,
-				});		
-				stick2move.velocity = 280;
-				
-				//basically reloads page
-				location.reload()
-			});
+				window.open("https://www.sophia-vereeniging.nl/campagnes/sophiasnuffelcollege/snuffelspel/goed-gedaan/")
+			})
+		
+		
+		// //create stick 1 and sign 1, add movecomponents
+		// const stick1 = this.add.image(500,1280, "stick");
+		// const stick1move = this.components.addComponent(
+		// 	stick1,
+		// 	MoveTo
+		// );
+		// stick1move.setTarget({
+		// 	x: stick1.x,
+		// 	y: stick1.y - 300,
+		// });		
+		// stick1move.velocity = 280;
+		// const button1 = this.add.image(500, 1230, this.option1).setScale(0.5);
+		// button1.on("pointerover", () => {
+		// 	button1.angle = 5;			
+		// });
+		// button1.on('pointerout',() => {
+		// 	button1.angle = 0;
+		// })
+		// const button1move = this.components.addComponent(
+		// 	button1,
+		// 	MoveTo
+		// );
+		// button1move.setTarget({
+		// 	x: button1.x,
+		// 	y: button1.y - 300,
+		// });		
+		// button1move.velocity = 280;
+		// const stick2 = this.add.image(1500,1280, "stick");
+		// const stick2move = this.components.addComponent(
+		// 	stick2,
+		// 	MoveTo
+		// );
+		
+		// //create stick 2 and sign 2, add movecomponents
+		// stick2move.setTarget({
+		// 	x: stick2.x,
+		// 	y: stick2.y - 300,
+		// });		
+		// stick2move.velocity = 280;
+		// const button2 = this.add.image(1500, 1230, this.option2).setScale(0.5);
+		// button2.on("pointerover", () => {
+		// 	button2.angle = 5;		
+		// });
+		// button2.on('pointerout',() => {
+		// 	button2.angle = 0;
+		// })
+		// const button2move = this.components.addComponent(
+		// 	button2,
+		// 	MoveTo
+		// );
+		// button2move.setTarget({
+		// 	x: button2.x,
+		// 	y: button2.y - 300,
+		// });		
+		// button2move.velocity = 280;
 
-		//continue
-		button2
-			.setInteractive({ useHandCursor: true, pixelPerfect: true })
-			.on("pointerdown", () => {
-				//disables sign 2, moves signs and sticks of option 1 and 3 offscreen
-				stick1move.setTarget({
-					x: stick1.x,
-					y: stick1.y + 300,
-				});		
-				stick1move.velocity = 280;
-				button1move.setTarget({
-					x: button1.x,
-					y: button1.y + 300,
-				});		
-				button1move.velocity = 280;
-				button2.disableInteractive()
+		// //restart
+		// button1
+		// 	.setInteractive({ useHandCursor: true, pixelPerfect: true })
+		// 	.on("pointerdown", () => {
+		// 		//disables sign 1, moves signs and sticks of option 2 and 3 offscreen
+		// 		button1.disableInteractive()				
+		// 		button2move.setTarget({
+		// 			x: button2.x,
+		// 			y: button2.y + 300,
+		// 		});		
+		// 		button2move.velocity = 280;
+		// 		stick2move.setTarget({
+		// 			x: stick2.x,
+		// 			y: stick2.y + 300,
+		// 		});		
+		// 		stick2move.velocity = 280;
 				
-				//back to worldscene
-				this.moveScene();
-			});
+		// 		//basically reloads page
+		// 		location.reload()
+		// 	});
+
+		// //continue
+		// button2
+		// 	.setInteractive({ useHandCursor: true, pixelPerfect: true })
+		// 	.on("pointerdown", () => {
+		// 		//disables sign 2, moves signs and sticks of option 1 and 3 offscreen
+		// 		stick1move.setTarget({
+		// 			x: stick1.x,
+		// 			y: stick1.y + 300,
+		// 		});		
+		// 		stick1move.velocity = 280;
+		// 		button1move.setTarget({
+		// 			x: button1.x,
+		// 			y: button1.y + 300,
+		// 		});		
+		// 		button1move.velocity = 280;
+		// 		button2.disableInteractive()
+				
+		// 		//back to worldscene
+		// 		this.moveScene();
+		// 	});
 	}
 	//fade to black and back to overworld
 	private moveScene() {

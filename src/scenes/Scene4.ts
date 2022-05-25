@@ -523,7 +523,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 			y: this.characterEntity.y + 250,
 		});
 
-		moveTo.velocity = 150;
+		moveTo.velocity = 200;
 
 		moveTo.movingDone = () => {
 			this.characterEntity.play({

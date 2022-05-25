@@ -593,6 +593,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		});	
 
 		setTimeout(() => {
+			this.game.sound.removeByKey("squeal");
 			this.add.image(600,130,"bademotion").setScale(0.6);
 			this.add.image(600,300,this.endText).setScale(0.6);					
 			const replaybutton = this.add.image(1090,360,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
