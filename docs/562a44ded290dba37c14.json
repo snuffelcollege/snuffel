@@ -1,0 +1,35 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 1, "y": 1, "w": 143, "h": 166 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 9, "y": 0, "w": 141, "h": 164 },
+    "sourceSize": { "w": 150, "h": 168 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 1, "y": 168, "w": 143, "h": 162 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 9, "y": 7, "w": 141, "h": 160 },
+    "sourceSize": { "w": 150, "h": 168 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "Doge-sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 144, "h": 330 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Jumpies", "from": 0, "to": 1, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

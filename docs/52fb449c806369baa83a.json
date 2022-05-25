@@ -1,0 +1,35 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 243, "y": 1, "w": 230, "h": 207 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 1, "y": 144, "w": 228, "h": 205 },
+    "sourceSize": { "w": 285, "h": 352 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 1, "y": 1, "w": 241, "h": 309 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 39, "y": 6, "w": 239, "h": 307 },
+    "sourceSize": { "w": 285, "h": 352 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "doggjump1-sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 473, "h": 310 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Hop", "from": 0, "to": 1, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

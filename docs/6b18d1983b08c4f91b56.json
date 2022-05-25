@@ -1,0 +1,35 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 275, "y": 1, "w": 240, "h": 218 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 1, "y": 2, "w": 238, "h": 216 },
+    "sourceSize": { "w": 273, "h": 218 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 1, "y": 1, "w": 273, "h": 214 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 2, "y": 1, "w": 271, "h": 212 },
+    "sourceSize": { "w": 273, "h": 218 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "dogfrisbee1-sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 515, "h": 219 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Grr", "from": 0, "to": 1, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
