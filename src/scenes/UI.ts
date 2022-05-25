@@ -38,6 +38,7 @@ import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import Sprite = Phaser.GameObjects.Sprite;
 import WorldScene from "./WorldScene";
+import { World } from "matter";
 
 export default class UI extends Scene implements SceneLifecycle {
 
@@ -268,7 +269,7 @@ export default class UI extends Scene implements SceneLifecycle {
             //creating animation for arrow    
             this.anims.create({
                 key: this.controlArrow,
-                frameRate: 1,
+                frameRate: 2,
                 frames: this.anims.generateFrameNumbers(
                     this.controlArrow,
                     {
@@ -280,16 +281,32 @@ export default class UI extends Scene implements SceneLifecycle {
             });	    
             
             //loading arrow aseprite
-            this.controlArrowEntity = this.add.sprite(1700, 600, this.controlArrow).setScale(0.7).setVisible(false);
+            this.controlArrowEntity = this.add.sprite(1700, 900, this.controlArrow).setScale(0.7).setVisible(false);
             this.controlArrowEntity.play(this.controlArrow);    
 
             //pointing arrow functionality
-            // if(WorldScene.scenario1Fininshed && this.game.scene.isVisible("world-scene")){
-            //     this.controlArrowEntity.setVisible(true);
-            //     setTimeout(() => {       
-            //         this.controlArrowEntity.setVisible(false);
-            //     }, 1000);
-            // }    
+            if(WorldScene.scenario1Fininshed && !WorldScene.arrow1 && this.game.scene.isVisible("world-scene")){
+                this.controlArrowEntity.setVisible(true);
+                setTimeout(() => {       
+                    this.controlArrowEntity.setVisible(false);
+                }, 3000);
+                WorldScene.arrow1 = true;
+            } 
+            if(WorldScene.scenario2Fininshed && WorldScene.scenario3Fininshed && !WorldScene.arrow2 && this.game.scene.isVisible("world-scene")){
+                this.controlArrowEntity.setVisible(true);
+                setTimeout(() => {       
+                    this.controlArrowEntity.setVisible(false);
+                }, 3000);
+                WorldScene.arrow2 = true;
+            } 
+            if(WorldScene.scenario4Fininshed && WorldScene.scenario5Fininshed && WorldScene.scenario6Fininshed && !WorldScene.arrow3 && this.game.scene.isVisible("world-scene")){
+                this.controlArrowEntity.setVisible(true);
+                this.controlArrowEntity.setRotation(1.57);
+                setTimeout(() => {       
+                    this.controlArrowEntity.setVisible(false);
+                }, 3000);
+                WorldScene.arrow3 = true;
+            }  
 
             //initializing badgecase and badge images
             const badgeCaseImage = this.add.sprite(960,550, "badgecase").setScale(0.6).setVisible(false);
