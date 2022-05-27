@@ -1,5 +1,5 @@
 { "frames": {
-   "pointer (Layer)": {
+   "0": {
     "frame": { "x": 1, "y": 1, "w": 371, "h": 242 },
     "rotated": false,
     "trimmed": true,
@@ -7,7 +7,7 @@
     "sourceSize": { "w": 380, "h": 250 },
     "duration": 100
    },
-   "pointer (Layer)": {
+   "1": {
     "frame": { "x": 1, "y": 1, "w": 371, "h": 242 },
     "rotated": false,
     "trimmed": true,
