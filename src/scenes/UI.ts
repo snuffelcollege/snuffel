@@ -28,6 +28,11 @@ import UnmutedMusicIcon from "@assets/images/UI/musicunmuted.png";
 import MutedMusicIcon from "@assets/images/UI/musicmuted.png";
 import MapIcon from "@assets/images/UI/map_icon.png";
 import MapBase from "@assets/images/UI/Map/map_base.png";
+import MapPart1 from "@assets/images/UI/Map/map1.png";
+import MapPart2 from "@assets/images/UI/Map/map2.png";
+import MapPart3 from "@assets/images/UI/Map/map3.png";
+import MapPart4 from "@assets/images/UI/Map/map4.png";
+import MapX from "@assets/images/UI/Map/map_X.png";
 import controlArrow from "@assets/spritesheets/UI/pointing_arrow.png";
 import controlArrowData from "@assets/spritesheets/UI/pointing_arrow.json";
 import SparkleSheet from "@assets/spritesheets/UI/Sparkles.png";
@@ -45,6 +50,11 @@ export default class UI extends Scene implements SceneLifecycle {
 
     private map_icon!: string;
     private map_base!: string;
+    private map1!: string;
+    private map2!: string;
+    private map3!: string;
+    private map4!: string;
+    private mapX!: string;
     private mapState!: boolean;
 
     private badge_icon!: string;
@@ -72,6 +82,11 @@ export default class UI extends Scene implements SceneLifecycle {
     public init(): void {
         this.map_icon = "map";
         this.map_base = "mapbase";
+        this.map1 = "map1";
+        this.map2 = "map2";
+        this.map3 = "map3";
+        this.map4 = "map4";
+        this.mapX = "mapX";
         this.badge_icon = "badge";
         this.badgeState = false;
         this.controls_icon = "controls";
@@ -97,6 +112,11 @@ export default class UI extends Scene implements SceneLifecycle {
 
     public preload(): void {
         this.load.image(this.map_icon, MapIcon);
+        this.load.image(this.map1, MapPart1);
+        this.load.image(this.map2, MapPart2);
+        this.load.image(this.map3, MapPart3);
+        this.load.image(this.map4, MapPart4);
+        this.load.image(this.mapX, MapX);
         this.load.image(this.map_base, MapBase);
         this.load.image(this.badge_icon,BadgeIcon);
         this.load.image("badgecase", BadgeCase);
@@ -291,27 +311,27 @@ export default class UI extends Scene implements SceneLifecycle {
             this.controlArrowEntity.play(this.controlArrow);    
 
             //pointing arrow functionality
-            if(WorldScene.scenario1Fininshed && !WorldScene.arrow1 && this.game.scene.isVisible("world-scene")){
+            if(WorldScene.scenario1Fininshed && !WorldScene.part1 && this.game.scene.isVisible("world-scene")){
                 this.controlArrowEntity.setVisible(true);
                 setTimeout(() => {       
                     this.controlArrowEntity.setVisible(false);
                 }, 3000);
-                WorldScene.arrow1 = true;
+                WorldScene.part1 = true;
             } 
-            if(WorldScene.scenario2Fininshed && WorldScene.scenario3Fininshed && !WorldScene.arrow2 && this.game.scene.isVisible("world-scene")){
+            if(WorldScene.scenario2Fininshed && WorldScene.scenario3Fininshed && !WorldScene.part2 && this.game.scene.isVisible("world-scene")){
                 this.controlArrowEntity.setVisible(true);
                 setTimeout(() => {       
                     this.controlArrowEntity.setVisible(false);
                 }, 3000);
-                WorldScene.arrow2 = true;
+                WorldScene.part2 = true;
             } 
-            if(WorldScene.scenario4Fininshed && WorldScene.scenario5Fininshed && WorldScene.scenario6Fininshed && !WorldScene.arrow3 && this.game.scene.isVisible("world-scene")){
+            if(WorldScene.scenario4Fininshed && WorldScene.scenario5Fininshed && WorldScene.scenario6Fininshed && !WorldScene.part3 && this.game.scene.isVisible("world-scene")){
                 this.controlArrowEntity.setVisible(true);
                 this.controlArrowEntity.setRotation(1.57);
                 setTimeout(() => {       
                     this.controlArrowEntity.setVisible(false);
                 }, 3000);
-                WorldScene.arrow3 = true;
+                WorldScene.part3 = true;
             }  
 
             //initializing badgecase and badge images
@@ -397,6 +417,20 @@ export default class UI extends Scene implements SceneLifecycle {
                 });
 
             const mapbase = this.add.image(1000,500, "mapbase").setVisible(false).setScale(0.8);
+            const map1 = this.add.image(1000,500, this.map1).setVisible(false).setScale(0.8);
+            const map2 = this.add.image(1000,500, this.map2).setVisible(false).setScale(0.8);
+            const map3 = this.add.image(1000,500, this.map3).setVisible(false).setScale(0.8);
+            const map4 = this.add.image(1000,500, this.map4).setVisible(false).setScale(0.8);
+            const mapX1 = this.add.image(600,450, this.mapX).setVisible(false).setScale(0.8);
+            const mapX2 = this.add.image(775,375, this.mapX).setVisible(false).setScale(0.7);
+            const mapX3 = this.add.image(1150,375, this.mapX).setVisible(false).setScale(0.7);
+            const mapX4 = this.add.image(1450,425, this.mapX).setVisible(false).setScale(0.6);
+            const mapX5 = this.add.image(1350,325, this.mapX).setVisible(false).setScale(0.7);
+            const mapX6 = this.add.image(1600,350, this.mapX).setVisible(false).setScale(0.8);
+            const mapX7 = this.add.image(1475,550, this.mapX).setVisible(false).setScale(0.7);
+            const mapX8 = this.add.image(1550,675, this.mapX).setVisible(false).setScale(0.6);
+            const mapX9 = this.add.image(1400,750, this.mapX).setVisible(false).setScale(0.5);
+            const mapX10 = this.add.image(800,700, this.mapX).setVisible(false).setScale(0.8);
             
             const mapicon = this.add
                 .image(1850,470,this.map_icon)
@@ -407,9 +441,66 @@ export default class UI extends Scene implements SceneLifecycle {
                         case(false):
                             mapbase.setVisible(true);
                             this.mapState = true;
+                            map1.setVisible(true);
+                            mapX1.setVisible(true);
+                            if(WorldScene.part1){
+                                map2.setVisible(true);
+                                mapX1.setVisible(false);
+                                if(WorldScene.scenario2Fininshed){
+                                    mapX2.setVisible(false);   
+                                } else {
+                                    mapX2.setVisible(true);
+                                }
+                                if(WorldScene.scenario3Fininshed){
+                                    mapX3.setVisible(false);
+                                } else {
+                                    mapX3.setVisible(true);
+                                }
+                            }
+                            if(WorldScene.part2){
+                                map3.setVisible(true);
+                                if(WorldScene.scenario4Fininshed){
+                                    mapX4.setVisible(false)
+                                } else {
+                                    mapX4.setVisible(true);
+                                }
+                                if(WorldScene.scenario5Fininshed){
+                                    mapX5.setVisible(false)
+                                } else {
+                                    mapX5.setVisible(true);
+                                }
+                                if(WorldScene.scenario6Fininshed){
+                                    mapX6.setVisible(false)
+                                } else {
+                                    mapX6.setVisible(true);
+                                }
+                            }
+                            if(WorldScene.part3){
+                                map4.setVisible(true);
+                                if(WorldScene.scenario7Fininshed){
+                                    mapX7.setVisible(false)
+                                } else {
+                                    mapX7.setVisible(true);
+                                }
+                                if(WorldScene.scenario8Fininshed){
+                                    mapX8.setVisible(false)
+                                } else {
+                                    mapX8.setVisible(true);
+                                }
+                                if(WorldScene.scenario9Fininshed){
+                                    mapX9.setVisible(false)
+                                } else {
+                                    mapX9.setVisible(true);
+                                }
+                                if(WorldScene.scenario10Fininshed){
+                                    mapX10.setVisible(false)
+                                } else {
+                                    mapX10.setVisible(true);
+                                }
+                            }
                             //fade in effect
                             this.add.tween({
-                                targets: [mapbase],
+                                targets: [mapbase, map1, map2, map3, map4, mapX1, mapX2, mapX3, mapX4, mapX5, mapX6, mapX7, mapX8, mapX9, mapX10],
                                 ease: 'Sine.easeInOut',
                                 duration: 500,
                                 delay: 0,
@@ -422,7 +513,7 @@ export default class UI extends Scene implements SceneLifecycle {
                         case(true):
                             //fadeout effect
                             this.add.tween({
-                                targets: [mapbase],
+                                targets: [mapbase, map1, map2, map3, map4, mapX1, mapX2, mapX3, mapX4, mapX5, mapX6, mapX7, mapX8, mapX9, mapX10],
                                 ease: 'Sine.easeInOut',
                                 duration: 500,
                                 delay: 0,
@@ -433,6 +524,20 @@ export default class UI extends Scene implements SceneLifecycle {
                                 onComplete: () => {
                                     mapbase.setVisible(false);
                                     this.mapState = false;
+                                    map1.setVisible(false);
+                                    map2.setVisible(false);
+                                    map3.setVisible(false);
+                                    map4.setVisible(false);
+                                    mapX1.setVisible(false);
+                                    mapX2.setVisible(false);
+                                    mapX3.setVisible(false);
+                                    mapX4.setVisible(false);
+                                    mapX5.setVisible(false);
+                                    mapX6.setVisible(false);
+                                    mapX7.setVisible(false);
+                                    mapX8.setVisible(false);
+                                    mapX9.setVisible(false);
+                                    mapX10.setVisible(false);
                                 }
                               });
                             break;

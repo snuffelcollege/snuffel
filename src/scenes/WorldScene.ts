@@ -78,9 +78,9 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	public static scenario8Fininshed: boolean;
 	public static scenario9Fininshed: boolean;
 	public static scenario10Fininshed: boolean;
-	public static arrow1: boolean;
-	public static arrow2: boolean;
-	public static arrow3: boolean;
+	public static part1: boolean;
+	public static part2: boolean;
+	public static part3: boolean;
 
 	private GateClosed!: MovableEntity;
 	private GatePilar!: MovableEntity;
@@ -161,9 +161,9 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		WorldScene.scenario8Fininshed = false;
 		WorldScene.scenario9Fininshed = false;
 		WorldScene.scenario10Fininshed = false;
-		WorldScene.arrow1 = false;		
-		WorldScene.arrow2 = false;		
-		WorldScene.arrow3 = false;		
+		WorldScene.part1 = false;		
+		WorldScene.part2 = false;		
+		WorldScene.part3 = false;		
 
 		this.tilesetKey = "world_tiles";
 		this.tilemapKey = "main_scene";
@@ -662,6 +662,11 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			this.switch_to_end = true;
 			this.switchScene("end-scene");			
 		}
+
+		// if(this.switch_to_end == false){
+		// 	this.switch_to_end = true;
+		// 	this.switchScene("end-scene");			
+		// }
 	}
 
 	private switchScene(newScene: string) {	
