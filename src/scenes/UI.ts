@@ -273,7 +273,7 @@ export default class UI extends Scene implements SceneLifecycle {
                 .image(1850,270,this.controls_icon)
                 .setScale(0.4)
                 .setInteractive({useHandCursor: true})
-                .on("pointerdown",() => {
+                .on("pointerdown",() => {                    
                     menuSound.play({
                         loop: false
                     });
