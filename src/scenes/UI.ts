@@ -33,6 +33,7 @@ import MapPart2 from "@assets/images/UI/Map/map2.png";
 import MapPart3 from "@assets/images/UI/Map/map3.png";
 import MapPart4 from "@assets/images/UI/Map/map4.png";
 import MapX from "@assets/images/UI/Map/map_X.png";
+import MapSound from "@assets/audio/UI/map_open.mp3";
 import controlArrow from "@assets/spritesheets/UI/pointing_arrow.png";
 import controlArrowData from "@assets/spritesheets/UI/pointing_arrow.json";
 import SparkleSheet from "@assets/spritesheets/UI/Sparkles.png";
@@ -150,12 +151,14 @@ export default class UI extends Scene implements SceneLifecycle {
         this.load.audio("menuSound", menuSound);        
 		this.load.audio("fenceopen", FenceOpen);
 		this.load.audio("truckmove",TruckMove);
+        this.load.audio("mapSound", MapSound);
 
     }
 
     create ()
     {
         var menuSound = this.sound.add("menuSound");
+        var mapSound = this.sound.add("mapSound");
 		
         if(this.scene.isVisible("start-scene")==false){
             
@@ -436,6 +439,7 @@ export default class UI extends Scene implements SceneLifecycle {
                 .setScale(0.4)
                 .setInteractive({useHandCursor: true})
                 .on("pointerdown",() => {
+                    mapSound.play();
                     switch(this.mapState){
                         case(false):
                             mapbase.setVisible(true);
