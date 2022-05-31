@@ -2,6 +2,7 @@ import BackgroundImage from "@assets/images/scenario_1/BG.png";
 import CongratsImage from "@assets/images/UI/congrats.png";
 import Option1 from "@assets/images/world/restart_sign.png";
 import Option2 from "@assets/images/world/continue_sign.png";
+import EndSceneImage from "@assets/images/UI/end_scene.png";
 import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
@@ -61,6 +62,8 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private option2!: string;
 
+	private endSceneImage!: string;
+
 	constructor(cfg: SettingsConfig = config) {
 		super(cfg);
 	}
@@ -69,6 +72,8 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		
 		this.option1 = "option1end";
 		this.option2 = "option2end";
+
+		this.endSceneImage = "endSceneImage";
 
 		if (!WorldSceneConfig.key) {
 			throw Error("Exit scene key is undefined");
@@ -85,6 +90,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 	public preload(): void {
 		this.load.image(this.option1, Option1);
 		this.load.image(this.option2, Option2);
+		this.load.image("endSceneImage", EndSceneImage);
 		this.load.image("backgroundEnd", BackgroundImage);
 		this.load.image("congratsImage",CongratsImage);
 		this.load.audio("congrats", CongratsAudio);		
@@ -109,21 +115,23 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			loop: true
 		});
 		this.sound.add("congrats", {volume: 0.5}).play();
-		this.createChoice();
+		setTimeout(() => {
+			this.createChoice();
+		}, 3000);
 	}
 	
 
 	private createChoice(): void {			
 		
-		const linkButton = this.add.image(1000,950,"startButton");
+		const linkButton = this.add.image(1000,850,"endSceneImage");
 
 		linkButton
-			.setScale(0.5)
+			.setScale(0.4)
 			.on("pointerover", () => {
-				linkButton.setScale(0.6)
+				linkButton.setScale(0.5)
 			})
 			.on("pointerout", () => {
-				linkButton.setScale(0.5)
+				linkButton.setScale(0.4)
 			})
 			.setInteractive({ useHandCursor: true, pixelPerfect: true })
 			.on("pointerdown", () => {
