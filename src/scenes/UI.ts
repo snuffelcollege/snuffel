@@ -1,4 +1,3 @@
-import MapIcon from "@assets/images/UI/map_icon.png";
 import BadgeIcon from "@assets/images/UI/badge_icon.png";
 import BadgeCase from "@assets/images/UI/badges/badge_case.png";
 import BadgeS1 from "@assets/images/UI/badges/badge_s1.png";
@@ -27,6 +26,8 @@ import UnmutedSoundIcon from "@assets/images/UI/soundunmuted.png";
 import MutedSoundIcon from "@assets/images/UI/soundmuted.png";
 import UnmutedMusicIcon from "@assets/images/UI/musicunmuted.png";
 import MutedMusicIcon from "@assets/images/UI/musicmuted.png";
+import MapIcon from "@assets/images/UI/map_icon.png";
+import MapBase from "@assets/images/UI/Map/map_base.png";
 import controlArrow from "@assets/spritesheets/UI/pointing_arrow.png";
 import controlArrowData from "@assets/spritesheets/UI/pointing_arrow.json";
 import SparkleSheet from "@assets/spritesheets/UI/Sparkles.png";
@@ -43,6 +44,8 @@ import { World } from "matter";
 export default class UI extends Scene implements SceneLifecycle {
 
     private map_icon!: string;
+    private map_base!: string;
+    private mapState!: boolean;
 
     private badge_icon!: string;
     private badgeState!: boolean;
@@ -68,6 +71,7 @@ export default class UI extends Scene implements SceneLifecycle {
 
     public init(): void {
         this.map_icon = "map";
+        this.map_base = "mapbase";
         this.badge_icon = "badge";
         this.badgeState = false;
         this.controls_icon = "controls";
@@ -83,6 +87,7 @@ export default class UI extends Scene implements SceneLifecycle {
         this.soundMuted = false;
         this.musicMuted = false;
         this.controlState = false;
+        this.mapState = false;
     }
 
     constructor ()
@@ -92,6 +97,7 @@ export default class UI extends Scene implements SceneLifecycle {
 
     public preload(): void {
         this.load.image(this.map_icon, MapIcon);
+        this.load.image(this.map_base, MapBase);
         this.load.image(this.badge_icon,BadgeIcon);
         this.load.image("badgecase", BadgeCase);
         this.load.image("badge1",BadgeS1);
@@ -389,18 +395,54 @@ export default class UI extends Scene implements SceneLifecycle {
                               break;                            
                     }
                 });
-            const map = this.add
-                .image(1850,370,this.map_icon)
-                .setVisible(false)
+
+            const mapbase = this.add.image(1000,500, "mapbase").setVisible(false).setScale(0.8);
+            
+            const mapicon = this.add
+                .image(1850,470,this.map_icon)
                 .setScale(0.4)
                 .setInteractive({useHandCursor: true})
                 .on("pointerdown",() => {
-                    //show area map
+                    switch(this.mapState){
+                        case(false):
+                            mapbase.setVisible(true);
+                            this.mapState = true;
+                            //fade in effect
+                            this.add.tween({
+                                targets: [mapbase],
+                                ease: 'Sine.easeInOut',
+                                duration: 500,
+                                delay: 0,
+                                alpha: {
+                                  getStart: () => 0,
+                                  getEnd: () => 1
+                                }
+                              });
+                            break;
+                        case(true):
+                            //fadeout effect
+                            this.add.tween({
+                                targets: [mapbase],
+                                ease: 'Sine.easeInOut',
+                                duration: 500,
+                                delay: 0,
+                                alpha: {                                
+                                  getStart: () => 1,
+                                  getEnd: () => 0
+                                },
+                                onComplete: () => {
+                                    mapbase.setVisible(false);
+                                    this.mapState = false;
+                                }
+                              });
+                            break;
+                    }
+                    
             });
 
             if(this.scene.isSleeping("world-scene")){
                 badge.destroy();
-                map.destroy();
+                mapicon.destroy();
                 controls.destroy();
             }
         }

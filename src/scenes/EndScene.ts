@@ -98,7 +98,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 		this.components.addComponent(img, MakeFullscreen);
 
-		this.add.image(950, 400,"congratsImage").setScale(0.7);
+		this.add.image(950, 400,"congratsImage").setScale(0.5);
 
 		this.createSituation();
 	}
