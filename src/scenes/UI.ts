@@ -244,7 +244,7 @@ export default class UI extends Scene implements SceneLifecycle {
                 }
 			});
 
-            //creating animation for arrow
+            //creating animation for controls
             this.anims.create({
                 key: this.controlKeys,
                 frameRate: 1,
@@ -326,8 +326,7 @@ export default class UI extends Scene implements SceneLifecycle {
                 WorldScene.part2 = true;
             } 
             if(WorldScene.scenario4Fininshed && WorldScene.scenario5Fininshed && WorldScene.scenario6Fininshed && !WorldScene.part3 && this.game.scene.isVisible("world-scene")){
-                this.controlArrowEntity.setVisible(true);
-                this.controlArrowEntity.setRotation(1.57);
+                this.controlArrowEntity.setVisible(true).setRotation(1.57);
                 setTimeout(() => {       
                     this.controlArrowEntity.setVisible(false);
                 }, 3000);
@@ -446,57 +445,21 @@ export default class UI extends Scene implements SceneLifecycle {
                             if(WorldScene.part1){
                                 map2.setVisible(true);
                                 mapX1.setVisible(false);
-                                if(WorldScene.scenario2Fininshed){
-                                    mapX2.setVisible(false);   
-                                } else {
-                                    mapX2.setVisible(true);
-                                }
-                                if(WorldScene.scenario3Fininshed){
-                                    mapX3.setVisible(false);
-                                } else {
-                                    mapX3.setVisible(true);
-                                }
+                                mapX2.setVisible(!WorldScene.scenario2Fininshed);   
+                                mapX3.setVisible(!WorldScene.scenario3Fininshed);
                             }
                             if(WorldScene.part2){
                                 map3.setVisible(true);
-                                if(WorldScene.scenario4Fininshed){
-                                    mapX4.setVisible(false)
-                                } else {
-                                    mapX4.setVisible(true);
-                                }
-                                if(WorldScene.scenario5Fininshed){
-                                    mapX5.setVisible(false)
-                                } else {
-                                    mapX5.setVisible(true);
-                                }
-                                if(WorldScene.scenario6Fininshed){
-                                    mapX6.setVisible(false)
-                                } else {
-                                    mapX6.setVisible(true);
-                                }
+                                mapX4.setVisible(!WorldScene.scenario4Fininshed);
+                                mapX5.setVisible(!WorldScene.scenario5Fininshed);
+                                mapX6.setVisible(!WorldScene.scenario6Fininshed);
                             }
                             if(WorldScene.part3){
                                 map4.setVisible(true);
-                                if(WorldScene.scenario7Fininshed){
-                                    mapX7.setVisible(false)
-                                } else {
-                                    mapX7.setVisible(true);
-                                }
-                                if(WorldScene.scenario8Fininshed){
-                                    mapX8.setVisible(false)
-                                } else {
-                                    mapX8.setVisible(true);
-                                }
-                                if(WorldScene.scenario9Fininshed){
-                                    mapX9.setVisible(false)
-                                } else {
-                                    mapX9.setVisible(true);
-                                }
-                                if(WorldScene.scenario10Fininshed){
-                                    mapX10.setVisible(false)
-                                } else {
-                                    mapX10.setVisible(true);
-                                }
+                                mapX7.setVisible(!WorldScene.scenario7Fininshed);
+                                mapX8.setVisible(!WorldScene.scenario8Fininshed);
+                                mapX9.setVisible(!WorldScene.scenario9Fininshed);
+                                mapX10.setVisible(!WorldScene.scenario10Fininshed);
                             }
                             //fade in effect
                             this.add.tween({
