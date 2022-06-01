@@ -131,7 +131,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		this.load.image(this.option3, Option3);
 		this.load.image(this.startText,StartText);
 		this.load.image(this.endText, EndText);
-		this.load.audio("squeal", squeal);
+		this.load.audio("squeal10", squeal);
 		this.load.aseprite(
 			this.characterWalk,
 			CharacterWalkSheet,
@@ -587,7 +587,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		});
 
 		this.dogAndBoyEntity.play(this.continueHug);
-		var squeal = this.sound.add("squeal");
+		var squeal = this.sound.add("squeal10");
 		squeal.play({
 			loop: true
 		});	
