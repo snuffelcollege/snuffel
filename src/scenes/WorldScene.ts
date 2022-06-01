@@ -658,15 +658,15 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			this.sound.play("fenceopen", {volume:0.5});
 		}
 
-		if (!this.switch_to_end && WorldScene.scenario7Fininshed && WorldScene.scenario8Fininshed && WorldScene.scenario9Fininshed && WorldScene.scenario10Fininshed){
-			this.switch_to_end = true;
-			this.switchScene("end-scene");			
-		}
-
-		// if(this.switch_to_end == false){
+		// if (!this.switch_to_end && WorldScene.scenario7Fininshed && WorldScene.scenario8Fininshed && WorldScene.scenario9Fininshed && WorldScene.scenario10Fininshed){
 		// 	this.switch_to_end = true;
 		// 	this.switchScene("end-scene");			
 		// }
+
+		if(this.switch_to_end == false){
+			this.switch_to_end = true;
+			this.switchScene("end-scene");			
+		}
 	}
 
 	private switchScene(newScene: string) {	
