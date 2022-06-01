@@ -2,6 +2,7 @@ import Background from "@assets/images/world/background.png";
 import Logo from "@assets/images/world/snuffelcollege-logo.png";
 import Title from "@assets/images/world/title.png";
 import StartButton from "@assets/images/world/Start_button.png";
+import CreditsButton from "@assets/images/UI/continue_button.png";
 import HuskyImage from "@assets/spritesheets/husky/husky.png";
 import HuskyJson from "@assets/spritesheets/husky/husky.json";
 import { Scene } from "phaser";
@@ -51,6 +52,7 @@ export default class StartScene extends Scene {
 	private husky!: string;
 
 	private startButton!: string;
+	private creditsButton!: string;
 
 	constructor(cfg: SettingsConfig = config) {
 		super(cfg);
@@ -58,6 +60,7 @@ export default class StartScene extends Scene {
 
 	public init(): void {
 		this.startButton = "startButton";
+		this.creditsButton = "creditsButton";
 		this.husky = "husky";
 
 		this.components = new ComponentService();
@@ -69,6 +72,7 @@ export default class StartScene extends Scene {
 	public preload(): void {
 		this.load.aseprite(this.husky, HuskyImage, HuskyJson);
 		this.load.image("startButton", StartButton);
+		this.load.image("creditsButton", CreditsButton);
 		this.load.image("background", Background);
 		this.load.image("logo", Logo);
 		this.load.image("title", Title);
@@ -117,6 +121,21 @@ export default class StartScene extends Scene {
 			.on("pointerout", () => {
 				startButton.displayHeight = startButton.displayHeight/1.1;
 				startButton.displayWidth = startButton.displayWidth/1.1;
+			});
+
+		const creditsButton = this.add
+			.image(1850, 100, this.creditsButton)
+			.setScale(0.5)
+			.setInteractive({ useHandCursor: true})
+			.on("pointerover", () => {
+				creditsButton.setScale(0.6);
+			})
+			.on("pointerout", () => {
+				creditsButton.setScale(0.5);
+			})
+			.on("pointerdown", () => {
+				this.scene.start("credits");
+				this.scene.stop("start-scene")
 			});
 	}
 }
