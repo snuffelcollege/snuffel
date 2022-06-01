@@ -1,6 +1,7 @@
 import { config, Game } from "./Game";
 import StartScene from "./scenes/StartScene";
 import WorldScene from "./scenes/WorldScene";
+import Credits from "./scenes/Credits";
 import UI from "./scenes/UI";
 import Scene1 from "./scenes/Scene1"
 import Scene2 from "./scenes/Scene2";
@@ -18,7 +19,7 @@ import EndScene from "./scenes/EndScene";
 
 function launchGame() {
 	// Append game scenes here, order is important!!
-	config.scene = [StartScene, WorldScene, Scene1, Scene2, Scene3, Scene4, Scene5, Scene6, Scene7, Scene8, Scene9, Scene10, EndScene, UI];
+	config.scene = [StartScene, Credits, WorldScene, Scene1, Scene2, Scene3, Scene4, Scene5, Scene6, Scene7, Scene8, Scene9, Scene10, EndScene, UI];
 
 	const snuffelGame = new Game(config);
 }
