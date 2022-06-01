@@ -666,25 +666,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 				() => {
 					characterAnimator.animatable.toggleFlipX();
 
-					const cloudAnims = this.anims.createFromAseprite(
-						this.pointOfInterestCloud
-					);
-
-					const cloud = this.add
-						.sprite(
-							characterAnimator.animatable.x - 140,
-							characterAnimator.animatable.y,
-							this.pointOfInterestCloud
-						)
-						.toggleFlipX()
-						.setOrigin(0, 0)
-						.setScale(1.5)
-						.play({ key: cloudAnims[0].key, repeat: -1 }, true);
-
-					waitFor(
-						this,
-						() => {
-							cloud.destroy();
+					
 
 							const questionAnims = this.anims.createFromAseprite(
 								this.questionChatIcon
@@ -829,9 +811,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 								},
 								3000
 							);
-						},
-						3000
-					);
+						
 				},
 				500
 			);
