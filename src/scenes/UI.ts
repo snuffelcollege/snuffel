@@ -40,6 +40,7 @@ import SparkleSheet from "@assets/spritesheets/UI/Sparkles.png";
 import SparkleData from "@assets/spritesheets/UI/Sparkles.json";
 import menuSound from "@assets/audio/UI/menu_button.mp3";
 import FenceOpen from "@assets/audio/fence_open.mp3";
+import WoodenFenceOpen from "@assets/audio/wooden_fence_open.mp3";
 import TruckMove from "@assets/audio/truck_move.mp3";
 import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
@@ -150,6 +151,7 @@ export default class UI extends Scene implements SceneLifecycle {
         this.load.aseprite("sparkles", SparkleSheet, SparkleData);
         this.load.audio("menuSound", menuSound);        
 		this.load.audio("fenceopen", FenceOpen);
+        this.load.audio("woodenfenceopen", WoodenFenceOpen);
 		this.load.audio("truckmove",TruckMove);
         this.load.audio("mapSound", MapSound);
 
