@@ -658,7 +658,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			this.ParkGate.destroy();
 			this.ParkGateLeft.setVisible(true);
 			this.ParkGateRight.setVisible(true);
-			this.sound.play("fenceopen", {volume:0.5});
+			this.sound.play("woodenfenceopen", {volume:1});
 		}
 
 		if (!this.switch_to_end && WorldScene.scenario7Fininshed && WorldScene.scenario8Fininshed && WorldScene.scenario9Fininshed && WorldScene.scenario10Fininshed){

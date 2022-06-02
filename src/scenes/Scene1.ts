@@ -642,13 +642,14 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 					
 					setTimeout(() => {
 						this.sound.add("1endtextaudio", {volume: 1}).play();
+						const replaybutton = this.add.image(1090,380,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+						replaybutton.on("pointerdown", () => {
+							this.game.sound.removeByKey("bademotionaudio");
+							this.game.sound.removeByKey("1endtextaudio");						
+							this.scene.restart();
+						})	
 					}, 2500);
-					const replaybutton = this.add.image(1090,380,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
-					replaybutton.on("pointerdown", () => {
-						this.game.sound.removeByKey("bademotionaudio");
-						this.game.sound.removeByKey("1endtextaudio");						
-						this.scene.restart();
-					})					
+									
 			}
 		}
 	}
@@ -682,14 +683,13 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				this.sound.add("mixedemotionaudio", {volume: 1}).play();	
 				setTimeout(() => {
 					this.sound.add("1endtextaudio", {volume: 1}).play();
-				}, 3000);
-				const replaybutton = this.add.image(1090,360,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
-				replaybutton.on("pointerdown", () => {
-					this.game.sound.removeByKey("mixedemotionaudio");
-					this.game.sound.removeByKey("1endtextaudio");
-					this.scene.restart();
-				})
-				
+					const replaybutton = this.add.image(1090,360,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+					replaybutton.on("pointerdown", () => {
+						this.game.sound.removeByKey("mixedemotionaudio");
+						this.game.sound.removeByKey("1endtextaudio");
+						this.scene.restart();
+					})
+				}, 3000);				
 		}, 3000);
 	}
 
