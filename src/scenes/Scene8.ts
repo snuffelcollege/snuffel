@@ -33,6 +33,7 @@ import WorldScene, { WorldSceneConfig } from "./WorldScene";
 import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
+import squeal from "@assets/audio/dog/squeal_1.mp3";
 import StartTextAudio from "@assets/audio/scenario_8/start_text.mp3";
 import EndTextAudio from "@assets/audio/scenario_8/end_text.mp3";
 import Option1Audio from "@assets/audio/scenario_8/option_1.mp3";
@@ -139,6 +140,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.image(this.option3, Option3);
 		this.load.image(this.startText,StartText);
 		this.load.image(this.endText, EndText);
+		this.load.audio("squeal8", squeal);
 		this.load.audio("8starttextaudio",StartTextAudio);
 		this.load.audio("8endtextaudio", EndTextAudio);
 		this.load.audio("8option1audio", Option1Audio);
@@ -473,6 +475,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		});
 		movetoSpencer.velocity = 150;
 		movetoSpencer.movingDone = () => {
+			var squeal = this.sound.add("squeal8");
+			squeal.play();
 			this.anims.create({
 				key: this.boyHug,
 				frameRate: 2,

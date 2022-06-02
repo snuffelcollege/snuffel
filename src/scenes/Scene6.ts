@@ -29,6 +29,7 @@ import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
 import bark from "@assets/audio/dog/small_bark_1.mp3";
+import knock from "@assets/audio/player/knocks_car_window.mp3";
 import StartTextAudio from "@assets/audio/scenario_6/start_text.mp3";
 import EndTextAudio from "@assets/audio/scenario_6/end_text.mp3";
 import Option1Audio from "@assets/audio/scenario_6/option_1.mp3";
@@ -141,6 +142,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.image(this.startText,StartText);
 		this.load.image(this.endText, EndText);
 		this.load.audio("bark6", bark);
+		this.load.audio("knock6", knock);
 		this.load.audio("6starttextaudio",StartTextAudio);
 		this.load.audio("6endtextaudio", EndTextAudio);
 		this.load.audio("6option1audio", Option1Audio);
@@ -454,9 +456,11 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 		moveToCar.movingDone = () => {
 			//knocking after moving is done
+			var knock = this.sound.add("knock6");
+			knock.play();
 			this.characterEntity
 			.toggleFlipX()
-			.play({ key: this.characterKnockAnims[0].key, repeat: -1,frameRate:1 })
+			.play({ key: this.characterKnockAnims[0].key, repeat: -1,frameRate:5 })
 			.setScale(0.8);
 
 			setTimeout(() => {

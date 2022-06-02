@@ -27,9 +27,8 @@ import WorldScene, { WorldSceneConfig } from "./WorldScene";
 import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
-import splash from "@assets/audio/objects/fallen_icecream.mp3";
 import DepthLayers from "../DepthLayers";
-import { World } from "matter";
+import FrisbeeSqueak from "@assets/audio/objects/dog_toy_squeak.mp3";
 import StartTextAudio from "@assets/audio/scenario_9/start_text.mp3";
 import EndTextAudio from "@assets/audio/scenario_9/end_text.mp3";
 import Option1Audio from "@assets/audio/scenario_9/option_1.mp3";
@@ -143,7 +142,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		this.load.image(this.endText, EndText);
 		this.load.image(this.frisbee, Frisbee);
 		this.load.image(this.frisbee2, Frisbee2);
-		this.load.audio("splash", splash);
+		this.load.audio("frisbeesqueak9", FrisbeeSqueak);
 		this.load.aseprite(
 			this.characterRun,
 			CharacterRunSheet,
@@ -540,6 +539,8 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		moveFrisbee.velocity = 250;
 
 		moveFrisbee.movingDone = () => {
+			var squeal = this.sound.add("frisbeesqueak9");
+			squeal.play();	
 			this.dogEntity.play(this.dogFrisbee).setY(750);
 			this.frisbeeEntity.destroy();
 		};		
