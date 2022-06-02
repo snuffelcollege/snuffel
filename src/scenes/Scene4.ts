@@ -491,18 +491,19 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 				this.characterEntity.stop();
 				this.add.image(600,130,"bademotion").setScale(0.6);
 				this.add.image(600,300,this.endText).setScale(0.6);					
-				const replaybutton = this.add.image(1090,360,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+				
 				this.game.sound.removeByKey("bark4");
 				this.sound.add("bademotionaudio", {volume: 1}).play();	
 					
 					setTimeout(() => {
 						this.sound.add("4endtextaudio", {volume: 1}).play();
-					}, 2500);
-				replaybutton.on("pointerdown", () => {
-					this.game.sound.removeByKey("bademotionaudio");
-					this.game.sound.removeByKey("4endtextaudio");	
-					this.scene.restart();
-				});		
+						const replaybutton = this.add.image(1090,360,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+						replaybutton.on("pointerdown", () => {
+							this.game.sound.removeByKey("bademotionaudio");
+							this.game.sound.removeByKey("4endtextaudio");	
+							this.scene.restart();
+						});	
+					}, 2500);					
 			};
 		};
 	}
@@ -545,80 +546,82 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 			moveTo.movingDone = () => {
 			this.add.image(600,130,"goodemotion").setScale(0.6);
 			this.add.image(600,300,this.endText).setScale(0.6);				
-			const continuebutton = this.add.image(1090,360,"continuebutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			
 			this.sound.add("goodemotionaudio", {volume: 1}).play();	
 					
 					setTimeout(() => {
 						this.sound.add("4endtextaudio", {volume: 1}).play();
+						const continuebutton = this.add.image(1090,360,"continuebutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+						continuebutton.on("pointerdown", () => {
+							this.game.sound.removeByKey("goodemotionaudio");
+							this.game.sound.removeByKey("4endtextaudio");	
+							continuebutton.disableInteractive();
+							WorldScene.scenario4Fininshed = true;		
+							
+							const badgeCaseImage = this.add.sprite(960,550, "badgecase").setScale(0.6).setVisible(true).setAlpha(0).setDepth(3);
+							const badgeS1Image = this.add.sprite(512,482, "badge1").setScale(0.6).setVisible(WorldScene.scenario1Fininshed).setAlpha(0).setDepth(4);
+							const badgeS2Image = this.add.sprite(736,481, "badge2").setScale(0.6).setVisible(WorldScene.scenario2Fininshed).setAlpha(0).setDepth(4);
+							const badgeS3Image = this.add.sprite(966,481, "badge3").setScale(0.6).setVisible(WorldScene.scenario3Fininshed).setAlpha(0).setDepth(4);
+							const badgeS4Image = this.add.sprite(1200,481, "badge4").setScale(0.6).setVisible(WorldScene.scenario4Fininshed).setAlpha(0).setDepth(4);
+							const badgeS5Image = this.add.sprite(1430,481, "badge5").setScale(0.6).setVisible(WorldScene.scenario5Fininshed).setAlpha(0).setDepth(4);
+							const badgeS6Image = this.add.sprite(512,690, "badge6").setScale(0.6).setVisible(WorldScene.scenario6Fininshed).setAlpha(0).setDepth(4);
+							const badgeS7Image = this.add.sprite(745,690, "badge7").setScale(0.6).setVisible(WorldScene.scenario7Fininshed).setAlpha(0).setDepth(4);
+							const badgeS8Image = this.add.sprite(970,690, "badge8").setScale(0.6).setVisible(WorldScene.scenario8Fininshed).setAlpha(0).setDepth(4);
+							const badgeS9Image = this.add.sprite(1205,690, "badge9").setScale(0.6).setVisible(WorldScene.scenario9Fininshed).setAlpha(0).setDepth(4);
+							const badgeS10Image = this.add.sprite(1430,690, "badge10").setScale(0.6).setVisible(WorldScene.scenario10Fininshed).setAlpha(0).setDepth(4);
+							
+							//fade in effect
+							this.add.tween({
+								targets: [badgeCaseImage,badgeS1Image,badgeS2Image,badgeS3Image,badgeS5Image,badgeS6Image,badgeS7Image,badgeS8Image,badgeS9Image,badgeS10Image],
+								ease: 'Sine.easeInOut',
+								duration: 500,
+								delay: 0,
+								alpha: {
+								  getStart: () => 0,
+								  getEnd: () => 1					  
+								}					
+							  });
+							  this.add.tween({
+								targets: [badgeS4Image],
+								ease: 'Sine.easeInOut',
+								duration: 500,
+								delay: 0,
+								alpha: {
+									getStart: () => 0,
+									getEnd: () => 1					  
+								  },
+								scale: {
+								  getStart: () => 3,
+								  getEnd: () => 0.6				  
+								}		
+							  });
+							  this.sound.add("badgebling", {volume: 0.5}).play();
+							  this.anims.create({
+								key: "sparkles",
+								frameRate: 4,
+								frames: this.anims.generateFrameNumbers(
+									"sparkles",
+									{
+										start: 0,
+										end: 1,
+									}
+								),
+								repeat: -1,
+							});
+							this.sparkleEntity = this.add.sprite(
+								1200,
+								481,
+								"sparkles"
+							)
+							
+							this.sparkleEntity.play("sparkles").setScale(0.7).setDepth(6);
+								  
+							  setTimeout(() => {
+									this.moveScene();
+							  }, 4000);  
+						});
 					}, 3000);//good & mixed = 3000
-			continuebutton.on("pointerdown", () => {
-				this.game.sound.removeByKey("goodemotionaudio");
-				this.game.sound.removeByKey("4endtextaudio");	
-				continuebutton.disableInteractive();
-				WorldScene.scenario4Fininshed = true;		
-				
-				const badgeCaseImage = this.add.sprite(960,550, "badgecase").setScale(0.6).setVisible(true).setAlpha(0).setDepth(3);
-				const badgeS1Image = this.add.sprite(512,482, "badge1").setScale(0.6).setVisible(WorldScene.scenario1Fininshed).setAlpha(0).setDepth(4);
-				const badgeS2Image = this.add.sprite(736,481, "badge2").setScale(0.6).setVisible(WorldScene.scenario2Fininshed).setAlpha(0).setDepth(4);
-				const badgeS3Image = this.add.sprite(966,481, "badge3").setScale(0.6).setVisible(WorldScene.scenario3Fininshed).setAlpha(0).setDepth(4);
-				const badgeS4Image = this.add.sprite(1200,481, "badge4").setScale(0.6).setVisible(WorldScene.scenario4Fininshed).setAlpha(0).setDepth(4);
-				const badgeS5Image = this.add.sprite(1430,481, "badge5").setScale(0.6).setVisible(WorldScene.scenario5Fininshed).setAlpha(0).setDepth(4);
-				const badgeS6Image = this.add.sprite(512,690, "badge6").setScale(0.6).setVisible(WorldScene.scenario6Fininshed).setAlpha(0).setDepth(4);
-				const badgeS7Image = this.add.sprite(745,690, "badge7").setScale(0.6).setVisible(WorldScene.scenario7Fininshed).setAlpha(0).setDepth(4);
-				const badgeS8Image = this.add.sprite(970,690, "badge8").setScale(0.6).setVisible(WorldScene.scenario8Fininshed).setAlpha(0).setDepth(4);
-				const badgeS9Image = this.add.sprite(1205,690, "badge9").setScale(0.6).setVisible(WorldScene.scenario9Fininshed).setAlpha(0).setDepth(4);
-				const badgeS10Image = this.add.sprite(1430,690, "badge10").setScale(0.6).setVisible(WorldScene.scenario10Fininshed).setAlpha(0).setDepth(4);
-				
-				//fade in effect
-				this.add.tween({
-					targets: [badgeCaseImage,badgeS1Image,badgeS2Image,badgeS3Image,badgeS5Image,badgeS6Image,badgeS7Image,badgeS8Image,badgeS9Image,badgeS10Image],
-					ease: 'Sine.easeInOut',
-					duration: 500,
-					delay: 0,
-					alpha: {
-					  getStart: () => 0,
-					  getEnd: () => 1					  
-					}					
-				  });
-				  this.add.tween({
-					targets: [badgeS4Image],
-					ease: 'Sine.easeInOut',
-					duration: 500,
-					delay: 0,
-					alpha: {
-						getStart: () => 0,
-						getEnd: () => 1					  
-					  },
-					scale: {
-					  getStart: () => 3,
-					  getEnd: () => 0.6				  
-					}		
-				  });
-				  this.sound.add("badgebling", {volume: 0.5}).play();
-				  this.anims.create({
-					key: "sparkles",
-					frameRate: 4,
-					frames: this.anims.generateFrameNumbers(
-						"sparkles",
-						{
-							start: 0,
-							end: 1,
-						}
-					),
-					repeat: -1,
-				});
-				this.sparkleEntity = this.add.sprite(
-					1200,
-					481,
-					"sparkles"
-				)
-				
-				this.sparkleEntity.play("sparkles").setScale(0.7).setDepth(6);
-			  	    
-				  setTimeout(() => {
-						this.moveScene();
-				  }, 4000);  
-			});
+			
 			}
 		}
 	}
@@ -668,18 +671,19 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		moveToPlayer.movingDone = () => {
 			this.characterEntity.stop();
 			this.add.image(600,130,"mixedemotion").setScale(0.6);
-			this.add.image(600,300,this.endText).setScale(0.6);					
-			const replaybutton = this.add.image(1090,360,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			this.add.image(600,300,this.endText).setScale(0.6);				
 			this.game.sound.removeByKey("bark4");
 			this.sound.add("mixedemotionaudio", {volume: 1}).play();						
 			setTimeout(() => {
 				this.sound.add("4endtextaudio", {volume: 1}).play();
+				const replaybutton = this.add.image(1090,360,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+				replaybutton.on("pointerdown", () => {
+					this.game.sound.removeByKey("mixedemotionaudio");
+					this.game.sound.removeByKey("4endtextaudio");	
+					this.scene.restart();
+				});
 			}, 3000);
-			replaybutton.on("pointerdown", () => {
-				this.game.sound.removeByKey("mixedemotionaudio");
-				this.game.sound.removeByKey("4endtextaudio");	
-				this.scene.restart();
-			});
+			
 		};
 	}
 
