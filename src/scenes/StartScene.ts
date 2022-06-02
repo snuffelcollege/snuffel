@@ -104,6 +104,7 @@ export default class StartScene extends Scene {
 			.on("pointerdown", () => {
 				fadeToBlack(this, () => {
 					this.scene.start(WorldSceneConfig.key);
+					this.scene.stop("start-scene");
 					var song = this.sound.add("backgroundSong");
 					this.sound.add("scenesong");
 					song.play({

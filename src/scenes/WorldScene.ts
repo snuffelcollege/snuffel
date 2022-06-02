@@ -135,6 +135,8 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 	private dogAnimTags!: Phaser.Animations.Animation[];
 
+	
+	private changedTexture9!: boolean;
 	private switch_to_end!: boolean;
 
 	private components!: ComponentService;
@@ -193,6 +195,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 		this.dogAnimTags = [];
 
+		this.changedTexture9 = false;
 		this.switch_to_end = false;
 
 		this.components = new ComponentService();
@@ -1336,9 +1339,11 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 		dispatcher.setDispatchCallback((isOverlapping) => {
 			if(WorldScene.scenario9Fininshed){
-				dog.setTexture(this.dogeFrisbee);
-				dog.play(this.dogeFrisbee);
 				dogTalkBubble.setVisible(false);
+				if(!this.changedTexture9){
+					dog.play(this.dogeFrisbee);
+					this.changedTexture9 = true;
+				}
 			} else {
 				dogTalkBubble.setVisible(isOverlapping);
 			}
@@ -1348,7 +1353,6 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			}
 		});
 	}
-
 	private createScenario10(
 		scene: Scene,
 		collidables: GameObject[],

@@ -51,7 +51,7 @@ export const CharacterRunData = {
 	frameWidth: 256,
 };
 
-export default class Credits extends Scene implements SceneLifecycle {
+export default class CreditsScene extends Scene implements SceneLifecycle {
 	
 	private components!: ComponentService;
 
@@ -109,7 +109,8 @@ export default class Credits extends Scene implements SceneLifecycle {
 				returnButton.setScale(0.5);
 			})
 			.on("pointerdown", () => {
-				this.scene.switch("start-scene")
+				this.scene.start("start-scene");
+				this.scene.stop("credits");
 			});
 		this.createSituation();
 	}
@@ -126,7 +127,8 @@ export default class Credits extends Scene implements SceneLifecycle {
 		});
 		creditsMove.velocity = 100;
 		creditsMove.movingDone = () => {
-			this.scene.switch("start-scene");
+			this.scene.stop("credits");
+			this.scene.start("start-scene");
 		}
 	}
 }

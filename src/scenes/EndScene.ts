@@ -100,32 +100,29 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		const centerX = this.scale.displaySize.width * 0.5;
 		const centerY = this.scale.displaySize.height * 0.5;
 
-		const img = this.add.image(centerX, centerY, "backgroundEnd");
+		const background = this.add.image(centerX, centerY, "backgroundEnd");
 
-		this.components.addComponent(img, MakeFullscreen);
+		this.components.addComponent(background, MakeFullscreen);
 
-		this.add.image(950, 400,"congratsImage").setScale(0.5);
+		const congrats = this.add.image(950, 400,"congratsImage").setScale(0.5);
 
-		this.createSituation();
-	}
-
-	private createSituation(): void {
 		this.game.sound.pauseAll();
 		this.sound.add("scenesong", {volume: 0.3}).play({
 			loop: true
 		});
 		this.sound.add("congrats", {volume: 0.5}).play();
 		setTimeout(() => {
-			this.createChoice();
-		}, 2000);
-	}
-	
+			background.setAlpha(0.5);
+			congrats.setAlpha(0.5);
 
-	private createChoice(): void {			
+			this.createSituation();
+		}, 5000);
+	}
+
+	private createSituation(): void {
+		const endImage = this.add.image(950, 500, "endSceneImage").setScale(0.4);
 		
-		this.add.image(1000, 850, "endSceneImage").setScale(0.4);
-		
-		const linkButton = this.add.image(1000,1000,"endSceneButton");
+		const linkButton = this.add.image(950,650,"endSceneButton");
 
 		linkButton
 			.setScale(0.4)
@@ -140,7 +137,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 				window.open("https://www.sophia-vereeniging.nl/campagnes/sophiasnuffelcollege/snuffelspel/goed-gedaan/")
 			})
 		
-		const replayButton = this.add.image(1375, 1000, "replayButton");
+		const replayButton = this.add.image(1325, 650, "replayButton");
 
 		replayButton
 			.setScale(0.4)
@@ -154,5 +151,16 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			.on("pointerdown", () => {
 				window.location.reload();
 			})
+
+		this.add.tween({
+			targets: [endImage, linkButton, replayButton],
+			ease: 'Sine.easeInOut',
+			duration: 500,
+			delay: 0,
+			alpha: {
+				getStart: () => 0,
+				getEnd: () => 1
+			}
+		});
 	}
 }
