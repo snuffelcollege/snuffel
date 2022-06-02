@@ -251,7 +251,6 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 
 		setTimeout(() => {
-			// this.cameras.main.flash(2000, 0, 0, 0);
 			this.characterEntity.setVisible(false);
 			this.dogEntity.setVisible(false);
 			this.anims.create({

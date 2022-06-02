@@ -666,6 +666,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			this.switchScene("end-scene");			
 		}
 
+		// if you want to work on the end scene, uncomment this and comment above
 		// if(this.switch_to_end == false){
 		// 	this.switch_to_end = true;
 		// 	this.switchScene("end-scene");			

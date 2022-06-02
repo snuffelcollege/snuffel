@@ -1,9 +1,11 @@
 import BackgroundImage from "@assets/images/scenario_1/BG.png";
+import Black from "@assets/images/UI/black.png";
 import CongratsImage from "@assets/images/UI/congrats.png";
-import Option1 from "@assets/images/world/restart_sign.png";
-import Option2 from "@assets/images/world/continue_sign.png";
 import EndSceneImage from "@assets/images/UI/end_scene.png";
 import EndSceneButton from "@assets/images/UI/end_scene_button.png";
+import EndSceneNo from "@assets/images/UI/end_scene_no.png";
+import EndSceneYes from "@assets/images/UI/end_scene_yes.png";
+import EndSceneChoose from "@assets/images/UI/end_scene_choose.png";
 import ReplayButton from "@assets/images/UI/replay_button.png";
 import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
@@ -60,18 +62,11 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	private exitSceneKey!: string;
 
-	private option1!: string;
-
-	private option2!: string;
-
 	constructor(cfg: SettingsConfig = config) {
 		super(cfg);
 	}
 
 	public init(): void {
-		
-		this.option1 = "option1end";
-		this.option2 = "option2end";
 
 		if (!WorldSceneConfig.key) {
 			throw Error("Exit scene key is undefined");
@@ -86,11 +81,13 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 
 	// A key has to be unique for the entire project, not just this scene.
 	public preload(): void {
-		this.load.image(this.option1, Option1);
-		this.load.image(this.option2, Option2);
 		this.load.image("endSceneImage", EndSceneImage);
 		this.load.image("endSceneButton", EndSceneButton);
+		this.load.image("endSceneNo", EndSceneNo);
+		this.load.image("endSceneYes", EndSceneYes);
+		this.load.image("endSceneChoose", EndSceneChoose);
 		this.load.image("backgroundEnd", BackgroundImage);
+		this.load.image("black", Black);
 		this.load.image("congratsImage", CongratsImage);
 		this.load.image("replayButton", ReplayButton);
 		this.load.audio("congrats", CongratsAudio);		
@@ -100,7 +97,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		const centerX = this.scale.displaySize.width * 0.5;
 		const centerY = this.scale.displaySize.height * 0.5;
 
-		const background = this.add.image(centerX, centerY, "backgroundEnd");
+		const background = this.add.image(centerX, centerY, "backgroundEnd").setDepth(0);
 
 		this.components.addComponent(background, MakeFullscreen);
 
@@ -112,17 +109,16 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 		});
 		this.sound.add("congrats", {volume: 0.5}).play();
 		setTimeout(() => {
-			background.setAlpha(0.5);
-			congrats.setAlpha(0.5);
-
+			const black = this.add.image(0, 0, "black").setAlpha(0.5).setDepth(1);
+			this.components.addComponent(black, MakeFullscreen);
 			this.createSituation();
-		}, 5000);
+		}, 3000);
 	}
 
 	private createSituation(): void {
-		const endImage = this.add.image(950, 500, "endSceneImage").setScale(0.4);
+		const endImage = this.add.image(950, 500, "endSceneImage").setScale(0.4).setDepth(2);
 		
-		const linkButton = this.add.image(950,650,"endSceneButton");
+		const linkButton = this.add.image(950,650,"endSceneButton").setDepth(2);
 
 		linkButton
 			.setScale(0.4)
@@ -137,7 +133,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 				window.open("https://www.sophia-vereeniging.nl/campagnes/sophiasnuffelcollege/snuffelspel/goed-gedaan/")
 			})
 		
-		const replayButton = this.add.image(1325, 650, "replayButton");
+		const replayButton = this.add.image(1325, 450, "replayButton").setDepth(2);
 
 		replayButton
 			.setScale(0.4)
@@ -149,7 +145,36 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 			})
 			.setInteractive({ useHandCursor: true, pixelPerfect: true })
 			.on("pointerdown", () => {
-				window.location.reload();
+				endImage.setTexture("endSceneChoose");
+				linkButton.setVisible(false);
+				replayButton.setVisible(false);
+				const no = this.add.image(1050, 666, "endSceneNo").setDepth(2);
+				no
+					.setScale(0.4)
+					.on("pointerover", () => {
+						no.setScale(0.5)
+					})
+					.on("pointerout", () => {
+						no.setScale(0.4)
+					})
+					.setInteractive({ useHandCursor: true, pixelPerfect: true })
+					.on("pointerdown", () => {
+						window.open("https://www.sophia-vereeniging.nl/campagnes/sophiasnuffelcollege/snuffelspel/goed-gedaan/")
+					})
+					
+				const yes = this.add.image(850, 666, "endSceneYes").setDepth(2);
+				yes
+					.setScale(0.4)
+					.on("pointerover", () => {
+						yes.setScale(0.5)
+					})
+					.on("pointerout", () => {
+						yes.setScale(0.4)
+					})
+					.setInteractive({ useHandCursor: true, pixelPerfect: true })
+					.on("pointerdown", () => {
+						window.location.reload();
+					})
 			})
 
 		this.add.tween({

@@ -1,5 +1,5 @@
 import Background from "@assets/images/world/background.png";
-import CreditsImage from "@assets/images/UI/end_scene.png";
+import CreditsImage from "@assets/images/world/credits.png";
 import ReturnButton from "@assets/images/UI/replay_button.png";
 import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
@@ -116,14 +116,14 @@ export default class CreditsScene extends Scene implements SceneLifecycle {
 	}
 
 	private createSituation(): void {
-		const creditsImage = this.add.image(950, 1400, this.creditsImage).setDepth(1);
+		const creditsImage = this.add.image(950, 2500, this.creditsImage).setDepth(1);
 		const creditsMove = this.components.addComponent(
 			creditsImage,
 			MoveTo
 		);
 		creditsMove.setTarget({
 			x: 950,
-			y: -450
+			y: -1500
 		});
 		creditsMove.velocity = 100;
 		creditsMove.movingDone = () => {
