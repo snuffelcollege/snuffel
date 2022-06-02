@@ -123,8 +123,9 @@ export default class CreditsScene extends Scene implements SceneLifecycle {
 		);
 		creditsMove.setTarget({
 			x: 950,
-			y: -450
+			y: 0 - creditsImage.height
 		});
+		console.log(creditsImage.height);
 		creditsMove.velocity = 100;
 		creditsMove.movingDone = () => {
 			this.scene.stop("credits");
