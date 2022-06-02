@@ -1,6 +1,8 @@
 import Background from "@assets/images/world/background.png";
 import CreditsImage from "@assets/images/world/credits.png";
 import ReturnButton from "@assets/images/UI/replay_button.png";
+import SnuffelSheet from "@assets/spritesheets/scenario_1/snuffelidle.png";
+import SnuffelData from "@assets/spritesheets/scenario_1/snuffelidle.json";
 import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
@@ -63,6 +65,8 @@ export default class CreditsScene extends Scene implements SceneLifecycle {
 
 	private returnButton!: string;
 
+	private snuffelEntity!: Sprite;
+
 	constructor(cfg: SettingsConfig = config) {
 		super(cfg);
 	}
@@ -89,6 +93,7 @@ export default class CreditsScene extends Scene implements SceneLifecycle {
 		this.load.image(this.background, Background);
 		this.load.image(this.creditsImage, CreditsImage);
 		this.load.image(this.returnButton, ReturnButton);
+		this.load.aseprite("Snuffel", SnuffelSheet, SnuffelData);
 	}
 
 	public create(): void {
@@ -96,6 +101,20 @@ export default class CreditsScene extends Scene implements SceneLifecycle {
 		const centerY = this.scale.displaySize.height * 0.5;
 		const img = this.add.image(centerX, centerY, this.background).setDepth(0);
 		this.components.addComponent(img, MakeFullscreen);
+		this.snuffelEntity = this.add.sprite(300,800, "Snuffel").setFlipX(true);
+		this.anims.create({
+			key: "Snuffel",
+			frameRate: 2,
+			frames: this.anims.generateFrameNumbers(
+				"Snuffel",
+				{
+					start: 0,
+					end: 1,
+				}
+			),
+			repeat: -1,
+		});
+		this.snuffelEntity.play("Snuffel");
 
 		const returnButton = this.add.image(1850, 100, this.returnButton);
 		returnButton

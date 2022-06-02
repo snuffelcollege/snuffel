@@ -2,7 +2,7 @@ import Background from "@assets/images/world/background.png";
 import Logo from "@assets/images/world/snuffelcollege-logo.png";
 import Title from "@assets/images/world/title.png";
 import StartButton from "@assets/images/world/Start_button.png";
-import CreditsButton from "@assets/images/UI/continue_button.png";
+import CreditsButton from "@assets/images/UI/credits_button.png";
 import HuskyImage from "@assets/spritesheets/husky/husky.png";
 import HuskyJson from "@assets/spritesheets/husky/husky.json";
 import { Scene } from "phaser";
@@ -125,7 +125,7 @@ export default class StartScene extends Scene {
 			});
 
 		const creditsButton = this.add
-			.image(1850, 100, this.creditsButton)
+			.image(centerX, centerY + 300, this.creditsButton)
 			.setScale(0.5)
 			.setInteractive({ useHandCursor: true})
 			.on("pointerover", () => {
