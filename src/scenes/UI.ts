@@ -429,7 +429,7 @@ export default class UI extends Scene implements SceneLifecycle {
             const mapX2 = this.add.image(775,375, this.mapX).setVisible(false).setScale(0.7);
             const mapX3 = this.add.image(1150,375, this.mapX).setVisible(false).setScale(0.7);
             const mapX4 = this.add.image(1450,425, this.mapX).setVisible(false).setScale(0.6);
-            const mapX5 = this.add.image(1350,325, this.mapX).setVisible(false).setScale(0.7);
+            const mapX5 = this.add.image(1400,325, this.mapX).setVisible(false).setScale(0.7);
             const mapX6 = this.add.image(1600,350, this.mapX).setVisible(false).setScale(0.8);
             const mapX7 = this.add.image(1475,550, this.mapX).setVisible(false).setScale(0.7);
             const mapX8 = this.add.image(1550,675, this.mapX).setVisible(false).setScale(0.6);
