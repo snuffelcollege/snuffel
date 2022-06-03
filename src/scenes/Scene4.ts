@@ -8,7 +8,6 @@ import Option2 from "@assets/images/scenario_4/option_2.png";
 import Option3 from "@assets/images/scenario_4/option_3.png";
 import StartText from "@assets/images/scenario_4/start_text.png";
 import EndText from "@assets/images/scenario_4/end_text.png";
-import Shrubbery from  "@assets/images/scenario_4/shrubbery.png";
 import HuskyIdleLamppostData from "@assets/spritesheets/husky/husky_idle_lamppost.json";
 import HuskyIdleLamppostSheet from "@assets/spritesheets/husky/husky_idle_lamppost.png";
 import HuskyJumpLamppostData from "@assets/spritesheets/husky/husky_jump_lamppost.json";
@@ -82,8 +81,6 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 
 	private option3!: string;
 
-	private shrubbery!: string; 
-
 	private characterWalkAnims!: Phaser.Animations.Animation[];
 
 	private characterRunAnims!: Phaser.Animations.Animation[];
@@ -106,7 +103,6 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		this.option3 = "option34";
 		this.startText = "starttext4";
 		this.endText = "endtext4";
-		this.shrubbery = "shrubbery";
 
 		this.characterWalkAnims = [];
 		this.characterRunAnims = [];
@@ -131,7 +127,6 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 	public preload(): void {
 		this.load.image("background4", Background);
 		this.load.image("ball", Ball);
-		this.load.image(this.shrubbery, Shrubbery);
 		this.load.image(this.option1, Option1);
 		this.load.image(this.option2, Option2);
 		this.load.image(this.option3, Option3);
@@ -173,7 +168,6 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		const centerY = this.scale.displaySize.height * 0.5;
 
 		const img = this.add.image(centerX, centerY, "background4");
-		this.add.image(300, 885, this.shrubbery).setDepth(3).setScale(1.2);
 		this.components.addComponent(img, MakeFullscreen);
 
 		this.characterWalkAnims = this.anims.createFromAseprite(
@@ -207,16 +201,16 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		let ballDone = false;
 
 		// Create dog
-		this.huskyEntity = this.add.sprite(500, 400, this.huskyIdleLamppost);
+		this.huskyEntity = this.add.sprite(1600, 400, this.huskyIdleLamppost).setFlipX(true);
 
 		// Play dog's animation
 		this.huskyEntity.play({ key: this.huskyIdleAnims[0].key, repeat: -1 });
 
 		// Create character
-		this.characterEntity = this.add.sprite(2100, 600, this.characterWalk).setDepth(2);
+		this.characterEntity = this.add.sprite(-100, 600, this.characterWalk).setDepth(1);
 
 		// Play characters animation
-		this.characterEntity.setFlipX(true).play({
+		this.characterEntity.play({
 			key: this.characterWalkAnims[0].key,
 			repeat: -1,
 		});
@@ -228,7 +222,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		);
 
 		moveToCharacter.setTarget({
-			x: 1150,
+			x: 900,
 			y: 500,
 		});
 
@@ -242,7 +236,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 
 		this.ballEntity = this.add.sprite(800, 750, "ball");
 
-		this.ballEntity.setDepth(1)
+		this.ballEntity.setDepth(2);
 
 		this.ballMoving = BallMovement.Right;
 
@@ -252,7 +246,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		);
 
 		moveToBall.setTarget({
-			x: 1075,
+			x: 1150,
 			y: 750,
 		});
 
@@ -459,7 +453,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		);
 
 		moveTo.setTarget({
-			x: this.characterEntity.x - 300,
+			x: this.huskyEntity.x - 300,
 			y: this.characterEntity.y,
 		});
 
@@ -481,7 +475,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 			});
 
 			moveTo.setTarget({
-				x: this.characterEntity.x + 1250,
+				x: -200,
 				y: this.characterEntity.y + 50,
 			});
 
@@ -509,6 +503,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 	}
 
 	private createResult2() {
+		this.characterEntity.setDepth(3);
 		this.characterEntity.play({
 			key: this.characterWalkAnims[0].key,
 			repeat: -1,
@@ -520,7 +515,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		);
 
 		moveTo.setTarget({
-			x: this.characterEntity.x - 300,
+			x: this.characterEntity.x + 300,
 			y: this.characterEntity.y + 250,
 		});
 
@@ -538,7 +533,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 			);
 	
 			moveTo.setTarget({
-				x: this.characterEntity.x - 1000,
+				x: this.characterEntity.x + 1000,
 				y: this.characterEntity.y,
 			});
 	
@@ -643,10 +638,10 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 			MoveTo
 		);
 
-		this.ballMoving = BallMovement.Left;
+		this.ballMoving = BallMovement.Right;
 
 		moveToBall.setTarget({
-			x: this.ballEntity.x - 400,
+			x: this.ballEntity.x + 300,
 			y: this.ballEntity.y,
 		});
 
@@ -662,8 +657,8 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		});
 
 		moveToPlayer.setTarget({
-			x: this.characterEntity.x + 900,
-			y: this.characterEntity.y + 50,
+			x: -200,
+			y: this.characterEntity.y,
 		});
 
 		moveToPlayer.velocity = 300;
