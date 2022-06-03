@@ -148,7 +148,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 				endImage.setTexture("endSceneChoose");
 				linkButton.setVisible(false);
 				replayButton.setVisible(false);
-				const no = this.add.image(1050, 666, "endSceneNo").setDepth(2);
+				const no = this.add.image(1050, 635, "endSceneNo").setDepth(2);
 				no
 					.setScale(0.4)
 					.on("pointerover", () => {
@@ -162,7 +162,7 @@ export default class Scene5 extends Scene implements SceneLifecycle {
 						window.open("https://www.sophia-vereeniging.nl/campagnes/sophiasnuffelcollege/snuffelspel/goed-gedaan/")
 					})
 					
-				const yes = this.add.image(850, 666, "endSceneYes").setDepth(2);
+				const yes = this.add.image(850, 635, "endSceneYes").setDepth(2);
 				yes
 					.setScale(0.4)
 					.on("pointerover", () => {

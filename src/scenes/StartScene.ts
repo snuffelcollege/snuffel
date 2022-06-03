@@ -136,7 +136,7 @@ export default class StartScene extends Scene {
 			})
 			.on("pointerdown", () => {
 				this.scene.start("credits");
-				this.scene.stop("start-scene")
+				this.scene.stop("start-scene");
 			});
 	}
 }
