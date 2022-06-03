@@ -14,7 +14,8 @@ import IceCreamStandSheet from "@assets/spritesheets/scenario_7/ijscoman.png";
 import IceCreamStandData from "@assets/spritesheets/scenario_7/ijscoman.json";
 import huskyImage from "@assets/spritesheets/husky/husky.png";
 import huskyJson from "@assets/spritesheets/husky/husky.json";
-import huskyWaitImage from "@assets/images/world/husky_wait.png";
+import huskyWaitSheet from "@assets/spritesheets/husky/husky_idle_lamppost.png";
+import huskyWaitData from "@assets/spritesheets/husky/husky_idle_lamppost.json";
 import GateClosed from "@assets/images/world/schoolgate.png";
 import GatePillar from "@assets/images/world/schoolgatepillar.png";
 import GateFence from "@assets/images/world/schoolgatefence.png";
@@ -180,7 +181,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.iceCreamStand = "iceCreamStand7"
 		this.dogInCar = "dogInCar";
 		this.husky = "husky";
-		this.huskyWait = "huskywait"
+		this.huskyWait = "huskyWait"
 		this.gateClosed = "gateClosed";
 		this.gatePillar = "gatePillar";
 		this.gateFence = "gateFence";
@@ -226,6 +227,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		this.load.image(this.car,Car)
 		this.load.image(this.truck, Truck);
 		this.load.image(this.scene1Cloud, Scene1TextCloud);
+		this.load.aseprite(this.huskyWait,huskyWaitSheet,huskyWaitData);
 		this.load.aseprite(this.dogInCar,DogInCarSheet,DogInCarData);
 		this.load.aseprite(this.doge,DogeSheet,DogeData);
 		this.load.aseprite(this.dogeFrisbee,DogeFrisbeeSheet,DogeFrisbeeData);
@@ -246,7 +248,6 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		// Husky idle & moving animations
 		this.load.aseprite(this.husky, huskyImage, huskyJson);
 		this.load.image(this.tilesetKey, worldTiles);
-		this.load.image(this.huskyWait, huskyWaitImage);
 		this.load.tilemapTiledJSON({
 			key: this.tilemapKey,
 			url: mainSceneTileData,
@@ -779,7 +780,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			.setImmovable(true)
 			.setDepth(DepthLayers.Fences)
 			.setInteractive({ useHandCursor: true })
-			.on("pointerdown", () => {if(!WorldScene.scenario2Fininshed){this.switchScene(target_scene)}});
+			.on("pointerdown", () => {if(!WorldScene.scenario2Fininshed && fenceTalkBubble.visible){this.switchScene(target_scene)}});
 
 		collidables.push(fenceCollidable);
 
@@ -814,7 +815,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 			radius,
 			OverlayDispatcher
 		);
-
+		
 		dispatcher.setDispatchCallback((isOverlapping) => {
 			if (WorldScene.scenario2Fininshed){
 				fenceTalkBubble.setVisible(false);
@@ -864,13 +865,12 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		);
 
 		dispatcher.setDispatchCallback((isOverlapping) => {
-				if (WorldScene.scenario3Fininshed){
-					doorCollidable.setVisible(false);
-				}else{
-					doorCollidable.setVisible(isOverlapping);
-				}	
+			if (WorldScene.scenario3Fininshed){
+				doorCollidable.setVisible(false);
+			}else{
+				doorCollidable.setVisible(isOverlapping);
+			}	
 			
-
 			if (isOverlapping && this.sceneSwitchKey.isDown && !WorldScene.scenario3Fininshed) {
 				this.switchScene(target_scene);
 			}
@@ -899,10 +899,13 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 		this.depthSorter.addSortable(dogLamppost, DepthLayers.PLAYER);
 
+		const dogAnimTags = this.anims.createFromAseprite(this.huskyWait);
+
 		dogLamppost
 			.setScale(0.5)
 			.setBodySize(dogLamppost.width, dogLamppost.height / 5)
 			.setOffset(0, (dogLamppost.height * 4) / 5)
+			.play({ key: dogAnimTags[0].key, repeat: -1 }, true)
 			.setImmovable(true)
 			.setDepth(DepthLayers.PLAYER)
 			.setInteractive({ useHandCursor: true })
