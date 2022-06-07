@@ -1,19 +1,17 @@
 import Background from "@assets/images/world/background.png";
 import CreditsImage from "@assets/images/world/credits.png";
-import ReturnButton from "@assets/images/UI/replay_button.png";
+import ReturnButton from "@assets/images/UI/back.png";
 import SnuffelSheet from "@assets/spritesheets/scenario_1/snuffelidle.png";
 import SnuffelData from "@assets/spritesheets/scenario_1/snuffelidle.json";
 import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
-import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
+import { addFadeIn } from "../Utilities/Scene/Fader";
 import ComponentService from "../Services/ComponentService";
 import MakeFullscreen from "../Components/MakeFullscreen";
 import { WorldSceneConfig } from "./WorldScene";
 import MoveTo from "../Components/MoveTo";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
-import CongratsAudio from "@assets/audio/congrats.mp3";
-import DepthLayers from "../DepthLayers";
 
 // Config for the scene defining gravity and debug settings.
 export const config: SettingsConfig = {
@@ -116,16 +114,16 @@ export default class CreditsScene extends Scene implements SceneLifecycle {
 		});
 		this.snuffelEntity.play("Snuffel");
 
-		const returnButton = this.add.image(1850, 100, this.returnButton);
+		const returnButton = this.add.image(1750, 100, this.returnButton);
 		returnButton
-			.setScale(0.5)
+			.setScale(0.3)
 			.setDepth(2)
 			.setInteractive({useHandCursor: true})
 			.on("pointerover", () => {
-				returnButton.setScale(0.6);
+				returnButton.setScale(0.35);
 			})
 			.on("pointerout", () => {
-				returnButton.setScale(0.5);
+				returnButton.setScale(0.3);
 			})
 			.on("pointerdown", () => {
 				this.scene.start("start-scene");
@@ -135,14 +133,14 @@ export default class CreditsScene extends Scene implements SceneLifecycle {
 	}
 
 	private createSituation(): void {
-		const creditsImage = this.add.image(950, 2500, this.creditsImage).setDepth(1);
+		const creditsImage = this.add.image(950, 2500, this.creditsImage).setDepth(1).setScale(.7);
 		const creditsMove = this.components.addComponent(
 			creditsImage,
 			MoveTo
 		);
 		creditsMove.setTarget({
 			x: 950,
-			y: -1500
+			y: -1700
 		});
 		creditsMove.velocity = 100;
 		creditsMove.movingDone = () => {

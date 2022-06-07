@@ -1,5 +1,5 @@
 { "frames": {
-   "{t0": {
+   "0": {
     "frame": { "x": 1, "y": 1, "w": 389, "h": 260 },
     "rotated": false,
     "trimmed": true,
@@ -7,7 +7,7 @@
     "sourceSize": { "w": 398, "h": 331 },
     "duration": 100
    },
-   "{t1": {
+   "1": {
     "frame": { "x": 391, "y": 1, "w": 270, "h": 323 },
     "rotated": false,
     "trimmed": true,
