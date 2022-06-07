@@ -156,7 +156,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 	public init(): void {
 		WorldScene.scenario1Fininshed = false;
 		WorldScene.scenario2Fininshed = false;
-		WorldScene.scenario3Fininshed = false;
+		WorldScene.scenario3Fininshed = true;
 		WorldScene.scenario4Fininshed = false;
 		WorldScene.scenario5Fininshed = false;
 		WorldScene.scenario6Fininshed = false;
