@@ -1378,13 +1378,13 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 		const radius = this.add.zone(
 			x,
 			y,
-			450,
-			280
+			600,
+			400
 		);
 
 		this.physics.world.enable(radius); // enable the zone's physics body
 		(radius.body as Phaser.Physics.Arcade.Body)
-			.setOffset(0,250);
+			.setOffset(0,320);
 
 		overlappables.push(radius);
 
