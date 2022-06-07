@@ -593,7 +593,7 @@ export default class WorldScene extends Scene implements SceneLifecycle {
 
 		collidables.push(this.GateFence);
 
-		this.Truck = new MovableEntity(this,7200,3175,this.truck);
+		this.Truck = new MovableEntity(this,7220,3175,this.truck);
 			
 		this.Truck
 			.setBodySize(this.Truck.width, this.Truck.height)
