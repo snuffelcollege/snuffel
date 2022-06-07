@@ -1,19 +1,19 @@
 { "frames": {
    "0": {
-    "frame": { "x": 1, "y": 1, "w": 389, "h": 260 },
+    "frame": { "x": 1, "y": 1, "w": 388, "h": 253 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 387, "h": 258 },
-    "sourceSize": { "w": 398, "h": 331 },
-    "duration": 100
+    "spriteSourceSize": { "x": 0, "y": 145, "w": 386, "h": 251 },
+    "sourceSize": { "w": 400, "h": 400 },
+    "duration": 350
    },
    "1": {
-    "frame": { "x": 391, "y": 1, "w": 270, "h": 323 },
+    "frame": { "x": 390, "y": 1, "w": 270, "h": 319 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 0, "y": 2, "w": 268, "h": 321 },
-    "sourceSize": { "w": 398, "h": 331 },
-    "duration": 100
+    "spriteSourceSize": { "x": 3, "y": 9, "w": 268, "h": 317 },
+    "sourceSize": { "w": 400, "h": 400 },
+    "duration": 350
    }
  },
  "meta": {
@@ -21,10 +21,10 @@
   "version": "1.2.21-dev",
   "image": "Pointing_arrow-01-sheet.png",
   "format": "RGBA8888",
-  "size": { "w": 661, "h": 324 },
+  "size": { "w": 660, "h": 320 },
   "scale": "1",
   "frameTags": [
-   { "name": "Pointy paw", "from": 0, "to": 1, "direction": "forward" }
+   { "name": "Pointy Paw", "from": 0, "to": 1, "direction": "forward" }
   ],
   "layers": [
    { "name": "Layer", "opacity": 255, "blendMode": "normal" }
