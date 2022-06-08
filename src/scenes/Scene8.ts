@@ -727,7 +727,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 						this.game.sound.removeByKey("8endtextaudio");
 						this.scene.restart();
 					});	
-				}, 2500);//good & mixed = 3000								
+				}, 3000);//good & mixed = 3000								
 			}, 3000);
 		}
 	}
