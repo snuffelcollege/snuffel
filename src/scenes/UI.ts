@@ -28,6 +28,7 @@ import UnmutedMusicIcon from "@assets/images/UI/musicunmuted.png";
 import MutedMusicIcon from "@assets/images/UI/musicmuted.png";
 import MapIcon from "@assets/images/UI/map_icon.png";
 import MapBase from "@assets/images/UI/Map/map_base.png";
+import MapRoll from "@assets/images/UI/Map/map_roll.png";
 import MapPart1 from "@assets/images/UI/Map/map1.png";
 import MapPart2 from "@assets/images/UI/Map/map2.png";
 import MapPart3 from "@assets/images/UI/Map/map3.png";
@@ -52,12 +53,14 @@ export default class UI extends Scene implements SceneLifecycle {
 
     private map_icon!: string;
     private map_base!: string;
+    private map_roll!: string;
     private map1!: string;
     private map2!: string;
     private map3!: string;
     private map4!: string;
     private mapX!: string;
     private mapState!: boolean;
+    private mapAnimating!: boolean;
 
     private badge_icon!: string;
     private badgeState!: boolean;
@@ -84,6 +87,7 @@ export default class UI extends Scene implements SceneLifecycle {
     public init(): void {
         this.map_icon = "map";
         this.map_base = "mapbase";
+        this.map_roll = "maproll";
         this.map1 = "map1";
         this.map2 = "map2";
         this.map3 = "map3";
@@ -105,6 +109,7 @@ export default class UI extends Scene implements SceneLifecycle {
         this.musicMuted = false;
         this.controlState = false;
         this.mapState = false;
+        this.mapAnimating = false;
     }
 
     constructor ()
@@ -120,6 +125,7 @@ export default class UI extends Scene implements SceneLifecycle {
         this.load.image(this.map4, MapPart4);
         this.load.image(this.mapX, MapX);
         this.load.image(this.map_base, MapBase);
+        this.load.image(this.map_roll, MapRoll);
         this.load.image(this.badge_icon,BadgeIcon);
         this.load.image("badgecase", BadgeCase);
         this.load.image("badge1",BadgeS1);
@@ -420,56 +426,101 @@ export default class UI extends Scene implements SceneLifecycle {
                     }
                 });
 
-            const mapbase = this.add.image(1000,500, "mapbase").setVisible(false).setScale(0.8);
-            const map1 = this.add.image(1000,500, this.map1).setVisible(false).setScale(0.8);
-            const map2 = this.add.image(1000,500, this.map2).setVisible(false).setScale(0.8);
-            const map3 = this.add.image(1000,500, this.map3).setVisible(false).setScale(0.8);
-            const map4 = this.add.image(1000,500, this.map4).setVisible(false).setScale(0.8);
-            const mapX1 = this.add.image(600,450, this.mapX).setVisible(false).setScale(0.8);
-            const mapX2 = this.add.image(775,375, this.mapX).setVisible(false).setScale(0.7);
-            const mapX3 = this.add.image(1150,375, this.mapX).setVisible(false).setScale(0.7);
-            const mapX4 = this.add.image(1450,425, this.mapX).setVisible(false).setScale(0.6);
-            const mapX5 = this.add.image(1400,325, this.mapX).setVisible(false).setScale(0.7);
-            const mapX6 = this.add.image(1600,350, this.mapX).setVisible(false).setScale(0.8);
-            const mapX7 = this.add.image(1475,550, this.mapX).setVisible(false).setScale(0.7);
-            const mapX8 = this.add.image(1550,675, this.mapX).setVisible(false).setScale(0.6);
-            const mapX9 = this.add.image(1400,750, this.mapX).setVisible(false).setScale(0.5);
-            const mapX10 = this.add.image(800,700, this.mapX).setVisible(false).setScale(0.8);
+            const mapbase = this.add.image(1000,500, "mapbase").setVisible(false).setScale(0.8).setDepth(1);
+            const maprollLeft = this.add.image(900,500, "maproll").setVisible(false).setScale(0.8).setDepth(2);
+            const maprollRight = this.add.image(1000,500, "maproll").setVisible(false).setScale(0.8).setDepth(2);
+            const map1 = this.add.image(1000,500, this.map1).setVisible(false).setScale(0.8).setDepth(1);
+            const map2 = this.add.image(1000,500, this.map2).setVisible(false).setScale(0.8).setDepth(1);
+            const map3 = this.add.image(1000,500, this.map3).setVisible(false).setScale(0.8).setDepth(1);
+            const map4 = this.add.image(1000,500, this.map4).setVisible(false).setScale(0.8).setDepth(1);
+            const mapX1 = this.add.image(600,450, this.mapX).setVisible(false).setScale(0.8).setDepth(1);
+            const mapX2 = this.add.image(775,375, this.mapX).setVisible(false).setScale(0.7).setDepth(1);
+            const mapX3 = this.add.image(1150,375, this.mapX).setVisible(false).setScale(0.7).setDepth(1);
+            const mapX4 = this.add.image(1450,425, this.mapX).setVisible(false).setScale(0.6).setDepth(1);
+            const mapX5 = this.add.image(1400,325, this.mapX).setVisible(false).setScale(0.7).setDepth(1);
+            const mapX6 = this.add.image(1600,350, this.mapX).setVisible(false).setScale(0.8).setDepth(1);
+            const mapX7 = this.add.image(1475,550, this.mapX).setVisible(false).setScale(0.7).setDepth(1);
+            const mapX8 = this.add.image(1550,675, this.mapX).setVisible(false).setScale(0.6).setDepth(1);
+            const mapX9 = this.add.image(1400,750, this.mapX).setVisible(false).setScale(0.5).setDepth(1);
+            const mapX10 = this.add.image(800,700, this.mapX).setVisible(false).setScale(0.8).setDepth(1);
             
             const mapicon = this.add
                 .image(1850,470,this.map_icon)
                 .setScale(0.4)
                 .setInteractive({useHandCursor: true})
                 .on("pointerdown",() => {
+                    if(!this.mapAnimating){ // map is opening, so button not clickable
                     mapSound.play();
                     switch(this.mapState){
-                        case(false):
-                            mapbase.setVisible(true);
-                            this.mapState = true;
-                            map1.setVisible(true);
-                            mapX1.setVisible(true);
-                            if(WorldScene.part1){
-                                map2.setVisible(true);
-                                mapX1.setVisible(false);
-                                mapX2.setVisible(!WorldScene.scenario2Fininshed);   
-                                mapX3.setVisible(!WorldScene.scenario3Fininshed);
-                            }
-                            if(WorldScene.part2){
-                                map3.setVisible(true);
-                                mapX4.setVisible(!WorldScene.scenario4Fininshed);
-                                mapX5.setVisible(!WorldScene.scenario5Fininshed);
-                                mapX6.setVisible(!WorldScene.scenario6Fininshed);
-                            }
-                            if(WorldScene.part3){
-                                map4.setVisible(true);
-                                mapX7.setVisible(!WorldScene.scenario7Fininshed);
-                                mapX8.setVisible(!WorldScene.scenario8Fininshed);
-                                mapX9.setVisible(!WorldScene.scenario9Fininshed);
-                                mapX10.setVisible(!WorldScene.scenario10Fininshed);
-                            }
+                        case(false): //open map
+                        this.mapAnimating = true;
+                        mapbase.setCrop(800, 0, 100, mapbase.height);
+                        map1.setCrop(800, 0, 100, map1.height);
+                        map2.setCrop(800, 0, 100, map2.height);
+                        map3.setCrop(800, 0, 100, map3.height);
+                        map4.setCrop(800, 0, 100, map4.height);
+                        maprollLeft.setX(900);
+                        maprollRight.setX(1000);
+                            setTimeout(() => {
+                                maprollLeft.setVisible(true);
+                                maprollRight.setVisible(true);
+                                mapbase.setVisible(true);
+                                map1.setVisible(true);
+                                map2.setVisible(WorldScene.part1);
+                                map3.setVisible(WorldScene.part2);
+                                map4.setVisible(WorldScene.part3);
+                                setTimeout(() => {
+                                    maprollLeft.setX(700);
+                                    maprollRight.setX(1200);
+                                    mapbase.setCrop(600, 0, 500, mapbase.height);
+                                    map1.setCrop(600, 0, 500, map1.height);
+                                    map2.setCrop(600, 0, 500, map2.height);
+                                    map3.setCrop(600, 0, 500, map3.height);
+                                    map4.setCrop(600, 0, 500, map4.height);
+                                    setTimeout(() => {
+                                        maprollLeft.setX(400);
+                                        maprollRight.setX(1500);
+                                        mapbase.setCrop(200, 0, 1300, mapbase.height);
+                                        map1.setCrop(200, 0, 1300, map1.height);
+                                        map2.setCrop(200, 0, 1300, map2.height);
+                                        map3.setCrop(200, 0, 1300, map3.height);
+                                        map4.setCrop(200, 0, 1300, map4.height);
+                                        setTimeout(() => {
+                                            maprollLeft.setX(250);
+                                            maprollRight.setX(1750);
+                                            mapbase.setCrop(0, 0, mapbase.width, mapbase.height);
+                                            map1.setCrop(0, 0, map1.width, map1.height);
+                                            map2.setCrop(0, 0, map2.width, map2.height);
+                                            map3.setCrop(0, 0, map3.width, map3.height);
+                                            map4.setCrop(0, 0, map4.width, map4.height);
+
+                                            mapX1.setVisible(true);
+                                            if(WorldScene.part1){
+                                                mapX1.setVisible(false);
+                                                mapX2.setVisible(!WorldScene.scenario2Fininshed);   
+                                                mapX3.setVisible(!WorldScene.scenario3Fininshed);
+                                            }
+                                            if(WorldScene.part2){
+                                                mapX4.setVisible(!WorldScene.scenario4Fininshed);
+                                                mapX5.setVisible(!WorldScene.scenario5Fininshed);
+                                                mapX6.setVisible(!WorldScene.scenario6Fininshed);
+                                            }
+                                            if(WorldScene.part3){
+                                                mapX7.setVisible(!WorldScene.scenario7Fininshed);
+                                                mapX8.setVisible(!WorldScene.scenario8Fininshed);
+                                                mapX9.setVisible(!WorldScene.scenario9Fininshed);
+                                                mapX10.setVisible(!WorldScene.scenario10Fininshed);
+                                            }
+                                            this.mapState = true;
+                                            this.mapAnimating = false;
+                                        }, 250);
+                                    }, 250);
+                                }, 250);
+                            }, 250);
+
                             //fade in effect
                             this.add.tween({
-                                targets: [mapbase, map1, map2, map3, map4, mapX1, mapX2, mapX3, mapX4, mapX5, mapX6, mapX7, mapX8, mapX9, mapX10],
+                                targets: [mapbase, maprollLeft, maprollRight],
                                 ease: 'Sine.easeInOut',
                                 duration: 500,
                                 delay: 0,
@@ -479,39 +530,68 @@ export default class UI extends Scene implements SceneLifecycle {
                                 }
                               });
                             break;
-                        case(true):
-                            //fadeout effect
-                            this.add.tween({
-                                targets: [mapbase, map1, map2, map3, map4, mapX1, mapX2, mapX3, mapX4, mapX5, mapX6, mapX7, mapX8, mapX9, mapX10],
-                                ease: 'Sine.easeInOut',
-                                duration: 500,
-                                delay: 0,
-                                alpha: {                                
-                                  getStart: () => 1,
-                                  getEnd: () => 0
-                                },
-                                onComplete: () => {
-                                    mapbase.setVisible(false);
-                                    this.mapState = false;
-                                    map1.setVisible(false);
-                                    map2.setVisible(false);
-                                    map3.setVisible(false);
-                                    map4.setVisible(false);
-                                    mapX1.setVisible(false);
-                                    mapX2.setVisible(false);
-                                    mapX3.setVisible(false);
-                                    mapX4.setVisible(false);
-                                    mapX5.setVisible(false);
-                                    mapX6.setVisible(false);
-                                    mapX7.setVisible(false);
-                                    mapX8.setVisible(false);
-                                    mapX9.setVisible(false);
-                                    mapX10.setVisible(false);
-                                }
-                              });
-                            break;
+                        case(true): //close map
+                        setTimeout(() => {
+                            this.mapAnimating = true;
+                            mapX1.setVisible(false);
+                            mapX2.setVisible(false);
+                            mapX3.setVisible(false);
+                            mapX4.setVisible(false);
+                            mapX5.setVisible(false);
+                            mapX6.setVisible(false);
+                            mapX7.setVisible(false);
+                            mapX8.setVisible(false);
+                            mapX9.setVisible(false);
+                            mapX10.setVisible(false);
+                            setTimeout(() => {
+                                maprollLeft.setX(400);
+                                maprollRight.setX(1500);
+                                mapbase.setCrop(200, 0, 1300, mapbase.height);
+                                map1.setCrop(200, 0, 1300, map1.height);
+                                map2.setCrop(200, 0, 1300, map2.height);
+                                map3.setCrop(200, 0, 1300, map3.height);
+                                map4.setCrop(200, 0, 1300, map4.height);
+                                setTimeout(() => {
+                                    maprollLeft.setX(700);
+                                    maprollRight.setX(1200);
+                                    mapbase.setCrop(600, 0, 500, mapbase.height);
+                                    map1.setCrop(600, 0, 500, map1.height);
+                                    map2.setCrop(600, 0, 500, map2.height);
+                                    map3.setCrop(600, 0, 500, map3.height);
+                                    map4.setCrop(600, 0, 500, map4.height);
+                                    setTimeout(() => {
+                                        maprollLeft.setX(900);           
+                                        maprollRight.setX(1000);           
+                                        mapbase.setVisible(false);
+                                        map1.setVisible(false);
+                                        map2.setVisible(false);
+                                        map3.setVisible(false);
+                                        map4.setVisible(false);
+
+                                        // fadeout effect
+                                        this.add.tween({
+                                            targets: [maprollLeft, maprollRight],
+                                            ease: 'Sine.easeInOut',
+                                            duration: 500,
+                                            delay: 0,
+                                            alpha: {                                
+                                            getStart: () => 1,
+                                            getEnd: () => 0
+                                            },
+                                            onComplete: () => {
+                                                this.mapState = false;
+                                                maprollLeft.setVisible(false);
+                                                maprollRight.setVisible(false);
+                                                this.mapAnimating = false;
+                                                }
+                                            });
+                                    }, 250);
+                                }, 250);
+                            }, 250);
+                        }, 250);
+                        break;
                     }
-                    
+                }
             });
 
             if(this.scene.isSleeping("world-scene")){
