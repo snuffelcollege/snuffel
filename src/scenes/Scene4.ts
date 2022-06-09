@@ -359,7 +359,9 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 			.setInteractive({ useHandCursor: true, pixelPerfect: true })
 			.on("pointerdown", () => {
 				//disables sign 1, moves signs and sticks of option 2 and 3 offscreen
-				button1.disableInteractive()				
+				button1.disableInteractive()
+				button2.disableInteractive()
+				button3.disableInteractive()				
 				button2move.setTarget({
 					x: button2.x,
 					y: button2.y + 300,
@@ -367,12 +369,12 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 				button2move.velocity = 280;
 				stick2move.setTarget({
 					x: stick2.x,
-					y: stick2.y + 300,
+					y: stick2.y + 350,
 				});		
 				stick2move.velocity = 280;
 				button3move.setTarget({
 					x: button3.x,
-					y: button3.y + 300,
+					y: button3.y + 350,
 				});		
 				button3move.velocity = 280;
 				stick3move.setTarget({
@@ -386,6 +388,9 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 		button2
 			.setInteractive({ useHandCursor: true, pixelPerfect: true })
 			.on("pointerdown", () => {
+				button1.disableInteractive()
+				button2.disableInteractive()
+				button3.disableInteractive()
 				//disables sign 2, moves signs and sticks of option 1 and 3 offscreen
 				stick1move.setTarget({
 					x: stick1.x,
@@ -396,8 +401,7 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 					x: button1.x,
 					y: button1.y + 300,
 				});		
-				button1move.velocity = 280;
-				button2.disableInteractive()				
+				button1move.velocity = 280;			
 				button3move.setTarget({
 					x: button3.x,
 					y: button3.y + 300,
@@ -415,6 +419,9 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 			.setInteractive({ useHandCursor: true, pixelPerfect: true })
 			//disables sign 3, moves signs and sticks of option 1 and 2 offscreen
 			.on("pointerdown", () => {
+				button1.disableInteractive()
+				button2.disableInteractive()
+				button3.disableInteractive()
 				stick1move.setTarget({
 					x: stick1.x,
 					y: stick1.y + 300,
@@ -427,12 +434,12 @@ export default class Scene2 extends Scene implements SceneLifecycle {
 				button1move.velocity = 280;
 				stick2move.setTarget({
 					x: stick2.x,
-					y: stick2.y + 300,
+					y: stick2.y + 350,
 				});		
 				stick2move.velocity = 280;
 				button2move.setTarget({
 					x: button2.x,
-					y: button2.y + 300,
+					y: button2.y + 350,
 				});		
 				button2move.velocity = 280;
 				button3.disableInteractive();

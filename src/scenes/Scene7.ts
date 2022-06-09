@@ -371,7 +371,9 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			.setInteractive({ useHandCursor: true, pixelPerfect: true })
 			.on("pointerdown", () => {
 				//disables sign 1, moves signs and sticks of option 2 and 3 offscreen
-				button1.disableInteractive()				
+				button1.disableInteractive()
+				button2.disableInteractive()
+				button3.disableInteractive()				
 				button2move.setTarget({
 					x: button2.x,
 					y: button2.y + 300,
@@ -403,6 +405,9 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			.setInteractive({ useHandCursor: true, pixelPerfect: true })
 			.on("pointerdown", () => {
 				//disables sign 2, moves signs and sticks of option 1 and 3 offscreen
+				button1.disableInteractive()
+				button2.disableInteractive()
+				button3.disableInteractive()
 				stick1move.setTarget({
 					x: stick1.x,
 					y: stick1.y + 300,
@@ -412,8 +417,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 					x: button1.x,
 					y: button1.y + 300,
 				});		
-				button1move.velocity = 280;
-				button2.disableInteractive()				
+				button1move.velocity = 280;			
 				button3move.setTarget({
 					x: button3.x,
 					y: button3.y + 300,
@@ -435,6 +439,9 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			.setInteractive({ useHandCursor: true, pixelPerfect: true })
 			//disables sign 3, moves signs and sticks of option 1 and 2 offscreen
 			.on("pointerdown", () => {
+				button1.disableInteractive()
+				button2.disableInteractive()
+				button3.disableInteractive()
 				stick1move.setTarget({
 					x: stick1.x,
 					y: stick1.y + 300,
@@ -455,7 +462,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 					y: button2.y + 300,
 				});		
 				button2move.velocity = 280;
-				button3.disableInteractive();
 				this.icecreamCone = this.add
 				.image(1105, 710, this.imageIceCreamCone)
 				.setScale(0.65, 0.55)

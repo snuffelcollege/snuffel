@@ -362,7 +362,9 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 			options[0].on(
 				"pointerdown",() => {		
 				//disables sign 1, moves signs and sticks of option 2 and 3 offscreen
-				options[0].disableInteractive()				
+				options[0].disableInteractive();
+				options[1].disableInteractive();
+				options[2].disableInteractive();			
 				button2move.setTarget({
 					x: options[1].x,
 					y: options[1].y + 300,
@@ -395,6 +397,9 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 			options[1].on(
 				"pointerdown", () => {
 					//disables sign 2, moves signs and sticks of option 1 and 3 offscreen
+				options[0].disableInteractive();
+				options[1].disableInteractive();
+				options[2].disableInteractive();
 				stick1move.setTarget({
 					x: stick1.x,
 					y: stick1.y + 300,
@@ -404,8 +409,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 					x: options[0].x,
 					y: options[0].y + 300,
 				});		
-				button1move.velocity = 280;
-				options[1].disableInteractive()				
+				button1move.velocity = 280;		
 				button3move.setTarget({
 					x: options[2].x,
 					y: options[2].y + 300,
@@ -427,6 +431,9 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 
 			options[2].on(
 				"pointerdown", () => {
+					options[0].disableInteractive();
+					options[1].disableInteractive();
+					options[2].disableInteractive();
 					stick1move.setTarget({
 						x: stick1.x,
 						y: stick1.y + 300,
@@ -447,7 +454,7 @@ export default class Scene3 extends Scene implements SceneLifecycle {
 						y: options[1].y + 300,
 					});		
 					button2move.velocity = 280;
-					options[2].disableInteractive();
+					
 					this.option3(
 						options,
 						characterAnimator,
