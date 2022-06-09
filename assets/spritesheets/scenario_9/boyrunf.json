@@ -1,0 +1,83 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 342, "y": 1, "w": 324, "h": 456 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 21, "y": 1, "w": 322, "h": 454 },
+    "sourceSize": { "w": 343, "h": 492 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 342, "y": 458, "w": 263, "h": 447 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 49, "y": 8, "w": 261, "h": 445 },
+    "sourceSize": { "w": 343, "h": 492 },
+    "duration": 100
+   },
+   "2": {
+    "frame": { "x": 606, "y": 475, "w": 221, "h": 464 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 79, "y": 22, "w": 219, "h": 462 },
+    "sourceSize": { "w": 343, "h": 492 },
+    "duration": 100
+   },
+   "3": {
+    "frame": { "x": 1, "y": 937, "w": 210, "h": 471 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 94, "y": 19, "w": 208, "h": 469 },
+    "sourceSize": { "w": 343, "h": 492 },
+    "duration": 100
+   },
+   "4": {
+    "frame": { "x": 1, "y": 1, "w": 340, "h": 473 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 338, "h": 471 },
+    "sourceSize": { "w": 343, "h": 492 },
+    "duration": 100
+   },
+   "5": {
+    "frame": { "x": 667, "y": 1, "w": 298, "h": 473 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 21, "y": 3, "w": 296, "h": 471 },
+    "sourceSize": { "w": 343, "h": 492 },
+    "duration": 100
+   },
+   "6": {
+    "frame": { "x": 1, "y": 475, "w": 229, "h": 461 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 59, "y": 22, "w": 227, "h": 459 },
+    "sourceSize": { "w": 343, "h": 492 },
+    "duration": 100
+   },
+   "7": {
+    "frame": { "x": 231, "y": 906, "w": 207, "h": 488 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 94, "y": 6, "w": 205, "h": 486 },
+    "sourceSize": { "w": 343, "h": 492 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "boyrunf1-sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 965, "h": 1408 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Runnn", "from": 0, "to": 7, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

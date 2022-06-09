@@ -1,0 +1,35 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 127, "y": 1, "w": 125, "h": 91 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 2, "y": 1, "w": 123, "h": 89 },
+    "sourceSize": { "w": 130, "h": 90 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 1, "y": 1, "w": 125, "h": 92 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 3, "y": 0, "w": 123, "h": 90 },
+    "sourceSize": { "w": 130, "h": 90 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "Collin1-sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 252, "h": 93 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Peek", "from": 0, "to": 1, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

@@ -18,7 +18,7 @@ enum MovementState {
  * Moves the player with WASD and mouse input.
  */
 export default class PlayerMovement extends AbstractComponent {
-	protected static readonly maxVelocity = 256;
+	protected static readonly maxVelocity = 456;//normal value is 456
 
 	private static northWestRad = PlayerMovement.degToRad(225);
 
@@ -81,7 +81,7 @@ export default class PlayerMovement extends AbstractComponent {
 		const ptr = this.player.scene.input.activePointer;
 
 		if (ptr.isDown) {
-			if(ptr.y < 420){
+			if(ptr.y < 520){
 				if(ptr.x < 1770){
 					this.moveWithPointer(ptr, to);
 				}

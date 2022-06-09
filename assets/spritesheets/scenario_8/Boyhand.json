@@ -1,0 +1,35 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 1, "y": 1, "w": 297, "h": 424 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 4, "w": 295, "h": 422 },
+    "sourceSize": { "w": 295, "h": 426 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 299, "y": 1, "w": 297, "h": 424 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 4, "w": 295, "h": 422 },
+    "sourceSize": { "w": 295, "h": 426 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "Boyhand1-sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 596, "h": 425 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "GayHand", "from": 0, "to": 1, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

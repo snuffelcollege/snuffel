@@ -1,7 +1,6 @@
 .idea
 .vs
 
-/docs
 /node_modules
 
 .env

@@ -1,0 +1,35 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 1, "y": 1, "w": 239, "h": 262 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 6, "w": 237, "h": 260 },
+    "sourceSize": { "w": 237, "h": 269 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 1, "y": 264, "w": 239, "h": 256 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 12, "w": 237, "h": 254 },
+    "sourceSize": { "w": 237, "h": 269 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "spencer-sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 240, "h": 520 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "bouncey", "from": 0, "to": 1, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

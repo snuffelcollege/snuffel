@@ -1,0 +1,35 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 381, "y": 1, "w": 369, "h": 338 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 1, "y": 15, "w": 367, "h": 336 },
+    "sourceSize": { "w": 411, "h": 360 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 1, "y": 1, "w": 379, "h": 339 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 6, "y": 14, "w": 377, "h": 337 },
+    "sourceSize": { "w": 411, "h": 360 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "boypet1-sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 750, "h": 340 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "boypet", "from": 0, "to": 1, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

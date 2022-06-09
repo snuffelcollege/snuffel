@@ -1,0 +1,35 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 1, "y": 1, "w": 373, "h": 600 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 3, "y": 18, "w": 371, "h": 598 },
+    "sourceSize": { "w": 377, "h": 619 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 375, "y": 1, "w": 366, "h": 599 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 3, "y": 19, "w": 364, "h": 597 },
+    "sourceSize": { "w": 377, "h": 619 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "vinceidle1-sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 741, "h": 601 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "wiggle", "from": 0, "to": 1, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

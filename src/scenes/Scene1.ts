@@ -1,10 +1,17 @@
-import BackgroundImage from "@assets/images/scenario_6/BG.png";
+import BackgroundImage from "@assets/images/scenario_1/BG.png";
 import Option1 from "@assets/images/scenario_1/option_1.png";
 import Option2 from "@assets/images/scenario_1/option_2.png";
 import Option3 from "@assets/images/scenario_1/option_3.png";
-import OptionStick from "@assets/images/world/option_stick.png"
-import PlayerIdleSheet from "@assets/spritesheets/player/scenario/idle/character_idle.png";
+import StartDialog1 from "@assets/images/scenario_1/start_dialog_1.png";
+import StartDialog2 from "@assets/images/scenario_1/start_dialog_2.png";
+import EndText from "@assets/images/scenario_1/end_text.png";
+import EndDialog1 from "@assets/images/scenario_1/end_dialog.png";
+import Playground from "@assets/images/scenario_1/playground.png";
+import PlayerIdle1Sheet from "@assets/spritesheets/player/scenario/idle/character_idle.png";
+import PlayerIdle2Sheet from "@assets/spritesheets/player/scenario/idle/character_idle2.png";
 import PlayerIdleData from "@assets/spritesheets/player/scenario/idle/character_idle.json";
+import PlayerWalkSheet from "@assets/spritesheets/player//scenario/walk/character_walk.png";
+import PlayerWalkData from "@assets/spritesheets/player//scenario/walk/character_walk.json";
 import PlayerPointSheet from "@assets/spritesheets/scenario_1/boypoint.png";
 import PlayerPointData from "@assets/spritesheets/scenario_1/boypoint.json";
 import PlayerShoutSheet from "@assets/spritesheets/scenario_1/boyshout.png";
@@ -15,13 +22,22 @@ import BullyAndDogSheet from "@assets/spritesheets/scenario_1/Johnny+dog.png";
 import BullyAndDogData from "@assets/spritesheets/scenario_1/Johnny+dog.json";
 import BullyIdleSheet from "@assets/spritesheets/scenario_1/johnnyidle.png";
 import BullyIdleData from "@assets/spritesheets/scenario_1/johnnyidle.json";
-import { GameObjects, Scene } from "phaser";
+import BullyWalkSheet from "@assets/spritesheets/scenario_1/johnnywalk.png";
+import BullyWalkData from "@assets/spritesheets/scenario_1/johnnywalk.json";
+import { Scene } from "phaser";
 import SceneLifecycle from "../SceneLifecycle";
 import { addFadeIn, fadeToBlack } from "../Utilities/Scene/Fader";
 import ComponentService from "../Services/ComponentService";
 import MakeFullscreen from "../Components/MakeFullscreen";
-import { WorldSceneConfig } from "./WorldScene";
+import WorldScene, { WorldSceneConfig } from "./WorldScene";
 import MoveTo from "../Components/MoveTo";
+import StartDialog1Audio from "@assets/audio/scenario_1/start_dialog_1.mp3";
+import StartDialog2Audio from "@assets/audio/scenario_1/start_dialog_2.mp3";
+import EndDialog1Audio from "@assets/audio/scenario_1/end_dialog.mp3";
+import EndTextAudio from "@assets/audio/scenario_1/end_text.mp3";
+import Option1Audio from "@assets/audio/scenario_1/option_1.mp3";
+import Option2Audio from "@assets/audio/scenario_1/option_2.mp3";
+import Option3Audio from "@assets/audio/scenario_1/option_3.mp3";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import Sprite = Phaser.GameObjects.Sprite;
 
@@ -38,26 +54,6 @@ export const config: SettingsConfig = {
 	},
 };
 
-// Config for the text style.
-export const textStyle: Phaser.Types.GameObjects.Text.TextStyle = {
-	color: "#ffe500",
-	fontFamily: "Trebuchet MS",
-	fontSize: "48px",
-	padding: {
-		x: 15,
-		y: 15,
-	},
-	align: "center",
-	stroke: "#ffe500",
-	strokeThickness: 2,
-	shadow: {
-		offsetY: 1,
-		offsetX: 1,
-		stroke: true,
-		color: "#000",
-	},
-};
-
 export default class Scene1 extends Scene implements SceneLifecycle {
 	private components!: ComponentService;
 
@@ -67,37 +63,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
     private dogEntity!: Sprite;
 
-    private playerIdleAnims!: Phaser.Animations.Animation[];
-
-    private playerPointAnims!: Phaser.Animations.Animation[];
-    
-    private playerShoutAnims!: Phaser.Animations.Animation[];
-
-    private dogIdleAnims!: Phaser.Animations.Animation[];
-
-    private bullyAndDogAnims!: Phaser.Animations.Animation[];
-
-    private bullyIdleAnims!: Phaser.Animations.Animation[];
-
-    private playerIdle!: string;
-
-    private playerPoint!: string;
-
-    private playerShout!: string;
-
-    private dogIdle!: string;
-
-    private bullyAndDog!: string;
-
-    private bullyIdle!: string;
-
-	private option1!: string;
-
-	private option2!: string;
-
-	private option3!: string;
-
-	private optionStick!: string;
+	private sparkleEntity!: Sprite;
 
 	private exitSceneKey!: string;
 
@@ -106,24 +72,6 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	}
 
 	public init(): void {
-
-		//initializes variables, the string value has to be unique or phaser will reuse it in other scenes
-        this.playerIdle = "playeridle1";
-        this.playerPoint = "playerpoint1";
-        this.playerShout = "playershout1";
-        this.dogIdle = "dogidle1";
-        this.bullyAndDog = "bullyanddog1";
-        this.bullyIdle = "bullyidle1";        
-		this.option1 = "option11";
-		this.option2 = "option21";
-		this.option3 = "option31";
-		this.optionStick = "stick1";
-        this.playerIdleAnims = [];
-        this.playerPointAnims = [];
-        this.playerShoutAnims = [];
-        this.dogIdleAnims = [];
-        this.bullyAndDogAnims = [];
-        this.bullyIdleAnims = [];
 
 		if (!WorldSceneConfig.key) {
 			throw Error("Exit scene key is undefined");
@@ -138,47 +86,48 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 
 	// A key has to be unique for the entire project, not just this scene.
 	public preload(): void {
-		//assigns background to 'background4' string
+		
+		//image files
 		this.load.image("background1", BackgroundImage);
-		this.load.image(this.option1, Option1);
-		this.load.image(this.option2, Option2);
-		this.load.image(this.option3, Option3);
-		this.load.image(this.optionStick, OptionStick);	
-        this.load.aseprite(this.playerIdle, PlayerIdleSheet, PlayerIdleData);
-        this.load.aseprite(this.playerPoint, PlayerPointSheet, PlayerPointData);	
-        this.load.aseprite(this.playerShout, PlayerShoutSheet, PlayerShoutData);
-        this.load.aseprite(this.dogIdle,DogIdleSheet,DogIdleData);
-        this.load.aseprite(this.bullyAndDog,BullyAndDogSheet,BullyAndDogData);
-        this.load.aseprite(this.bullyIdle,BullyIdleSheet,BullyIdleData);
+		this.load.image("playground1", Playground);
+		this.load.image("option11", Option1);
+		this.load.image("option21", Option2);
+		this.load.image("option31", Option3);
+		this.load.image("startdialog11", StartDialog1);
+		this.load.image("startdialog21", StartDialog2);
+		this.load.image("endtext1", EndText);
+		this.load.image("enddialog11", EndDialog1);		
+        
+		//aseprite files
+		this.load.aseprite("playeridle11", PlayerIdle1Sheet, PlayerIdleData);
+		this.load.aseprite("playeridle21", PlayerIdle2Sheet, PlayerIdleData);
+		this.load.aseprite("playerWalk1", PlayerWalkSheet, PlayerWalkData);
+        this.load.aseprite( "playerpoint1", PlayerPointSheet, PlayerPointData);	
+        this.load.aseprite( "playershout1", PlayerShoutSheet, PlayerShoutData);
+        this.load.aseprite("dogidle1",DogIdleSheet,DogIdleData);
+        this.load.aseprite("bullyanddog1",BullyAndDogSheet,BullyAndDogData);
+        this.load.aseprite("bullyidle1",BullyIdleSheet,BullyIdleData);
+        this.load.aseprite("bullywalk1",BullyWalkSheet,BullyWalkData);
+		
+		//audio files
+		this.load.audio("1startdialog1audio", StartDialog1Audio);
+		this.load.audio("1startdialog2audio", StartDialog2Audio);
+		this.load.audio("1enddialog1audio", EndDialog1Audio);
+		this.load.audio("1endtextaudio", EndTextAudio);
+		this.load.audio("1option1audio", Option1Audio);
+		this.load.audio("1option2audio", Option2Audio);
+		this.load.audio("1option3audio", Option3Audio);
 	}
 
 	public create(): void {
 		const centerX = this.scale.displaySize.width * 0.5;
 		const centerY = this.scale.displaySize.height * 0.5;
 		
-		//loads background from 'background1' string. this isn't stored in a local variable because of a bug where the wrong background was loaded in certain scenes.
+		//loads and sets background and playground obstacle
 		const img = this.add.image(centerX, centerY, "background1");
 		this.components.addComponent(img, MakeFullscreen);
+		this.add.image(190, 775, "playground1").setDepth(2);
 
-        this.playerIdleAnims.push(
-            ...this.anims.createFromAseprite(this.playerIdle)
-        );
-        this.playerPointAnims.push(
-			...this.anims.createFromAseprite(this.playerPoint)
-		);		
-        this.playerShoutAnims.push(
-			...this.anims.createFromAseprite(this.playerShout)
-		);
-        this.dogIdleAnims.push(
-			...this.anims.createFromAseprite(this.dogIdle)
-		);
-		this.bullyAndDogAnims.push(
-			...this.anims.createFromAseprite(this.bullyAndDog)
-		);
-        this.bullyIdleAnims.push(
-            ...this.anims.createFromAseprite(this.bullyIdle)
-        );
-        
 		this.createSituation();
 	}
 
@@ -187,15 +136,146 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 	}
 
 	private createSituation(): void {
-        
-        
 
-		this.createChoice();		
+		//player idle animation
+        this.anims.create({
+			key: "playeridle11",
+			frameRate: 2,
+			frames: this.anims.generateFrameNumbers(
+				"playeridle11",
+				{
+					start: 0,
+					end: 1,
+				}
+			),
+			repeat: -1,
+		});
+		
+		this.playerEntity = this.add.sprite(
+			700,
+			600,
+			"playeridle11"
+		);
+		this.playerEntity.setDepth(1);
+		this.playerEntity
+			.play("playeridle11")
+			.toggleFlipX()
+			;
+
+		//dog idle animation	
+		this.anims.create({
+			key: "dogidle1",
+			frameRate: 2,
+			frames: this.anims.generateFrameNumbers(
+				"dogidle1",
+				{
+					start: 0,
+					end: 1,
+				}
+			),
+			repeat: -1,
+		});	
+	
+		this.dogEntity = this.add.sprite(
+			1200,
+			700,
+			"dogidle1"
+		)
+		this.dogEntity
+			.play("dogidle1")
+			;
+		
+		//first textbox with continue button
+		const startDialogImage1 = this.add.image(700,300,"startdialog11").setScale(0.6);
+		this.sound.add("1startdialog1audio", {volume: 1}).play();		
+		const continuebutton1 = this.add.image(1200,300,"continuebutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+		continuebutton1.on("pointerdown", () => {
+			this.game.sound.removeByKey("1startdialog1audio");
+			startDialogImage1.destroy();
+			continuebutton1.destroy()			
+			
+			this.anims.create({
+				key: "bullywalk1",
+				frameRate: 4,
+				frames: this.anims.generateFrameNumbers(
+					"bullywalk1",
+					{
+						start: 0,
+						end: 1,
+					}
+				),
+				repeat: -1,
+			});
+	
+			this.bullyEntity = this.add.sprite(
+				1920,
+				600,
+				"bullywalk1"
+			)
+			
+			this.bullyEntity.play("bullywalk1");
+	
+			const bullyMove = this.components.addComponent(
+				this.bullyEntity,
+				MoveTo
+			);
+			bullyMove.setTarget({
+				x: this.dogEntity.x + 200,
+				y: this.dogEntity.y - 150,
+			});		
+			bullyMove.velocity = 200;
+			bullyMove.movingDone = () => {
+				this.bullyEntity.setVisible(false);
+	
+				this.anims.create({
+					key: "bullyanddog1",
+					frameRate: 2,
+					frames: this.anims.generateFrameNumbers(
+						"bullyanddog1",
+						{
+							start: 0,
+							end: 1,
+						}
+					),
+					repeat: -1,
+				});
+				this.dogEntity.setTexture("bullyanddog1");
+				this.dogEntity.setX(1300).setY(600);
+				this.dogEntity.play("bullyanddog1");
+				this.sound.add("1startdialog2audio", {volume: 1}).play();	
+				this.createChoice();
+			};				
+		});		
 	}
 
-	private createChoice(): void {
+	private createChoice(): void {	
+		//second textbox containing scenario	
+		const startDialogImage2 = this.add.image(700,300,"startdialog21").setScale(0.6);	
+		
+		//player entity to idle 2
+        this.anims.create({
+			key: "playeridle21",
+			frameRate: 2,
+			frames: this.anims.generateFrameNumbers(
+				"playeridle21",
+				{
+					start: 0,
+					end: 1,
+				}
+			),
+			repeat: -1,
+		});
+		
+		this.playerEntity.setTexture(
+			"playeridle21"
+		);
+		this.playerEntity.setDepth(1);
+		this.playerEntity
+			.play("playeridle21")
+			;			
+		
 		//create stick 1 and sign 1, add movecomponents
-		const stick1 = this.add.image(500,1280, this.optionStick);
+		const stick1 = this.add.image(500,1280, "stick");
 		const stick1move = this.components.addComponent(
 			stick1,
 			MoveTo
@@ -205,11 +285,14 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			y: stick1.y - 300,
 		});		
 		stick1move.velocity = 280;
-		const button1 = this.add.image(500, 1200, this.option1);
+		const button1 = this.add.image(500, 1200, "option11");
 		button1.on("pointerover", () => {
+			this.game.sound.removeByKey("1startdialog2audio");	
+			this.sound.add("1option1audio", {volume: 1}).play();	
 			button1.angle = 5;			
 		});
 		button1.on('pointerout',() => {
+			this.game.sound.removeByKey("1option1audio");	
 			button1.angle = 0;
 		})
 		const button1move = this.components.addComponent(
@@ -221,7 +304,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			y: button1.y - 300,
 		});		
 		button1move.velocity = 280;
-		const stick2 = this.add.image(1000,1280, this.optionStick);
+		const stick2 = this.add.image(1000,1280, "stick");
 		const stick2move = this.components.addComponent(
 			stick2,
 			MoveTo
@@ -233,11 +316,14 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			y: stick2.y - 300,
 		});		
 		stick2move.velocity = 280;
-		const button2 = this.add.image(1000, 1200, this.option2);
+		const button2 = this.add.image(1000, 1200, "option21");
 		button2.on("pointerover", () => {
-			button2.angle = 5;			
+			button2.angle = 5;	
+			this.game.sound.removeByKey("1startdialog2audio");	
+			this.sound.add("1option2audio", {volume: 1}).play();		
 		});
 		button2.on('pointerout',() => {
+			this.game.sound.removeByKey("1option2audio");	
 			button2.angle = 0;
 		})
 		const button2move = this.components.addComponent(
@@ -251,7 +337,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 		button2move.velocity = 280;
 		
 		//create stick 3 and sign 3, add movecomponents
-		const stick3 = this.add.image(1500,1280, this.optionStick);
+		const stick3 = this.add.image(1500,1280, "stick");
 		const stick3move = this.components.addComponent(
 			stick3,
 			MoveTo
@@ -261,11 +347,14 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 			y: stick3.y - 300,
 		});		
 		stick3move.velocity = 280;
-		const button3 = this.add.image(1500, 1200, this.option3);
+		const button3 = this.add.image(1500, 1200, "option31");
 		button3.on("pointerover", () => {
-			button3.angle = 5;			
+			this.game.sound.removeByKey("1startdialog2audio");	
+			this.sound.add("1option3audio", {volume: 1}).play();	
+			button3.angle = 5;						
 		});
 		button3.on('pointerout',() => {
+			this.game.sound.removeByKey("1option3audio");	
 			button3.angle = 0;
 		})
 		const button3move = this.components.addComponent(
@@ -303,6 +392,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 					y: stick3.y + 300,
 				});		
 				stick3move.velocity = 280;
+				startDialogImage2.destroy();
 				this.createResult1();
 			});
 		button2
@@ -330,6 +420,7 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 					y: stick3.y + 300,
 				});		
 				stick3move.velocity = 280;
+				startDialogImage2.destroy();
 				this.createResult2();
 			});
 		button3
@@ -357,29 +448,256 @@ export default class Scene1 extends Scene implements SceneLifecycle {
 				});		
 				button2move.velocity = 280;
 				button3.disableInteractive();
+				startDialogImage2.destroy();
 				this.createResult3();
 			});
 	}
 
 	//tell him to stop (correct)
 	private createResult1(): void {	
+		this.anims.create({
+			key:  "playerpoint1",
+			frameRate: 2,
+			frames: this.anims.generateFrameNumbers(
+				 "playerpoint1",
+				{
+					start: 0,
+					end: 1,
+				}
+			),
+			repeat: -1,
+		});
 
+		this.playerEntity.setTexture(
+			 "playerpoint1"
+		);
+		this.playerEntity
+			.play( "playerpoint1")
+			.toggleFlipX()
+			;
+
+		setTimeout(() => {
+			//set bully idle animation
+			this.anims.create({
+				key: "bullyidle1",
+				frameRate: 2,
+				frames: this.anims.generateFrameNumbers(
+					"bullyidle1",
+					{
+						start: 1,
+						end: 0,
+					}
+				),
+				repeat: -1,
+			});
+			this.bullyEntity.setVisible(true);
+			this.bullyEntity.x = 1500
+			this.bullyEntity.setTexture(
+				"bullyidle1"
+			);
+			this.bullyEntity
+				.play("bullyidle1")
+				;
+
+			//set dog idle animation
+			this.anims.create({
+				key: "dogidle1",
+				frameRate: 2,
+				frames: this.anims.generateFrameNumbers(
+					"dogidle1",
+					{
+						start: 0,
+						end: 1,
+					}
+				),
+				repeat: -1,
+			});
+	
+			this.dogEntity.setTexture("dogidle1");
+			this.dogEntity
+				.setX(1200)
+				.setY(700)
+				.play("dogidle1")
+				;		
+		}, 1000);
+		
+		setTimeout(() => {
+			this.add.image(700,350,"enddialog11").setScale(0.6);			
+			this.sound.add("1enddialog1audio", {volume: 1}).play();	
+			const continuebutton = this.add.image(1200,350,"continuebutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+			continuebutton.on("pointerdown", () => {	
+				continuebutton.disableInteractive();
+				this.game.sound.removeByKey("1enddialog1audio");	
+				
+				//used for keeping badge progress
+				WorldScene.scenario1Fininshed = true;
+				
+				//show new badge, variables are initialized in UI class
+				const badgeCaseImage = this.add.sprite(960,550, "badgecase").setScale(0.6).setVisible(true).setAlpha(0).setDepth(3);
+				const badgeS1Image = this.add.sprite(512,482, "badge1").setScale(0.6).setVisible(WorldScene.scenario1Fininshed).setAlpha(0).setDepth(4);
+				const badgeS2Image = this.add.sprite(736,481, "badge2").setScale(0.6).setVisible(WorldScene.scenario2Fininshed).setAlpha(0).setDepth(4);
+				const badgeS3Image = this.add.sprite(966,481, "badge3").setScale(0.6).setVisible(WorldScene.scenario3Fininshed).setAlpha(0).setDepth(4);
+				const badgeS4Image = this.add.sprite(1200,481, "badge4").setScale(0.6).setVisible(WorldScene.scenario4Fininshed).setAlpha(0).setDepth(4);
+				const badgeS5Image = this.add.sprite(1430,481, "badge5").setScale(0.6).setVisible(WorldScene.scenario5Fininshed).setAlpha(0).setDepth(4);
+				const badgeS6Image = this.add.sprite(512,690, "badge6").setScale(0.6).setVisible(WorldScene.scenario6Fininshed).setAlpha(0).setDepth(4);
+				const badgeS7Image = this.add.sprite(745,690, "badge7").setScale(0.6).setVisible(WorldScene.scenario7Fininshed).setAlpha(0).setDepth(4);
+				const badgeS8Image = this.add.sprite(970,690, "badge8").setScale(0.6).setVisible(WorldScene.scenario8Fininshed).setAlpha(0).setDepth(4);
+				const badgeS9Image = this.add.sprite(1205,690, "badge9").setScale(0.6).setVisible(WorldScene.scenario9Fininshed).setAlpha(0).setDepth(4);
+				const badgeS10Image = this.add.sprite(1430,690, "badge10").setScale(0.6).setVisible(WorldScene.scenario10Fininshed).setAlpha(0).setDepth(4);
+				
+				//fade in effect
+				this.add.tween({
+					targets: [badgeCaseImage,badgeS2Image,badgeS3Image,badgeS4Image,badgeS5Image,badgeS6Image,badgeS7Image,badgeS8Image,badgeS9Image,badgeS10Image],
+					ease: 'Sine.easeInOut',
+					duration: 500,
+					delay: 0,
+					alpha: {
+					  getStart: () => 0,
+					  getEnd: () => 1					  
+					}					
+				  });
+				  this.add.tween({
+					targets: [badgeS1Image],
+					ease: 'Sine.easeInOut',
+					duration: 500,
+					delay: 0,
+					alpha: {
+						getStart: () => 0,
+						getEnd: () => 1					  
+					  },
+					scale: {
+					  getStart: () => 3,
+					  getEnd: () => 0.6					  
+					}		
+				  });
+				  this.sound.add("badgebling", {volume: 0.5}).play();
+				  this.anims.create({
+					key: "sparkles",
+					frameRate: 4,
+					frames: this.anims.generateFrameNumbers(
+						"sparkles",
+						{
+							start: 0,
+							end: 1,
+						}
+					),
+					repeat: -1,
+				});
+		
+				this.sparkleEntity = this.add.sprite(
+					512,
+					482,
+					"sparkles"
+				)
+				
+				this.sparkleEntity.play("sparkles").setScale(0.7).setDepth(6);
+			  	    
+				  setTimeout(() => {
+						this.moveScene();
+				  }, 4000);  
+			});			
+		}, 2000);
 	}
 
 	//walk away (wrong)
 	private createResult2(): void {
+		this.anims.create({
+			key: "playerWalk1",
+			frameRate:4,
+			frames: this.anims.generateFrameNumbers(
+				"playerWalk1",
+				{
+					start: 0,
+					end: 3,
+				}
+			),
+			repeat: -1,
+		});
 
+		this.playerEntity.setTexture(
+			"playerWalk1"
+		);
+		this.playerEntity
+			.play("playerWalk1")
+			;
+		
+		const playerMove = this.components.addComponent(
+			this.playerEntity,
+			MoveTo
+		);
+		playerMove.setTarget({
+			x: this.playerEntity.x - 300,
+			y: this.playerEntity.y - 75,
+		});		
+		playerMove.velocity = 200;
+		playerMove.movingDone = () => {
+			playerMove.setTarget({
+				x: this.playerEntity.x - 550,
+				y: this.playerEntity.y,
+			});		
+			playerMove.movingDone = () => {
+					this.add.image(600,130,"bademotion").setScale(0.6);
+					this.add.image(600,300,"endtext1").setScale(0.6);					
+					this.sound.add("bademotionaudio", {volume: 1}).play();	
+					
+					setTimeout(() => {
+						this.sound.add("1endtextaudio", {volume: 1}).play();
+						const replaybutton = this.add.image(1090,380,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+						replaybutton.on("pointerdown", () => {
+							this.game.sound.removeByKey("bademotionaudio");
+							this.game.sound.removeByKey("1endtextaudio");						
+							this.scene.restart();
+						})	
+					}, 2500);
+									
+			}
+		}
 	}
 
 	//call for teacher (maybe)
 	private createResult3(): void {
+        this.anims.create({
+			key:  "playershout1",
+			frameRate: 2,
+			frames: this.anims.generateFrameNumbers(
+				 "playershout1",
+				{
+					start: 0,
+					end: 1,
+				}
+			),
+			repeat: -1,
+		});
 
+		this.playerEntity.setTexture(
+			 "playershout1"
+		);
+		this.playerEntity
+			.play( "playershout1")
+			.toggleFlipX()
+			;
+		
+			setTimeout(() => {
+				this.add.image(600,130,"mixedemotion").setScale(0.6);
+				this.add.image(600,300,"endtext1").setScale(0.6);									
+				this.sound.add("mixedemotionaudio", {volume: 1}).play();	
+				setTimeout(() => {
+					this.sound.add("1endtextaudio", {volume: 1}).play();
+					const replaybutton = this.add.image(1090,360,"replaybutton").setScale(0.6).setInteractive({ useHandCursor: true, pixelPerfect: true });
+					replaybutton.on("pointerdown", () => {
+						this.game.sound.removeByKey("mixedemotionaudio");
+						this.game.sound.removeByKey("1endtextaudio");
+						this.scene.restart();
+					})
+				}, 3000);				
+		}, 3000);
 	}
 
 	//fade to black and back to overworld
 	private moveScene() {
 		fadeToBlack(this, () => {
 			this.scene.stop(this.scene.key).wake(this.exitSceneKey);
+			this.scene.start("UIScene");
 		});
 	}
 }

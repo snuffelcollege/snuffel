@@ -1,0 +1,35 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 183, "y": 1, "w": 173, "h": 256 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 20, "y": 30, "w": 171, "h": 254 },
+    "sourceSize": { "w": 220, "h": 290 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 1, "y": 1, "w": 181, "h": 250 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 14, "y": 20, "w": 179, "h": 248 },
+    "sourceSize": { "w": 220, "h": 290 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "Sparkles1-sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 356, "h": 257 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Shinyy", "from": 0, "to": 1, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

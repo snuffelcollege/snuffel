@@ -1,0 +1,139 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 1468, "y": 727, "w": 477, "h": 725 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 475, "h": 723 },
+    "sourceSize": { "w": 551, "h": 723 },
+    "duration": 80
+   },
+   "1": {
+    "frame": { "x": 506, "y": 727, "w": 482, "h": 725 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 480, "h": 723 },
+    "sourceSize": { "w": 551, "h": 723 },
+    "duration": 80
+   },
+   "2": {
+    "frame": { "x": 989, "y": 727, "w": 478, "h": 725 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 476, "h": 723 },
+    "sourceSize": { "w": 551, "h": 723 },
+    "duration": 80
+   },
+   "3": {
+    "frame": { "x": 1, "y": 727, "w": 504, "h": 725 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 502, "h": 723 },
+    "sourceSize": { "w": 551, "h": 723 },
+    "duration": 80
+   },
+   "4": {
+    "frame": { "x": 1651, "y": 1, "w": 515, "h": 725 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 513, "h": 723 },
+    "sourceSize": { "w": 551, "h": 723 },
+    "duration": 80
+   },
+   "5": {
+    "frame": { "x": 1109, "y": 1, "w": 541, "h": 725 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 539, "h": 723 },
+    "sourceSize": { "w": 551, "h": 723 },
+    "duration": 80
+   },
+   "6": {
+    "frame": { "x": 1, "y": 1, "w": 553, "h": 725 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 551, "h": 723 },
+    "sourceSize": { "w": 551, "h": 723 },
+    "duration": 80
+   },
+   "7": {
+    "frame": { "x": 555, "y": 1, "w": 553, "h": 725 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 551, "h": 723 },
+    "sourceSize": { "w": 551, "h": 723 },
+    "duration": 80
+   },
+   "8": {
+    "frame": { "x": 1, "y": 1, "w": 553, "h": 725 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 551, "h": 723 },
+    "sourceSize": { "w": 551, "h": 723 },
+    "duration": 60
+   },
+   "9": {
+    "frame": { "x": 1109, "y": 1, "w": 541, "h": 725 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 539, "h": 723 },
+    "sourceSize": { "w": 551, "h": 723 },
+    "duration": 60
+   },
+   "10": {
+    "frame": { "x": 1651, "y": 1, "w": 515, "h": 725 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 513, "h": 723 },
+    "sourceSize": { "w": 551, "h": 723 },
+    "duration": 60
+   },
+   "11": {
+    "frame": { "x": 1, "y": 727, "w": 504, "h": 725 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 502, "h": 723 },
+    "sourceSize": { "w": 551, "h": 723 },
+    "duration": 60
+   },
+   "12": {
+    "frame": { "x": 989, "y": 727, "w": 478, "h": 725 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 476, "h": 723 },
+    "sourceSize": { "w": 551, "h": 723 },
+    "duration": 60
+   },
+   "13": {
+    "frame": { "x": 506, "y": 727, "w": 482, "h": 725 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 480, "h": 723 },
+    "sourceSize": { "w": 551, "h": 723 },
+    "duration": 60
+   },
+   "14": {
+    "frame": { "x": 1468, "y": 727, "w": 477, "h": 725 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 475, "h": 723 },
+    "sourceSize": { "w": 551, "h": 723 },
+    "duration": 60
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "husky_jump_lamppost.png",
+  "format": "RGBA8888",
+  "size": { "w": 2166, "h": 1452 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "husky_jump_lamppost", "from": 0, "to": 14, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

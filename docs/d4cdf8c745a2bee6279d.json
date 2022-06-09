@@ -1,0 +1,51 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 1, "y": 1, "w": 338, "h": 539 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 4, "y": 24, "w": 336, "h": 537 },
+    "sourceSize": { "w": 340, "h": 568 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 1, "y": 541, "w": 162, "h": 550 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 87, "y": 8, "w": 160, "h": 548 },
+    "sourceSize": { "w": 340, "h": 568 },
+    "duration": 100
+   },
+   "2": {
+    "frame": { "x": 340, "y": 1, "w": 312, "h": 540 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 19, "w": 310, "h": 538 },
+    "sourceSize": { "w": 340, "h": 568 },
+    "duration": 100
+   },
+   "3": {
+    "frame": { "x": 164, "y": 541, "w": 153, "h": 554 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 88, "y": 9, "w": 151, "h": 552 },
+    "sourceSize": { "w": 340, "h": 568 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "johnnywalk1-sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 652, "h": 1095 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Powerwalk", "from": 0, "to": 3, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

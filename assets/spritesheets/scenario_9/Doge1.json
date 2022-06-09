@@ -1,0 +1,35 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 1, "y": 1, "w": 128, "h": 166 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 24, "y": 0, "w": 126, "h": 164 },
+    "sourceSize": { "w": 150, "h": 168 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 1, "y": 168, "w": 128, "h": 162 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 24, "y": 7, "w": 126, "h": 160 },
+    "sourceSize": { "w": 150, "h": 168 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "Doge1-sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 129, "h": 330 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "hop", "from": 0, "to": 1, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

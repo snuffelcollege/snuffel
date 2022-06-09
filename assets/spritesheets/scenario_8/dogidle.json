@@ -1,0 +1,35 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 1, "y": 1, "w": 448, "h": 315 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 4, "w": 446, "h": 313 },
+    "sourceSize": { "w": 468, "h": 328 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 450, "y": 1, "w": 448, "h": 315 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 4, "w": 446, "h": 313 },
+    "sourceSize": { "w": 468, "h": 328 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "dogidle1-sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 898, "h": 316 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Blep", "from": 0, "to": 1, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

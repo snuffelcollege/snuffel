@@ -1,0 +1,51 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 232, "y": 480, "w": 172, "h": 480 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 29, "y": 0, "w": 170, "h": 478 },
+    "sourceSize": { "w": 237, "h": 480 },
+    "duration": 200
+   },
+   "1": {
+    "frame": { "x": 1, "y": 1, "w": 230, "h": 482 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 228, "h": 480 },
+    "sourceSize": { "w": 237, "h": 480 },
+    "duration": 250
+   },
+   "2": {
+    "frame": { "x": 232, "y": 480, "w": 172, "h": 480 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 29, "y": 0, "w": 170, "h": 478 },
+    "sourceSize": { "w": 237, "h": 480 },
+    "duration": 200
+   },
+   "3": {
+    "frame": { "x": 232, "y": 1, "w": 224, "h": 478 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 15, "y": 0, "w": 222, "h": 476 },
+    "sourceSize": { "w": 237, "h": 480 },
+    "duration": 250
+   }
+ },
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.3-beta7-x64",
+  "image": "character_walk.png",
+  "format": "RGBA8888",
+  "size": { "w": 456, "h": 960 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "character_walk", "from": 0, "to": 3, "direction": "forward", "color": "#000000ff" }
+  ],
+  "layers": [
+   { "name": "PlayerCharacterWalk", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

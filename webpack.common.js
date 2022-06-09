@@ -14,7 +14,7 @@ if (!target) {
 
 module.exports = {
 	output: {
-		path: resolve(__dirname, "./dist"),
+		path: resolve(__dirname, "./docs"),
 		clean: true,
 	},
 	devServer: {

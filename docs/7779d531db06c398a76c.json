@@ -1,0 +1,35 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 682, "y": 1, "w": 678, "h": 481 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 14, "w": 676, "h": 479 },
+    "sourceSize": { "w": 679, "h": 493 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 1, "y": 1, "w": 680, "h": 480 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 1, "y": 14, "w": 678, "h": 478 },
+    "sourceSize": { "w": 679, "h": 493 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.21-dev",
+  "image": "boy+dogheadtilt1-sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 1360, "h": 482 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "boy+dogheadtiltscene11", "from": 0, "to": 1, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
