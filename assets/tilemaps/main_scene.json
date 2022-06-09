@@ -4815,6 +4815,15 @@
                          "type":"bool",
                          "value":true
                         }]
+                }, 
+                {
+                 "id":2917,
+                 "properties":[
+                        {
+                         "name":"collision",
+                         "type":"bool",
+                         "value":true
+                        }]
                 }],
          "tilewidth":128
         }],
